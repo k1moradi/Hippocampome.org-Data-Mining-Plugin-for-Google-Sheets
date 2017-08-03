@@ -1,12 +1,18 @@
-# Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-
+# Hippocampome.org Data Mining Plugin for Google Sheets
 I have made a plugin for Google Sheets using Google Apps Script engine. This tools helps copy and paste of text for PDF files. This tool is optimized for Google Chrome or Opera Browsers since I use experimental javascript features, mostly lookbehind regex.
 
 #Headers
+
 ##Header 2
+
 ###Header 3
+
 ####Headers 4
+
 #####Headers 5
+
 ######Headers 6
+
 - List
   - List
 - List
