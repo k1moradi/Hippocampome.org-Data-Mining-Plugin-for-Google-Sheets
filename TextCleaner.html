@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= include('shortcuts'); ?>
+    <?!= include('script_CSS'); ?>
+    <style>
+      .container, .backdrop, textarea {
+        width: 295px;
+        height: calc(100vh - 50px); //775px; //615px
+      }
+      
+      .highlights, textarea {
+        padding: 0px;
+        font: 12px/18px 'Open Sans', sans-serif;
+        letter-spacing: 1px;
+        line-height: 1.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <title>PDF Text Cleaner Tool</title>
+    <form id='CleanText'>
+       <?!= include("TextCleanerScripts") ?>
+      <div class="container">
+        <div class="backdrop">
+          <div class="highlights"></div>
+        </div>
+        <TEXTAREA NAME='inputText' onSelect='formatText(this.form)'></TEXTAREA>
+      </div>
+      <?!= include('jquery.min'); ?>
+      <?!= include('highlightableTextArea'); ?>
+      <script>
+        $(document).ready(function () {
+          loadValue(document.forms.CleanText);
+        });
+      </script>
+    </form>   
+  </body>
+</html>

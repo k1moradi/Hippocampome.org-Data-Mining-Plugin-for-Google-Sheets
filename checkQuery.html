@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <base target="_top">
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+      table, th, td {
+        border: 1px solid black;
+        text-align: left;
+        padding: 5px;
+      }
+      tr:hover{background-color:#f5f5f5}
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+    </style>
+    <?!= include("sorttable") ?>
+  </head>
+  <body>
+    <p>
+      <b>Search Query:</b><br>
+      <?!=evidence.Query.replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern)/ig,'<b>$1</b>')
+                        .replace(/\b(AND|OR|NOT)\b/g,'<i>$1</i>')?>
+      <? if (error) {?>
+      <br><br><b>Error:</b><?!=error
+         }?>
+    </p>
+    <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor) {?>
+    <p><b>Total: <?=cKeys.length?>:</b> <?=title?></p>
+    <table class="sortable">
+      <tr>
+        <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > sUIDs </th>
+        <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > Presynaptic Cell Types </th>
+        <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > dUIDs </th>
+        <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > Postsynaptic Cell Types </th>
+      </tr>
+      <? cKeys.forEach( 
+           function(key){ 
+             var eachCon = connectionsObj[key]  ?>
+      <tr>
+        <td>   <?= sUID = eachCon.source_id ?>           </td>
+        <td>   <?= (sUID) ? cellTypes[sUID].Name : '' ?> </td>
+        <td>   <?= dUID = eachCon.destination_id ?>      </td>
+        <td>   <?= (dUID) ? cellTypes[dUID].Name : '' ?> </td>
+      </tr>
+      <?   });?>
+    </table><?
+       }
+       
+       var cKeys = Object.keys(fetchedConns)  
+       showConnectionTable(cKeys,fetchedConns,'Search engine results')
+       
+       var connectionsMapped = evidence.PConnections.reduce(
+         function(p,v,i){
+           var [pre,post] = v.split(/\s*▶\s*/g)
+           p[i]={source_id: pre.split(/:/g)[0], 
+                 destination_id:post.split(/:/g)[0]}
+           return p
+         },{})
+         
+       var cmKeys=Object.keys(connectionsMapped)
+       
+       showConnectionTable(cKeys.filter(
+         function(ckey){
+           var eachCon = fetchedConns[ckey]
+           return !cmKeys.some(
+             function(cmkey){
+               var cmCon = connectionsMapped[cmkey]
+               return (eachCon.source_id === cmCon.source_id && eachCon.destination_id === cmCon.destination_id)
+             })
+         }),fetchedConns,'Connections suggested by search engine to be added','blue','white')
+         
+       showConnectionTable(cmKeys.filter(
+         function(cmkey) {
+           var eachCon = connectionsMapped[cmkey]
+           return !cKeys.some(
+             function(key){
+               var fCon = fetchedConns[key]
+               return (fCon.source_id === eachCon.source_id && fCon.destination_id === eachCon.destination_id)
+             })
+         }),connectionsMapped,'Connections suggested by search engine to be deleted','red','white')
+    
+    ?>
+  </body>
+</html>

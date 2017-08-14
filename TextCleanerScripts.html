@@ -1,0 +1,362 @@
+ <input type='button' value='𝗕'  onmousedown='boldSelectedText(this.form)'   title='Ctrl+B'
+><input type='button' value='𝑰'  onmousedown='italicSelectedText(this.form)' title='Ctrl+I' 
+><input type='button' value='𝐒'  onmousedown='strikeSelectedText(this.form)' style='text-decoration: line-through;' 
+><input type='button' value='𝑿₂' onmousedown='subSelectedText(this.form)'
+><input type='button' value='𝑿²' onmousedown='supSelectedText(this.form)'
+><input type='button' value='α'  onmousedown='insertAlpha(this.form)'        title='\alpha'
+><input type='button' value='ß'  onmousedown='insertBeta(this.form)'         title='\beta'
+><input type='button' value='γ'  onmousedown='insertGamma(this.form)'        title='\gamma'
+><!--<input type='button' value='µ'  onmousedown='insertMicro(this.form)'        title='\micro Ctrl+M'
+>--><input type='button' value='τ'  onmousedown='insertTau(this.form)'       title='\tau'
+><input type='button' value='π'  onmousedown='insertPi(this.form)'           title='Pi'
+><input type='button' value='σ'  onmousedown='insertSigma(this.form)'        title='Sigma'
+><input type='button' value='Δ'  onmousedown='insertDelta(this.form)'        title='\delta'
+><input type='button' value='Ω'  onmousedown='insertOhm(this.form)'          title='Omega type: \ohm'
+><input type='button' value='°'  onmousedown='insertDeg(this.form)'          title='\degree'
+><input type='button' value='±'  onmousedown='insertPlusMinus(this.form)'
+><input type='button' value='×'  onmousedown='insertMultiply(this.form)'     title='Multiplication Sign'
+><input type='button' value='√'  onmousedown='insertRootSquare(this.form)'   title='Root Square Sign'
+><input type='button' value=':'  onmousedown='formatColon(this.form)'        title='Format : Sign'
+><input type='button' value='✍' onmousedown='formatText(this.form)'         title='Format: Ctrl+A'
+><input type='button' value='❌' onmousedown='cleanHTMLtags(this.form)'      title='Clean HTML Tags'              
+><input type='button' value='🔄' onmousedown='loadValue(this.form)'          title='Load' 
+><input type='button' value='💾' onmousedown='saveValue(this.form)'          title='Save' >
+<script language='JavaScript'>
+shortcut.add("Ctrl+B",function() {boldSelectedText(document.forms.CleanText)});
+shortcut.add("Ctrl+I",function() {italicSelectedText(document.forms.CleanText)});
+shortcut.add("Ctrl+M",function() {insertMicro(document.forms.CleanText)});         //µ
+shortcut.add("Ctrl+.",function() {insertForwardArrow(document.forms.CleanText)});  //▶
+shortcut.add("Ctrl+,",function() {insertBackwardArrow(document.forms.CleanText)}); //◀
+shortcut.add("enter" ,function() {insertNewLine(document.forms.CleanText)});
+//------------Load and Save Section--------------------------------------------------------------------------
+var globalCellObj = {};
+function loadValue(form){
+  google.script.run
+  .withSuccessHandler(function(cellObj){
+                        globalCellObj = cellObj;
+                        form.inputText.value = globalCellObj.cellValue;
+                        formatText(document.forms.CleanText);
+                        handleInput();
+                      })
+  .getActiveCell();
+};
+function saveValue(form){
+  google.script.run.setActiveCellValue(JSON.stringify(globalCellObj), 
+    form.inputText.value.replace(/(?:\<br\>)*\s*[\n\r]+\s*/g, '<br>'));
+};//===========================================================================================================
+function formatText(form) {
+  form.inputText.value = form.inputText.value
+    .replace(/¬[\r\n]+/g                                                                                         , '')
+    .replace(/(?<!<br>)[\r\n]+/g                                                                                 , ' ')
+    .replace(/[\t\s]+|&nbsp;/g                                                                                   , ' ')
+    .replace(/\|/g                                                                                               , 'I')
+    .replace(/([iI])n *t *e *r *[mn] *e *u *r *o *n(s*)/g                                                        , '$1nterneuron$2')
+    .replace(/(?<=[(;, ])(Na|Cs|K|N)H *[2z,*] *P[O0] *[4,](?=[ ),;.])/g                                          , '$1H₂PO₄')
+    .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *HP[O0] *4(?=[ ),;.])/g                                                , '$1₂HPO₄')
+    .replace(/(?<=[(;, ])(Na|Cs|K)CH *3 *S *[O0] *4(?=[ ),;.])/g                                                 , '$1CH₃SO₄')
+    .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *[-—–] *[Pp]hosphocreatine(?=[ ),;.])/g                                , '$1₂-phosphocreatine')
+    .replace(/(?<=[(;, ])(Na|Cs|K)HC[O0] *[3,](?=[ ),;.])/g                                                      , '$1HCO₃')
+    .replace(/(?<=[(;, ])(Na|Cs|K) *3 *GTP(?=[ ),;.])/g                                                          , '$1₃GTP')
+    .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *(G|A)TP(?=[ ),;.])/g                                                  , '$1₂$2TP')
+    .replace(/(?<=[(;, ])(Ca|Mg) *C[lI1] *[2z,](?=[ ),;.])/g                                                     , '$1Cl₂')  // 1I as l
+    .replace(/(?<=[(;, ])(H|Na|Cs|K) *C[I1](?=[ ),;.])/g                                                         , '$1Cl')   // 1I as l
+    .replace(/(?<=[(;, ])MgS[O0] *4(?=[ ),;.])/g                                                                 , 'MgSO₄')
+    .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')
+    .replace(/(?<=[(;, ]|\.|\.\d)H *[2z,] *[O0](?=[ ),;.])/g                                                     , 'H₂O')
+    .replace(/(?<=[(;, \/])C[O0] *[2z,?](?=[ ),;.])/g                                                            , 'CO₂')
+    .replace(/(?<=[(;, ])[O0] *2(?=[ +\/),;.–])/g                                                                , 'O₂')
+    .replace(/(?<=[\[(\/;, –-])Cl\s*[-−"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ –),;.\]])/g                        , 'Cl⁻')
+    .replace(/(?<=[\[(\/;, –-])(Na|K|Cs)\s*[+\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g                  , '$1⁺')
+    .replace(/(?<=[\[(\/;, –-])(Mg|Ca)\s*[2\*]\s*[+\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g            , '$1²⁺')
+    .replace(/(?<=[(;, ])\[\s*(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\s*\]\s*[iI1](?=[ ),;.])/g                                   , '[$1]ᵢ')
+    .replace(/(?<=[(;, ])\[\s*(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\s*\]\s*[oO0](?=[ ),;.])/g                                   , '[$1]ₒ')
+    .replace(/(?<=[(;, ])et\s*a[1!]\.(?=[ ),;.])/g                                                               , 'et al.')
+    .replace(/(?<=[(;, ])CA[lI](?=[ ),;.])/g                                                                     , 'CA1')     // lI as 1
+    .replace(/(?<=[(;, ])([Ff]igs*|FIGS*)(\.*) *[lI]([A-Za-z]{0,2})(?=[ ),;.])/g                                 , '$1$2 1$3')// lI as 1
+    .replace(/(?<=[(;,=><~≤≥ ])(\d*)\s*[lI]\s*(\d+[.]\d+|\d+)(?=[ ),;.])/g                                       , '$11$2')   // lI as 1
+    .replace(/([(;, ].{1,3}[=><~≤≥])\s*(\d+\.\d+|\d+)\s*[lI]\s*(?=\d*[ ,;.)])/g                                  , '$1$21')   // lI as 1
+    .replace(/(?<=[(;, ])(GABA)[-—–_ ]*[Aa](?=\s*-*\s*receptor|[ ),;.])/g                                        , '$1-A')    // GABA-A
+    .replace(/(?<=[(;, ])(GABA)[-—–_ ]*[8B](?=\s*-*\s*receptor|[ ),;.])/g                                        , '$1-B')    // GABA-B
+    .replace(/(?<=[(;, ])[od][-—–_ ]AP(V|5)(?=[ ),;.])/g                                                         , 'D-AP$1')
+    .replace(/(?<=\d\s)mm(?=\s*(?:(?:Na{0,1}|C[als]|K|Mg|potassium|sodium|calcium|cesium|disodium)(?:²⁺|⁺|⁻|(?:₂H|H₂)PO₄|(?:CH₃|Me)*SO[₃₄]|[- ](?:phosphocreatine|gluconate)|HCO₃|[₃₂]*[GA]TP|Cl₂*|OH){0,1}[ ,;\/.)]|EGTA|[GA]TP|HEPES|QX.{0,1}314|TEA|glucose))/g, 'mM')
+    .replace(/(?<=[(;, ])m M(?=[ ),;.])/g                                                                        , 'mM')
+    .replace(/(?<=[(\d])\s*(?:mY|m V|mV)(?=[ ),;.])/g                                                            , ' mV')
+    .replace(/μ/g                                                                                                , 'µ') // convert unicode to ascii
+    .replace(/(?<=[(\d])[^<>)(]{0,1}(?:mu|IL|J\.*L|JI|\/[jt\/\^]|j[f<]|[\/\(]i|ix|p\.|\!J\.|tJ\.|~t|,u\.|#£| 1-t|\|x|[gì\x01\x02\x03\x04\x05])\s*([MmsA]|m2|[Ss]ec)(?=[ ),;.]|.thick)/g,function(fullMatch,p1){
+      return ' µ'+((p1 === 'm2')?'m²':p1)})
+    .replace(/(?<=[(\d])\s*[pP](M)(?=[ ),;.])/g                                                                  , ' µ$1')  //µM µV not PV+
+    .replace(/(?<=[(\d])\s*[\x01\x02\x03\x04\x05]\s*([tT])(?=[ ),;.])/g                                          , ' Δ$1')
+    .replace(/(?<=[(\d])\s*([GM])\s*(?:[ÙQ\x01\x02\x03\x04\x05\x06\x07]|[Oo]mega)(?=[ ),;.])/g                   , ' $1Ω')
+    .replace(/(?<=\d)\sÒ/g                                                                                       , ' M')
+    .replace(/(?<=\s)CV\s*[\x01\x02\x03\x04\x05\x06\x07-−]\s*2(?=\s)/g                                          , 'CV⁻²')
+    .replace(/(?<=\s)1[\/]CV 2(?=\s)/g                                                                           , '1/CV²')
+    .replace(/(?<=\d)\s*mm\s*2(?=\s)/g                                                                           , ' mm²')
+    .replace(/(?<=\d)\s*o\/o(?=[ ),;.])/g                                                                        , '%')
+    .replace(/(?<=\s)(min|mg)\s*[-–]\s*1(?=\s)/g                                                                 , '$1⁻¹')
+    .replace(/wÏv/g                                                                                              , 'w/v')
+    .replace(/ﬁ/g                                                                                                , 'fi')
+    .replace(/(?<=[(;, ])o f(?=[ ),;.])/g                                                                        , 'of')
+    .replace(/\\degree/g                                                                                         , '°')
+    .replace(/\\alpha/g                                                                                          , 'α') //ALT+224
+    .replace(/\\beta/g                                                                                           , 'ß') //ALT+225
+    .replace(/\\micro/g                                                                                          , 'µ') //ALT+230
+    .replace(/(?:\\tau|&tau;|(?<= )tau(?= )|tau(?= *=)|((?:time constants*|decay|rise) *\(*)tau\)*)/ig           , '$1τ') //ALT+231
+    .replace(/\\delta/g                                                                                          , 'Δ')
+    .replace(/\\ohm/g                                                                                            , 'Ω') //ALT+234
+    .replace(/\\gamma/g                                                                                          , 'γ')
+    .replace(/\\zigma/g                                                                                          , '∑')
+    .replace(/omega([^<>)(]{0,1}(?:aga|cono)toxin)/g                                                             , 'ω$1')
+    .replace(/(?<=\d)\s*[·*]\s*(?=\d)/g                                                                          , '.')
+    .replace(/(?<=[A-Za-z])\s*[-−](\s*)(?=[A-Za-z])/g                                                            , '-$1') // negative as hiphen between two words
+    .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])[–—−](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])/g                                              , '-')   // negative or big hiphen as normal hiphen between two words
+    .replace(/(?<=[\d])\s*(?:[–—−]|&ndash;)\s*(\d+)\s*(?=%)/g                                                    , '-$1') // 20-80%
+    .replace(/(?<=[(;, ])[n«](?:[\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                     , 'n=')
+    .replace(/(?<=[(;, ])([pP])\s*[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=0*\.0(5|1|01)[ ),;.])/g                , '$1<')
+    .replace(/(?<=[(;, ])([pP])\s*[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?!0*\.0(5|1|01))(?=0*\.0\d+[ ),;.])/g    , '$1=')
+    .replace(/(?<=\<\/sub>)\s*[\x01\x02\x03\x04\x05\x06\x07\x08](?=[ ),;.])/g                                    , '=')
+    .replace(/plusminus|&plusmn;/g                                                                               , '±')
+    .replace(/([(;, >](?:(?!55845|95531|314|222)-*\d+(?:\.\d+){0,1}|Means*))\s*(?:[±+\x01\x02\x03\x04\x05\x06\x07\xAD])\s*(?=(?:\d+\.\d+|\d+|S\.{0,1}[ED]\.{0,1}M{0,1})[ )%,;°.<])/ig,'$1±')
+    .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=[5-8][05][ ),;.])/g                   , '$1-') // control character as negative sign for values <-50
+    .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=\d+[±.]\d+[ ),;.±])/g                 , '$1-') // control character as negative sign between a word and a number with decimals
+    .replace(/(?<=[=><(≤≥~ ])(\s*)[–—−]\s*(?=(?:\d+[.]\d+|\d+)[ ),;.±])/g                                        , '$1-') // hiphen as negative sign
+    .replace(/(?<=\w[(;, ])(\s*[~+-><≈])\s(?=(?:\d+[.]\d+|\d+)[ ),;.±])/g                                        , '$1')  // [~+-><]\s\d
+    .replace(/approx(?=\d)/g                                                                                     , '~')
+    .replace(/(?<=\w)\s*[(]\s(?=-{0,1}[\wΔµ])/g                                                                  , ' (')
+    .replace(/(?<=[\w\dΩ])\s[)]\s*(?=[:.,;])/g                                                                   , ')')
+    .replace(/(?<=[\w\dΩ%])\s*[)]\s*(?=[\w])/g                                                                   , ') ')
+    .replace(/(?<=[\w¹²₂₃₄Ω])\s*([,;%])\s*(?=[A-Za-z])/g                                                         , '$1 ') // space after ,;%
+    .replace(/\s*(?:=<(?!sub>|s>|i>|b>|br>)|<=)\s*/g                                                             , '≤')
+    .replace(/\s*(?:=>|(?<!\<\/sub|\<\/s|\<\/i|\<\/b)>=)\s*/g                                                    , '≥')
+    .replace(/-->/g                                                                                              , '➞')
+    .replace(/<--/g                                                                                              , '⬅')
+    .replace(/<->/g                                                                                              , '⬌')
+    .replace(/^[ .?!)}]]+(?=\w)|\xAD/g                                                                           , '')
+    .replace(/(?<!\..)(?<=[\w₀₁₂₃₄₅₆₇₈₉ₙₘ⁰¹²³⁵⁶⁷⁸⁹)])\s*\.\s*(?=[a-zA-z]+\s)/g                                     , '. ')
+    .replace(/\s*\.+\s*$/g                                                                                       , '.')
+    .replace(/(?<=[(;, ])V *(hold|thresh*)(?=[ =),;.])/ig                                                        , '𝑉<sub>$1</sub>')
+    .replace(/(?<=[(;, ])(?:[trτ]|tau) *(D|R|decay)(?=[ =),;.])/g                                                , 'τ<sub>$1</sub>')
+    .replace(/(?<=[(;, ])E *(K|Na|C[lsa]|rev)(?=[ =),;.])/g                                                      , 'E<sub>$1</sub>')
+    .replace(/(?<=[(;, ])R *([Ss]|in|IN)(?=[ =),;.])/g                                                           , 'R<sub>$1</sub>')
+    .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$)/g                                      , '<sup>$1</sup>')
+    .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*)|(?<![Aa]lexa)(?<=[A-Za-z]{3})(\d+)(?=[.,](?:\s|<br>)|\.$))/g, function(fullMatch,p1,p2,p3){
+       var prefix = ((p1 === '^' || !p1) ? '' : p1)
+       var num = Array.from((p2)?p2:p3).reduce(
+         function(num,digit){
+           switch (digit) {
+             case "0": return num+'⁰'; break;
+             case "1": return num+'¹'; break;
+             case "2": return num+'²'; break;
+             case "3": return num+'³'; break;
+             case "4": return num+'⁴'; break;
+             case "5": return num+'⁵'; break;
+             case "6": return num+'⁶'; break;
+             case "7": return num+'⁷'; break;
+             case "8": return num+'⁸'; break;
+             case "9": return num+'⁹'; break;
+             case "-": return num+'⁻'; break;
+             case "–": return num+'⁻'; break;
+             case "−": return num+'⁻'; break;
+             case ".": return num+'⋅'; break;
+             default : return num; break;
+           }
+         },'')
+       return prefix+num
+    })  //τ₁ PSC₁
+    .replace(/((?<=[\/(;, ])[vcrτ]|[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]|_)(\d+|\s\d|\s*[nmh])(?=[ =\/),;.])/ig, function(fullMatch,p1,p2){
+       var prefix = ((p1 === '_') ? '' : p1);
+       var num = Array.from(p2).reduce(
+         function(num,digit){
+           switch (digit) {
+             case "0": return num+'₀'; break;
+             case "1": return num+'₁'; break;
+             case "2": return num+'₂'; break;
+             case "3": return num+'₃'; break;
+             case "4": return num+'₄'; break;
+             case "5": return num+'₅'; break;
+             case "6": return num+'₆'; break;
+             case "7": return num+'₇'; break;
+             case "8": return num+'₈'; break;
+             case "9": return num+'₉'; break;
+             case "n": return num+'ₙ'; break;
+             case "N": return num+'<sub>N</sub>'; break;
+             case "m": return num+'ₘ'; break;
+             case "M": return num+'<sub>M</sub>'; break;
+             case "h": return num+'ₕ'; break;
+             case "H": return num+'<sub>H</sub>'; break;
+             default : return num; break;  // removes space
+           }
+         },'')
+       return prefix+num
+    })  //τ₁ PSC₁
+    .replace(/(?<=[(;, \]\/])([^aI ]|[^awhumboie ][^lenyfpti ]|sub>|[Mm]eans{0,1}|MEANS{0,1})\s*([>=<±])\s*(?=-{0,1}\d|[Ss]\.{0,1}[EeDd]\.{0,1}[Mm]{0,1})/g, '$1$2') //remove spase between >=<± and the numbers
+    .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
+    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref)\.\s)(?![Ww]e)(\(*\w[a-z0-9]{0,1}(?:[,-] *\w[a-z0-9]{0,1}|,* and \w[a-z0-9]{0,1})*[\),:]|\w[a-z0-9]{0,1}[\.,:])(?= )/g, 
+      function(fullMatch,p1,p2){
+        return ((p1==='. ')?'.':'')+'<br><b>'+p2+'</b>'
+      })//bold image list
+    .replace(/(?<=\. |<\/b>)\s*(right|left|top|middle|bottom)\s*(?=,)/ig                                         , '<b>$1</b>')
+    .replace(/^([^.?]+\.)\s*(?=<br>)/g                                                                           , '<b>$1</b>') //bold the 1st sentence
+    .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n{2,})/g                                                       , '<br>\n')
+    .replace(/<\/b>\s*<b>/g                                                                                      , ' ')
+    .replace(/<p>/g                                                                                              , '&lt;p&gt;');
+    //.replace(/(<\/*[bi]>)(<\/*[bi]>)/g                                                                         ,'$1    $2'); //text highlighter adaptation
+    //.replace(/(<\/*[bi]>)(<\/*[bi]>)/g                                                                         ,'$1 $2');
+  handleInput();
+};
+function formatColon(form) {
+  form.inputText.value = form.inputText.value.replace(/(?<!–\d)(?<=[\w₀₁₂₃₄₅₆₇₈₉ₙₘ⁰¹²³⁵⁶⁷⁸⁹Ω])\s*:\s*(?=\w)/g, ': ');
+  handleInput();
+};
+
+var textHandler = function(textarea) {
+  this.textarea = textarea;
+  //remove spaces from selection start and end
+  if (textarea.selectionStart !== textarea.selectionEnd) {
+    this.start = textarea.selectionStart + [(textarea.value.substring(textarea.selectionStart, textarea.selectionStart+1)===' ')? 1 : 0][0];
+    this.end = textarea.selectionEnd - [(textarea.value.substring(textarea.selectionEnd-1, textarea.selectionEnd)===' ')? 1 : 0][0];
+  } else {
+    this.start = this.end = textarea.selectionStart;
+  }
+  
+  this.updateParams = function() {
+    this.sel = this.textarea.value.substring(this.start, this.end);
+    this.length = this.textarea.value.length;
+  };
+  
+  this.updateParams();
+  
+  this.spliceSelected = function(preSelTxt,postSelTxt){
+    if (this.sel != '') {
+      this.textarea.value = this.textarea.value.substring(0,this.start) + preSelTxt + this.sel + postSelTxt + this.textarea.value.substring(this.end,this.length);
+      //reselect the text
+      this.end = this.textarea.selectionEnd = this.end + preSelTxt.length;
+      this.start = this.textarea.selectionStart = this.start + preSelTxt.length;
+      this.updateParams();
+    };
+  };
+  
+  this.replaceSelected = function(replacementTxt){
+    this.textarea.value = this.textarea.value.substring(0,this.start) + replacementTxt + this.textarea.value.substring(this.end,this.length);
+    this.end = this.textarea.selectionEnd = this.start + replacementTxt.length;
+    this.updateParams();
+  };
+};
+
+function cleanHTMLtags(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  if (textHandlerObj.sel !== '') {
+    textHandlerObj.replaceSelected(textHandlerObj.sel.replace(/(?:<\/*[bsi]>|<\/*su[pb]>)/g, ''));
+  } else {
+    textHandlerObj.textarea.value = textHandlerObj.textarea.value.replace(/(?:<\/*[bsi]>|<\/*su[pb]>)/g, '');
+  };
+  handleInput();
+};
+function boldSelectedText(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.spliceSelected('<b>','</b>');
+  handleInput();
+};
+function italicSelectedText(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.spliceSelected('<i>','</i>');
+  handleInput();
+};
+function strikeSelectedText(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.spliceSelected('<s>','</s>');
+  handleInput();
+};
+function subSelectedText(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.spliceSelected('<sub>','</sub>');
+  handleInput();
+};
+function supSelectedText(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.spliceSelected('<sup>','</sup>');
+  handleInput();
+};
+function insertNewLine(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  if (textHandlerObj.sel === '') {
+    textHandlerObj.replaceSelected('<br>\n');
+    formatText(form);
+    handleInput();
+  };
+};
+function insertMicro(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('µ');
+  handleInput();
+};
+function insertOhm(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('Ω');
+  handleInput();
+};
+function insertDeg(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('°');
+  handleInput();
+};
+function insertAlpha(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('α');
+  handleInput();
+};
+function insertBeta(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('ß');
+  handleInput();
+};
+function insertDelta(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('Δ');
+  handleInput();
+};
+function insertPlusMinus(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('±');
+  handleInput();
+};
+function insertForwardArrow(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('▶');
+  handleInput();
+};
+function insertBackwardArrow(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('◀');
+  handleInput();
+};
+function insertGamma(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('γ');
+  handleInput();
+};
+function insertTau(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('τ');
+  handleInput();
+};
+function insertSigma(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('σ');
+  handleInput();
+};
+function insertPi(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('π');
+  handleInput();
+};
+function insertMultiply(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('×');
+  handleInput();
+};
+function insertRootSquare(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('√');
+  handleInput();
+};
+</script>
