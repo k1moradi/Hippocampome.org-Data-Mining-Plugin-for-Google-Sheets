@@ -1,12 +1,32 @@
 function eRev(){
 //---------------whole-cell
-  //Markwardt 2011 Ivy/neurogliaform interneurons coordinate activity in the neurogenic niche.
-  new solution(celsius=22,
-               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2, 25 NaHCO3',
-               iSolution='190 K-Gluconate, 45 KCl, 4 MgCl2, 10 HEPES, 4 MgATP, 0.3 NaGTP, 7 Na2-Phosphocreatine, 0.1 EGTA',
+  //Szabadics 2009 Functional specificity of mossy fiber innervation of GABAergic cells in the hippocampus.
+  new solution(celsius=36,
+               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+               iSolution='90 K-Gluconate, 43.5 KCl, 1.8 NaCl, 1.7 MgCl2, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:7.3,CO2:false}).log();
+               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:7.2,CO2:false}).log();
+  //Armstrong 2011 Neurogliaform cells in the molecular layer of the dentate gyrus as feed-forward γ-aminobutyric acidergic modulators of entorhinal-hippocampal interplay.
+//  new solution(celsius=22,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               iSolution='40 CsCl, 90 K-Gluconate, 1.8 NaCl, 1.7 MgCl2, 3.5 KCl, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.25,CO2:true}).log();
+//  new solution(celsius=22,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               iSolution='90 K-Gluconate, 1.8 NaCl, 1.7 MgCl2, 27.4 KCl, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.25,CO2:true}).log();  
+  //Markwardt 2011 Ivy/neurogliaform interneurons coordinate activity in the neurogenic niche.
+//  new solution(celsius=22,
+//               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2, 25 NaHCO3',
+//               iSolution='190 K-Gluconate, 45 KCl, 4 MgCl2, 10 HEPES, 4 MgATP, 0.3 NaGTP, 7 Na2-Phosphocreatine, 0.1 EGTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:false}).log();
   //Jinde 2012 Hilar mossy cell degeneration causes transient dentate granule cell hyperexcitability and impaired pattern separation.
 //  new solution(celsius=33,
 //               eSolution='124 NaCl, 4.5 KCl, 26 NaHCO3, 1.2 NaH2PO4, 1 MgCl2, 2 CaCl2',
@@ -223,7 +243,13 @@ function eRev(){
   //exp21 = new solution(34,'125 NaCl, 26 NaHCO3, 1.25 NaH2PO4, 2.5 KCl, 1 MgCl2, 2 CaCl2','140 Cs-Gluconate, 15 HEPES, 0.5 EGTA, 2 TEA-Cl, 2 MgATP, 0.3 NaGTP, 10 Phosphocreatine-Tris2, 2 QX314-Cl',RMP=NaN,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.3,pHi=7.2).log(); //Experimental Erev in Soma=-65 not corrected for Vj, GHK without HCO3 correction=-93.75 after HCO3 half correction=-80.55 HCO3 full correction -71.79
 
   //---------------sharp electrode  
-  
+  //Buckmaster 1993 A comparison of rat hippocampal mossy cells and CA3c pyramidal cells.
+//  new solution(celsius=35,
+//               eSolution='124 NaCl, 5 KCl,1.25 NaH2PO4, 1.2 MgSO4, 26 NaHCO3, 2 CaCl2',
+//               iSolution='4000 K-Acetate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:-74,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Buhl 1994 Diverse sources of hippocampal unitary inhibitory postsynaptic potentials and the number of synaptic release sites.
   //Sharp elctrode: Experimental Erev at [-65 to -50] mV RMP from Soma=[-78 to -65]; without accetate GHK=[-74.9 to -73.1]
 //  new solution(celsius=35,
@@ -232,6 +258,7 @@ function eRev(){
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:-77,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:NaN,CO2:true}).log();
+
   //Ali 1999 IPSPs elicited in CA1 pyramidal cells by putative basket cells in slices of adult rat hippocampus.
   //exp9 = new solution(34,'124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2','2000 K-Methylsulfate',Vm=-60,isSharpElectrode=true,O2_CO2_95_5=true,pHo=NaN,pHi=NaN).log(); //Sharp elctrode: Experimental Erev in Soma=-72.4±5.5, GHK=-72.11
   //Buckmaster 1993 A comparison of rat hippocampal mossy cells and CA3c pyramidal cells.

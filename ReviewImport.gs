@@ -99,11 +99,11 @@ function getTheLastFormResponse(){
      
       //ID:1673109528	Type:TEXT	Title:Experimental Reversal Potential (mV)
       saveSingleColumnRange(aR,eColumnObj.ErevAuthors,IE.getResponse('1673109528').replace(/ *, */g,','));
-      saveSingleColumnRange(covariatesRange,covariatesColumnObj.SynReversalPotential,    
-                            unique((String(covariatesRange.getCell(1, covariatesColumnObj.SynReversalPotential).getValue()) + ',' + IE.getResponse('1673109528'))
-                                   .split(/ *, */g)
-                                   .filter(Null))
-                            .join(', '));
+//      saveSingleColumnRange(covariatesRange,covariatesColumnObj.SynReversalPotential,    
+//                            unique((String(covariatesRange.getCell(1, covariatesColumnObj.SynReversalPotential).getValue()) + ',' + IE.getResponse('1673109528'))
+//                                   .split(/ *, */g)
+//                                   .filter(Null))
+//                            .join(', '));
       //ID:691790082	Type:TEXT	Title:Calculated Reversal Potential (mV)
       saveSingleColumnRange(aR,eColumnObj.ErevCalculated,IE.getResponse('691790082'));
       //ID:375915292	Type:LIST	Title:Based on Microscopy Evidence Synapses are
