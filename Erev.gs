@@ -1,12 +1,53 @@
 function eRev(){
 //---------------whole-cell
-  //Szabadics 2009 Functional specificity of mossy fiber innervation of GABAergic cells in the hippocampus.
-  new solution(celsius=36,
-               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
-               iSolution='90 K-Gluconate, 43.5 KCl, 1.8 NaCl, 1.7 MgCl2, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+  //Nakazawa 2002 Requirement for hippocampal CA3 NMDA receptors in associative memory recall.
+  new solution(celsius=30.5,
+               eSolution='124 NaCl, 2.5 KCl, 25 NaHCO3, 4 MgCl2, 3.5 CaCl2',
+               iSolution='120 K-Gluconate, 20 KCl, 10 HEPES, 2 MgCl2, 4 ATP, 0.3 TrisGTP, 7 Na2-Phosphocreatine',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:7.2,CO2:false}).log();
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:7.3,CO2:true}).log();
+  //Szabadics 2010 Granule cells in the CA3 area.
+//  new solution(celsius=35.5,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               iSolution='90 K-Gluconate, 43.5 KCl, 1.8 NaCl, 1.7 MgCl2, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:false}).log();
+//  new solution(celsius=35.5,
+//               eSolution='126 NaCl, 10.2 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               iSolution='90 K-Gluconate, 43.5 KCl, 1.8 NaCl, 1.7 MgCl2, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:false}).log();
+  //Maccaferri 1998 Target-specific expression of presynaptic mossy fiber plasticity.
+//  new solution(celsius=24,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 3 CaCl2, 1.5 MgSO4',
+//               iSolution='100 Cs-Gluconate, 5 MgCl2, 10 HEPES, 30 EGTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Bartos 2001 Rapid signaling at inhibitory synapses in a dentate gyrus interneuron network.
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               iSolution='110 K-Gluconate, 70 KCl, 0.1 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:NaN,CO2:true}).log();
+  //Urban 1996 Induction of hebbian and non-hebbian mossy fiber long-term potentiation by distinct patterns of high-frequency stimulation.
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 2 KCl, 26 NaHCO3, 1 MgCl2, 2.5 CaCl2',
+//               iSolution='120 CsF, 20 CsCl, 1 BAPTA, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:NaN,CO2:true}).log();
+  //Szabadics 2009 Functional specificity of mossy fiber innervation of GABAergic cells in the hippocampus.
+//  new solution(celsius=36,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               iSolution='90 K-Gluconate, 43.5 KCl, 1.8 NaCl, 1.7 MgCl2, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.2,CO2:false}).log();
   //Armstrong 2011 Neurogliaform cells in the molecular layer of the dentate gyrus as feed-forward γ-aminobutyric acidergic modulators of entorhinal-hippocampal interplay.
 //  new solution(celsius=22,
 //               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
@@ -278,6 +319,15 @@ function eRev(){
   
 //---------------outside-out
   //exp18 = new experiment(22,'125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','140 KCl, 10 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',RMP=NaN,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.2,pHi=7.3).log(); //Experimental Erev in patch=4.5 {ENa}, 9.8 {ECa}, GHK=-3.95
+
+//---------------cell-attached
+  //Dugladze 2012 Segregation of axonal and somatic activity during fast network oscillations.
+//  new solution(celsius=22,
+//               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2, 25 NaHCO3',
+//               iSolution='',
+//               recordingMethod='cell-attached',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
 }
 
 var solution = function(celsius,eSolution,iSolution,recordingMethod,voltages,pH) {
@@ -374,7 +424,13 @@ var solution = function(celsius,eSolution,iSolution,recordingMethod,voltages,pH)
      this.updateRelatedConcentrations();
      break;
    case 'cell-attached':
-     
+     this.Ions.K.iC = 140e-3;
+     this.Ions.Na.iC = 10e-3;
+     this.Ions.Cl.iC = 4e-3;
+     this.Ions.Ca.iC = 1e-7;
+     this.Ions.Mg.iC = 30e-3;
+     this.Ions.HCO3.iC = 10e-3;
+     this.Ions.H2PO4.iC = 60e-3;
      break;
    case 'outside–out':
      

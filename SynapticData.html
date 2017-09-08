@@ -29,9 +29,11 @@
         <details id='Reference' open>
           <summary style='background-color:black; color:white; margin:0; font-size:120%;'>
             <b>ID:</b><a style='color:pink' href='javascript:return false;' onclick="copyStringToClipboard('@'+this.text)"><?= refID ?></a>, 
-            <? if (typeof theReference !== "undefined") {?>
-            <i style='color:yellow'><?= theReference.Location?></i>, 
-            <?=theReference.UID}?>
+            <? if (typeof theReference !== "undefined") {
+                 var UID = theReference.UID;?>
+            <i style='color:yellow'><?=theReference.Location?></i>, 
+            <?=  (isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID
+               }?>
           </summary>
           <?if (typeof theReference === "undefined") {?>
           <p style='color:red;'>

@@ -4,7 +4,7 @@ function refHighlights (input)
   var strInput = (typeof input === 'object' && !Array.isArray(input)) ? JSON.stringify(input) : String(input);
   return strInput
   .replace('[micro]','µ')
-  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique)(?:[^<>)(]|[^<>)(]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>)(])){0,1}(Q10|pH|Median|anesthesia|slice|temperature|magic|pulse|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>)(]voltage)*|I[^<>)(]V|voltage|conductance|failure|delay|latenc(?:y|ies)|frequenc(?:y|ies)|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|(?:(?:paired|simultaneous|dual).record(?:ing|ed))|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|sweep|trace|event|(?:averages*(?: of)*\s)*(?:\d+|two|three|four|five|six|seven|eight|nine)+(?:\sto\s|\s|-)*(?:\d+|two|three|four|five|six|seven|eight|nine)*\s*(?:consecutive|individual|single)*[^<>](?:response|sweep|event|trace|(?=[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]s*))|analysis|measure|PP[FDR])(tion|ance|ive|ing|ly|e*s){0,1}([^<>)(]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/ig,
+  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique)(?:[^<>)(]|[^<>)(]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>)(])){0,1}(Q10|pH|Median|anesthesia|slice|temperature|magic|pulse|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>)(]voltage)*|I[^<>)(]V|voltage|conductance|failure|delay|latenc(?:y|ies)|frequenc(?:y|ies)|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|(?:(?:paired|simultaneous|dual).record(?:ing|ed))|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|sweep|trace|event|(?:averages*(?: of)*\s)*(?:\d+|two|three|four|five|six|seven|eight|nine)+(?:\sto\s|\s|-)*(?:\d+|two|three|four|five|six|seven|eight|nine)*\s*(?:consecutive|individual|single)*[^<>](?:response|sweep|event|trace|(?=[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]s*))|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s){0,1}([^<>)(]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/ig,
            "<mark style='background-color:rgba(100,255,255,0.5); color:black;'>$1$2$3$4</mark>")         //cyan
   .replace(/\b(epilep(?:ticus|tic|s[yi]a*)|seisures*|field|cultured*|gluconate)\b/ig,
            "<mark style='background-color:red; color:white;'>$1</mark>")                                 //red
@@ -144,7 +144,9 @@ var prefillForm = function(form) {
     return (this.Responses.getResponseForItem(originalItem) === null)? false : true;
   };
   this.prefillEmptyItem = function(ItemID,response) { // Warning + sign is not allowed in responses
-    if (!this.isPrefilled(ItemID)) this.prefillItem(ItemID,(response)?'~~'+response:response);
+    var itemType = this.form.getItemById(ItemID).getType()
+    if (!this.isPrefilled(ItemID)) 
+      this.prefillItem(ItemID,(response && (itemType === FormApp.ItemType.TEXT || itemType === FormApp.ItemType.PARAGRAPH_TEXT))?'~~'+response:response);
   };
   this.getPrefilledUrl = function() {
     //return this.form.shortenFormUrl(this.Responses.toPrefilledUrl());

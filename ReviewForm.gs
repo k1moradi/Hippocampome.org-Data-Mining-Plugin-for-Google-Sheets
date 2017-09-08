@@ -31,6 +31,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   
   //ID:1813531463	Type:MULTIPLE_CHOICE	Title:Interpretation
   pForm.prefillItem('1813531463',Evidence.Interpretation);
+  if (Evidence.Confidence.length === 1 && Evidence.Confidence[0] === 'Direct') pForm.prefillEmptyItem('1813531463','Proper');
   //ID:943235084	Type:PARAGRAPH_TEXT	Title:Mapping Assumptions
   pForm.prefillItem('943235084' ,Evidence.Assumptions);
   //ID:1114795606	Type:PARAGRAPH_TEXT	Title:Presynaptic Search Query

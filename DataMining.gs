@@ -10,13 +10,15 @@ Then from the custon "Data Entry" menu select enter "Eneter Data".
 //-------Data Mining 
 function onOpen() {
   SpreadsheetApp.getUi()
+  //add sub-toolbar to the toolbar 
   .createMenu('Data Mining')
   .addItem('1. Review Evidence', 'reviewEvidence') //<object id="synForm" type="text/html" data="<?=url?>" style="width:662px;height:730px;"><p>backup content</p></object>?>
   .addItem('2. Import Evidence', 'getTheLastFormResponse')
   .addItem('3. Check  Query', 'checkQuery')  //http://hippocampome.org/csv2db/search_engine_json.php?query_str=
   .addItem('4. Extract Data', 'addSynapticData') 
   .addItem('Jump to Row', 'jumpToRow')
-  .addItem('Text Cleaner', 'showTextCleaner')
+  .addItem('Get Max', 'getMaxOfColumn') //add an item to the sub-toolbar
+  .addItem('Text Cleaner', 'showTextCleaner') 
   .addToUi();
 };
 //-------Evidence Review Section-------------------------------------------------------------------
@@ -75,7 +77,7 @@ function addSynapticData() {
     
     var dSec = evidence.dSec;
     while (!(dSec === 'mPSP' || dSec === 'mPSP' || dSec === 'mPSC' || dSec === 'sPSP' || dSec === 'sPSC' || dSec === 'uPSP' || dSec === 'uPSC' || dSec === 'ePSP' || dSec === 'ePSC'))
-      dSec = ui.prompt('Enter Data Type', 'Options: mPSP, mPSC, sPSP, sPSC, uPSP, uPSC, ePSP or ePSC', ui.ButtonSet.OK).getResponseText();
+      dSec = ui.prompt('Enter Data Type', 'Options: mPSP, mPSC, sPSP, sPSC, uPSP, uPSC, ePSP, or ePSC', ui.ButtonSet.OK).getResponseText();
     
     var covariates    = output.covariates     = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
     var oldSynData    = output.oldSynData     = sheetSamplingTool(ss.getSheetByName("SynData"   ).getRange('A:A'),evidence.PMID,'Row');
@@ -154,6 +156,24 @@ function jumpToRow() {
       sheet.setActiveRange(sheet.getRange(rowIndex+':'+rowIndex));
   };
 };
+//
+function getMaxOfColumn(){
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getActiveSheet();
+  var range = sheet.getActiveRange();
+  var lastrow = sheet.getLastRow();
+  var column = range.getColumn();
+  var cell = sheet.getRange(lastrow +1, column);
+  var cellValue = cell.getValue();
+  var sheetName =SpreadsheetApp.getActive().getSheetName();
+  var columnName = SpreadsheetApp.getActiveRange().getValue();
+  //var max =  SpreadsheetApp.getUi().alert('Current Max Value: ' + getMaxOf(sheetName,columnName))
+  //Display the current max value 
+  var newMax = getMaxOf(sheetName,columnName)+1;
+  //Display the new max value 
+  cell.setValue (newMax);
+  //add 1 to the active max value
+}
 //-------Common function ---------------------------------------------------------------------------
 function getCheckActiveRange(activeRange,ActiveTabName) {
   // check the active range with the user
@@ -173,7 +193,7 @@ function getCheckActiveRange(activeRange,ActiveTabName) {
   };
 };
 function include(filename) {
-    return HtmlService.createTemplateFromFile(filename).getRawContent();
+  return HtmlService.createTemplateFromFile(filename).getRawContent();
 }
 //function getData(url) {
 //  if (arguments.length === 1)
