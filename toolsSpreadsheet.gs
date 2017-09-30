@@ -14,7 +14,7 @@ function test() {
 //  var paragraphTextItem = form.addParagraphTextItem().setTitle('Describe yourself:');
 //  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(100).build();
 //  paragraphTextItem.setValidation(paragraphtextValidation);
- Logger.log(getEverythingWithinParentheses('Transverse(350)@(Dorsal;Ventral)'))
+ Logger.log(2<NaN)
 };
 
 function getMaxOf(sheetName,columnName) {
@@ -58,23 +58,23 @@ function getEvidenceValues(activeRange) {
     dSec                : rawEvidenceObj.dSec,
     DataIDs             : String(rawEvidenceObj.Data).split(/\s*[,;]+\s*/g).filter(Null),
     CovariatesIDs       : String(rawEvidenceObj.Covariates).split(/\s*[,;]+\s*/g).filter(Null),
-    MorphologyIDsPre    : String(rawEvidenceObj.Morphology).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/\s*[,;]+\s*/g).filter(Null),
-    MorphologyIDsPost   : String(rawEvidenceObj.Morphology).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    MarkersIDsPre       : String(rawEvidenceObj.Markers).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    MarkersIDsPost      : String(rawEvidenceObj.Markers).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    CellePhysIDsPre     : String(rawEvidenceObj.CellEphys).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    CellePhysIDsPost    : String(rawEvidenceObj.CellEphys).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    FiringPatternIDsPre : String(rawEvidenceObj.FiringPatterns).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null),
+    MorphologyIDsPre    : String(rawEvidenceObj.Morphology).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
+    MorphologyIDsPost   : String(rawEvidenceObj.Morphology).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    MarkersIDsPre       : String(rawEvidenceObj.Markers).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    MarkersIDsPost      : String(rawEvidenceObj.Markers).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    CellePhysIDsPre     : String(rawEvidenceObj.CellEphys).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    CellePhysIDsPost    : String(rawEvidenceObj.CellEphys).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    FiringPatternIDsPre : String(rawEvidenceObj.FiringPatterns).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
     FiringPatternIDsPost: String(rawEvidenceObj.FiringPatterns).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    ConnectivityIDsPre  : String(rawEvidenceObj.Connectivity).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    ConnectivityIDsPost : String(rawEvidenceObj.Connectivity).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
+    ConnectivityIDsPre  : String(rawEvidenceObj.Connectivity).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    ConnectivityIDsPost : String(rawEvidenceObj.Connectivity).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
     Notes               : rawEvidenceObj.Notes,
     ConRatios           : rawEvidenceObj.ConRatios,
     CellRatios          : rawEvidenceObj.CellRatios,
     RMPorVh             : rawEvidenceObj.RMPorVh,
     ErevAuthors         : rawEvidenceObj.ErevAuthors,
     ErevCalculated      : rawEvidenceObj.ErevCalculated,
-    Drugs               : rawEvidenceObj.Drugs.split(/\s*[,;]+\s*/g).filter(Null),
+    Drugs               : rawEvidenceObj.Drugs.split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
     ExtracellularSolution:rawEvidenceObj.ExtracellularSolution,
     IntracellularSolution:rawEvidenceObj.IntracellularSolution,
     rangeA1Notation     : activeRange.getA1Notation()

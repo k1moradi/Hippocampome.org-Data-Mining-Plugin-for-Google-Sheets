@@ -161,19 +161,55 @@ function getMaxOfColumn(){
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getActiveSheet();
   var range = sheet.getActiveRange();
-  var lastrow = sheet.getLastRow();
-  var column = range.getColumn();
-  var cell = sheet.getRange(lastrow +1, column);
-  var cellValue = cell.getValue();
-  var sheetName =SpreadsheetApp.getActive().getSheetName();
-  var columnName = SpreadsheetApp.getActiveRange().getValue();
-  //var max =  SpreadsheetApp.getUi().alert('Current Max Value: ' + getMaxOf(sheetName,columnName))
-  //Display the current max value 
-  var newMax = getMaxOf(sheetName,columnName)+1;
-  //Display the new max value 
-  cell.setValue (newMax);
-  //add 1 to the active max value
+  var ColumnNumber = range.getNumColumns();
+  if( ColumnNumber > 1.0) {
+    SpreadsheetApp.getUi().alert('Error.. Choose one column at a time');
+    // an if statement that displays an error message if you choose more than one column.
+  } else if (ColumnNumber === 1.0) {
+    // runs only if you choose one column.
+    var lastrow = sheet.getLastRow();
+    var column = range.getLastColumn();
+    var cell = sheet.getRange(lastrow +1, column);
+    var cellValue = cell.getValue();
+    var columnName = range.getValue();
+    var sheetName = sheet.getSheetName();
+    var newMax = getMaxOf(sheetName,columnName)+1;
+    //maximum value allowed per sheet
+    switch (sheetName) {
+      case "Mo": 
+        var maxAllowed = 2800000; 
+        break;
+      case "Ma": 
+        var maxAllowed = 2900000;  
+        break;
+      case "CE": 
+        var maxAllowed = 3000000;
+        break;
+      case "FP": 
+        var maxAllowed = 3100000;
+        break;
+      case "Con": 
+        var maxAllowed = 3200000;
+        break;
+      case "Da": 
+        var maxAllowed = 3300000;
+        break;
+      default:
+        var maxAllowed = NaN;
+        break;
+    }
+    if (newMax > maxAllowed) {
+      //if exceeding maximum value displays an error message 
+      SpreadsheetApp.getUi().alert('Error! Exceeds Maximim Value');
+    } else {
+      //Display the new max value 
+      cell.setValue (newMax);
+      //add 1 to the active max value
+      //if everything runs in the previous if statements, the new max displays in the cell   
+    }
+  }  
 }
+
 //-------Common function ---------------------------------------------------------------------------
 function getCheckActiveRange(activeRange,ActiveTabName) {
   // check the active range with the user

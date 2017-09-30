@@ -1,12 +1,47 @@
 function eRev(){
 //---------------whole-cell
-  //Nakazawa 2002 Requirement for hippocampal CA3 NMDA receptors in associative memory recall.
-  new solution(celsius=30.5,
-               eSolution='124 NaCl, 2.5 KCl, 25 NaHCO3, 4 MgCl2, 3.5 CaCl2',
-               iSolution='120 K-Gluconate, 20 KCl, 10 HEPES, 2 MgCl2, 4 ATP, 0.3 TrisGTP, 7 Na2-Phosphocreatine',
+  //Szabó 2014 Anatomically heterogeneous populations of CB1 cannabinoid receptor-expressing interneurons in the CA3 region of the hippocampus show homogeneous input-output characteristics.
+  new solution(celsius=24,
+               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
+               iSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 Mg-ATP, 3 NaCl, 10 HEPES, 5 QX314-Br',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
                pH={e:NaN,i:7.3,CO2:true}).log();
+  //Gloveli 2005 Differential involvement of oriens/pyramidale interneurones in hippocampal network oscillations in vitro.
+//  new solution(celsius=29,
+//               eSolution='126 NaCl, 3 KCl, 1.25 NaH2PO4, 2 CaCl2, 2 MgSO4, 24 NaHCO3',
+//               iSolution='135 K-Gluconate, 5 KCl, 2 ATPMg, 0.3 Na2GTP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-60}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+  //Hájos 2013 Input-output features of anatomically identified CA3 neurons during hippocampal sharp wave/ripple oscillation in vitro.
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 3.0 KCl, 1.25 Na2HPO4, 25 NaHCO3, 2.0 CaCl2, 1.0 MgCl2',
+//               iSolution='120 K-Methylsulfate, 10 KCl, 10 HEPES, 0.5 EGTA, 4.5 Mg-ATP, 0.3 Na2GTP, 14 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-72.17,Vh:-70,Vss:-70}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.4,CO2:true}).log();
+  //Hájos 2013 Input-output features of anatomically identified CA3 neurons during hippocampal sharp wave/ripple oscillation in vitro.
+//  new solution(celsius=31,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               iSolution='138 K-Gluconate, 3 CsCl, 10 Na2-Phosphocreatine, 4 MgATP, 0.4 TrisGTP, 10 HEPES, 0.2 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:0,Vss:NaN}, Erev:{IPSC:-80,EPSC:0,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.38,CO2:true}).log();
+  //Papp 2013 Different input and output properties characterize parvalbumin-positive basket and Axo-axonic cells in the hippocampal CA3 subfield.
+//  new solution(celsius=31,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               iSolution='110 K-Gluconate, 4 NaCl, 20 HEPES, 0.1 EGTA, 10 Na2-Phosphocreatine, 2 Mg-ATP, 0.3 Na-GTP, 0.1 spermine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-45,Vh:-60,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+  //Nakazawa 2002 Requirement for hippocampal CA3 NMDA receptors in associative memory recall.
+//  new solution(celsius=30.5,
+//               eSolution='124 NaCl, 2.5 KCl, 25 NaHCO3, 4 MgCl2, 3.5 CaCl2',
+//               iSolution='120 K-Gluconate, 20 KCl, 10 HEPES, 2 MgCl2, 4 ATP, 0.3 TrisGTP, 7 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
   //Szabadics 2010 Granule cells in the CA3 area.
 //  new solution(celsius=35.5,
 //               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
@@ -541,20 +576,20 @@ var solution = function(celsius,eSolution,iSolution,recordingMethod,voltages,pH)
      '\nI.i\t\t\t\t'+round(self.strength.i,2)+
        '\n\nVj.exp\t\t\t'+voltages.Vj.exp+
          '\nVj.cal\t\t\t'+voltages.Vj.cal+
-           ((voltages.Vm.Vh)?'\nVh\t\t\t\t'+voltages.Vm.Vh+'{without Vj correction};'+round(voltages.Vm.Vh - self.Vj,2)+'{with Vj correction}@{Vh}':'')+
-             ((voltages.Vm.Vss)?'\nVss\t\t\t\t'+voltages.Vm.Vss+'{without Vj correction};'+round(voltages.Vm.Vss + self.Vj,2)+'{with Vj correction}@{Vss}':'')+
-               ((voltages.Vm.RMP)?'\nRMP\t\t\t'+voltages.Vm.RMP+'{without Vj correction};'+round(voltages.Vm.RMP + self.Vj,2)+'{with Vj correction}@{RMP}':'')+
+           ((isNumeric(voltages.Vm.Vh))?'\nVh\t\t\t\t'+voltages.Vm.Vh+'{without Vj correction};'+round(voltages.Vm.Vh - self.Vj,2)+'{with Vj correction}@{Vh}':'')+
+             ((isNumeric(voltages.Vm.Vss))?'\nVss\t\t\t\t'+voltages.Vm.Vss+'{without Vj correction};'+round(voltages.Vm.Vss + self.Vj,2)+'{with Vj correction}@{Vss}':'')+
+               ((isNumeric(voltages.Vm.RMP))?'\nRMP\t\t\t'+voltages.Vm.RMP+'{without Vj correction};'+round(voltages.Vm.RMP + self.Vj,2)+'{with Vj correction}@{RMP}':'')+
                  '\n\nErev'+
                      '\n\tGlutamatergic:'+
                        '\n\t\tCalculated:'+
                          '\n\n\t\t'+this.ErevCaImpermeableAMPA+' {AMPA Ca Impermeable}; '+this.ErevCaPermeableAMPA+' {AMPA Ca Permeable}; '+this.ErevNMDA+' {NMDA}'+
                            '\n\n\t\tExperimental:'+
-                             '\n\n\t\t'+((voltages.Erev.EPSC || voltages.Erev.EPSP) ? ((voltages.Erev.EPSC) ? voltages.Erev.EPSC : voltages.Erev.EPSP)+' {without Vj correction}; '+round((voltages.Erev.EPSC) ? voltages.Erev.EPSC - self.Vj : voltages.Erev.EPSP + self.Vj, 2)+' {with Vj correction}':'') +
+                             '\n\n\t\t'+((isNumeric(voltages.Erev.EPSC) || isNumeric(voltages.Erev.EPSP)) ? ((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC : voltages.Erev.EPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC - self.Vj : voltages.Erev.EPSP + self.Vj, 2)+' {with Vj correction}':'') +
                                '\n\n\tGABAergic:'+
                                  '\n\t\tCalculated:'+
                                    '\n\n\t\t'+this.ErevGABAA+' {GABA-A}; '+this.ErevGABAAwithGluconate+' {GABA-A-Gluconate Permeable}; '+this.ErevGABAB+' {GABA-B}'+
                                      '\n\n\t\tExperimental:'+
-                                       '\n\n\t\t'+((voltages.Erev.IPSC || voltages.Erev.IPSP) ? ((voltages.Erev.IPSC) ? voltages.Erev.IPSC : voltages.Erev.IPSP)+' {without Vj correction}; '+round((voltages.Erev.IPSC) ? voltages.Erev.IPSC - self.Vj : voltages.Erev.IPSP + self.Vj, 2)+' {with Vj correction}':'') +
+                                       '\n\n\t\t'+((isNumeric(voltages.Erev.IPSC) || isNumeric(voltages.Erev.IPSP)) ? ((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC : voltages.Erev.IPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC - self.Vj : voltages.Erev.IPSP + self.Vj, 2)+' {with Vj correction}':'') +
                                          '\n'+Object.keys(self.Ions).reduce(
                                            function(p,ionName) {
                                              var ion  = self.Ions[ionName];

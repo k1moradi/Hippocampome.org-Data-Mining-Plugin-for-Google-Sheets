@@ -37,12 +37,14 @@ function getTheLastFormResponse(){
       saveSingleColumnRange(aR,eColumnObj.Description,IE.getResponse('1109441292'));
       
       //ID:1093425014	Type:CHECKBOX	Title:GABA or Glutamate receptors (ant)agonists
-      saveSingleColumnRange(aR,eColumnObj.Drugs,IE.getResponse('1093425014').toString());
-      choises = form.getItemById('1093425014').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()});
-      newChoise = IE.getResponse('1093425014').filter(function(res){return choises.indexOf(res) === -1});
-      if (newChoise.length != 0) saveSingleColumnRange(covariatesRange,covariatesColumnObj.DrugsGABAGlutamate,choises.concat(newChoise).toString());
-      delete choises,newChoise;
-      
+      (function(response,choises){
+        saveSingleColumnRange(aR,eColumnObj.Drugs,response.join(', '));
+        var newChoise = response.filter(function(res){return choises.indexOf(res) === -1});
+        if (newChoise.length !== 0)
+          saveSingleColumnRange(covariatesRange,covariatesColumnObj.DrugsGABAGlutamate,choises.concat(newChoise).filter(Null).filter(onlyUnique).join(', '));
+      }(IE.getResponse('1093425014').filter(Null).filter(onlyUnique),
+        form.getItemById('1093425014').asCheckboxItem().getChoices().map(function(choice){return choice.getValue().split(/ *[,;] */)}).reduce(to1D).filter(Null)));
+           
       //ID:530154900	Type:TEXT	Title:Holding Potential or Steady State Membrane Potential (mV)
       (function(response){
         var addRegEx = /^\s*add:\((.+?)\)$/i;

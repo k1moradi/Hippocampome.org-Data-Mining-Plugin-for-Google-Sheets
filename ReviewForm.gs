@@ -66,7 +66,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   //ID:1968268392	Type:PARAGRAPH_TEXT	Title:New
   pForm.prefillItem('1968268392',(covariatesMaxRefID+4)+'@@@@');
   //ID:1093425014	Type:CHECKBOX	Title:GABA or Glutamate receptors (ant)agonists
-  pForm.setChoices('1093425014', Covariates.DrugsGABAGlutamate.split(/[,;]+\s*/));
+  pForm.setChoices('1093425014', Covariates.DrugsGABAGlutamate.split(/[,;]+\s*/).filter(Null));
   if (Evidence.Drugs.length != 0) pForm.prefillItem('1093425014',Evidence.Drugs);
   //ID:2058479121	Type:MULTIPLE_CHOICE	Title:Extracellular Solution
   pForm.setChoices('2058479121',Covariates.ExtracellularBathSolution

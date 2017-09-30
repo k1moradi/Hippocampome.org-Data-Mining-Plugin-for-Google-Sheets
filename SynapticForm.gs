@@ -41,7 +41,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:4275336	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('4275336',(evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}');
       //ID:1712702434	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:1170383288	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('1170383288',evidence.RMPorVh);
         //ID:1130520286	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
@@ -109,7 +109,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:1529021711	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('1529021711',(evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}');
       //ID:1717332473	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:433898023	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('433898023',evidence.RMPorVh);
       } else {
@@ -174,7 +174,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:1121608872	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('1121608872',(evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}');
       //ID:1674601306	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:1972044961	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('1972044961',evidence.RMPorVh);
         //ID:1192989274	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
@@ -243,7 +243,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:255478031	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('255478031',(evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}');
       //ID:1546411811	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:123299683	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('123299683',evidence.RMPorVh);
       } else {
@@ -308,7 +308,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:336517228	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('336517228',((evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}'));
       //ID:2013943367	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:766847912	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('766847912',evidence.RMPorVh);
         //ID:362152624	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
@@ -433,7 +433,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:1883690145	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('1883690145',(evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}');
       //ID:1347925473	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:1760358924	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('1760358924',evidence.RMPorVh);
       } else {
@@ -554,7 +554,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:1305317523	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('1305317523',(evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}');
       //ID:1519191194	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:725904432	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('725904432',evidence.RMPorVh);
         //ID:1322135857	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
@@ -678,7 +678,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
       //ID:808792303	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
       pForm.prefillEmptyItem('808792303',(evidence.ErevAuthors) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : evidence.ErevCalculated+'@{calculated}');
       //ID:635382742	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
-      if (evidence.RMPorVh.match('RMP')) {
+      if (String(evidence.RMPorVh).match('RMP')) {
         //ID:320612606	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
         pForm.prefillEmptyItem('320612606',evidence.RMPorVh);
       } else {
