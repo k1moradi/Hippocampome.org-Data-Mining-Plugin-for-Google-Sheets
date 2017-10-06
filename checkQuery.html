@@ -28,6 +28,22 @@
       <br><br><b>Error:</b><?!=error
          }?>
     </p>
+    
+    <form id='CheckQuery'>
+      Query <br>
+      <input type ="text" data = "information" value = <?= evidence.Query ?> onchange="extra(value)">
+    </form>
+
+    <script>
+      function extra(value) {
+        var url = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
+          value.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B');
+        google.script.run.withSuccessHandler(alert).accessApi(url);
+      }
+    </script>
+
+    
+    
     <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor) {?>
     <p><b>Total: <?=cKeys.length?>:</b> <?=title?></p>
     <table class="sortable">

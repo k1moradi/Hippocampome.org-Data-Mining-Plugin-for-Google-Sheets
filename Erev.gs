@@ -1,12 +1,23 @@
 function eRev(){
 //---------------whole-cell
-  //Szabó 2014 Anatomically heterogeneous populations of CB1 cannabinoid receptor-expressing interneurons in the CA3 region of the hippocampus show homogeneous input-output characteristics.
+  //Szabó 2010 Distinct synaptic properties of perisomatic inhibitory cell types and their different modulation by cholinergic receptor activation in the CA3 region of the mouse hippocampus.
   new solution(celsius=24,
                eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
-               iSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 Mg-ATP, 3 NaCl, 10 HEPES, 5 QX314-Br',
+               iSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 MgATP, 3 NaCl, 10 HEPES, 5 QX314-Br',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, 
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+               Vj:{exp:NaN,correctedAlready:false}},
                pH={e:NaN,i:7.3,CO2:true}).log();
+  //Szabó 2014 Anatomically heterogeneous populations of CB1 cannabinoid receptor-expressing interneurons in the CA3 region of the hippocampus show homogeneous input-output characteristics.
+//  new solution(celsius=24,
+//               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
+//               iSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 Mg-ATP, 3 NaCl, 10 HEPES, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
   //Gloveli 2005 Differential involvement of oriens/pyramidale interneurones in hippocampal network oscillations in vitro.
 //  new solution(celsius=29,
 //               eSolution='126 NaCl, 3 KCl, 1.25 NaH2PO4, 2 CaCl2, 2 MgSO4, 24 NaHCO3',

@@ -121,9 +121,9 @@ function checkQuery() {
   {// get needed data from spreadsheets
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
-    var URI           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
-      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B'); Logger.log(URI);
-    var response      = String(UrlFetchApp.fetch(URI));
+    var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
+      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B'); Logger.log(URL);
+    var response      = String(UrlFetchApp.fetch(URL));
     var errorRegExp   = /<br>.*<br>/;
     var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
     var fetchedConns  = output.fetchedConns   = JSON.parse(response.replace(errorRegExp,''));
@@ -139,6 +139,13 @@ function checkQuery() {
     return null;
   };
 };
+
+function accessApi(url){
+  var result = UrlFetchApp.fetch(url);
+  Logger.log(result);
+  return result;
+};
+
 //-------Text Cleaner-------------------------------------------------------------------------------
 function showTextCleaner(){
   var output = HtmlService.createTemplateFromFile("TextCleaner");
