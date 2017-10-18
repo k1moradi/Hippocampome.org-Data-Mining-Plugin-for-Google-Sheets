@@ -1,14 +1,14 @@
 function eRev(){
 //---------------whole-cell
   //Szabó 2010 Distinct synaptic properties of perisomatic inhibitory cell types and their different modulation by cholinergic receptor activation in the CA3 region of the mouse hippocampus.
-  new solution(celsius=24,
-               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
-               iSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 MgATP, 3 NaCl, 10 HEPES, 5 QX314-Br',
-               recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, 
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:7.3,CO2:true}).log();
+//  new solution(celsius=24,
+//               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
+//               iSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 MgATP, 3 NaCl, 10 HEPES, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
   //Szabó 2014 Anatomically heterogeneous populations of CB1 cannabinoid receptor-expressing interneurons in the CA3 region of the hippocampus show homogeneous input-output characteristics.
 //  new solution(celsius=24,
 //               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
@@ -271,12 +271,12 @@ function eRev(){
 //               pH={e:NaN,i:7.3,CO2:true}).log();
   //Chamberland 2010 Synapse-specific inhibitory control of hippocampal feedback inhibitory circuit.
   //Whole cell: Experimental Erev from Soma IPSCs=-71.9±1.2 EPSC=10;
-//  exp1= new solution(celsius=32,
-//                     eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 2 CaCl2',
-//                     iSolution='130 KMeSO3, 2 MgCl2, 10 Na2-Phosphocreatine, 10 HEPES, 2 TrisATP, 0.2 TrisGTP',
-//                     recordingMethod='whole-cell',
-//                     voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:-71.9,EPSC:10,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
-//                     pH={e:7.4,i:7.3,CO2:true}).log();
+//  new solution(celsius=32,
+//               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 2 CaCl2',
+//               iSolution='130 KMeSO3, 2 MgCl2, 10 Na2-Phosphocreatine, 10 HEPES, 2 TrisATP, 0.2 TrisGTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:-71.9,EPSC:10,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
   //Jarolimek 1999 A furosemide-sensitive K+-Cl- cotransporter counteracts intracellular Cl- accumulation and depletion in cultured rat midbrain neurons
   //[K]o= 2 [A-]pip= 4.5: Experimental Erev in Dendrites=−97.7 ± 1.8 in Soma=−83.4 ± 0.9
 //  exp4 = new solution(celsius=22,
@@ -329,16 +329,40 @@ function eRev(){
   //Tsai 2012 Autistic-like behaviour and cerebellar dysfunction in Purkinje cell Tsc1 mutant mice -> liqiud junction potential is not corrected
   //exp21 = new solution(34,'125 NaCl, 26 NaHCO3, 1.25 NaH2PO4, 2.5 KCl, 1 MgCl2, 2 CaCl2','140 Cs-Gluconate, 15 HEPES, 0.5 EGTA, 2 TEA-Cl, 2 MgATP, 0.3 NaGTP, 10 Phosphocreatine-Tris2, 2 QX314-Cl',RMP=NaN,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.3,pHi=7.2).log(); //Experimental Erev in Soma=-65 not corrected for Vj, GHK without HCO3 correction=-93.75 after HCO3 half correction=-80.55 HCO3 full correction -71.79
 
+  
+  
   //---------------sharp electrode  
+  
+  
+  
+  //--> it is necessary to make Vj corrections
+    //Miles 1996 Differences between somatic and dendritic inhibition in the hippocampus.
+    //3000 KCl {to shift the IPSP reversal potential (to about -30 mV) and so enhance IPSP amplitude. Measurements were not taken until at least 15 min after recording was established to allow intracellular chloride equilibration}
+//  new solution(celsius=35,
+//               eSolution='128 NaCl, 5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2',
+//               iSolution='3000 KCl',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-30,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='128 NaCl, 5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2',
+//               iSolution='2000 K-Acetate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-68,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Buckmaster 1993 A comparison of rat hippocampal mossy cells and CA3c pyramidal cells.
 //  new solution(celsius=35,
 //               eSolution='124 NaCl, 5 KCl,1.25 NaH2PO4, 1.2 MgSO4, 26 NaHCO3, 2 CaCl2',
 //               iSolution='4000 K-Acetate',
 //               recordingMethod='sharp electrode',
-//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:-74,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:-74,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:NaN,CO2:true}).log();
   //Buhl 1994 Diverse sources of hippocampal unitary inhibitory postsynaptic potentials and the number of synaptic release sites.
-  //Sharp elctrode: Experimental Erev at [-65 to -50] mV RMP from Soma=[-78 to -65]; without accetate GHK=[-74.9 to -73.1]
+     //Sharp elctrode: Experimental Erev at [-65 to -50] mV RMP from Soma=[-78 to -65]; without accetate GHK=[-74.9 to -73.1]
 //  new solution(celsius=35,
 //               eSolution='126 NaCl, 3.0 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2.0 MgSO4, 2.0 CaCl2',
 //               iSolution='1500 K-Methylsulfate',
@@ -348,10 +372,6 @@ function eRev(){
 
   //Ali 1999 IPSPs elicited in CA1 pyramidal cells by putative basket cells in slices of adult rat hippocampus.
   //exp9 = new solution(34,'124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2','2000 K-Methylsulfate',Vm=-60,isSharpElectrode=true,O2_CO2_95_5=true,pHo=NaN,pHi=NaN).log(); //Sharp elctrode: Experimental Erev in Soma=-72.4±5.5, GHK=-72.11
-  //Buckmaster 1993 A comparison of rat hippocampal mossy cells and CA3c pyramidal cells.
-  //exp13= new solution(35,'124 NaCl, 5 KCl,1.25 NaH2PO4, 1.2 MgSO4, 26 NaHCO3, 2 CaCl2','4000 K-acetate',Vm=-73,isSharpElectrode=true,O2_CO2_95_5=true,pHo=NaN,pHi=NaN).log(); //Sharp elctrode: Experimental Erev in Mossy cell Soma=-71±5.1 [-97 to -68], with acetate GHK=+70.61, without accetate GHK=-77.95
-  //exp14= new solution(35,'124 NaCl, 5 KCl,1.25 NaH2PO4, 1.2 MgSO4, 26 NaHCO3, 2 CaCl2','4000 K-acetate',-71,true).log(); //Sharp elctrode: Experimental Erev in CA3c Pyramidal cell Soma=-74±4.3; -75{Fig. 11}, without accetate GHK=-77.77
-  
   //Buhl 1994 Physiological properties of anatomically identified axo-axonic cells in the rat hippocampus.
   //exp15= new solution(35,'126 NaCl, 3.0 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2.0 MgSO4, 2.0 CaCl2','1500 K-Methylsulfate',Vm=-65.1,isSharpElectrode=true,O2_CO2_95_5=true,pHo=NaN,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at -65.1 mV RMP from Soma=-66.5; without accetate GHK=-74.91
   //Cobb 1995 Synchronization of neuronal activity in hippocampus by individual GABAergic interneurons.
@@ -368,12 +388,12 @@ function eRev(){
 
 //---------------cell-attached
   //Dugladze 2012 Segregation of axonal and somatic activity during fast network oscillations.
-//  new solution(celsius=22,
-//               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2, 25 NaHCO3',
-//               iSolution='',
-//               recordingMethod='cell-attached',
-//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
-//               pH={e:NaN,i:7.3,CO2:true}).log();
+  new solution(celsius=22,
+               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2, 25 NaHCO3',
+               iSolution='',
+               recordingMethod='cell-attached',
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:7.3,CO2:true}).log();
 }
 
 var solution = function(celsius,eSolution,iSolution,recordingMethod,voltages,pH) {
@@ -404,89 +424,25 @@ var solution = function(celsius,eSolution,iSolution,recordingMethod,voltages,pH)
         },0);
     }
   }
-  
+ // Calculate the concentrations of ions in the extracellular solution and in recording pippete
  // HEPES has little or no effect on Ionic Strength and activity -> PMID: 18022379
- this.Ions = ["Acetate","ATP","Ba","Br","Ca","Cl","Cs","Cl","F","Gluconate","Glucuronate",
-              "GTP","H2PO4","HCO3","HPO4","K","Methylsulfate","Methanesulfonate","Mg",
-              "Na","OH","SO4","TEA","Tris","QX314","Zn"].filter(
-   function(ionName){
+ this.Ions = 
+   ["Acetate","ATP","Ba","Br","Ca","Cl","Cs","Cl","F","Gluconate","Glucuronate",
+    "GTP","H2PO4","HCO3","HPO4","K","Methylsulfate","Methanesulfonate","Mg",
+    "Na","OH","SO4","TEA","Tris","QX314","Zn"
+   ].filter(function(ionName){
      return (iSolution.match(ionName) || eSolution.match(ionName))
    }).reduce(
    function(p,ionName){
+     var extCmM = ionConcentration(eSolution,ionName);
+     var intCmM = ionConcentration(iSolution,ionName);
      p[ionName] = new Ion(ionName);
-     p[ionName].eC = ionConcentration(eSolution,ionName) * 1e-3;
-     p[ionName].iC = ionConcentration(iSolution,ionName) * 1e-3;
+     p[ionName].eC = (isNaN(extCmM))? 0 : extCmM * 1e-3; // convert mM to M
+     p[ionName].iC = (isNaN(intCmM))? 0 : intCmM * 1e-3;
      return p;
    },{})
  
-// if (!this.HCO3o) {
-//   var atmosphericPressure = 760 // mmHg (torr)
-//   var CO2volume = (O2_CO2_95_5)? 3 : 0.04 // %  air has 0.04 CO2
-//   var pCO2 = CO2volume * atmosphericPressure / 100 // mmHG in air
-//   //Henderson Hasselbalch equation
-//   this.HCO3o = Math.exp(((pHo)?pHo:7.35)/6.1)*0.3*pCO2 // at pH=7.4 at air pCO2=0.3 mmHG [HCO3]o=0.3 mM
-// }
- 
- this.updateRelatedConcentrations = function() {
-//   this.Nai = (this.Nao)? this.Nao*15/145 : 0;
-//   this.Cai = (this.Cao)? 0.1 : 0;
-//   if (isNumeric(this.Clo) && isNumeric(this.Ki) && this.Ki !==0) {this.Cli = this.Clo * this.Ko / this.Ki};
-   if (this.Ions.HCO3)
-     if (this.Ions.HCO3.iC === 0){
-       //Dallwig 1999 On the mechanism of GABA-induced currents in cultured rat cortical neurons
-       // pHo-pHi=ln([HCO3]i/[HCO3]o) -> [HCO3]i = exp(7.4-7.2)*[HCO3]o
-       this.Ions.HCO3.iC = Math.exp(((pH.e)?pH.e:7.35) - ((pH.i)?pH.i:7.3)) * this.Ions.HCO3.eC;
-     };
- }
- switch (recordingMethod.toLowerCase()) {
-   case 'whole-cell':
-//     if (this.Ions.HCO3 && !this.Ions.HCO3.iC){
-//       if (pH.CO2) {
-         //Dallwig 1999 On the mechanism of GABA-induced currents in cultured rat cortical neurons
-         // pHo-pHi=ln([HCO3]i/[HCO3]o) -> [HCO3]i = exp(7.4-7.2)*[HCO3]o
-         // since whole cell patch has a dramatic effect on intracellular concentration we assume intracellular hco3 is smaller than predicted values
-         //var pHDif = ((pH.e)?pH.e:7.35) - ((pH.i)?pH.i:7.3)
-         //this.Ions.HCO3.iC = Math.exp(pHDif) * this.Ions.HCO3.eC;
-//       }
-//     };
-     break;
-   case 'sharp electrode':
-     this.updateRelatedConcentrations();
-//     if (voltages.Vm.RMP || voltages.Vm.Vss) {
-//       // we assume the RMP is measured immediately after impalement, but synaptic Erev estimation happened later on
-//       // we add a portion of [K]pipet to estimated [K]i for the correction of [K]i
-//       //this.Ki = Math.exp(-1 * RMP/1000 * F_RT) * this.Ko + ((this.Ki)?this.Ki:0)/20;
-//     } else {
-//       this.Ions.K.iC = (this.Ions.K.iC)? 50 + this.Ions.K.iC/10 : 0;
-//     }
-     break;
-   case 'perforated patch':
-     //Ma 2012 Bicarbonate efflux via GABA(A) receptors depolarizes membrane potential and inhibits two-pore domain potassium channels of astrocytes in rat hippocampal slices
-     // in perforated patch clamp setting the intracellular concentrations are unknown
-     // knowing the RMP it is possible to estimate the [K]i and [Cl]i assuming that EK=ECl=Vm
-     // [K]i = Math.exp(Vm * -F_RT)*[K]o
-     // Question: what happens in the presence of TEA
-     this.Ions.K.iC = Math.exp(-1 * voltages.Vm.RMP /1000 * F_RT) * this.Ions.K.eC; 
-     this.updateRelatedConcentrations();
-     break;
-   case 'cell-attached':
-     this.Ions.K.iC = 140e-3;
-     this.Ions.Na.iC = 10e-3;
-     this.Ions.Cl.iC = 4e-3;
-     this.Ions.Ca.iC = 1e-7;
-     this.Ions.Mg.iC = 30e-3;
-     this.Ions.HCO3.iC = 10e-3;
-     this.Ions.H2PO4.iC = 60e-3;
-     break;
-   case 'outside–out':
-     
-     break;
-   default:
-     
-     break;
- }
- 
- this.strength = Object.keys(this.Ions).reduce(
+ this.strength = Object.keys(self.Ions).reduce(
    function(p,ionName){
      var ion = self.Ions[ionName];
      //Logger.log(ionName)
@@ -494,6 +450,8 @@ var solution = function(celsius,eSolution,iSolution,recordingMethod,voltages,pH)
      p.i += 0.5 * ion.charge * ion.charge * ion.iC;
      return p;
    },{e:0,i:0})
+ 
+ if (this.strength.i>0.5 || this.strength.e>0.5) Logger.log("ionic strength is more than 0.5 -> ionic activities are not accurate anymore")
  
  var activity = function(z,I) {// z= ionic valence, I = ionic strength
    var sqrtI = Math.sqrt(I);
@@ -529,6 +487,76 @@ var solution = function(celsius,eSolution,iSolution,recordingMethod,voltages,pH)
    }())
  
  this.Vj = round(((voltages.Vj.correctedAlready)? 0 : (voltages.Vj.exp) ? voltages.Vj.exp : voltages.Vj.cal),2)
+ 
+ //calculate the intracellular concentrations knowing the pippete solution concentrations
+ 
+// if (!this.HCO3o) {
+//   var atmosphericPressure = 760 // mmHg (torr)
+//   var CO2volume = (O2_CO2_95_5)? 3 : 0.04 // %  air has 0.04 CO2
+//   var pCO2 = CO2volume * atmosphericPressure / 100 // mmHG in air
+//   //Henderson Hasselbalch equation
+//   this.HCO3o = Math.exp(((pHo)?pHo:7.35)/6.1)*0.3*pCO2 // at pH=7.4 at air pCO2=0.3 mmHG [HCO3]o=0.3 mM
+// }
+ 
+ this.updateRelatedConcentrations = function() {
+//   this.Nai = (this.Nao)? this.Nao*15/145 : 0;
+//   this.Cai = (this.Cao)? 0.1 : 0;
+//   if (isNumeric(this.Clo) && isNumeric(this.Ki) && this.Ki !==0) {this.Cli = this.Clo * this.Ko / this.Ki};
+   
+   //Dallwig 1999 On the mechanism of GABA-induced currents in cultured rat cortical neurons
+   // pHo-pHi=ln([HCO3]i/[HCO3]o) -> [HCO3]i = exp(7.4-7.2)*[HCO3]o
+   if (self.Ions.HCO3)
+     if (self.Ions.HCO3.iC === 0)
+       self.Ions.HCO3.iC = Math.exp(((pH.e)?pH.e:7.35) - ((pH.i)?pH.i:7.3)) * self.Ions.HCO3.eC;
+ }
+ switch (recordingMethod.toLowerCase()) {
+   case 'sharp electrode':
+     // sharp electrodes do not change intracellular concentration significantly 
+     // they need tens of minutes (15 in one study) to change 1.5% (empirical value my Keivan)
+     Object.keys(self.Ions).forEach(function(ionName){
+       self.Ions[ionName].iC = self.Ions[ionName].iC * 0.015
+     })
+     // if extracellular solution had Cl but the recording pippet did not set Cli to 4 mM
+     if (self.Ions.Cl)
+       if (self.Ions.Cl.iC === 0)
+         self.Ions.Cl.iC = 4e-3;
+     this.updateRelatedConcentrations();
+//     if (voltages.Vm.RMP || voltages.Vm.Vss) {
+//       // we assume the RMP is measured immediately after impalement, but synaptic Erev estimation happened later on
+//       // we add a portion of [K]pipet to estimated [K]i for the correction of [K]i
+//       //this.Ki = Math.exp(-1 * RMP/1000 * F_RT) * this.Ko + ((this.Ki)?this.Ki:0)/20;
+//     } else {
+//       this.Ions.K.iC = (this.Ions.K.iC)? 50 + this.Ions.K.iC/10 : 0;
+//     }
+     break;
+   case 'perforated patch':
+     //Ma 2012 Bicarbonate efflux via GABA(A) receptors depolarizes membrane potential and inhibits two-pore domain potassium channels of astrocytes in rat hippocampal slices
+     // in perforated patch clamp setting the intracellular concentrations are unknown
+     // knowing the RMP it is possible to estimate the [K]i and [Cl]i assuming that EK=ECl=Vm
+     // [K]i = Math.exp(Vm * -F_RT)*[K]o
+     // Question: what happens in the presence of TEA
+     // this.Ions.K.iC = Math.exp(-1 * voltages.Vm.RMP /1000 * F_RT) * this.Ions.K.eC; 
+     this.updateRelatedConcentrations();
+     break;
+   case 'cell-attached':
+     if (self.Ions.K)     if (self.Ions.K.iC === 0)     self.Ions.K.iC     = 140e-3;
+     if (self.Ions.Na)    if (self.Ions.Na.iC === 0)    self.Ions.Na.iC    = 10e-3;
+     if (self.Ions.Cl)    if (self.Ions.Cl.iC === 0)    self.Ions.Cl.iC    = 4e-3;
+     if (self.Ions.Ca)    if (self.Ions.Ca.iC === 0)    self.Ions.Ca.iC    = 1e-7;
+     if (self.Ions.Mg)    if (self.Ions.Mg.iC === 0)    self.Ions.Mg.iC    = 30e-3;
+     if (self.Ions.HCO3)  if (self.Ions.HCO3.iC === 0)  self.Ions.HCO3.iC  = 10e-3;
+     if (self.Ions.H2PO4) if (self.Ions.H2PO4.iC === 0) self.Ions.H2PO4.iC = 60e-3;
+     break;
+   case 'whole-cell':
+     break;
+   case 'outside–out':
+     break;
+   default:
+     Logger.log("Unexpected recordingMethod")
+     break;
+ }
+ 
+ 
  
  this.ErevCaImpermeableAMPA = (function(){
    //Jatzke 2002 Voltage and concentration dependence of Ca2+ permeability in recombinant glutamate receptor subtypes

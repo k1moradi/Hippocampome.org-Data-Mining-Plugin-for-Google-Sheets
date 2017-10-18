@@ -141,9 +141,7 @@ function checkQuery() {
 };
 
 function accessApi(url){
-  var result = UrlFetchApp.fetch(url);
-  Logger.log(result);
-  return result;
+  return String(UrlFetchApp.fetch(url));
 };
 
 //-------Text Cleaner-------------------------------------------------------------------------------

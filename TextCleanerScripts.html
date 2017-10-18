@@ -21,6 +21,8 @@
 ><input type='button' value='❌' onmousedown='cleanHTMLtags(this.form)'      title='Clean HTML Tags'              
 ><input type='button' value='🔄' onmousedown='loadValue(this.form)'          title='Load' 
 ><input type='button' value='💾' onmousedown='saveValue(this.form)'          title='Save' >
+><input type='button' value='▲' onmousedown='addUpTriangle(this.form)'          title='up triangle'> 
+><input type='button' value='▼' onmousedown='addDownTriangle(this.form)'          title='down triangle'>
 <script language='JavaScript'>
 shortcut.add("Ctrl+B",function() {boldSelectedText(document.forms.CleanText)});
 shortcut.add("Ctrl+I",function() {italicSelectedText(document.forms.CleanText)});
@@ -51,7 +53,6 @@ function formatText(form) {
     .replace(/[\t\s]+|&nbsp;|&thinsp;/g                                                                          , ' ')
     .replace(/&ndash;/g                                                                                          , '—')
     .replace(/&lt;/g,'<').replace(/&gt;/g,'>')
-    .replace(/\|/g                                                                                               , 'I')
     .replace(/([iI])n *t *e *r *[mn] *e *u *r *o *n(s*)/g                                                        , '$1nterneuron$2')
     .replace(/(?<=[(;, ])(Na|Cs|K|N)H *[2z,*] *P[O0] *[4,](?=[ ),;.])/g                                          , '$1H₂PO₄')
     .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *HP[O0] *4(?=[ ),;.])/g                                                , '$1₂HPO₄')
@@ -86,7 +87,8 @@ function formatText(form) {
     .replace(/μ|&mu;/g                                                                                           , 'µ') // convert unicode to ascii
     .replace(/(?<=[(\d])[^<>)(]{0,1}(?:mu|IL|J\.*L|JI|\/[jt\/\^]|j[f<]|[\/\(]i|ix|p\.|\!J\.|tJ\.|~t|,u\.|#£| 1-t|\|x|[gì\x01\x02\x03\x04\x05])\s*([MmsA]|m2|[Ss]ec)(?=[ ),;.]|.thick)/g,function(fullMatch,p1){
       return ' µ'+((p1 === 'm2')?'m²':p1)})
-    .replace(/(?<=[(\d])\s*[pP](M)(?=[ ),;.])/g                                                                  , ' µ$1')  //µM µV not PV+
+    .replace(/(?<=[(\d])\s*(?:[pP]|\|x)(M)(?=[ ),;.])/g                                                          , ' µ$1')  //µM µV not PV+
+    .replace(/\|/g                                                                                               , 'I')
     .replace(/(?<=[(\d])\s*[\x01\x02\x03\x04\x05]\s*([tT])(?=[ ),;.])/g                                          , ' Δ$1')
     .replace(/(?<=[(\d])\s*([GM])\s*(?:[ÙQ\x01\x02\x03\x04\x05\x06\x07]|[Oo]mega)(?=[ ),;.])/g                   , ' $1Ω')
     .replace(/(?<=\d)\sÒ/g                                                                                       , ' M')
@@ -194,7 +196,7 @@ function formatText(form) {
          },'')
        return prefix+num
     })  //τ₁ PSC₁
-    .replace(/(?<=[(;, \]\/])(sub>|[\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+\s*)([><±≤≥])\s*(?=-{0,1}\d)/g                       , '$1$2') //[><≤≥±] \d --> [><≤≥±]\d //[^aI ]|[^awhumboie ][^lenyfptio ]|sub>
+    .replace(/(?<=[(;, \]\/])(sub>|[\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*(%)*\s*([><±≤≥])\s*(?=-{0,1}\d)/g              , '$1$2$3') //[><≤≥±] \d --> [><≤≥±]\d //[^aI ]|[^awhumboie ][^lenyfptio ]|sub>
     .replace(/(PV|CB1{0,1}|CR|CCK|SOM|VIP) *([+-])\s*/g                                                          , '$1$2 ')// PV + BC --> PV+ BC
     .replace(/(?<=[(;, \]\/])(sub>|[\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*([=])\s*(?=-{0,1}\d)/g                           , '$1$2') // word = \d --> word=\d
     .replace(/(?<=[(;, \]\/])(p|P)\s*([<>≤≥])\s*(?=-{0,1}\d)/g                                                   , '$1$2') //    p < \d --> p<\d
@@ -323,6 +325,16 @@ function insertBeta(form){
 function insertDelta(form){
   var textHandlerObj = new textHandler(form.inputText);
   textHandlerObj.replaceSelected('Δ');
+  handleInput();
+};
+function addUpTriangle(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('▲');
+  handleInput();
+};
+function addDownTriangle(form){
+  var textHandlerObj = new textHandler(form.inputText);
+  textHandlerObj.replaceSelected('▼');
   handleInput();
 };
 function insertPlusMinus(form){

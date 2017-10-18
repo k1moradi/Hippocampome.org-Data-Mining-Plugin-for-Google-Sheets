@@ -31,14 +31,23 @@
     
     <form id='CheckQuery'>
       Query <br>
-      <input type ="text" data = "information" value = <?= evidence.Query ?> onchange="extra(value)">
+      <input type ="text" data = "information" value = <?= evidence.Query ?> onchange="reCheckQuery(value)">
     </form>
 
     <script>
-      function extra(value) {
+      function showConnectionTable2 (cKeys,connectionsObj,title,bgColor,fontColor) {
+        
+      }
+      function reCheckQuery(value) {
         var url = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
           value.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B');
-        google.script.run.withSuccessHandler(alert).accessApi(url);
+        google.script.run.withSuccessHandler(function(response){
+          var errorRegExp   = /<br>.*<br>/;
+          var error         = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
+          var fetchedConns  = JSON.parse(response.replace(errorRegExp,''));
+          var cKeys = Object.keys(fetchedConns)  
+          showConnectionTable2(cKeys,fetchedConns,'Search engine results')
+        }).accessApi(url);
       }
     </script>
 
