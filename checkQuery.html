@@ -16,13 +16,22 @@
         background-color: #4CAF50;
         color: white;
       }
+
+      .text {
+        width: 650px;
+        height: calc(20vh - 26px); //775px; //615px
+        padding: 0px;
+        font: 12px/18px 'Open Sans', sans-serif;
+        letter-spacing: 1px;
+        line-height: 1.5em;
+      }
     </style>
     <?!= include("sorttable") ?>
   </head>
   <body>
     <p>
       <b>Search Query:</b><br>
-      <?!=evidence.Query.replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern)/ig,'<b>$1</b>')
+      <?evidence.Query.replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern)/ig,'<b>$1</b>')
                         .replace(/\b(AND|OR|NOT)\b/g,'<i>$1</i>')?>
       <? if (error) {?>
       <br><br><b>Error:</b><?!=error
@@ -30,8 +39,7 @@
     </p>
     
     <form id='CheckQuery'>
-      Query <br>
-      <input type ="text" data = "information" value = <?= evidence.Query ?> onchange="reCheckQuery(value)">
+      <textarea class=text onchange='reCheckQuery(value)'><?= evidence.Query ?></textarea>
     </form>
 
     <script>
