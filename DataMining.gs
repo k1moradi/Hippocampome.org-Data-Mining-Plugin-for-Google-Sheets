@@ -18,6 +18,7 @@ function onOpen() {
   .addItem('4. Extract Data', 'addSynapticData') 
   .addItem('Jump to Row', 'jumpToRow')
   .addItem('Get Max', 'getMaxOfColumn') //add an item to the sub-toolbar
+  .addItem('Count Unique', 'countUnique') 
   .addItem('Text Cleaner', 'showTextCleaner') 
   .addToUi();
 };
@@ -214,7 +215,20 @@ function getMaxOfColumn(){
     }
   }  
 }
+//--------------------------------------------------------------------------------------------------
+function countUnique() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getActiveSheet();
+  var range = sheet.getActiveRange();
+  var ColumnNumber = range.getNumColumns();
+  if( ColumnNumber > 1.0) {
+    SpreadsheetApp.getUi().alert('Error.. Choose one column at a time');
+    // an if statement that displays an error message if you choose more than one column.
+  } else if (ColumnNumber === 1.0) {
+    SpreadsheetApp.getUi().alert(range.getValues().reduce(to1D).filter(onlyUnique).filter(Null).length)
+  }
 
+}
 //-------Common function ---------------------------------------------------------------------------
 function getCheckActiveRange(activeRange,ActiveTabName) {
   // check the active range with the user

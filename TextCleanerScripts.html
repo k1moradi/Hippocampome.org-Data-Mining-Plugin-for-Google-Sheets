@@ -1,35 +1,76 @@
- <input type='button' value='𝗕'  onmousedown='boldSelectedText(this.form)'   title='Ctrl+B'
-><input type='button' value='𝑰'  onmousedown='italicSelectedText(this.form)' title='Ctrl+I' 
-><input type='button' value='𝐒'  onmousedown='strikeSelectedText(this.form)' style='text-decoration: line-through;' 
-><input type='button' value='𝑿₂' onmousedown='subSelectedText(this.form)'
-><input type='button' value='𝑿²' onmousedown='supSelectedText(this.form)'
-><input type='button' value='α'  onmousedown='insertAlpha(this.form)'        title='\alpha'
-><input type='button' value='ß'  onmousedown='insertBeta(this.form)'         title='\beta'
-><input type='button' value='γ'  onmousedown='insertGamma(this.form)'        title='\gamma'
-><!--<input type='button' value='µ'  onmousedown='insertMicro(this.form)'        title='\micro Ctrl+M'
->--><input type='button' value='τ'  onmousedown='insertTau(this.form)'       title='\tau'
-><input type='button' value='π'  onmousedown='insertPi(this.form)'           title='Pi'
-><input type='button' value='σ'  onmousedown='insertSigma(this.form)'        title='Sigma'
-><input type='button' value='Δ'  onmousedown='insertDelta(this.form)'        title='\delta'
-><input type='button' value='Ω'  onmousedown='insertOhm(this.form)'          title='Omega type: \ohm'
-><input type='button' value='°'  onmousedown='insertDeg(this.form)'          title='\degree'
-><input type='button' value='±'  onmousedown='insertPlusMinus(this.form)'
-><input type='button' value='×'  onmousedown='insertMultiply(this.form)'     title='Multiplication Sign'
-><input type='button' value='√'  onmousedown='insertRootSquare(this.form)'   title='Root Square Sign'
-><input type='button' value=':'  onmousedown='formatColon(this.form)'        title='Format : Sign'
-><input type='button' value='✍' onmousedown='formatText(this.form)'         title='Format: Ctrl+A'
-><input type='button' value='❌' onmousedown='cleanHTMLtags(this.form)'      title='Clean HTML Tags'              
-><input type='button' value='🔄' onmousedown='loadValue(this.form)'          title='Load' 
-><input type='button' value='💾' onmousedown='saveValue(this.form)'          title='Save' >
-><input type='button' value='▲' onmousedown='addUpTriangle(this.form)'          title='up triangle'> 
-><input type='button' value='▼' onmousedown='addDownTriangle(this.form)'          title='down triangle'>
+<input type='button' class='button' value='𝗕'  onmousedown='boldSelectedText(this.form)'   title='Ctrl+B'>
+<input type='button' class='button' value='𝑰'  onmousedown='italicSelectedText(this.form)' title='Ctrl+I'>
+<input type='button' class='button' value='𝐒'  onmousedown='strikeSelectedText(this.form)' style='text-decoration: line-through;'>
+<input type='button' class='button' value='𝑿₂' onmousedown='subSelectedText(this.form)'>
+<input type='button' class='button' value='𝑿²' onmousedown='supSelectedText(this.form)'>
+  <div class="dropdown">
+    <button class="button">Signs</button>
+    <div class="dropdown-content">
+      <input type='button' class='button' value='°'  onmousedown="insertText(this.form,'°')"   title='\degree'>
+      <input type='button' class='button' value='±'  onmousedown="insertText(this.form,'±')"   title='plus minus'>
+      <input type='button' class='button' value='×'  onmousedown="insertText(this.form,'×')"   title='multiply'>
+      <input type='button' class='button' value='√'  onmousedown="insertText(this.form,'√')"   title='root square'>
+      <input type='button' class='button' value='∑'  onmousedown="insertText(this.form,'∑')"   title='Zigma'>
+      <input type='button' class='button' value='≈'  onmousedown="insertText(this.form,'≈')"   title='almost equal to'>
+      <br>
+      <input type='button' class='button' value='α'  onmousedown="insertText(this.form,'α')"   title='\alpha'>
+      <input type='button' class='button' value='ß'  onmousedown="insertText(this.form,'ß')"   title='\beta'>
+      <input type='button' class='button' value='γ'  onmousedown="insertText(this.form,'γ')"   title='\gamma'>
+      <input type='button' class='button' value='δ'  onmousedown="insertText(this.form,'δ')"   title='delta'>
+      <input type='button' class='button' value='ε'  onmousedown="insertText(this.form,'ε')"   title='epsilon'>
+      <input type='button' class='button' value='ζ'  onmousedown="insertText(this.form,'ζ')"   title='zeta'>
+      <input type='button' class='button' value='η'  onmousedown="insertText(this.form,'η')"   title='eta'>
+      <input type='button' class='button' value='θ'  onmousedown="insertText(this.form,'θ')"   title='theta'>
+      <input type='button' class='button' value='λ'  onmousedown="insertText(this.form,'λ')"   title='lamda'>
+      <input type='button' class='button' value='κ'  onmousedown="insertText(this.form,'κ')"   title='kappa'>
+      <input type='button' class='button' value='ζ'  onmousedown="insertText(this.form,'ζ')"   title='zeta'>
+      <input type='button' class='button' value='ξ'  onmousedown="insertText(this.form,'ξ')"   title='xi'>
+      <input type='button' class='button' value='µ'  onmousedown="insertText(this.form,'µ')"   title='\micro Ctrl+M'>
+      <input type='button' class='button' value='ρ'  onmousedown="insertText(this.form,'ρ')"   title='rho'>
+      <input type='button' class='button' value='τ'  onmousedown="insertText(this.form,'τ')"   title='\tau'>
+      <input type='button' class='button' value='π'  onmousedown="insertText(this.form,'π')"   title='pi'>
+      <input type='button' class='button' value='φ'  onmousedown="insertText(this.form,'φ')"   title='phi'>
+      <input type='button' class='button' value='χ'  onmousedown="insertText(this.form,'χ')"   title='chi'>
+      <input type='button' class='button' value='ψ'  onmousedown="insertText(this.form,'ψ')"   title='psi'>
+      <input type='button' class='button' value='ω'  onmousedown="insertText(this.form,'ω')"   title='omega'>
+      <input type='button' class='button' value='σ'  onmousedown="insertText(this.form,'σ')"   title='Sigma'>
+      <input type='button' class='button' value='Δ'  onmousedown="insertText(this.form,'Δ')"   title='\delta'>
+      <input type='button' class='button' value='Ω'  onmousedown="insertText(this.form,'Ω')"   title='\ohm'>
+      <br>
+      <input type='button' class='button' value='◄'  onmousedown="insertText(this.form,'◀')"   title='Backward triangle'>
+      <input type='button' class='button' value='▲'  onmousedown="insertText(this.form,'▲')"   title='up triangle'>
+      <input type='button' class='button' value='▼'  onmousedown="insertText(this.form,'▼')"   title='down triangle'>
+      <input type='button' class='button' value='►'  onmousedown="insertText(this.form,'▶')"   title='Forward triangle'>
+      <input type='button' class='button' value='◁'  onmousedown="insertText(this.form,'◁')"   title='Backward triangle'>
+      <input type='button' class='button' value='△'  onmousedown="insertText(this.form,'△')"   title='up triangle'>
+      <input type='button' class='button' value='▽'  onmousedown="insertText(this.form,'▽')"   title='down triangle'>
+      <input type='button' class='button' value='▷'  onmousedown="insertText(this.form,'▷')"   title='Forward triangle'>
+      <br>
+      <input type='button' class='button' value='⬅'  onmousedown="insertText(this.form,'⬅')">
+      <input type='button' class='button' value='⬌'  onmousedown="insertText(this.form,'⬌')">
+      <input type='button' class='button' value='➞'  onmousedown="insertText(this.form,'➞')">
+      <input type='button' class='button' value='⬍'  onmousedown="insertText(this.form,'⬍')">
+      <input type='button' class='button' value='■'  onmousedown="insertText(this.form,'■')"   title='BLACK SQUARE'>
+      <input type='button' class='button' value='□'  onmousedown="insertText(this.form,'□')"   title='WHITE SQUARE'>
+      <input type='button' class='button' value='◆'  onmousedown="insertText(this.form,'◆')"   title='BLACK DIAMOND'>
+      <input type='button' class='button' value='◇'  onmousedown="insertText(this.form,'◇')"   title='WHITE DIAMOND'>
+      <input type='button' class='button' value='●'  onmousedown="insertText(this.form,'●')"   title='BLACK CIRCLE'>
+      <input type='button' class='button' value='○'  onmousedown="insertText(this.form,'○')"   title='WHITE CIRCLE'>
+    </div>
+  </div>
+  <input type='button' class='button' value=':'  onmousedown='formatColon(this.form)'        title='Format : Sign'>
+  <input type='button' class='button' value='✍' onmousedown='formatText(this.form)'         title='Format: Ctrl+A'>
+  <input type='button' class='button' value='❌' onmousedown='cleanHTMLtags(this.form)'      title='Clean HTML Tags'>          
+  <input type='button' class='button' value='🔄' onmousedown='loadValue(this.form)'          title='Load'>
+  <input type='button' class='button' value='💾' onmousedown='saveValue(this.form)'          title='Save'>
+
 <script language='JavaScript'>
+shortcut.add("enter" ,function() {insertNewLine(document.forms.CleanText)});
 shortcut.add("Ctrl+B",function() {boldSelectedText(document.forms.CleanText)});
 shortcut.add("Ctrl+I",function() {italicSelectedText(document.forms.CleanText)});
-shortcut.add("Ctrl+M",function() {insertMicro(document.forms.CleanText)});         //µ
-shortcut.add("Ctrl+.",function() {insertForwardArrow(document.forms.CleanText)});  //▶
-shortcut.add("Ctrl+,",function() {insertBackwardArrow(document.forms.CleanText)}); //◀
-shortcut.add("enter" ,function() {insertNewLine(document.forms.CleanText)});
+shortcut.add("Ctrl+M",function() {insertText(document.forms.CleanText,'µ')}); //µ
+shortcut.add("Ctrl+.",function() {insertText(document.forms.CleanText,'▶')}); //▶
+shortcut.add("Ctrl+,",function() {insertText(document.forms.CleanText,'◀')}); //◀
 //------------Load and Save Section--------------------------------------------------------------------------
 var globalCellObj = {};
 function loadValue(form){
@@ -37,6 +78,7 @@ function loadValue(form){
   .withSuccessHandler(function(cellObj){
                         globalCellObj = cellObj;
                         form.inputText.value = globalCellObj.cellValue;
+                        formatText(document.forms.CleanText);
                         formatText(document.forms.CleanText);
                         handleInput();
                       })
@@ -69,8 +111,8 @@ function formatText(form) {
     .replace(/(?<=[(;, \/])C[O0] *[2z,?](?=[ ),;.])/g                                                            , 'CO₂')
     .replace(/(?<=[(;, ])[O0] *2(?=[ +\/),;.–])/g                                                                , 'O₂')
     .replace(/(?<=[\[(\/;, –-])Cl\s*[-−"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ –),;.\]])/g                        , 'Cl⁻')
-    .replace(/(?<=[\[(\/;, –-])(Na|K|Cs)\s*[+\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g                  , '$1⁺')
-    .replace(/(?<=[\[(\/;, –-])(Mg|Ca)\s*[2\*]\s*[+\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g            , '$1²⁺')
+    .replace(/(?<=[\[(\/;, –-])(Na|K|Cs)\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g                , '$1⁺')
+    .replace(/(?<=[\[(\/;, –-])(Mg|Ca)\s*[2\*]\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g          , '$1²⁺')
     .replace(/(?<=[(;, ])\[\s*(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\s*\]\s*[iI1](?=[ ),;.])/g                                   , '[$1]ᵢ')
     .replace(/(?<=[(;, ])\[\s*(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\s*\]\s*[oO0](?=[ ),;.])/g                                   , '[$1]ₒ')
     .replace(/(?<=[(;, ])et\s*a[1!]\.(?=[ ),;.])/g                                                               , 'et al.')
@@ -81,11 +123,13 @@ function formatText(form) {
     .replace(/(?<=[(;, ])(GABA)[-—–_ ]*[Aa](?=\s*-*\s*receptor|[ ),;.])/g                                        , '$1-A')    // GABA-A
     .replace(/(?<=[(;, ])(GABA)[-—–_ ]*[8B](?=\s*-*\s*receptor|[ ),;.])/g                                        , '$1-B')    // GABA-B
     .replace(/(?<=[(;, ])[od][-—–_ ]AP(V|5)(?=[ ),;.])/g                                                         , 'D-AP$1')
-    .replace(/(?<=\d\s)mm(?=\s*(?:(?:Na{0,1}|C[als]|K|Mg|potassium|sodium|calcium|cesium|disodium)(?:²⁺|⁺|⁻|(?:₂H|H₂)PO₄|(?:CH₃|Me)*SO[₃₄]|[- ](?:phosphocreatine|gluconate)|HCO₃|[₃₂]*[GA]TP|Cl₂*|OH){0,1}[ ,;\/.)]|EGTA|[GA]TP|HEPES|QX.{0,1}314|TEA|glucose))/g, 'mM')
+    .replace(/(?<=\d\s)mm(?=\s*(?:(?:Na{0,1}|C[als]|K|Mg|potassium|sodium|calcium|cesium|disodium)(?:²⁺|⁺|⁻|(?:₂H|H₂)PO₄|(?:CH₃|Me)*SO[₃₄]|[- ](?:phosphocreatine|gluconate)|HCO₃|[₃₂]*[GA]TP|Cl₂*|OH){0,1}[ ,;\/.)]|EGTA|[GA]TP|HEPES|QX.{0,1}314|TEA|glucose))/g
+                                                                                                                 , 'mM')
     .replace(/(?<=[(;, ])m M(?=[ ),;.])/g                                                                        , 'mM')
     .replace(/(?<=[(\d])\s*(?:mY|m V|mV)(?=[ ),;.])/g                                                            , ' mV')
     .replace(/μ|&mu;/g                                                                                           , 'µ') // convert unicode to ascii
-    .replace(/(?<=[(\d])[^<>)(]{0,1}(?:mu|IL|J\.*L|JI|\/[jt\/\^]|j[f<]|[\/\(]i|ix|p\.|\!J\.|tJ\.|~t|,u\.|#£| 1-t|\|x|[gì\x01\x02\x03\x04\x05])\s*([MmsA]|m2|[Ss]ec)(?=[ ),;.]|.thick)/g,function(fullMatch,p1){
+    .replace(/(?<=[(\d])[^<>)(]{0,1}(?:mu|IL|J\.*L|JI|\/[jt\/\^]|j[f<]|[\/\(]i|ix|p\.|[!tl]J\.|~t|,u\.|#£| 1-t|\|x|[gì\x01\x02\x03\x04\x05])\s*([MmsA]|m2|[Ss]ec)(?=[ ),;.]|.thick)/g,
+    function(fullMatch,p1){
       return ' µ'+((p1 === 'm2')?'m²':p1)})
     .replace(/(?<=[(\d])\s*(?:[pP]|\|x)(M)(?=[ ),;.])/g                                                          , ' µ$1')  //µM µV not PV+
     .replace(/\|/g                                                                                               , 'I')
@@ -143,8 +187,9 @@ function formatText(form) {
     .replace(/(?<=[(;, ])(?:[trτ]|tau) *(D|d|R|decay|rise)(?=[ =),;.])/g                                         , 'τ<sub>$1</sub>')
     .replace(/(?<=[(;, ])E *(K|Na|C[lsa]|rev)(?=[ =),;.])/g                                                      , 'E<sub>$1</sub>')
     .replace(/(?<=[(;, ])R *([Ss]|in|IN)(?=[ =),;.])/g                                                           , 'R<sub>$1</sub>')
-    .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.]\s|\.$)/g                                       , '<sup>$1</sup>') // numerical references
-    .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*)|(?<![Aa]lexa|[Pp]rox)(?<=[A-Za-z]{3})(\d{1,3})(?=[.,](?:\s|<br>)|\.$))/g, function(fullMatch,p1,p2,p3){
+    .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$)/g                                      , '<sup>$1</sup>') // numerical references
+    .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*)|(?<!alexa|prox)(?<=[a-z]{3}|[)])\s*(\d{1,3})(?=[.](?:\s|<br>)|\.$))/g, 
+     function(fullMatch,p1,p2,p3){
        var prefix = ((p1 === '^' || !p1) ? '' : p1)
        var num = Array.from((p2)?p2:p3).reduce(
          function(num,digit){
@@ -168,7 +213,8 @@ function formatText(form) {
          },'')
        return prefix+num
     })  //µm²
-    .replace(/((?<=[\/(;, ])[vcrτ]|[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]|_)(\d+|\s\d|\s*[nmhi])(?=[ =\/),;.+])/ig, function(fullMatch,p1,p2){
+    .replace(/((?<=[\/(;, ])[vcrτ]|[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]|_)(\d+|\s\d|\s*[nmhi])(?=[ =\/),;.+])/ig, 
+     function(fullMatch,p1,p2){
        var prefix = ((p1 === '_') ? '' : p1);
        var num = Array.from(p2).reduce(
          function(num,digit){
@@ -196,18 +242,18 @@ function formatText(form) {
          },'')
        return prefix+num
     })  //τ₁ PSC₁
-    .replace(/(?<=[(;, \]\/])(sub>|[\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*(%)*\s*([><±≤≥])\s*(?=-{0,1}\d)/g              , '$1$2$3') //[><≤≥±] \d --> [><≤≥±]\d //[^aI ]|[^awhumboie ][^lenyfptio ]|sub>
-    .replace(/(PV|CB1{0,1}|CR|CCK|SOM|VIP) *([+-])\s*/g                                                          , '$1$2 ')// PV + BC --> PV+ BC
+    .replace(/(?<=[(;, \]\/])(sub>|[\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*(%)*\s*([><±≤≥])\s*(?=-{0,1}\d)/g                , '$1$2$3') //[><≤≥±] \d --> [><≤≥±]\d //[^aI ]|[^awhumboie ][^lenyfptio ]|sub>
+    .replace(/(PV|CB1{0,1}|CR|CCK|SOM|VIP)\s([+-])/g                                                             , '$1$2')// PV +/CCK + BC --> PV+/CCK+ BC, 
     .replace(/(?<=[(;, \]\/])(sub>|[\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*([=])\s*(?=-{0,1}\d)/g                           , '$1$2') // word = \d --> word=\d
     .replace(/(?<=[(;, \]\/])(p|P)\s*([<>≤≥])\s*(?=-{0,1}\d)/g                                                   , '$1$2') //    p < \d --> p<\d
     .replace(/(?<=[(;, \]\/])([Mm]eans{0,1}|MEANS{0,1})\s*([±])\s*(?=[Ss]\.{0,1}[EeDd]\.{0,1}[Mm]{0,1})/g        , '$1$2') // Mean ± SEM--> Mean±SEM
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
-    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref)\.\s)(?![Ww]e)(\(*\w[a-z0-9]{0,1}(?:[,-] *\w[a-z0-9]{0,1}|,* and \w[a-z0-9]{0,1})*[\),:]|\w[a-z0-9]{0,1}[\.,:])(?<!ml,)(?= )/g, 
+    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref)\.\s)(?![Ww]e)(\({0,1}\w[a-z0-9]{0,1}(?:[,–\-] {0,1}\w[a-z0-9]{0,1}|,{0,1} and \w[a-z0-9]{0,1}){0,1}[\),:]|\w[a-z0-9]{0,1}[\.,:])(?<!ml,)(?= )/g, 
       function(fullMatch,p1,p2){
         return ((p1==='. ')?'.':'')+'<br><b>'+p2+'</b>'
-      })//bold image list
+      })                                                                                                                        // a-b, bold image list
     .replace(/(?<=\. |<\/b>)\s*(right|left|top|middle|bottom)\s*(?=,)/ig                                         , '<b>$1</b>')
-    .replace(/^([^.?]+\.)\s*(?=<br>)/g                                                                           , '<b>$1</b>') //bold the 1st sentence
+    .replace(/^([^.,?]+\.)\s*(?=<br>)/g                                                                          , '<b>$1</b>') //bold the 1st sentence
     .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n{2,})/g                                                       , '<br>\n')
     .replace(/<\/b>\s*<b>/g                                                                                      , ' ')
     .replace(/ *> +< */g                                                                                         , '><')
@@ -297,89 +343,9 @@ function insertNewLine(form){
     handleInput();
   };
 };
-function insertMicro(form){
+function insertText(form,text){
   var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('µ');
-  handleInput();
-};
-function insertOhm(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('Ω');
-  handleInput();
-};
-function insertDeg(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('°');
-  handleInput();
-};
-function insertAlpha(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('α');
-  handleInput();
-};
-function insertBeta(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('ß');
-  handleInput();
-};
-function insertDelta(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('Δ');
-  handleInput();
-};
-function addUpTriangle(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('▲');
-  handleInput();
-};
-function addDownTriangle(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('▼');
-  handleInput();
-};
-function insertPlusMinus(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('±');
-  handleInput();
-};
-function insertForwardArrow(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('▶');
-  handleInput();
-};
-function insertBackwardArrow(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('◀');
-  handleInput();
-};
-function insertGamma(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('γ');
-  handleInput();
-};
-function insertTau(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('τ');
-  handleInput();
-};
-function insertSigma(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('σ');
-  handleInput();
-};
-function insertPi(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('π');
-  handleInput();
-};
-function insertMultiply(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('×');
-  handleInput();
-};
-function insertRootSquare(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected('√');
+  textHandlerObj.replaceSelected(String(text));
   handleInput();
 };
 </script>

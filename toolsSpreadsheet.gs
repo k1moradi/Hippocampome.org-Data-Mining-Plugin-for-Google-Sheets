@@ -14,7 +14,15 @@ function test() {
 //  var paragraphTextItem = form.addParagraphTextItem().setTitle('Describe yourself:');
 //  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(100).build();
 //  paragraphTextItem.setValidation(paragraphtextValidation);
- Logger.log(2<NaN)
+  switch ('ole-cell') {
+    case 'whole-cell':
+    case 'cell-attached':
+      Logger.log("Hi")
+      break;
+    default:
+      Logger.log("Unexpected recordingMethod")
+      break;
+  }
 };
 
 function getMaxOf(sheetName,columnName) {

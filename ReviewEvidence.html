@@ -37,6 +37,7 @@
       <?//-----Functions----------------------------------------------------------------------------------------------------------------
         function showReferences(linkedRefIDs,allReferences,references,groupName,bgColor,fontColor,fontSize) {
           if (linkedRefIDs.length !== 0) { ?>
+      <div>    
       <details open>
         <summary style='background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:<?=fontSize?>;'>
           <?= groupName ?>
@@ -123,6 +124,7 @@
         </details>
         <?}})?>
       </details>
+      </div>
       <? }};
          
         function showAllReferences(presynapticRefIDs,postsynapticRefIDs,allReferences,groupReferences,groupName,bgColor,fontColor) {?>
