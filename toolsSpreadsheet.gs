@@ -1,28 +1,12 @@
 function test() { 
-  //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
-  
-  //  var form = FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8');
-  //  form.getItems().forEach(function(item){
-  //    if (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT) {
-  //      Logger.log(item.getTitle())
-  //      var validation = FormApp.createParagraphTextValidation().requireTextDoesNotContainPattern("^~~").setHelpText("if valid remove ~~");
-  //      form.getItemById(item.getId()).asParagraphTextItem().setValidation(validation);
-  //    }
-  //  })
-  //ScriptApp.newTrigger('formSubmitAction').forForm('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').onFormSubmit().create();
-//  var form = FormApp.create("Test")
-//  var paragraphTextItem = form.addParagraphTextItem().setTitle('Describe yourself:');
-//  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextLengthGreaterThanOrEqualTo(100).build();
-//  paragraphTextItem.setValidation(paragraphtextValidation);
-  switch ('ole-cell') {
-    case 'whole-cell':
-    case 'cell-attached':
-      Logger.log("Hi")
-      break;
-    default:
-      Logger.log("Unexpected recordingMethod")
-      break;
-  }
+  var spacer = "[^<>)(]";
+  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
+  var numberWords = "\\bfirst|second|third|zero|none|one|two|three|four|five|fifth|six|seven|eight|nine|ten|eleven|twelve|(?:thir|fif|six|seven|eigh|nin)t(?:een|y)|twenty|hundreds{0,1}|thousands{0,1}\\b"
+  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
+  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or) ){0,1}[-+]{0,1}"+numbers+"{0,1}";
+  var units = "(?:°C{0,1}|m[lLMVs](?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|cells*|neurons*|pairs*|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single))*(?: (?:response|sweep|event|trace|[esmu]{0,1}\\.{0,1}[ei]\\.{0,1}p\\.{0,1}s\\.{0,1}[cp])s{0,1}))";
+  var numPattern = new RegExp("([\\s(;,=])("+numberRange+spacer+"{0,1}"+units+")("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
+  Logger.log(new RegExp("([(;, ])("+numberWords+")(?!"+spacer+"(?:"+connectingWords+"|"+units+"))","gi"))
 };
 
 function getMaxOf(sheetName,columnName) {
@@ -148,8 +132,7 @@ function sheetSamplingTool(columnRange, cellValue, accessHeader)
       } else
       {
         if (rowIndices.length === 0) 
-        {
-          //SpreadsheetApp.getActiveSpreadsheet().toast('sheetSamplingTool did not find any match in '+sheet.getName()+' sheet','Warning for SamplingTool');
+        { //SpreadsheetApp.getActiveSpreadsheet().toast('sheetSamplingTool did not find any match in '+sheet.getName()+' sheet','Warning for SamplingTool');
           return {};
         } else
         {

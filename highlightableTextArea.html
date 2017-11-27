@@ -20,7 +20,7 @@ function applyHighlights(text) {
     .replace(/\<([bis]|br|su[bp])>/g  ,"<mark style='background-color:#f4f3f9;'><>$1</mark>")
     .replace(/\<\/([bis]|br|su[bp])>/g,"<mark style='background-color:#f4f3f9;'><>\/$1</mark>")
     .replace(/(epilep(?:ticus|tic|sy|sia)|seisure[s]*|field|culture)/ig,"<mark style='background-color:rgba(255,0  ,0  ,0.5);'>$1</mark>")
-    .replace(/(\b(?:figure|fig|table|temperature|right|left|top|middle|bottom)[s]*\b|\d \d| \w \w |pM|(?:\d+[.–])*\d+°C)/ig, "<mark>$1</mark>") //normal highlight
+    .replace(/(\b(?:figure|fig|table|temperature)[s]*\b|\d \d| \w \w |pM|(?:\d+[.–])*\d+°C|[\x01\x02\x03\x04\x05\x06\x07\x08])/ig, "<mark>$1</mark>") //normal highlight
     .replace(/(\bmm\b)/g, "<mark>$1</mark>"); //normal highlight
   
   if (isIE) {

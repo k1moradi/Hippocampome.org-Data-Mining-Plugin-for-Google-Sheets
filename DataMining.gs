@@ -12,23 +12,25 @@ function onOpen() {
   SpreadsheetApp.getUi()
   //add sub-toolbar to the toolbar 
   .createMenu('Data Mining')
-  .addItem('1. Review Evidence', 'reviewEvidence') //<object id="synForm" type="text/html" data="<?=url?>" style="width:662px;height:730px;"><p>backup content</p></object>?>
+  .addItem('1. Review Evidence', 'reviewEvidence')
   .addItem('2. Import Evidence', 'getTheLastFormResponse')
-  .addItem('3. Check  Query', 'checkQuery')  //http://hippocampome.org/csv2db/search_engine_json.php?query_str=
-  .addItem('4. Extract Data', 'addSynapticData') 
+  .addItem('3. Check  Query', 'checkQuery')
+  .addItem('4. Extract Data', 'addSynapticData')
   .addItem('Jump to Row', 'jumpToRow')
-  .addItem('Get Max', 'getMaxOfColumn') //add an item to the sub-toolbar
-  .addItem('Count Unique', 'countUnique') 
-  .addItem('Text Cleaner', 'showTextCleaner') 
+  .addItem('Get Max', 'getMaxOfColumn')
+  .addItem('Count Unique', 'countUnique')
+  .addItem('Text Cleaner', 'showTextCleaner')
   .addToUi();
 };
 //-------Evidence Review Section-------------------------------------------------------------------
+var modalDialogHeight = 2160;
+var modalDialogWidth  = 3840;
 function reviewEvidence() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var evidenceRange = getCheckActiveRange(ss.getActiveRange(),"Evidence");
   var output = HtmlService.createTemplateFromFile("ReviewEvidence");
-  if (evidenceRange) 
-  {// get needed data from spread sheets
+  if (evidenceRange) {
+    // get needed data from spread sheets
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     var covariates    = output.covariates     = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
     var myRefs        = output.myRefs         = sheetSamplingTool(ss.getSheetByName("My" ).getRange('A:A'),evidence.PMID,'RefID');
@@ -40,13 +42,14 @@ function reviewEvidence() {
     var covariatesRef = output.covariatesRef  = sheetSamplingTool(ss.getSheetByName("Cov").getRange('A:A'),evidence.PMID,'RefID');
     var dataRefs      = output.dataRefs       = sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),evidence.PMID,'RefID');
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
-    if (myRefs && covariates && morphology && markers && cellEphys && firingPatterns && connectivity)
-    {
+    if (myRefs && covariates && morphology && markers && cellEphys && firingPatterns && connectivity) {
       output.url = updateReviewForm(evidence,covariates,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity); //Logger.log(output.url);
       output.allRefs = mergeObjs(myRefs,morphology,markers,cellEphys,firingPatterns,connectivity,covariatesRef,dataRefs);
       output.imagesShown = [];
-      SpreadsheetApp.getUi().showModalDialog(output.evaluate().setWidth(1450).setHeight(750), 
-                                             'Review Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}');
+      SpreadsheetApp.getUi().showModalDialog(
+        output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth), 
+        'Review Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
+      );
       return true;
     } else {
       ss.toast('Error in sheetSamplingTool');
@@ -77,15 +80,16 @@ function addSynapticData() {
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     
     var dSec = evidence.dSec;
-    while (!(dSec === 'mPSP' || dSec === 'mPSP' || dSec === 'mPSC' || dSec === 'sPSP' || dSec === 'sPSC' || dSec === 'uPSP' || dSec === 'uPSC' || dSec === 'ePSP' || dSec === 'ePSC'))
+    var dSecTypes = ['mPSP', 'mPSC', 'sPSP', 'sPSC', 'uPSP', 'uPSC', 'ePSP', 'ePSC'];
+    while (dSec.split(/[\s,;]+/g).some(function(item){return (dSecTypes.indexOf(item) === -1)}))
       dSec = ui.prompt('Enter Data Type', 'Options: mPSP, mPSC, sPSP, sPSC, uPSP, uPSC, ePSP, or ePSC', ui.ButtonSet.OK).getResponseText();
     
     var covariates    = output.covariates     = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
     var oldSynData    = output.oldSynData     = sheetSamplingTool(ss.getSheetByName("SynData"   ).getRange('A:A'),evidence.PMID,'Row');
     
-    var synRefs       = output.synRefs        = sheetSamplingTool(ss.getSheetByName("Da"        ).getRange('A:A'),evidence.PMID,'RefID');
-    var covRefs       = output.covRefs        = sheetSamplingTool(ss.getSheetByName("Cov"       ).getRange('A:A'),evidence.PMID,'RefID');
-    var myRefs        = output.myRefs         = sheetSamplingTool(ss.getSheetByName("My"        ).getRange('A:A'),evidence.PMID,'RefID');
+    var synRefs       = output.synRefs        = sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),evidence.PMID,'RefID');
+    var covRefs       = output.covRefs        = sheetSamplingTool(ss.getSheetByName("Cov").getRange('A:A'),evidence.PMID,'RefID');
+    var myRefs        = output.myRefs         = sheetSamplingTool(ss.getSheetByName("My" ).getRange('A:A'),evidence.PMID,'RefID');
     
     var morphology    = output.morphology     = sheetSamplingTool(ss.getSheetByName("Mo" ).getRange('A:A'),evidence.PMID,'RefID');
     var markers       = output.markers        = sheetSamplingTool(ss.getSheetByName("Ma" ).getRange('A:A'),evidence.PMID,'RefID');
@@ -99,8 +103,10 @@ function addSynapticData() {
       output.url = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,ui,templateDataID,dSec); //Logger.log(output.url);
       output.imagesShown = [];
       output.allRefs = mergeObjs(synRefs,covRefs,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity);
-      SpreadsheetApp.getUi().showModalDialog(output.evaluate().setWidth(1450).setHeight(750), 
-                                             'Synaptic Data Extraction Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}');
+      SpreadsheetApp.getUi().showModalDialog(
+        output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth), 
+        'Synaptic Data Extraction Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
+      );
       return true;
     } else
     {
@@ -123,7 +129,7 @@ function checkQuery() {
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
-      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B'); Logger.log(URL);
+      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B'); //Logger.log(URL);
     var response      = String(UrlFetchApp.fetch(URL));
     var errorRegExp   = /<br>.*<br>/;
     var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
@@ -225,7 +231,10 @@ function countUnique() {
     SpreadsheetApp.getUi().alert('Error.. Choose one column at a time');
     // an if statement that displays an error message if you choose more than one column.
   } else if (ColumnNumber === 1.0) {
-    SpreadsheetApp.getUi().alert(range.getValues().reduce(to1D).filter(onlyUnique).filter(Null).length)
+    SpreadsheetApp.getUi().alert(range.getValues().reduce(to1D).filter(onlyUnique).map(
+      function(item){
+        return (typeof item === 'string')? item.replace(/\D+/,'') : item;
+      }).filter(isNumeric).filter(Null).length)
   }
 
 }

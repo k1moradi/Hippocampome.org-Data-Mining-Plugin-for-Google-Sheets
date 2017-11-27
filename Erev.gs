@@ -1,5 +1,67 @@
 function eRev(){
 //---------------whole-cell
+  //Gulyás 2010 Parvalbumin-containing fast-spiking basket cells generate the field potential oscillations induced by cholinergic receptor activation in the hippocampus.
+  new solution(celsius=34,//22,34
+               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
+               pSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 MgATP, 3 NaCl, 10 HEPES, 5 QX314-Cl',
+               recordingMethod='whole-cell',
+               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, 
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.3,i:7.28,CO2:true}).log();
+  //Guzman 2016 Synaptic mechanisms of pattern completion in the hippocampal CA3 network.
+//  new solution(celsius=34,//22,34
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='135 K-Gluconate, 20 KCl, 0.1 EGTA, 2 MgCl2, 4 Na2ATP, 0.3 Na2GTP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-68.2,Vh:-70,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.28,CO2:true}).log();
+  //Laezza 2004 Voltage-controlled plasticity at GluR2-deficient synapses onto hippocampal interneurons.
+//  new solution(celsius=23,
+//               eSolution='130 NaCl, 3.5 KCl, 1.4 CaCl2, 1.5 MgSO4, 24 NaHCO3, 1.25 Na2HPO4',
+//               pSolution='130 Cs-Methanesulfonate, 10 HEPES, 2 MgCl2, 2 MgATP, 0.3 Na3GTP, 0.06 HCl4-spermin',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.28,CO2:NaN}).log();
+  //Laezza 1999 Long-term depression in hippocampal interneurons: joint requirement for pre- and postsynaptic events.
+//  new solution(celsius=23,
+//               eSolution='130 NaCl, 3.5 KCl, 1.4 CaCl2, 1.5 MgSO4, 24 NaHCO3, 1.25 Na2HPO4',
+//               pSolution='130 Cs-Methanesulfonate, 10 HEPES, 2 MgCl2, 2 MgATP, 0.3 Na3GTP, 0.06 HCl4-spermin',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:40,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.28,CO2:NaN}).log();
+  //Mishra 2016 Symmetric spike timing-dependent plasticity at CA3-CA3 synapses optimizes storage and recall in autoassociative networks.
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2',
+//               pSolution='140 K-Gluconate, 20 KCl, 10 HEPES, 0.1 EGTA, 2 MgCl2, 4 Na2ATP, 0.3 NaGTP, 5 QX314-Cl ',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-70}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.28,CO2:NaN}).log();
+//  new solution(celsius=23,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2',
+//               pSolution='140 K-Gluconate, 20 KCl, 10 HEPES, 0.1 EGTA, 2 MgCl2, 4 Na2ATP, 0.3 NaGTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-20}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.28,CO2:NaN}).log();
+  //Tóth 1998 Afferent-specific innervation of two distinct AMPA receptor subtypes on single hippocampal interneurons.
+//  new solution(celsius=24,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 Ca2Cl, 1.2 MgSO4',
+//               pSolution='100 Cs-Gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:0.43,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:NaN}).log();
   //Losonczy 2004 Persistently active cannabinoid receptors mute a subpopulation of hippocampal interneurons.
 //  new solution(celsius=24,
 //               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgCl2, 2 CaCl2',
@@ -344,15 +406,32 @@ function eRev(){
   //--> it is necessary to make Vj corrections
   
   
+  //Williams 1988 Muscarinic depression of long-term potentiation in CA3 hippocampal neurons.
+//  new solution(celsius=33,
+//               eSolution='124 NaCl, 3 KCl, 26 NaHCO3, 3 CaCl2, 3 MgCl2',
+//               pSolution='3000 KCl, 100 QX314-Cl',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-80,Vh:-80,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:0.32,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:false}).log();
+//  new solution(celsius=33,
+//               eSolution='124 NaCl, 3 KCl, 26 NaHCO3, 3 CaCl2, 3 MgCl2',
+//               pSolution='3000 KCl, 100 QX314-Cl',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-80,Vh:-80,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:-1.86,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:false}).log();
   //Zalutsky 1990 Comparison of two forms of long-term potentiation in single hippocampal neurons.
-  new solution(celsius=35,
-               eSolution='125 NaCl, 2.5 KCl, 4 MgCl2, 4 CaCl2, 26 NaHCO3, 1 NaH2PO4',
-               pSolution='3000 CsCl',
-               recordingMethod='sharp electrode',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:NaN,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='125 NaCl, 2.5 KCl, 4 MgCl2, 4 CaCl2, 26 NaHCO3, 1 NaH2PO4',
+//               pSolution='3000 CsCl',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
     //Miles 1996 Differences between somatic and dendritic inhibition in the hippocampus.
     //3000 KCl {to shift the IPSP reversal potential (to about -30 mV) and so enhance IPSP amplitude. Measurements were not taken until at least 15 min after recording was established to allow intracellular chloride equilibration}
 //  new solution(celsius=35,

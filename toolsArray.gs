@@ -1,6 +1,6 @@
-function Null(e){return e};
-function onlyUnique(value, index, self){return self.indexOf(value)===index}
-function to1D(previous, value){return previous.concat(value)}
+function Null(e){return e};                                                 //use with filter iterator
+function onlyUnique(value, index, self){return self.indexOf(value)===index} //use with filter iterator
+function to1D(previous, value){return previous.concat(value)}               //use with map    iterator
 function isNumeric(n){return !isNaN(parseFloat(n)) && isFinite(n)}
 function round(value, decimals){return Number(Math.round(value+'e'+decimals)+'e-'+decimals)}
 

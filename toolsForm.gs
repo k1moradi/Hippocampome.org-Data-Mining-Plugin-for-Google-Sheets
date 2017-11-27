@@ -1,20 +1,34 @@
 // a function to highlight important text
-function refHighlights (input)
-{
+function refHighlights(input) {
+  var spacer = "[^<>)(]";
+  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
+  var numberWords = "\\bfirst|second|third|zero|none|one|two|three|four|five|fifth|six|seven|eight|nine|ten|eleven|twelve|(?:thir|fif|six|seven|eigh|nin)t(?:een|y)|twenty|hundreds{0,1}|thousands{0,1}\\b"
+  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
+  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or) ){0,1}[-+]{0,1}"+numbers+"{0,1}";
+  var units = "(?:°C{0,1}|m[lLMVs](?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|cells*|neurons*|pairs*|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single))*(?: (?:response|sweep|event|trace|[esmu]{0,1}\\.{0,1}[ei]\\.{0,1}p\\.{0,1}s\\.{0,1}[cp])s{0,1}))";
+  var numPattern = new RegExp("([\\s(;,=])("+numberRange+spacer+"{0,1}"+units+")("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
   var strInput = (typeof input === 'object' && !Array.isArray(input)) ? JSON.stringify(input) : String(input);
   return strInput
   .replace('[micro]','µ')
-  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique)(?:[^<>)(]|[^<>)(]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>)(])){0,1}(Q10|pH|Median|anesthesia|slice|temperature|magic|pulse|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>)(]voltage)*|I[^<>)(]V|voltage|conductance|failure|delay|latenc(?:y|ies)|frequenc(?:y|ies)|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|(?:(?:paired|simultaneous|dual).record(?:ing|ed))|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|sweep|trace|event|(?:averages*(?: of)*\s)*(?:\d+|two|three|four|five|six|seven|eight|nine)+(?:\sto\s|\s|-)*(?:\d+|two|three|four|five|six|seven|eight|nine)*\s*(?:consecutive|individual|single)*[^<>](?:response|sweep|event|trace|(?=[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]s*))|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s){0,1}([^<>)(]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/ig,
+  .replace(numPattern,
+    function(fullMatch,p1,p2,p3,p4,p5){
+      function txt(input) {return (input)? input : ''}
+      if (txt(p4)==='' && txt(p5)==='') {
+        return txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"+txt(p2)+"</mark>"+txt(p3)+txt(p4)+txt(p5);
+      } else {
+        return txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"+txt(p2)+txt(p3)+txt(p4)+txt(p5)+"</mark>";
+      }
+    })                                                                                                   //pink-orange
+  .replace(new RegExp("([(;, ])("+numberWords+")(?!"+spacer+"(?:"+connectingWords+"|"+units+"))","gi"),
+           "$1<mark style='background-color:rgba(255,153,153,0.5); color:black;'>$2</mark>")             //pink-orange
+  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique|room|high|low)(?:[^<>)(]|[^<>)(]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>)(])){0,1}(ACSF|Q10|pH|Median|anesthesia|slice|temperature|magic|(?:(?:paired|multiple)[^<>)(]{0,1}){0,1}pulse(?:[^<>)(]{0,1}ratio){0,1}|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>)(]voltage)*|I[^<>)(]V|voltage|conductance|failure|delay|(?:frequenc|latenc|intensit)(?:y|ies)|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|(?:(?:paired|simultaneous|dual).record(?:ing|ed))|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|event|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s){0,1}([^<>)(]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/gi,
            "<mark style='background-color:rgba(100,255,255,0.5); color:black;'>$1$2$3$4</mark>")         //cyan
-  .replace(/\b(epilep(?:ticus|tic|s[yi]a*)|seisures*|field|cultured*|gluconate)\b/ig,
+  .replace(/\b(epilep(?:ticus|tic|s[yi]a*)|seisures*|field|cultured*|gluconate)\b/gi,
            "<mark style='background-color:red; color:white;'>$1</mark>")                                 //red
-  .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.*t\.*r(?:at(?:um|a)|\.)*|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|Asynchronous)[^<>)(]{0,1}){0,1}(HIPP|mossy|basket|N{0,1}[FR]S|[Ff]ast[^<>)(]{0,1}[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>)(]{0,1}axonic|chandelier|ivy|neuroglia|[os]{0,1}[^<>)(]{0,1}l\.{0,1}m|lamin|hicap|retzius|interneuron specific|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]{0,1}|MF|molecular|[io]{0,1}[^<>)(]{0,1}ml|oriens|radiat|lucid|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>)(]{0,1}AP[^<>)(]{0,1}[v5]|CGP[^<>)(]{0,1}55845|sr[^<>)(]{0,1}95531|QX[^<>)(]{0,1}314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>)(]{0,1}(?:layer|cell|interneuron|IN|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>)(]{0,1}(?:layer|terminal|border)s*){0,1}\b/ig,
+  .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.*t\.*r(?:at(?:um|a)|\.)*|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|a{0,1}synchronous|recurrent)[^<>)(]{0,1}){0,1}(HIPP|mossy|basket|N{0,1}[FR]S|[Ff]ast[^<>)(]{0,1}[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>)(]{0,1}axonic|AAC|chandelier|ivy|neuroglia|[os]{0,1}[^<>)(]{0,1}l\.{0,1}m|lamin|hicap|retzius|interneuron(?: specific){0,1}|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]{0,1}|MF|molecular|[io]{0,1}[^<>)(]{0,1}ml|oriens|radiat|lucid|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>)(]{0,1}AP[^<>)(]{0,1}[v5]|CGP[^<>)(]{0,1}55845|sr[^<>)(]{0,1}95531|QX[^<>)(]{0,1}314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>)(]{0,1}(?:layer|cell|interneuron|IN|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>)(]{0,1}(?:layer|terminal|border)s*){0,1}\b/gi,
            "<mark style='background-color:rgba(255,230,144,0.5); color:black;'>$1$2$3$4$5</mark>")       //yellow
-  .replace(/\b((?:short|long|evoked|unitary|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>)(]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>)(]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|coupl|Reciprocal|stimul|facilit|depress|STDP|LT[PD]|potentiat|plasticity|term|n=\d+|first|second|third|zero|one|two|three|four|five|fifth|six|seven|eight|nine|ten|eleven|twelve|(?:fif|six|seven|eigh|nin)teen|twenty|thirty|fourty|fifty|sixty|seventy|eighty|ninty|hundred*|thousand*)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>)(]{0,1}(?:recording|[AB](?= ))){0,1}\b/ig,
+  .replace(/\b((?:short|long|evoked|unitary|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>)(]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>)(]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|coupl|Reciprocal|stimul|facilit|depress|STDP|LT[PD]|potentiat|plasticity|term|n=\d+)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>)(]{0,1}(?:recording|[AB](?= ))){0,1}\b/gi,
            "<mark style='background-color:rgba(255,128,171,0.5); color:black;'>$1$2$3$4</mark>")         //pink
-  .replace(/([\s(;,=])([-+∼≤≥≈]{0,1}\d+\.{0,1}\d*[-+±]{0,1}\d*\.{0,1}\d*)([^<>)(]{0,1}(?:pairs*|.{0,1}Ω|[µμ].{0,1}|°C|m[MVs]|m[lL].{0,1}min|[pn][ASF]|Hz|%|percent|mega*ohms*)*){0,1}([^<>)(]{0,1}(?:out of|before,* and|and|to|or|of)[^<>)(]){0,1}([-+∼≤≥≈]{0,1}\d+\.{0,1}\d*[-+±]{0,1}\d*\.{0,1}\d*){0,1}([^<>)(]){0,1}(?!nAChR*)(%|Hz|°C|.{0,1}Ω|[µμ].{0,1}|m[Vs]|m[lL].min|[pn][ASC]|cells*|neurons*|pairs*|quantal*)/g,
-           "$1<mark style='background-color:rgba(255,128,171,0.5); color:black;'>$2$3$4$5$6$7</mark>")   //pink
-  ; //.{0,1}Ω|µ.{0,1}|°C|mV|ml.min|[pn]A|%
 };
 //sort RefIDs as Semicolon Separated Values or JSON
 function sortIDsAsSSV(input) {
@@ -185,39 +199,41 @@ function tagRefIDUniversal(datastr, refObject) {
   if (typeof datastr === 'string' && /\d/.test(datastr)) {
     return dataObjToString(dataStringParser(datastr).map(
       function(dataPoint) {
-        //Logger.log(dataPoint.RefIDs.length)
-        if (dataPoint.RefIDs.length === 0) {
-          if (dataPoint.values.length !== 0) {
-            dataPoint.RefIDs = dataPoint.values.map(
-              function(value) {
-                var units = '\s*(?:°C)*'
-                var RefIDset1=[], RefIDset2=[];
-                if (value.v) {
-                  if (value.s) {
-                    RefIDset1 = findRefIDs(value.v + '±' + value.s, refObject)
-                  } else {
-                    RefIDset1 = findRefIDs(value.v, refObject)
+        if (typeof dataPoint === 'object' && !Array.isArray(dataPoint)) {
+          if (dataPoint.RefIDs.length === 0) {
+            if (dataPoint.values.length !== 0) {
+              dataPoint.RefIDs = dataPoint.values.map(
+                function(value) {
+                  var units = '\s*(?:°C)*'
+                  var RefIDset1=[], RefIDset2=[];
+                  if (value.v) {
+                    if (value.s) {
+                      RefIDset1 = findRefIDs(value.v + '±' + value.s, refObject)
+                    } else {
+                      RefIDset1 = findRefIDs(value.v, refObject)
+                    }
                   }
-                }
-                if (value.ul) {
-                  if (value.ll) {
-                    RefIDset2 = mergeArrays(
-                      findRefIDs(new RegExp(value.ll + units + '(?: to |[–-])' + value.ul, 'g'), refObject),
-                      findRefIDs(new RegExp(value.ul + units + '(?: to |[–-])' + value.ll, 'g'), refObject),
-                      findRefIDs(round((Number(value.ul) + Number(value.ll))/2, 0) + '±' + round((Number(value.ul) - Number(value.ll))/2, 0), refObject)
-                    ).filter(Null).filter(onlyUnique);
+                  if (value.ul) {
+                    if (value.ll) {
+                      RefIDset2 = mergeArrays(
+                        findRefIDs(new RegExp(value.ll + units + '(?: to |[–-])' + value.ul, 'g'), refObject),
+                        findRefIDs(new RegExp(value.ul + units + '(?: to |[–-])' + value.ll, 'g'), refObject),
+                        findRefIDs(round((Number(value.ul) + Number(value.ll))/2, 0) + '±' + round((Number(value.ul) - Number(value.ll))/2, 0), refObject)
+                      ).filter(Null).filter(onlyUnique);
+                    } else {
+                      RefIDset2 = findRefIDs(new RegExp('(?: (?:smaller|less)(:? than)* |[<])' + value.ul, 'g'), refObject);
+                    }
+                  } else if (value.ll) {
+                    RefIDset2 = findRefIDs(new RegExp('\s(?:(?:larger|more)(:? than)* |[>])' + value.ll, 'g'), refObject);
                   } else {
-                    RefIDset2 = findRefIDs(new RegExp('(?: (?:smaller|less)(:? than)* |[<])' + value.ul, 'g'), refObject);
+                    RefIDset2 = null;
                   }
-                } else if (value.ll) {
-                  RefIDset2 = findRefIDs(new RegExp('\s(?:(?:larger|more)(:? than)* |[>])' + value.ll, 'g'), refObject);
-                } else {
-                  RefIDset2 = null;
-                }
-                return mergeArrays (RefIDset1,RefIDset2)
-              }).filter(Null).reduce(to1D)
+                  return mergeArrays (RefIDset1,RefIDset2)
+                }).filter(Null).reduce(to1D)
+            }
+          }} else {
+            SpreadsheetApp.getUi().alert(dataPoint+'\nis not a JSON object');
           }
-        }
         return dataPoint;
       }));
   } else {
@@ -261,17 +277,21 @@ function stringParser(str){
 }
 function dataSecToObj(str) {//Logger.log(str)
   try {
-    var tmp = JSON.parse(str.replace(/(?:(^\s*[\-+]{0,1}\d+(?:\.\d+){0,1})(?:±(\d+(?:\.{0,1}\d+){0,1})){0,1}){0,1}\s*(?:\[\s*(?:([\-+]{0,1}\d+(?:\.\d+){0,1})\s*to\s*([\-+]{0,1}\d+(?:\.\d+){0,1})|\>([\-+]{0,1}\d+(?:\.\d+){0,1})|\<([\-+]{0,1}\d+(?:\.\d+){0,1}))\s*\]){0,1}\s*(?:\(n=(\d+)\)){0,1}\s*(?:\{(.*)\}){0,1}/i,
-                                     "{\"v\":\"$1\",\"s\":\"$2\",\"ll\":\"$3$5\",\"ul\":\"$4$6\",\"n\":\"$7\",\"note\":\"$8\"}"));
-    ['v','s','ll','ul','n'].forEach(function(key){if (tmp[key]) tmp[key]=Number(tmp[key])})
-    if (tmp.ul && tmp.ll) {
-      if ((Number(tmp.ul) - Number(tmp.ll))<0) {
-        var largerNumber = tmp.ll;
-        tmp.ll = tmp.ul;
-        tmp.ul = largerNumber;
+    var numericalDataRegExp = /(?:(^\s*[\-+]{0,1}\d+(?:\.\d+){0,1})(?:±(\d+(?:\.{0,1}\d+){0,1})){0,1}){0,1}\s*(?:\[\s*(?:([\-+]{0,1}\d+(?:\.\d+){0,1})\s*to\s*([\-+]{0,1}\d+(?:\.\d+){0,1})|\>([\-+]{0,1}\d+(?:\.\d+){0,1})|\<([\-+]{0,1}\d+(?:\.\d+){0,1}))\s*\]){0,1}\s*(?:\(n=(\d+)\)){0,1}\s*(?:\{(.*)\}){0,1}/i
+    if (numericalDataRegExp.exec(str)[0] !== '') {
+      var tmp = JSON.parse(str.replace(numericalDataRegExp,"{\"v\":\"$1\",\"s\":\"$2\",\"ll\":\"$3$5\",\"ul\":\"$4$6\",\"n\":\"$7\",\"note\":\"$8\"}"));
+      ['v','s','ll','ul','n'].forEach(function(key){if (tmp[key]) tmp[key]=Number(tmp[key])})
+      if (tmp.ul && tmp.ll) {
+        if ((Number(tmp.ul) - Number(tmp.ll))<0) {
+          var largerNumber = tmp.ll;
+          tmp.ll = tmp.ul;
+          tmp.ul = largerNumber;
+        }
       }
+      return tmp;
+    } else {
+      return {v:'',s:'',ll:'',ul:'',n:'',note:str.replace(/^\s+|\s+$/,'')};
     }
-    return tmp;
   } catch(error) {
     SpreadsheetApp.getUi().alert('Error in dataSecToObj function when processing input:\n\n'+str+'\n\n'+error.message)
   };
@@ -295,6 +315,6 @@ function dataSecToString(obj){
               ((value.n)?'(n='+value.n+')':'')+
                 ((value.note)?'{'+value.note+'}':'')
               
-      }).join('; ')+'@'+ ((obj.RefIDs)?obj.RefIDs.filter(Null).join('&'):'') + ((obj.note)?'{'+obj.note+'}':'')
+      }).join('; ')+'@'+ ((obj.RefIDs)?obj.RefIDs.filter(Null).filter(onlyUnique).join('&'):'') + ((obj.note)?'{'+obj.note+'}':'')
   }
 }

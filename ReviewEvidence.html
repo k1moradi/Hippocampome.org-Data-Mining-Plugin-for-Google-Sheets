@@ -2,42 +2,11 @@
 <html>
   <head>
     <base target="_top">
-    <?!= include('shortcuts'); ?>
     <?!= include('script_CSS'); ?>
-    <style>
-      .container, .backdrop, textarea {
-        width: 765px;
-        height:678px;
-      }
-      
-      .highlights, textarea {
-        padding: 0px;
-        font: 16px/24px 'Open Sans', sans-serif;
-        letter-spacing: 1px;
-        line-height: 1.5em;
-      }
-      p > br {
-        content: '';
-        white-space: pre;
-      }
-      <?for (var i = 1; i <= 1000; i++) {?>
-        p > br:nth-child(<?=i?>):after {content: '\A      ';}
-      <?}?>
-      
-    .Button:active, .active {
-       background-color:rgba(153, 230, 255,.9);
-       color: white;
-     }
-    </style>
-  </head>
-  <body>
-    <iframe style="float:left; width:662px; height:729px;" src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
-    <div id='main' style='float:right; width:786px; height:729px; overflow:auto;'>
-    
-      <?//-----Functions----------------------------------------------------------------------------------------------------------------
+    <?//-----Functions----------------------------------------------------------------------------------------------------------------
         function showReferences(linkedRefIDs,allReferences,references,groupName,bgColor,fontColor,fontSize) {
           if (linkedRefIDs.length !== 0) { ?>
-      <div>    
+      <div class='eachReference'>    
       <details open>
         <summary style='background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:<?=fontSize?>;'>
           <?= groupName ?>
@@ -142,18 +111,49 @@
            showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only','#3F51B5','white','150%'); 
            showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'         ,'#3F51B5','white','150%'); ?>
       </details>
-      <?}; 
+      <?}; ?>
+    <style>
+      :root { 
+        --googleFormWidth: 50vw;
+      }
+      .googleForm {
+        float:left; 
+        width: var(--googleFormWidth);
+        height: 100vh;
+      }
+      .referencePanel {
+        float:right; 
+        overflow:auto;
+        --referencePanelWidth: calc(100vw - var(--googleFormWidth));
+        width: var(--referencePanelWidth);
+        height: 100vh;
+      }
+      .toolBar {
+        width:calc(var(--referencePanelWidth) - 15px);
+        height:25px; 
+        position:fixed; 
+        background-color:black;
+      }
+      .eachReference {
+        width:100%;
+        word-wrap:normal;
+      }
       
-//===========================================Top======================================================================================?>
-      
-      <div style='width:100%; height:25px; position:fixed; background-color:black;'>
-         <input type='text' placeholder='Case-sensitive Search and Highlight in Green' style='width:604px;' onchange="caseSensitiveSearch(this.value,'main');">
-         <input type='button' value='📌' onclick="javascript:$('#evidence').toggle(function(){$('#evidence').css('overflow','hidden')},function(){$('#evidence').css('overflow','auto')});$(this).toggleClass('active')" >
-         <input type='button' value='References:Collapse' onclick='toggleReferences(this)'>
+      p > br {
+        line-height:200%;
+      }
+    </style>
+  </head>
+  <body>
+<?//===========================================Top======================================================================================?>
+    <iframe class='googleForm' src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
+    <div id='main' class='referencePanel'>
+      <div class='toolBar'>
+         <input type='button' value='References:Collapse' onclick='toggleReferences(this);'>
+         <input type='text' style='width:calc(100% - 150px);' placeholder='Case-sensitive Search and Highlight in Green' onchange="caseSensitiveSearch(this.value,'main');" >
       </div>
-      <div id='evidence' style='margin-top:25px'>
+      <div id='evidence' style='margin-top:25px;'>
       <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
-      
       <?var unlinkedRefIds = Object.keys(myRefs).filter(function(refID){return (evidence.allRefIDs.indexOf(refID) === -1)});
         showAllReferences(evidence.CovariatesIDs      ,evidence.CovariatesIDs       ,allRefs,covariatesRef ,'Covariates:'                  ,'#99FFFF','black');
         showAllReferences(evidence.MorphologyIDsPre   ,evidence.MorphologyIDsPost   ,allRefs,morphology    ,'Anatomy & Morphology:'        ,'#F9DF16','black');
@@ -162,22 +162,8 @@
         showAllReferences(evidence.FiringPatternIDsPre,evidence.FiringPatternIDsPost,allRefs,firingPatterns,'Firing Patterns:'             ,'#F47C01','yellow');
         showAllReferences(evidence.ConnectivityIDsPre ,evidence.ConnectivityIDsPost ,allRefs,connectivity  ,'Connectivity:'                ,'#01AA59','yellow');
         showAllReferences(evidence.DataIDs            ,evidence.DataIDs             ,allRefs,dataRefs      ,'Synaptic Data:'               ,'#E91E63','white');
-        showReferences   (unlinkedRefIds                                            ,allRefs,myRefs      ,'❌My Mixed Unlinked References:','#00F0F0','black','200%')
-        
-      //-----Text Cleaner Tool--------------------------------------------------------------------------------------------------------?>
+        showReferences   (unlinkedRefIds                                            ,allRefs,myRefs      ,'❌My Mixed Unlinked References:','#00F0F0','black','200%')?>
       </div>
-      <h3 style='background-color:rgb(233, 30, 99);color:white; margin:0;'>PDF Text Cleaner Tool</h3>
-      <form id='CleanText'>
-        <?!= include("TextCleanerScripts") ?>
-        <div class='container'>
-          <div class='backdrop'>
-            <div class='highlights'></div>
-          </div>
-          <TEXTAREA NAME='inputText' onSelect='formatText(this.form)'></TEXTAREA>
-        </div>
-        <?!= include('jquery.min'); ?>
-        <?!= include('highlightableTextArea'); ?>
-      </form> 
     </div>
   </body>
 </html>

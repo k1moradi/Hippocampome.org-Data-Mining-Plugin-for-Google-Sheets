@@ -6,7 +6,7 @@
     <?!= include('script_CSS'); ?>
     <style>
       .container, .backdrop, textarea {
-        width: 295px;
+        width: 294px;
         height: calc(100vh - 26px); //775px; //615px
       }
       
@@ -22,11 +22,11 @@
     <title>PDF Text Cleaner Tool</title>
     <form id='CleanText'>
        <?!= include("TextCleanerScripts") ?>
-      <div class="container">
+      <div class="container" contenteditable="true" spellcheck="true">
         <div class="backdrop">
           <div class="highlights"></div>
         </div>
-        <TEXTAREA NAME='inputText' onSelect='formatText(this.form)'></TEXTAREA>
+        <TEXTAREA NAME='inputText' onSelect='formatText(this.form)' contenteditable="true" spellcheck="true"></TEXTAREA>
       </div>
       <?!= include('jquery.min'); ?>
       <?!= include('highlightableTextArea'); ?>

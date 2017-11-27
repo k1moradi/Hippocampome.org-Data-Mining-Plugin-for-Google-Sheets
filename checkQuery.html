@@ -31,18 +31,23 @@
   <body>
     <p>
       <b>Search Query:</b><br>
-      <?evidence.Query.replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern)/ig,'<b>$1</b>')
-                        .replace(/\b(AND|OR|NOT)\b/g,'<i>$1</i>')?>
+      <?//evidence.Query.replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern)/ig,'<b>$1</b>')
+        //              .replace(/\b(AND|OR|NOT)\b/g,'<i>$1</i>')?>
       <? if (error) {?>
       <br><br><b>Error:</b><?!=error
          }?>
     </p>
     
     <form id='CheckQuery'>
-      <textarea class=text onchange='reCheckQuery(value)'><?= evidence.Query ?></textarea>
+      <!--<textarea class=text onchange='reCheckQuery(value)'><?= evidence.Query ?></textarea>-->
+      <div contenteditable="true" id="editor" class=text><?= evidence.Query ?></div>
     </form>
 
     <script>
+      document.getElementById("editor").addEventListener("input", 
+        function() {
+          //showConnectionTable2();
+        }, false);
       function showConnectionTable2 (cKeys,connectionsObj,title,bgColor,fontColor) {
         
       }
@@ -58,11 +63,9 @@
         }).accessApi(url);
       }
     </script>
-
-    
     
     <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor) {?>
-    <p><b>Total: <?=cKeys.length?>:</b> <?=title?></p>
+    <div><p><b>Total: <?=cKeys.length?>:</b> <?=title?></p>
     <table class="sortable">
       <tr>
         <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > sUIDs </th>
@@ -80,7 +83,7 @@
         <td>   <?= (dUID) ? cellTypes[dUID].Name : '' ?> </td>
       </tr>
       <?   });?>
-    </table><?
+    </table></div><?
        }
        
        var cKeys = Object.keys(fetchedConns)  

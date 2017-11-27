@@ -3,14 +3,14 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   var form  = FormApp.openById('1L42oPGtpodgmw48FMs1DVdpgmLB9ISEMFZ-DuOu4HIc');//form.getItems().forEach(function(item){Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')});
   var pForm = new prefillForm(form);
   
-  var myRefIDsMaxRefID     = getMaxOf('My' ,'RefID');
-  var morphologyMaxRefID   = getMaxOf('Mo' ,'RefID');
-  var markersMaxRefID      = getMaxOf('Ma' ,'RefID');
-  var cellEphysMaxRefID    = getMaxOf('CE' ,'RefID');
-  var FPMaxRefID           = getMaxOf('FP' ,'RefID');
-  var connectivityMaxRefID = getMaxOf('Con','RefID');
-  var covariatesMaxRefID   = getMaxOf('Cov','RefID');
-  var dataMaxRefID         = getMaxOf('Da' ,'RefID');
+//  var myRefIDsMaxRefID     = getMaxOf('My' ,'RefID');
+//  var morphologyMaxRefID   = getMaxOf('Mo' ,'RefID');
+//  var markersMaxRefID      = getMaxOf('Ma' ,'RefID');
+//  var cellEphysMaxRefID    = getMaxOf('CE' ,'RefID');
+//  var FPMaxRefID           = getMaxOf('FP' ,'RefID');
+//  var connectivityMaxRefID = getMaxOf('Con','RefID');
+//  var covariatesMaxRefID   = getMaxOf('Cov','RefID');
+//  var dataMaxRefID         = getMaxOf('Da' ,'RefID');
 
   //form.setTitle(Covariates.Reference);
   //form.setTitle('Review Evidence')
@@ -57,6 +57,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   
   //ID:1693269062	Type:PARAGRAPH_TEXT	Title:Reference IDs
   pForm.prefillItem('1693269062',sortIDsAsSSV(Evidence.CovariatesIDs));
+  /*
   //ID:1020355522	Type:PARAGRAPH_TEXT	Title:New
   pForm.prefillItem('1020355522',(covariatesMaxRefID+1)+'@@@@');
   //ID:756698613	Type:PARAGRAPH_TEXT	Title:New
@@ -65,6 +66,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   pForm.prefillItem('62357583',(covariatesMaxRefID+3)+'@@@@');
   //ID:1968268392	Type:PARAGRAPH_TEXT	Title:New
   pForm.prefillItem('1968268392',(covariatesMaxRefID+4)+'@@@@');
+  */
   //ID:1093425014	Type:CHECKBOX	Title:GABA or Glutamate receptors (ant)agonists
   pForm.setChoices('1093425014', Covariates.DrugsGABAGlutamate.split(/[,;]+\s*/).filter(Null));
   if (Evidence.Drugs.length != 0) pForm.prefillItem('1093425014',Evidence.Drugs);
@@ -97,6 +99,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   pForm.prefillItem('2122294445',sortIDsAsSSV(Evidence.MorphologyIDsPre));
   //ID:83198848	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('83198848',sortIDsAsSSV(Evidence.MorphologyIDsPost));
+  /*
   //ID:512288845	Type:PARAGRAPH_TEXT	Title:New
   pForm.prefillItem('512288845',(morphologyMaxRefID+1)+'@@@@');
   //ID:578591438	Type:PARAGRAPH_TEXT	Title:New
@@ -113,13 +116,14 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   pForm.prefillItem('2018280377',(morphologyMaxRefID+7)+'@@@@');
   //ID:475478390	Type:PARAGRAPH_TEXT	Title:New
   pForm.prefillItem('475478390',(morphologyMaxRefID+8)+'@@@@');
-
+  */
   //----------------------Biomarkers--------------------------------------------------------
   
   //ID:908652486	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('908652486',sortIDsAsSSV(Evidence.MarkersIDsPre));
   //ID:1478469428	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('1478469428',sortIDsAsSSV(Evidence.MarkersIDsPost));
+  /*
   //ID:419507241	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('419507241',(markersMaxRefID+1)+'@@@@');
   //ID:1096376200	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
@@ -128,38 +132,41 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   pForm.prefillItem('862580482',(markersMaxRefID+3)+'@@@@');
   //ID:1464604105	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('1464604105',(markersMaxRefID+4)+'@@@@');
-
+  */
   //----------------------Cell Electrophysiology--------------------------------------------
   
   //ID:503459476	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('503459476',sortIDsAsSSV(Evidence.CellePhysIDsPre));
   //ID:628210084	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('628210084',sortIDsAsSSV(Evidence.CellePhysIDsPost));
+  /*
   //ID:1907148981	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('1907148981',(cellEphysMaxRefID+1)+'@@@@');
   //ID:1772984287	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('1772984287',(cellEphysMaxRefID+2)+'@@@@');
-
+  */
   //----------------------Firing Patterns---------------------------------------------------
   //ID:126071277	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('126071277',sortIDsAsSSV(Evidence.FiringPatternIDsPre));
   //ID:2058029950	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('2058029950',sortIDsAsSSV(Evidence.FiringPatternIDsPost));
+  /*
   //ID:1602622469	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('1602622469',(FPMaxRefID+1)+'@@@@');
   //ID:961807150	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('961807150',(FPMaxRefID+2)+'@@@@');
-  
+  */
   //----------------------Connection Probability and Cell Type Ratios-----------------------
   //ID:1015974164	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('1015974164',sortIDsAsSSV(Evidence.ConnectivityIDsPre));
   //ID:17441795	    Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('17441795',sortIDsAsSSV(Evidence.ConnectivityIDsPost));
+  /*
   //ID:976435207	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('976435207',(connectivityMaxRefID+1)+'@@@@');
   //ID:1313946887	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
   pForm.prefillItem('1313946887',(connectivityMaxRefID+2)+'@@@@');
-  
+  */
   //----------------------Synaptic Data-----------------------------------------------------
   
   //ID:126234543	Type:PARAGRAPH_TEXT	Title:Reference IDs
@@ -172,6 +179,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   
   //ID:977930606	Type:PARAGRAPH_TEXT	Title:Data Location
   pForm.prefillItem('977930606',Evidence.DataLocation);
+  /*
   //ID:1521510351	Type:PARAGRAPH_TEXT	Title:New
   pForm.prefillItem('1521510351',(dataMaxRefID+1)+'@@@@');
   //ID:969214020	Type:PARAGRAPH_TEXT	Title:New
@@ -184,7 +192,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   pForm.prefillItem('298206074',(dataMaxRefID+5)+'@@@@');
   //ID:1282244123	Type:PARAGRAPH_TEXT	Title:New
   pForm.prefillItem('1282244123',(dataMaxRefID+6)+'@@@@');
-
+  */
   // submit the an action function on pressing the submit button
   //DeleteTriggers();
   // addTrigger(form)

@@ -14,8 +14,10 @@ function getTheLastFormResponse(){
   var covSheet          = ss.getSheetByName('Cov');
   var evidenceSheet     = ss.getSheetByName('Evidence');
   
-  var aR = (arguments.length === 0) ? ss.getSheetByName('Evidence').getRange(formResponse.getItemResponses()[0].getResponse())//getCheckActiveRange(ss.getSheetByName('Evidence').getActiveRange(),'Evidence') 
-                                    : ss.getSheetByName('Evidence').getRange(arguments[0].response.getItemResponses()[0].getResponse());
+  var aRNumInFormRes = formResponse.getItemResponses().length - 3; //item number 3 from the end of the form
+  
+  var aR = (arguments.length === 0) ? ss.getSheetByName('Evidence').getRange(         formResponse.getItemResponses()[aRNumInFormRes].getResponse())//getCheckActiveRange(ss.getSheetByName('Evidence').getActiveRange(),'Evidence') 
+                                    : ss.getSheetByName('Evidence').getRange(arguments[0].response.getItemResponses()[aRNumInFormRes].getResponse());
   if (aR) {
     try {
       var eColumnObj = evidenceSheet.getRange('1:1').getValues().reduce(to1D).reduce(function(p,v,i){p[v]=i+1; return p},{});
@@ -30,7 +32,6 @@ function getTheLastFormResponse(){
       //ID:1965398313	Type:PARAGRAPH_TEXT	Title:Evidence ID
       var IE = new referenceIE(form,formResponse,evidence,'277511854','1965398313');
       saveSingleColumnRange(aR,eColumnObj.eID,IE.getResponse('1965398313'));
-      
       
       //----------------------Experiment Description--------------------------------------------------------
       //ID:1109441292	Type:PARAGRAPH_TEXT	Title:Experiment Description
@@ -136,7 +137,7 @@ function getTheLastFormResponse(){
       //ID:2122294445	Type:PARAGRAPH_TEXT	Title:Presynaptic  RefIDs
       //ID:83198848	    Type:PARAGRAPH_TEXT	Title:Postsynaptic RefIDs
       saveSingleColumnRange(aR,eColumnObj.Morphology,IE.getPrePostResponse('2122294445','83198848'));
-      
+      /*
       //ID:512288845	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('512288845',morphologySheet);
       //ID:578591438	Type:PARAGRAPH_TEXT	Title:New
@@ -153,46 +154,46 @@ function getTheLastFormResponse(){
       IE.saveReference('2018280377',morphologySheet);
       //ID:475478390	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('475478390',morphologySheet);
-      
+      */
       //----------------------Biomarkers---------------------------------------------------------------------
       //ID:908652486	Type:PARAGRAPH_TEXT	Title:Presynaptic
       //ID:1478469428	Type:PARAGRAPH_TEXT	Title:Postsynaptic
       saveSingleColumnRange(aR,eColumnObj.Markers,IE.getPrePostResponse('908652486','1478469428'));
-      
-      //ID:419507241	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      /*
+      //ID:419507241	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('419507241',markersSheet);
-      //ID:1096376200	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      //ID:1096376200	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1096376200',markersSheet);
-      //ID:862580482	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      //ID:862580482	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('862580482',markersSheet);
-      //ID:1464604105	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      //ID:1464604105	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1464604105',markersSheet);
-      
+      */
       //----------------------Cell Electrophysiology----------------------------------------------------------
       //ID:503459476	Type:PARAGRAPH_TEXT	Title:Presynaptic
       //ID:628210084	Type:PARAGRAPH_TEXT	Title:Postsynaptic
       saveSingleColumnRange(aR,eColumnObj.CellEphys,IE.getPrePostResponse('503459476','628210084'));
-      
-      //ID:1907148981	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      /*
+      //ID:1907148981	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1907148981',cellEphysSheet);
-      //ID:1772984287	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      //ID:1772984287	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1772984287',cellEphysSheet);
-      
+      */
       //----------------------Firing Patterns------------------------------------------------------------------
       //ID:126071277	Type:PARAGRAPH_TEXT	Title:Presynaptic
       //ID:2058029950	Type:PARAGRAPH_TEXT	Title:Postsynaptic
       saveSingleColumnRange(aR,eColumnObj.FiringPatterns,IE.getPrePostResponse('126071277','2058029950'));
-      
-      //ID:1602622469	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      /*
+      //ID:1602622469	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1602622469',FPSheet);
-      //ID:961807150	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      //ID:961807150	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('961807150',FPSheet);
-      
+      */
       //----------------------Covariates-----------------------------------------------------------------------
       
       //ID:1693269062	Type:PARAGRAPH_TEXT	Title:Reference IDs
       saveSingleColumnRange(aR, eColumnObj.Covariates, sortIDsAsSSV(IE.getResponse('1693269062')));
-      
+      /*
       //ID:1020355522	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1020355522',covSheet);
       //ID:756698613	Type:PARAGRAPH_TEXT	Title:New
@@ -201,18 +202,18 @@ function getTheLastFormResponse(){
       IE.saveReference('62357583',covSheet);
       //ID:1968268392	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1968268392',covSheet);
-      
+      */
       //----------------------Connection Probability and Cell Type Ratios---------------------------------------
       
       //ID:1015974164	Type:PARAGRAPH_TEXT	Title:Presynaptic
       //ID:17441795	Type:PARAGRAPH_TEXT	Title:Postsynaptic
       saveSingleColumnRange(aR,eColumnObj.Connectivity,IE.getPrePostResponse('1015974164','17441795'));
-      
-      //ID:976435207	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      /*
+      //ID:976435207	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('976435207',connectivitySheet);
-      //ID:1313946887	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
+      //ID:1313946887	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1313946887',connectivitySheet);
-      
+      */
       ////----------------------Synaptic Data--------------------------------------------------------------------
       
       //ID:977930606	Type:PARAGRAPH_TEXT	Title:Data Location
@@ -227,7 +228,7 @@ function getTheLastFormResponse(){
       
       //ID:126234543	Type:PARAGRAPH_TEXT	Title:Reference IDs
       saveSingleColumnRange(aR,eColumnObj.Data,sortIDsAsSSV(IE.getResponse('126234543')));
-      
+      /*
       //ID:1521510351	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1521510351',dataSheet);
       //ID:969214020	Type:PARAGRAPH_TEXT	Title:New
@@ -240,7 +241,7 @@ function getTheLastFormResponse(){
       IE.saveReference('298206074',dataSheet);
       //ID:1282244123	Type:PARAGRAPH_TEXT	Title:New
       IE.saveReference('1282244123',dataSheet);
-      
+      */
       ////----------------------END------------------------------------------------------------------------------
     } catch(err) {
       saveSingleColumnRange(aR,eColumnObj.eID,'Error:'+err.message);
