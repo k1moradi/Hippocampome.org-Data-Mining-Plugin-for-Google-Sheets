@@ -148,80 +148,80 @@
 <?//============================================top=======================================================================================?>
     <iframe class='googleForm' src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
     <div id='main' class='referencePanel'>
-
        <?//-----We have access to these objects: evidence cellTypes covariates oldSynData synRefs covRefs myRefs-------------------------?>
       <div class='toolBar'>
         <input type='button' value='References:Collapse' onclick='toggleReferences(this)'>
         <input type='text' style='width:calc(100% - 150px);' placeholder='Case-sensitive Search and Highlight in Green' style='width:504px;' onchange="caseSensitiveSearch(this.value,'main');">
       </div>
       <div id='evidence' style='margin-top:25px'>
-      <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
+        <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
       
-      <?//-----What we know about the evidence -----------------------------------------------------------------------------------------?>
+        <?//-----What we know about the evidence -----------------------------------------------------------------------------------------?>
         
-      <details>
-        <summary style='background-color:#4285F4;color:white; font-size:200%;'>
-          Evidence Details
-        </summary>
-        <? ['DataLocation','dSec','Description','Assumptions','ConRatios','CellRatios','Notes','RMPorVh','ErevAuthors',
-        'ErevCalculated','Drugs','ExtracellularSolution','IntracellularSolution']
-        .forEach(function(key){ 
-           if (evidence[key].length != 0) {?>
-             <p><b>
-               <?=key?>: </b><?!= evidence[key] ?>
-             </p>
-        <?}});?>
-      </details>
+        <details class='eachReference'>
+          <summary style='background-color:#4285F4;color:white; font-size:200%;'>
+            Evidence Details
+          </summary>
+          <? ['DataLocation','dSec','Description','Assumptions','ConRatios','CellRatios','Notes','RMPorVh','ErevAuthors',
+          'ErevCalculated','Drugs','ExtracellularSolution','IntracellularSolution']
+          .forEach(function(key){ 
+            if (evidence[key].length != 0) {?>
+              <p><b>
+                <?=key?>: </b><?!= evidence[key] ?>
+              </p>
+          <?}});?>
+        </details>
       
-      <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------?>
+        <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------?>
+          
+        <details class='eachReference'>
+          <summary style='background-color:rgb(153, 255, 255);color:black; margin:0; font-size:200%;'>
+            Covariates Extracted
+          </summary>
+          <? Object.keys(covariates)
+               .filter(function(key){
+                         return (key!=='Order Added' && key!=='PMID' && key!=='Reference' && key!=='Order Added' && 
+                                 key!=='Not Mined Not Vetted' && key!=='K1 vetted Ephys parameterd reported' && 
+                                 key!=='Temperature'  && key!=='Glucose'  && key!=='Intracellular_pH'  && key!=='IntracellularPipetteSolution' &&
+                                 key!=='ExtracellularBathSolution' && key!=='DataExtracted' && key!=='Stain')})
+               .forEach(function(key){ 
+                 if (covariates[key].length != 0 && covariates[key] !='-') {?>
+              <p>
+              <b><?=key?>: </b><?= covariates[key] ?></p>
+          <? }});?>
+        </details>
         
-      <details>
-        <summary style='background-color:rgb(153, 255, 255);color:black; margin:0; font-size:200%;'>
-          Covariates Extracted
-        </summary>
-        <? Object.keys(covariates)
-             .filter(function(key){return (key!=='Order Added' && key!=='PMID' && key!=='Reference' && key!=='Order Added' && 
-                                           key!=='Not Mined Not Vetted' && key!=='K1 vetted Ephys parameterd reported' && 
-                                           key!=='Temperature'  && key!=='Glucose'  && key!=='Intracellular_pH'  && key!=='IntracellularPipetteSolution' &&
-                                           key!=='ExtracellularBathSolution' && key!=='DataExtracted' && key!=='Stain')})
-             .forEach(function(key){ 
-               if (covariates[key].length != 0 && covariates[key] !='-') {?>
-            <p>
-            <b><?=key?>: </b><?= covariates[key] ?></p>
-        <? }});?>
-      </details>
-      
-      <?//-----Covariates References---------------------------------------------------------------------------------------------------?>
+        <?//-----Covariates References---------------------------------------------------------------------------------------------------?>
 
-      <? showReferences(evidence.CovariatesIDs  ,allRefs, allRefs,'Covariates References','#99FFFF','black','200%');  
-         showAllReferences(evidence.CellePhysIDsPre, evidence.CellePhysIDsPost, allRefs, cellEphys,'Electrophysiology:','#0090CC','yellow');?>
-        
-      <?//-----Synaptic Data References-------------------------------------------------------------------------------------------------?>
+        <? showReferences(evidence.CovariatesIDs  ,allRefs, allRefs,'Covariates References','#99FFFF','black','200%');  
+           showAllReferences(evidence.CellePhysIDsPre, evidence.CellePhysIDsPost, allRefs, cellEphys,'Electrophysiology:','#0090CC','yellow');?>
+          
+        <?//-----Synaptic Data References-------------------------------------------------------------------------------------------------?>
 
-      <? showReferences(evidence.DataIDs,allRefs, allRefs,'Synaptic Data','#E91E63','white','200%'); ?>
+        <? showReferences(evidence.DataIDs,allRefs, allRefs,'Synaptic Data','#E91E63','white','200%'); ?>
 
-      <?//-----Synaptic Data extracted by Interns---------------------------------------------------------------------------------------?>
+        <?//-----Synaptic Data extracted by Interns---------------------------------------------------------------------------------------?>
 
-      <details open>
-        <summary style='background-color:rgb(233, 30, 99);color:white; margin:0; font-size:200%;'>
-          Synaptic Data Extracted by Summer Interns
-        </summary>
-          <? Object.keys(oldSynData).forEach(
-               function(key){ ?>
-        <h3 style='background-color:black;color:white; margin:0;'>
-          <?=     key?>: 
-        </h3>
-        <?Object.keys(oldSynData[key])
-           .forEach(
-             function(key2){ 
-               if (oldSynData[key][key2].length != 0) { ?>
-        <p>
-           <b><?=key2?>: </b>
-           <?= oldSynData[key][key2] ?>
-        </p>
-        <? }})}); ?>
-      </details>
-    </div>
+        <details class='eachReference' open>
+          <summary style='background-color:rgb(233, 30, 99);color:white; margin:0; font-size:200%;'>
+            Synaptic Data Extracted by Summer Interns
+          </summary>
+            <? Object.keys(oldSynData).forEach(
+                 function(key){ ?>
+          <h3 style='background-color:black;color:white; margin:0;'>
+            <?=     key?>: 
+          </h3>
+          <?Object.keys(oldSynData[key])
+             .forEach(
+               function(key2){ 
+                 if (oldSynData[key][key2].length != 0) { ?>
+          <p>
+             <b><?=key2?>: </b>
+             <?= oldSynData[key][key2] ?>
+          </p>
+          <? }})}); ?>
+        </details>
+      </div>
     </div>
   </body>
 </html>

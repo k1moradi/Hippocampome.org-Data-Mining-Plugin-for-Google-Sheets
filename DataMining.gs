@@ -69,10 +69,9 @@ function addSynapticData() {
   var allDataIDs = synapticDataSheet.getRange('D2:D').getValues().reduce(to1D);
   var ui = SpreadsheetApp.getUi();  
   do {
-    var templateDataID = ui.prompt('Template?', 'Data ID (dID):', ui.ButtonSet.YES_NO);
+    var templateDataID = ui.prompt('𝐓𝐞𝐦𝐩𝐥𝐚𝐭𝐢𝐧𝐠 𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐃𝐚𝐭𝐚?', '🅽🅾🆃🅴: Go to all prefilled menus to avoid losing data\n\nData ID (dID) template:', ui.ButtonSet.YES_NO);
     var rowIndex = (templateDataID.getSelectedButton() === ui.Button.YES) ? allDataIDs.indexOf(Number(templateDataID.getResponseText())) : 0;
-  }
-  while (rowIndex === -1);
+  } while (rowIndex === -1);
 
   if (evidenceRange && (templateDataID.getSelectedButton() === ui.Button.YES || templateDataID.getSelectedButton() === ui.Button.NO)) {
     // get needed data from spread sheets
@@ -98,8 +97,7 @@ function addSynapticData() {
     var connectivity  = output.connectivity   = sheetSamplingTool(ss.getSheetByName("Con").getRange('A:A'),evidence.PMID,'RefID');
     
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
-    if (covariates && oldSynData && synRefs && covRefs && myRefs && morphology && markers && cellEphys && firingPatterns && connectivity)
-    {
+    if (covariates && oldSynData && synRefs && covRefs && myRefs && morphology && markers && cellEphys && firingPatterns && connectivity) {
       output.url = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,ui,templateDataID,dSec); //Logger.log(output.url);
       output.imagesShown = [];
       output.allRefs = mergeObjs(synRefs,covRefs,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity);
@@ -108,17 +106,13 @@ function addSynapticData() {
         'Synaptic Data Extraction Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
       );
       return true;
-    } else
-    {
+    } else {
       ss.toast('Error in sheetSamplingTool');
       return null;
-    }
-  } else 
-  {
-    ss.toast('Please goto evidence tab and select all rows that describe a single piece of evidence and try again');
-    return null;
-  };
-};
+    }} else {
+      ss.toast('Please goto evidence tab and select all rows that describe a single piece of evidence and try again');
+      return null;
+    }};
 //-------Check Search Query--------------------------------------------------------------------------
 function checkQuery() {
   var ss = SpreadsheetApp.getActiveSpreadsheet();

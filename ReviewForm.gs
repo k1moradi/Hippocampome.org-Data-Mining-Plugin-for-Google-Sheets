@@ -25,7 +25,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   //----------------------Experiment Description--------------------------------------------
   
   //ID:1109441292	Type:PARAGRAPH_TEXT	Title:
-  pForm.prefillItem('1109441292',Evidence.Description.replace(/[\n\r\s]*(?:\<br>)+[\n\r\s]*/g,'\n    '));
+  pForm.prefillItem('1109441292',Evidence.Description);
   
   //----------------------Conclusion--------------------------------------------------------
   
@@ -76,18 +76,21 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
                    .map(function(solution){return 'Bath@'+solution})
                    .concat(Covariates.ExtracellularPipetteSolution.split(/\s*;\s*/).filter(Null).map(function(solution){return 'Pipette@'+solution}))
                    .sort());
-  pForm.prefillItem('2058479121',Evidence.ExtracellularSolution);
+  pForm.prefillItem('2058479121',Evidence.ExtracellularSolution.split(/\s*;+\s*/g));
   
   //ID:1364258333   Type:MULTIPLE_CHOICE    Title:Intracellular Solution
   pForm.setChoices('1364258333',Covariates.IntracellularPipetteSolution.split(/\s*;\s*/).filter(Null).sort());
-  pForm.prefillItem('1364258333',Evidence.IntracellularSolution);
+  pForm.prefillItem('1364258333',Evidence.IntracellularSolution.split(/\s*;+\s*/g));
+  
+  //ID:701084432	Type:CHECKBOX	Title:Recorded Signal Type
+  pForm.prefillItem('701084432',Evidence.dSec.split(/\s*[,;]+\s*/g));
 
   //ID:530154900	Type:TEXT	Title:Holding Potential or Steady State Membrane Potential (mV)
   pForm.prefillItem('530154900',Evidence.RMPorVh);
   pForm.prefillEmptyItem('530154900',(Covariates.PostsynVm.length === 0) ? '' : Covariates.PostsynVm);
   
   //ID:691790082    Type:TEXT   Title:Calculated Reversal Potential (mV)
-  pForm.prefillItem('691790082',Evidence.ErevCalculated);
+  pForm.prefillItem('691790082',dash2null(Evidence.ErevCalculated));
   
   //ID:1673109528	Type:TEXT	Title:Experimental Reversal Potential (mV)
   pForm.prefillItem('1673109528',Evidence.ErevAuthors);

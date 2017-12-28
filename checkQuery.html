@@ -32,7 +32,7 @@
     <p>
       <b>Search Query:</b><br>
       <?//evidence.Query.replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern)/ig,'<b>$1</b>')
-        //              .replace(/\b(AND|OR|NOT)\b/g,'<i>$1</i>')?>
+        //              .replace(/\b(AND|OR|NOT|Axons|Dendrites|Soma)\b/g,'<b><i>$1</i></b>')?>
       <? if (error) {?>
       <br><br><b>Error:</b><?!=error
          }?>
@@ -40,7 +40,11 @@
     
     <form id='CheckQuery'>
       <!--<textarea class=text onchange='reCheckQuery(value)'><?= evidence.Query ?></textarea>-->
-      <div contenteditable="true" id="editor" class=text><?= evidence.Query ?></div>
+      <div contenteditable="true" id="editor" class=text><?!= evidence.Query
+      .replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)/ig,'<b>$1</b>')
+      .replace(/\b(AND|OR|NOT|Axons|Dendrites|Soma)\b/g,'<b><i>$1</i></b>') ?>
+      </div>
+      <input type="button" value="search" onclick="alert(document.getElementById('editor').innerText)">
     </form>
 
     <script>

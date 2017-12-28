@@ -2,32 +2,34 @@
 function refHighlights(input) {
   var spacer = "[^<>)(]";
   var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
-  var numberWords = "\\bfirst|second|third|zero|none|one|two|three|four|five|fifth|six|seven|eight|nine|ten|eleven|twelve|(?:thir|fif|six|seven|eigh|nin)t(?:een|y)|twenty|hundreds{0,1}|thousands{0,1}\\b"
+  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
   var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
-  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or) ){0,1}[-+]{0,1}"+numbers+"{0,1}";
-  var units = "(?:°C{0,1}|m[lLMVs](?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|cells*|neurons*|pairs*|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single))*(?: (?:response|sweep|event|trace|[esmu]{0,1}\\.{0,1}[ei]\\.{0,1}p\\.{0,1}s\\.{0,1}[cp])s{0,1}))";
-  var numPattern = new RegExp("([\\s(;,=])("+numberRange+spacer+"{0,1}"+units+")("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
+  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) ){0,1}[-+]{0,1}"+numbers+"{0,1}(?: \\("+numbers+"%\\))?";
+  var units = "(?:°C{0,1}|m(?:sec|[lLMVs])(?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}(?:ec)?|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]{0,1}\\.{0,1}[eiEI]\\.{0,1}[Pp]\\.{0,1}[Ss]\\.{0,1}[CPcp])[Ss]{0,1}))";
+  var numPattern = new RegExp("([\\s(;,=])("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
   var strInput = (typeof input === 'object' && !Array.isArray(input)) ? JSON.stringify(input) : String(input);
   return strInput
   .replace('[micro]','µ')
   .replace(numPattern,
-    function(fullMatch,p1,p2,p3,p4,p5){
+    function(fullMatch,p1,p2,p3,p4,p5,p6){
       function txt(input) {return (input)? input : ''}
-      if (txt(p4)==='' && txt(p5)==='') {
-        return txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"+txt(p2)+"</mark>"+txt(p3)+txt(p4)+txt(p5);
-      } else {
-        return txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"+txt(p2)+txt(p3)+txt(p4)+txt(p5)+"</mark>";
-      }
-    })                                                                                                   //pink-orange
+      if (p3 || p6) {
+        if (p5 || p6) {
+          return txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"+txt(p2)+txt(p3)+txt(p4)+txt(p5)+txt(p6)+"</mark>";
+        } else {
+          return txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"+txt(p2)+txt(p3)+"</mark>"+txt(p4)+txt(p5)+txt(p6);
+        }} else {
+          return fullMatch;
+        }})                                                                                              //pink-orange
   .replace(new RegExp("([(;, ])("+numberWords+")(?!"+spacer+"(?:"+connectingWords+"|"+units+"))","gi"),
            "$1<mark style='background-color:rgba(255,153,153,0.5); color:black;'>$2</mark>")             //pink-orange
-  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique|room|high|low)(?:[^<>)(]|[^<>)(]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>)(])){0,1}(ACSF|Q10|pH|Median|anesthesia|slice|temperature|magic|(?:(?:paired|multiple)[^<>)(]{0,1}){0,1}pulse(?:[^<>)(]{0,1}ratio){0,1}|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>)(]voltage)*|I[^<>)(]V|voltage|conductance|failure|delay|(?:frequenc|latenc|intensit)(?:y|ies)|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|(?:(?:paired|simultaneous|dual).record(?:ing|ed))|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|event|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s){0,1}([^<>)(]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/gi,
+  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique|room|high|low)(?:[^<>)(]|[^<>)(]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>)(])){0,1}(ACSF|Q10|pH|Median|anesthesia|slice|temperature|magic|(?:(?:paired|multiple)[^<>)(]{0,1}){0,1}pulse(?:[^<>)(]{0,1}ratio){0,1}|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>)(]voltage)*|I[^<>)(]V|voltage|conductance|failure|delay|(?:frequenc|latenc|intensit)(?:y|ies)|slope|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s){0,1}([^<>)(]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/gi,
            "<mark style='background-color:rgba(100,255,255,0.5); color:black;'>$1$2$3$4</mark>")         //cyan
   .replace(/\b(epilep(?:ticus|tic|s[yi]a*)|seisures*|field|cultured*|gluconate)\b/gi,
            "<mark style='background-color:red; color:white;'>$1</mark>")                                 //red
-  .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.*t\.*r(?:at(?:um|a)|\.)*|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|a{0,1}synchronous|recurrent)[^<>)(]{0,1}){0,1}(HIPP|mossy|basket|N{0,1}[FR]S|[Ff]ast[^<>)(]{0,1}[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>)(]{0,1}axonic|AAC|chandelier|ivy|neuroglia|[os]{0,1}[^<>)(]{0,1}l\.{0,1}m|lamin|hicap|retzius|interneuron(?: specific){0,1}|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]{0,1}|MF|molecular|[io]{0,1}[^<>)(]{0,1}ml|oriens|radiat|lucid|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>)(]{0,1}AP[^<>)(]{0,1}[v5]|CGP[^<>)(]{0,1}55845|sr[^<>)(]{0,1}95531|QX[^<>)(]{0,1}314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>)(]{0,1}(?:layer|cell|interneuron|IN|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>)(]{0,1}(?:layer|terminal|border)s*){0,1}\b/gi,
+  .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.?t\.?r?(?:at(?:um|a)|\.)?|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|a{0,1}synchronous|recurrent)[^<>)(]{0,1}){0,1}(HIPP|mossy|basket|N{0,1}[FR]S|[Ff]ast[^<>)(]{0,1}[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>)(]{0,1}axonic|AAC|chandelier|ivy|neuroglia|[os]{0,1}[^<>)(]{0,1}l\.{0,1}m|lamin|hicap|retzius|interneuron(?: specific){0,1}|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]{0,1}|MF|molecular|[io]{0,1}[^<>)(]{0,1}ml|oriens|radiat|lucid|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>)(]{0,1}AP[^<>)(]{0,1}[v5]|CGP[^<>)(]{0,1}55845|sr[^<>)(]{0,1}95531|QX[^<>)(]{0,1}314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>)(]{0,1}(?:layer|cell|interneuron|IN|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>)(]{0,1}(?:layer|terminal|border)s*){0,1}\b/gi,
            "<mark style='background-color:rgba(255,230,144,0.5); color:black;'>$1$2$3$4$5</mark>")       //yellow
-  .replace(/\b((?:short|long|evoked|unitary|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>)(]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>)(]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|coupl|Reciprocal|stimul|facilit|depress|STDP|LT[PD]|potentiat|plasticity|term|n=\d+)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>)(]{0,1}(?:recording|[AB](?= ))){0,1}\b/gi,
+  .replace(/\b((?:short|long|evoked|unitary|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>)(]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>)(]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|dual|coupl|Reciprocal|stimul|facilit|depress|STDP|LT[PD]|PTP|potentiat|plasticity|term|n=\d+)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>)(]{0,1}(?:record(?:ing|ed)|[AB](?= ))){0,1}\b/gi,
            "<mark style='background-color:rgba(255,128,171,0.5); color:black;'>$1$2$3$4</mark>")         //pink
 };
 //sort RefIDs as Semicolon Separated Values or JSON
@@ -46,7 +48,7 @@ var prefillForm = function(form) {
   this.Responses = this.form.createResponse(); //make a respose for it
   // a function to automatically detect the type of item and set a response for it
   this.prefillItem = function(ItemID,response,defaultResponse) { // Warning + sign is not allowed in responses
-    if (typeof response ==='string') response = response.replace(/[\n\r\s]*(?:\<br>)+[\n\r\s]*/g,'\n    ')
+    if (typeof response ==='string') response = response.replace(/[\n\r\s]*(?:\<br>)+[\n\r\s]*/g,'\n\n')
     if (response.length !== 0) {
       var originalItem = this.form.getItemById(ItemID);
       switch (originalItem.getType()) {
@@ -63,7 +65,9 @@ var prefillForm = function(form) {
           this.Responses.withItemResponse(originalItem.asMultipleChoiceItem().createResponse(response));
           break;
         case FormApp.ItemType.CHECKBOX:
-          this.Responses.withItemResponse(originalItem.asCheckboxItem().createResponse(response));
+          if (Array.isArray(response))
+            if (response.filter(Null).length !== 0)
+              this.Responses.withItemResponse(originalItem.asCheckboxItem().createResponse(response));
           break;
         case FormApp.ItemType.GRID:
           var expectedResponseLength = originalItem.asGridItem().getRows().length
@@ -160,7 +164,7 @@ var prefillForm = function(form) {
   this.prefillEmptyItem = function(ItemID,response) { // Warning + sign is not allowed in responses
     var itemType = this.form.getItemById(ItemID).getType()
     if (!this.isPrefilled(ItemID)) 
-      this.prefillItem(ItemID,(response && (itemType === FormApp.ItemType.TEXT || itemType === FormApp.ItemType.PARAGRAPH_TEXT))?'~~'+response:response);
+      this.prefillItem(ItemID,(response && response!=='-' && (itemType === FormApp.ItemType.TEXT || itemType === FormApp.ItemType.PARAGRAPH_TEXT))?'~~'+response:((response==='-')?'':response));
   };
   this.getPrefilledUrl = function() {
     //return this.form.shortenFormUrl(this.Responses.toPrefilledUrl());
@@ -297,8 +301,12 @@ function dataSecToObj(str) {//Logger.log(str)
   };
 }
 function refIDSecToObj(str) {
-  var tmp = JSON.parse(str.replace(/([\d&]*)\s*(?:\{(.*)\}){0,1}/,"{\"refIDs\":\"$1\",\"note\":\"$2\"}"))
-  return {RefIDs:tmp.refIDs.split(/\&/g).filter(Null),note:tmp.note}
+  try {
+    var tmp = JSON.parse(str.replace(/([\d&]*)\s*(?:\{(.*)\}){0,1}/,"{\"refIDs\":\"$1\",\"note\":\"$2\"}"))
+    return {RefIDs:tmp.refIDs.split(/\&/g).filter(Null),note:tmp.note}
+  } catch(error) {
+    SpreadsheetApp.getUi().alert('Error in refIDSecToObj function when processing input:\n\n'+str+'\n\n'+error.message)
+  };
 }
 function dataObjToString(obj) {
   if (Array.isArray(obj)) {

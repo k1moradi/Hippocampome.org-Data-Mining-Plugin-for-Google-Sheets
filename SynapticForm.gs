@@ -2,6 +2,14 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
   var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
   
+//  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextDoesNotContainPattern('^[\s\n\r\t]*~~\s*').build();
+//  pForm.form.getItems().filter(function(item){
+//    return (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT)//item.getType() === FormApp.ItemType.TEXT || 
+//  }).forEach(function(item){
+//    //Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')
+//    item.asParagraphTextItem().setValidation(paragraphtextValidation);
+//  });
+  
   var findPranteses = /(?:\((.*)\))/;
 
   if (templateDataID.getSelectedButton() == ui.Button.YES) {

@@ -1,12 +1,22 @@
 function test() { 
-  var spacer = "[^<>)(]";
-  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
-  var numberWords = "\\bfirst|second|third|zero|none|one|two|three|four|five|fifth|six|seven|eight|nine|ten|eleven|twelve|(?:thir|fif|six|seven|eigh|nin)t(?:een|y)|twenty|hundreds{0,1}|thousands{0,1}\\b"
-  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
-  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or) ){0,1}[-+]{0,1}"+numbers+"{0,1}";
-  var units = "(?:°C{0,1}|m[lLMVs](?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|cells*|neurons*|pairs*|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single))*(?: (?:response|sweep|event|trace|[esmu]{0,1}\\.{0,1}[ei]\\.{0,1}p\\.{0,1}s\\.{0,1}[cp])s{0,1}))";
-  var numPattern = new RegExp("([\\s(;,=])("+numberRange+spacer+"{0,1}"+units+")("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
-  Logger.log(new RegExp("([(;, ])("+numberWords+")(?!"+spacer+"(?:"+connectingWords+"|"+units+"))","gi"))
+  var form = FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8')
+  
+  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextDoesNotContainPattern('^[\s\n\r\t]*~~\s*').build();
+  
+  form.getItems().filter(function(item){
+    return (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT)//item.getType() === FormApp.ItemType.TEXT || 
+  }).forEach(function(item){
+    //Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')
+    item.asParagraphTextItem().setValidation(paragraphtextValidation);
+  });
+//  var spacer = "[^<>)(]";
+//  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
+//  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
+//  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
+//  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) ){0,1}[-+]{0,1}"+numbers+"{0,1}(?: \\("+numbers+"%\\))?";
+//  var units = "(?:°C{0,1}|m(?:sec|[lLMVs])(?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}(?:ec)?|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|[esmuESMU]{0,1}\\.{0,1}[eiEI]\\.{0,1}[Pp]\\.{0,1}[Ss]\\.{0,1}[CPcp])[Ss]{0,1}))";
+//  var numPattern = new RegExp("([\\s(;,=])("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
+//  Logger.log(numPattern)
 };
 
 function getMaxOf(sheetName,columnName) {
@@ -23,8 +33,7 @@ function getEvidenceValues(activeRange) {
   var rawEvidenceObj = headers.reduce(function(p,v,i){p[v]=values[i]; return p},{});
   var columnNumObj   = headers.reduce(function(p,v,i){p[v]=i        ; return p},{});
   var Automation = rawEvidenceObj.Automation.split(/[)]\s*[,]\s*Postsynaptic:[(]/g);
-  var obj = 
-  {                                 //offset(rowOffset, columnOffset     , numRows                 , numColumns)
+  var obj = {                                 //offset(rowOffset, columnOffset     , numRows                 , numColumns)
     PConnections        : activeRange.offset(0        , columnNumObj.sUID, activeRange.getNumRows(), 4         ).getValues()
                           .reduce(function(p,conArray,i){p[i] = conArray[0]+':'+conArray[1]+'▶'+conArray[2]+':'+conArray[3]; return p},[]),
     sUID                : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
@@ -71,9 +80,10 @@ function getEvidenceValues(activeRange) {
     IntracellularSolution:rawEvidenceObj.IntracellularSolution,
     rangeA1Notation     : activeRange.getA1Notation()
   };
-  obj.allRefIDs=mergeArrays(obj.MorphologyIDsPre,obj.MarkersIDsPre,obj.CellePhysIDsPre,obj.FiringPatternIDsPre,obj.ConnectivityIDsPre,
-                            obj.MorphologyIDsPost,obj.MarkersIDsPost,obj.CellePhysIDsPost,obj.FiringPatternIDsPost,obj.ConnectivityIDsPost,
-                            obj.DataIDs,obj.CovariatesIDs);
+  obj.allRefIDs = mergeArrays(
+    obj.MorphologyIDsPre,obj.MarkersIDsPre,obj.CellePhysIDsPre,obj.FiringPatternIDsPre,obj.ConnectivityIDsPre,
+    obj.MorphologyIDsPost,obj.MarkersIDsPost,obj.CellePhysIDsPost,obj.FiringPatternIDsPost,obj.ConnectivityIDsPost,
+    obj.DataIDs,obj.CovariatesIDs);
   return obj;
 };
 /**

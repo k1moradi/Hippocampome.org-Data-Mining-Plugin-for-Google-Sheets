@@ -3,6 +3,7 @@ function onlyUnique(value, index, self){return self.indexOf(value)===index} //us
 function to1D(previous, value){return previous.concat(value)}               //use with map    iterator
 function isNumeric(n){return !isNaN(parseFloat(n)) && isFinite(n)}
 function round(value, decimals){return Number(Math.round(value+'e'+decimals)+'e-'+decimals)}
+function dash2null(value){return (/^\s*-+\s*$/g.test(value))?'':value}
 
 /**
  * Gets a set of arrays and merge them all

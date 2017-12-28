@@ -27,6 +27,7 @@ function getTheLastFormResponse(){
       var PMIDs = covariatesSheet.getRange(1, covariatesColumnObj.PMID, covariatesSheet.getLastRow()).getValues().reduce(to1D).map(Number);
       var row = String(PMIDs.indexOf(Number(evidence.PMID))+1);
       var covariatesRange = covariatesSheet.getRange(row+':'+row);
+      var covariates = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
       
       //ID:277511854	Type:TEXT	Title:Pubmed ID
       //ID:1965398313	Type:PARAGRAPH_TEXT	Title:Evidence ID
@@ -42,7 +43,8 @@ function getTheLastFormResponse(){
         saveSingleColumnRange(aR,eColumnObj.Drugs,response.join(', '));
         var newChoise = response.filter(function(res){return choises.indexOf(res) === -1});
         if (newChoise.length !== 0)
-          saveSingleColumnRange(covariatesRange,covariatesColumnObj.DrugsGABAGlutamate,choises.concat(newChoise).filter(Null).filter(onlyUnique).join(', '));
+          saveSingleColumnRange(covariatesRange,covariatesColumnObj.DrugsGABAGlutamate,
+                                covariates.DrugsGABAGlutamate.split(/\s*[,;]+\s*/g).concat(newChoise).filter(Null).filter(onlyUnique).join(', '));
       }(IE.getResponse('1093425014').filter(Null).filter(onlyUnique),
         form.getItemById('1093425014').asCheckboxItem().getChoices().map(function(choice){return choice.getValue().split(/ *[,;] */)}).reduce(to1D).filter(Null)));
            
@@ -53,12 +55,11 @@ function getTheLastFormResponse(){
         if (addRegEx.test(response)) {
           var [match, itemToBeAdded] = addRegEx.exec(response)
           saveSingleColumnRange(covariatesRange, covariatesColumnObj.PostsynVm,
-                                (String(covariatesRange.getCell(1, covariatesColumnObj.PostsynVm).getValue())
-                                 .split(/ *, */g).concat(itemToBeAdded).filter(Null).filter(onlyUnique).join(', ')));
+                                (String(covariates.PostsynVm).split(/ *, */g).concat(itemToBeAdded).filter(Null).filter(onlyUnique).join(', ')));
         } else if (replaceRegEx.test(response)) {
           var [match, itemToBeDeleted, itemToBeAdded] = replaceRegEx.exec(response);
           saveSingleColumnRange(covariatesRange, covariatesColumnObj.PostsynVm,
-                                (String(covariatesRange.getCell(1, covariatesColumnObj.PostsynVm).getValue())
+                                (String(covariates.PostsynVm)
                                  .split(/ *, */g)
                                  .filter(function(item){return item !== itemToBeDeleted})
                                  .concat(itemToBeAdded)
@@ -68,38 +69,38 @@ function getTheLastFormResponse(){
       }(IE.getResponse('530154900')));
 
       //Extracellular Solutions
-      (function(response,choises) {//Logger.log(response)
-        if (typeof response === 'string' && response.length !== 0) {
-          saveSingleColumnRange(aR,eColumnObj.ExtracellularSolution,response);
-          if (choises.indexOf(response) === -1) {//=new choise
+      (function(responses,choises) {//Logger.log(response)
+        saveSingleColumnRange(aR,eColumnObj.ExtracellularSolution,responses.filter(Null).filter(onlyUnique).join('; '));
+        var newChoise = responses.filter(function(res){return choises.indexOf(res) === -1});
+        newChoise.forEach(function(response){
+          if (typeof response === 'string' && response.length !== 0)
             if (/^Pipette/i.test(response)) {
               saveSingleColumnRange(covariatesRange,covariatesColumnObj.ExtracellularPipetteSolution,
-                                    (String(covariatesRange.getCell(1, covariatesColumnObj.ExtracellularPipetteSolution).getValue()))
+                                    (String(covariates.ExtracellularPipetteSolution))
                                     .split(/\s*\;+\s*/g).concat(response.replace(/^Pipette[\s@:]*/ig,'')).filter(Null).filter(onlyUnique).join('; '))
             } else {
               saveSingleColumnRange(covariatesRange,covariatesColumnObj.ExtracellularBathSolution,
-                                    (String(covariatesRange.getCell(1, covariatesColumnObj.ExtracellularBathSolution).getValue()))
+                                    (String(covariates.ExtracellularBathSolution))
                                     .split(/\s*\;+\s*/g).concat(response.replace(/^Bath[\s@:]*/ig,'')).filter(Null).filter(onlyUnique).join('; '))
             }
-          }
-        }
-      }(IE.getResponse('2058479121'),
-        form.getItemById('2058479121').asMultipleChoiceItem().getChoices().map(function(choice){return choice.getValue()})));
+        })}(IE.getResponse('2058479121'),
+        form.getItemById('2058479121').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()})));
       
       //Intracellular Solutions
-      (function (response,choises) {
-        if (typeof response === 'string' && response.length !== 0) {
-          saveSingleColumnRange(aR,eColumnObj.IntracellularSolution,response);
-          var choises = form.getItemById('1364258333').asMultipleChoiceItem().getChoices().map(function(choice){return choice.getValue()});
-          if (choises.indexOf(response) === -1) {
+      (function (responses,choises) {
+        saveSingleColumnRange(aR,eColumnObj.IntracellularSolution,responses.filter(Null).filter(onlyUnique).join('; '));
+        var newChoise = responses.filter(function(res){return choises.indexOf(res) === -1});
+        newChoise.forEach(function(response){
+          if (typeof response === 'string' && response.length !== 0)
             saveSingleColumnRange(covariatesRange,covariatesColumnObj.IntracellularPipetteSolution,
-                                  (String(covariatesRange.getCell(1, covariatesColumnObj.IntracellularPipetteSolution).getValue()))
+                                  (String(covariates.IntracellularPipetteSolution))
                                   .split(/\s*\;+\s*/g).concat(response).filter(Null).filter(onlyUnique).join('; '));
-          }
-        }
-      }(IE.getResponse('1364258333'),
-        form.getItemById('1364258333').asMultipleChoiceItem().getChoices().map(function(choice){return choice.getValue()})));
-     
+        })}(IE.getResponse('1364258333'),
+        form.getItemById('1364258333').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()})));
+      
+      //ID:701084432	Type:CHECKBOX	Title:Recorded Signal Type
+      saveSingleColumnRange(aR,eColumnObj.dSec, IE.getResponse('701084432').join(', '));
+      
       //ID:1673109528	Type:TEXT	Title:Experimental Reversal Potential (mV)
       saveSingleColumnRange(aR,eColumnObj.ErevAuthors,IE.getResponse('1673109528').replace(/ *, */g,','));
 //      saveSingleColumnRange(covariatesRange,covariatesColumnObj.SynReversalPotential,    
@@ -129,7 +130,7 @@ function getTheLastFormResponse(){
       //ID:1114795606	Type:PARAGRAPH_TEXT	Title:Presynaptic Search Query
       //ID:877026955	Type:PARAGRAPH_TEXT	Title:Postsynaptic Search Query
       var searchQuery = 'Connection:(Presynaptic:('+IE.getResponse('1114795606')+'), Postsynaptic:('+IE.getResponse('877026955')+'))';
-      saveSingleColumnRange(aR,eColumnObj.Automation,(searchQuery === 'Connection:(Presynaptic:(), Postsynaptic:())')? '' : searchQuery);
+      saveSingleColumnRange(aR,eColumnObj.Automation,(searchQuery === 'Connection:(Presynaptic:(), Postsynaptic:())')? '' : searchQuery.replace(/\s{2,}/g,' '));
       //ID:812232442	Type:GRID	Title:Connections List
       saveSingleColumnRange(aR,eColumnObj.Confidence,IE.getResponse('812232442'));
       
@@ -298,8 +299,7 @@ var referenceIE = function(form,formResponse,evidence,PMIDresItemID,evidenceID) 
                'Response eID: '+this.responseeID);
   
   this.saveReference = function(itemID,sheet) {//Logger.log(this.responsePMID == this.evidencePMID && this.responseeID == this.evidenceeID)
-    if (this.responsePMID == this.evidencePMID && this.responseeID == this.evidenceeID)
-    {
+    if (this.responsePMID == this.evidencePMID && this.responseeID == this.evidenceeID) {
       var res = this.getResponse(itemID);
       var newRef = [this.responsePMID].concat(res.split('@'));
       // res is an array object but when I pop() the 1st element if the rest of element were empty the type changes to string!!!!

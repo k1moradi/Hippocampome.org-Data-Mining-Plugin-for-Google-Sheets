@@ -1,14 +1,59 @@
 function eRev(){
 //---------------whole-cell
-  //Gulyás 2010 Parvalbumin-containing fast-spiking basket cells generate the field potential oscillations induced by cholinergic receptor activation in the hippocampus.
-  new solution(celsius=34,//22,34
-               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
-               pSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 MgATP, 3 NaCl, 10 HEPES, 5 QX314-Cl',
+  //Savić 2001 Electrophysiological characterization of "giant" cells in stratum radiatum of the CA3 hippocampal region.
+  new solution(celsius=32,
+               eSolution='126 NaCl, 3.5 KCl, 1.2 NaH2PO4, 3.7 MgCl2, 25 NaHCO3, 1 EGTA',
+               pSolution='130 Cs-Methanesulfonate, 10 CsCl, 10 HEPES, 0.4 EGTA, 1 MgCl2, 0.3 NaGTP, 2 Na2ATP',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, 
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.3,i:7.28,CO2:true}).log();
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+               Erev:{IPSC:-58.36,EPSC:-10.20,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:10,correctedAlready:true}},
+               pH={e:7.3,i:7.3,CO2:true}).log();
+  //Galván 2010 Critical involvement of postsynaptic protein kinase activation in long-term potentiation at hippocampal mossy fiber synapses on CA3 interneurons.
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 3 KCl, 1.25 Na2HPO4, 25 NaHCO3, 2 CaCl2, 1 MgCl2',
+//               pSolution='120 K-Methylsulfate, 10 NaCl, 10 KCl, 10 HEPES, 0.5 EGTA, 4.5 MgATP, 0.3 Na2GTP, 14 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-70},
+//               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.25,CO2:true}).log();
+  //Galván 2015 Synapse-specific compartmentalization of signaling cascades for LTP induction in CA3 interneurons.
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 3 KCl, 1.25 Na2HPO4, 25 NaHCO3, 2 CaCl2, 1 MgCl2',
+//               pSolution='120 K-Methylsulfate, 10 NaCl, 10 KCl, 10 HEPES, 0.5 EGTA, 4 MgATP, 0.3 Na2GTP, 14 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.3,CO2:true}).log();
+  //Toth 2000 Differential mechanisms of transmission at three types of mossy fiber synapse.
+//  new solution(celsius=24,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 CaCl 2, 1.5 MgCl2',
+//               pSolution='100 Cs-Gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+  //Astori 2010 Spike-timing-dependent plasticity in hippocampal CA3 neurons.
+//  new solution(celsius=31,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2, 0.01 Picrotoxin, 0.01 Bicuculline, 0.01 Glycine',
+//               pSolution='130 K-Gluconate, 10 Hepes, 10 Na2-Phosphocreatine, 10 Na-Gluconate, 4 MgATP, 0.3 Na2GTP, 4 NaCl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:-15.2,correctedAlready:false}},
+//               pH={e:NaN,i:7.2,CO2:true}).log();
+  //Gulyás 2010 Parvalbumin-containing fast-spiking basket cells generate the field potential oscillations induced by cholinergic receptor activation in the hippocampus.
+//  new solution(celsius=22,
+//               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 MgCl2, 2 CaCl2, 26 NaHCO3',
+//               pSolution='80 CsCl, 60 Cs-Gluconate, 1 MgCl2, 2 MgATP, 3 NaCl, 10 HEPES, 5 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-65,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.28,CO2:true}).log();
   //Guzman 2016 Synaptic mechanisms of pattern completion in the hippocampal CA3 network.
 //  new solution(celsius=34,//22,34
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
@@ -405,7 +450,17 @@ function eRev(){
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
   
-  
+
+
+  //Jaffe 1990 Induction of long-term potentiation at hippocampal mossy-fiber synapses follows a Hebbian rule.
+//  new solution(celsius=33,
+//               eSolution='124 NaCl, 3 KCl, 26 NaHCO3, 3 CaCl2, 3 MgCl2',
+//               pSolution='3000 KCl, 100 QX314-Cl',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80}, 
+//               Erev:{IPSC:NaN,EPSC:-2,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:false}).log();
   //Williams 1988 Muscarinic depression of long-term potentiation in CA3 hippocampal neurons.
 //  new solution(celsius=33,
 //               eSolution='124 NaCl, 3 KCl, 26 NaHCO3, 3 CaCl2, 3 MgCl2',
@@ -474,15 +529,21 @@ function eRev(){
   //exp16= new solution(35,'126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgSO4, 2 CaCl2','1500 K-Methylsulfate',Vm=NaN,isSharpElectrode=true,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-75.5±7.6; without accetate GHK=-83.55
   //Empson 1995 The perforant path projection to hippocampal area CA1 in the rat hippocampal-entorhinal cortex combined slice.
   //exp17= new solution(34,'124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4','2500 K-acetate',Vm=-61,isSharpElectrode=true,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-66.9±0.9;-69.2±0.7;-71.8±1.22;-85.9±2.3 for IPSPs, 7.5±0.2;8.6±0.6;13.2±1.2 for EPSPs, GHK=IPSP:-79.25  EPSP:-8.21
+
+
   //---------------perforated patch  
+
+
   //Dallwig 1999 On the mechanism of GABA-induced currents in cultured rat cortical neurons -> HCO3-Cl cotransport
   //exp10 = new experiment(22,'125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','',Vm=-70,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.4,pHi=NaN).log();    //Perforated-patch:HCO3/CO2-buffered saline: Experimental Erev in Soma=–59, GHK at -70 mV RMP =-58.8
   //exp11 = new experiment(22,'125 NaCl, 2.5 KCl, 26 Na-Gluconate, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','',Vm=-65,isSharpElectrode=false,O2_CO2_95_5=false,pHo=7.4,pHi=NaN).log(); //Perforated-patch:Hepes-buffered saline: Experimental Erev in Soma=-73, GHK at -65 mV RMP=-64.86
   
 //---------------outside-out
+
   //exp18 = new experiment(22,'125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','140 KCl, 10 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',RMP=NaN,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.2,pHi=7.3).log(); //Experimental Erev in patch=4.5 {ENa}, 9.8 {ECa}, GHK=-3.95
 
 //---------------cell-attached
+
   //Dugladze 2012 Segregation of axonal and somatic activity during fast network oscillations.
 //  new solution(celsius=22,
 //               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2, 25 NaHCO3',
