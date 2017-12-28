@@ -44,17 +44,26 @@
       .replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)/ig,'<b>$1</b>')
       .replace(/\b(AND|OR|NOT|Axons|Dendrites|Soma)\b/g,'<b><i>$1</i></b>') ?>
       </div>
-      <input type="button" value="search" onclick="alert(document.getElementById('editor').innerText)">
+      <input type="button" value="search" onclick="reCheckQuery(document.getElementById('editor').innerText)">
     </form>
 
     <script>
       document.getElementById("editor").addEventListener("input", 
         function() {
-          //showConnectionTable2();
+          //updateConnectionTable();
         }, false);
-      function showConnectionTable2 (cKeys,connectionsObj,title,bgColor,fontColor) {
         
-      }
+      function deleteTableRowsByID(ID) {
+       var table = document.getElementById(ID);
+       for(var i = 1;i<table.rows.length;)
+         table.deleteRow(i);
+      } 
+      
+      function addTableRows(cKeys,connectionsObj,ID) {
+        
+      } 
+
+
       function reCheckQuery(value) {
         var url = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
           value.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B');
@@ -62,15 +71,16 @@
           var errorRegExp   = /<br>.*<br>/;
           var error         = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
           var fetchedConns  = JSON.parse(response.replace(errorRegExp,''));
-          var cKeys = Object.keys(fetchedConns)  
-          showConnectionTable2(cKeys,fetchedConns,'Search engine results')
+          var cKeys = Object.keys(fetchedConns)
+          deleteTableRowsByID("tableAll")
+          addTableRows(cKeys,fetchedConns,"tableAll")
         }).accessApi(url);
       }
     </script>
     
-    <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor) {?>
+    <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor,ID) {?>
     <div><p><b>Total: <?=cKeys.length?>:</b> <?=title?></p>
-    <table class="sortable">
+    <table class="sortable" id="<?=ID?>">
       <tr>
         <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > sUIDs </th>
         <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > Presynaptic Cell Types </th>
@@ -91,7 +101,7 @@
        }
        
        var cKeys = Object.keys(fetchedConns)  
-       showConnectionTable(cKeys,fetchedConns,'Search engine results')
+       showConnectionTable(cKeys,fetchedConns,'Search engine results','green','white','tableAll')
        
        var connectionsMapped = evidence.PConnections.reduce(
          function(p,v,i){
@@ -111,7 +121,7 @@
                var cmCon = connectionsMapped[cmkey]
                return (eachCon.source_id === cmCon.source_id && eachCon.destination_id === cmCon.destination_id)
              })
-         }),fetchedConns,'Connections suggested by search engine to be added','blue','white')
+         }),fetchedConns,'Connections suggested by search engine to be added','blue','white','tableSuggested')
          
        showConnectionTable(cmKeys.filter(
          function(cmkey) {
@@ -121,7 +131,7 @@
                var fCon = fetchedConns[key]
                return (fCon.source_id === eachCon.source_id && fCon.destination_id === eachCon.destination_id)
              })
-         }),connectionsMapped,'Connections suggested by search engine to be deleted','red','white')
+         }),connectionsMapped,'Connections suggested by search engine to be deleted','red','white','tableDelete')
     
     ?>
   </body>
