@@ -12,7 +12,7 @@ function onOpen() {
   SpreadsheetApp.getUi()
   //add sub-toolbar to the toolbar 
   .createMenu('Data Mining')
-  .addItem('1. Review Evidence', 'reviewEvidence')
+  .addItem('1. Review Evidence', 'reviewEvidenceWithForm')
   .addItem('2. Import Evidence', 'getTheLastFormResponse')
   .addItem('3. Check  Query', 'checkQuery')
   .addItem('4. Extract Data', 'addSynapticData')
@@ -20,17 +20,22 @@ function onOpen() {
   .addItem('Get Max', 'getMaxOfColumn')
   .addItem('Count Unique', 'countUnique')
   .addItem('Text Cleaner', 'showTextCleaner')
+  .addItem('Check References', 'reviewEvidenceWithoutForm')
   .addToUi();
 };
 //-------Evidence Review Section-------------------------------------------------------------------
+function reviewEvidenceWithoutForm() {reviewEvidence(false)};
+function reviewEvidenceWithForm() {reviewEvidence(true)};
+
 var modalDialogHeight = 2160;
 var modalDialogWidth  = 3840;
-function reviewEvidence() {
+function reviewEvidence(displayForm) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var evidenceRange = getCheckActiveRange(ss.getActiveRange(),"Evidence");
-  var output = HtmlService.createTemplateFromFile("ReviewEvidence");
+  var output = HtmlService.createTemplate(include('showReferences')+include('ReviewEvidence'));
   if (evidenceRange) {
     // get needed data from spread sheets
+    output.displayForm = displayForm;
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     var covariates    = output.covariates     = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
     var myRefs        = output.myRefs         = sheetSamplingTool(ss.getSheetByName("My" ).getRange('A:A'),evidence.PMID,'RefID');
@@ -43,7 +48,7 @@ function reviewEvidence() {
     var dataRefs      = output.dataRefs       = sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),evidence.PMID,'RefID');
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     if (myRefs && covariates && morphology && markers && cellEphys && firingPatterns && connectivity) {
-      output.url = updateReviewForm(evidence,covariates,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity); //Logger.log(output.url);
+      output.url = (displayForm)? updateReviewForm(evidence,covariates,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity):''; //Logger.log(output.url);
       output.allRefs = mergeObjs(myRefs,morphology,markers,cellEphys,firingPatterns,connectivity,covariatesRef,dataRefs);
       output.imagesShown = [];
       SpreadsheetApp.getUi().showModalDialog(
@@ -75,7 +80,7 @@ function addSynapticData() {
 
   if (evidenceRange && (templateDataID.getSelectedButton() === ui.Button.YES || templateDataID.getSelectedButton() === ui.Button.NO)) {
     // get needed data from spread sheets
-    var output = HtmlService.createTemplateFromFile("SynapticData");
+    var output = HtmlService.createTemplate(include('showReferences')+include('SynapticData')); //HtmlService.createTemplateFromFile("SynapticData");
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     
     var dSec = evidence.dSec;
