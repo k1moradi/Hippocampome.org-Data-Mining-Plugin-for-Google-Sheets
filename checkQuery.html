@@ -53,16 +53,27 @@
           //updateConnectionTable();
         }, false);
         
+      var cellTypes = JSON.parse(<?= JSON.stringify(cellTypes) ?>);
+        
       function deleteTableRowsByID(ID) {
-       var table = document.getElementById(ID);
-       for(var i = 1;i<table.rows.length;)
-         table.deleteRow(i);
+        var table = document.getElementById(ID);
+        for(var i=1;i<table.rows.length;)
+        table.deleteRow(i);
       } 
       
       function addTableRows(cKeys,connectionsObj,ID) {
-        
-      } 
-
+        var table = document.getElementById(ID);
+        cKeys.forEach( 
+          function(key){
+            var eachCon = connectionsObj[key];
+            var sUID = eachCon.source_id;
+            var sCellName = ((sUID) ? cellTypes[sUID].Name : '');
+            var dUID = eachCon.destination_id;
+            var dCellName = ((dUID) ? cellTypes[dUID].Name : '');
+            var rowArray = [sUID,sCellName,dUID,dCellName];
+            table.insertRow().innerHTML = '<td>' + rowArray.join('</td><td>') + '</td>';
+          });
+      };
 
       function reCheckQuery(value) {
         var url = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
@@ -75,6 +86,7 @@
           deleteTableRowsByID("tableAll")
           addTableRows(cKeys,fetchedConns,"tableAll")
         }).accessApi(url);
+        
       }
     </script>
     
