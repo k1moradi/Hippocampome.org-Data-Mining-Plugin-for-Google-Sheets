@@ -53,8 +53,10 @@
 
      function deleteTableRowsByID(ID) {
        var table = document.getElementById(ID).getElementsByTagName('table')[0];
-       for(var i=1;i<table.rows.length;)
-       table.deleteRow(i);
+       if (table) 
+         if (table.rows.length > 1) 
+           for(var i=1;i<table.rows.length;)
+             table.deleteRow(i);
      } 
 
      function addTableRows(cKeys,connectionsObj,ID) {
