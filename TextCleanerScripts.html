@@ -107,9 +107,9 @@ function saveValue(form){
 };//===========================================================================================================
 function formatText(form) {
   form.inputText.value = form.inputText.value
-    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])/g                                     , '')
-    .replace(/(?<!<br>)[\r\n]+|[\t\s]+|&nbsp;|&thinsp;|(?<=table|tables|fig|figs|fig.|figs.|figure|figures)(?=\w)|(?<=[,;])(?=n=\d)/ig, ' ')
-    .replace(/(?<=(?:table|tables|fig|figs|fig.|figs.|figure|figures) \w) (?=\w )/ig                             , '')
+    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)/g                     , '')
+    .replace(/(?<!<br>)[\r\n]+|[\t\s]+|&nbsp;|&thinsp;|(?<=tables|table|figures|figure|figs\.|fig\.|figs|fig)(?=\w\w? )(?!s )|(?<=[,;])(?=n=\d)/ig, ' ')
+    .replace(/(?<=(?:tables|table|figures|figure|figs\.|fig\.|figs|fig) \w) (?=\w )/ig                           , '')
     .replace(/&ndash;/g, '—').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace('◦','°')
     .replace(/([iI])n *t *e *r *[mn] *e *u *r *o *n(s*)/g                                                        , '$1nterneuron$2')
     .replace(/(?<=[(;, ])(Na|Cs|K|N)H *[2z,*] *P[O0] *[4,](?=[ ),;.])/g                                          , '$1H₂PO₄')
@@ -125,7 +125,7 @@ function formatText(form) {
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')
     .replace(/(?<=[(;, ]|\.|\.\d)H *[2z,] *[O0](?=[ ),;.])/g                                                     , 'H₂O')
     .replace(/(?<=[(;, \/])C[O0] *[2z,?](?=[ ),;.])/g                                                            , 'CO₂')
-    .replace(/(?<=[(;, ])[O0] *2(?=[ +\/),;.–\-])/g                                                                , 'O₂')
+    .replace(/(?<=[(;, ])[O0] *2(?=[ +\/),;.–\-])/g                                                              , 'O₂')
     .replace(/(?<=[\[(\/;, –-])Cl\s*[-−"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ –),;.\]])/g                        , 'Cl⁻')
     .replace(/(?<=[\[(\/;, –-])(Na|K|Cs)\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g                , '$1⁺')
     .replace(/(?<=[\[(\/;, –-])(Mg|Ca)\s*[2\*]\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g          , '$1²⁺')
@@ -145,7 +145,7 @@ function formatText(form) {
                                                                                                                  , 'mM')
     .replace(/(?<=[(;, ])m M(?=[ ),;.])/g                                                                        , 'mM')
     .replace(/(?<=[(\d])\s*(?:mY|m V|mV)(?=[ ),;.])/g                                                            , ' mV')
-    .replace(/(\d+(?:\.\d+){0,1})([^<>)(\d]{0,1})(?:[ut]|\/[ux]|mu|I[Lt]|J\.*L|JI|F[Li]{0,1}|\/[jt\/\^]|j[f<i]|[\/\(]i|i[xj]|p[\.Rut]|[!tl]J\.|[-~]t|,u[\.]{0,1}|#£|\|x|[gì\x01\x02\x03\x04\x05])\s*([MmsA]|m2|[Ss]ec)(?=[ ),;.]|.thick)/g,
+    .replace(/(\d+(?:\.\d+){0,1})([^<>)(\d]{0,1})(?:[Uut]|\/[ux]|[mg]u|I[Lt]|J\.*L|JI|F[Li]{0,1}|\/[jt\/\^]|j[f<i]|[\/\(]i|i[xj]|p[\.Rut]|[!tl]J\.|[-~]t|,u[\.]{0,1}|#£|\|x|[gì\x01\x02\x03\x04\x05])\s*([MmsA]|m2|[Ss]ec)(?=[ ),;.–]|.thick)/g,
       function(fullMatch,p1,p2,p3){
         return p1+((p2)?p2:' ')+'µ'+((p3 === 'm2')?'m²':p3)})                                                               //µM
     .replace(/(?<=[(\d])\s*(?:[pP]|\|x)(M)(?=[ ),;.])/g                                                          , ' µ$1')  //µM µV not PV+
@@ -155,7 +155,8 @@ function formatText(form) {
     .replace(/(?<=\d)\sÒ/g                                                                                       , ' M')
     .replace(/(?<=[\(\s])CV\s*[\x01\x02\x03\x04\x05\x06\x07-−]\s*2(?=[\s\)])/g                                  , 'CV⁻²')
     .replace(/(?<=\s)1[\/]CV 2(?=\s)/g                                                                           , '1/CV²')
-    .replace(/(?<=\d)\s*mm\s*2(?=\s)/g                                                                           , ' mm²')
+    .replace(/(?<=\d)\s*mm\s*2(?=[\s,])/g                                                                        , ' mm²')
+    .replace(/(?<=\s)mm\s*[\-–]\s*2(?=[\s,])/g                                                                   , 'mm⁻²')
     .replace(/(?<=\d)\s*o\/o(?=[ ),;.])/g                                                                        , '%')
     .replace(/(?<=\s)(min|mg)\s*[-–]\s*1(?=\s)/g                                                                 , '$1⁻¹')
     .replace(/wÏv/g                                                                                              , 'w/v')
@@ -164,7 +165,8 @@ function formatText(form) {
     .replace(/Greek Letter Mu|&micro;\s*|μ|&mu;/g                                                                , 'µ')   //ALT+230 convert unicode to ascii
     .replace(/(?:\\tau|&tau;|(?<= )tau(?= )|tau(?= *=)|((?:time constants*|decay|rise) *\(*)tau\)*)/ig           , '$1τ') //ALT+231
     .replace(/omega([^<>)(]{0,1}(?:aga|cono)toxin)/g                                                             , 'ω$1')
-    .replace(/(?<=\d)\s*[·*]\s*(?=\d)/g                                                                          , '.')
+    .replace(/(?<=\d)\s*[·*]\s*(?=\d)|(?<=[ ±+–]0)–?(?=(?:0\d+|[1-9])[ ±+])/g                                    , '.')   // decimal point  |(?<=[ +=]\d)[–'](?=\d+[ +])
+    .replace(/(?<=[ =,;(]\d+)[–'&.](\d+)\s*([+±–])\s*(\d+)[–'&.](?=\d+[ ),;])/g                                  , '.$1$2$3.') //\d–\d–\d–\d --> \d.\d–\d.\d)
     .replace(/(?<=[A-Za-z])\s*[-−](\s*)(?=[A-Za-z])/g                                                            , '-$1') // negative as hiphen between two words
     .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])[–—−-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])/g                                             , '–')   // normal hiphen as big hiphen or negative signs between two words
     .replace(/&minus;|(?<=∼) *[–—−](?=\d)/g                                                                      , '-')   // ngative
@@ -182,7 +184,7 @@ function formatText(form) {
     .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=[5-8][05][ ),;.])/g                   , '$1-') // control character as negative sign for values <-50
     .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=\d+[±.]\d+[ ),;.±])/g                 , '$1-') // control character as negative sign between a word and a number with decimals
     .replace(/(?<=[=><(≤≥~ ])(\s*)[–—−]\s*(?=(?:\d+[.]\d+|\d+)[ ),;.±])/g                                        , '$1-') // hiphen as negative sign
-    .replace(/(?<=\w[(;, ])(\s*[~+-><≈])\s(?=(?:\d+[.]\d+|\d+)[ ),;.±])/g                                        , '$1')  // [~+-><]\s\d
+    .replace(/(?<=\w[(;, ])(\s*[~+\-><≈])\s(?=(?:\d+[.]\d+|\d+)[ ),;.±])/g                                       , '$1')  // [~+-><]\s\d
     .replace(/approx(?=\d)/g                                                                                     , '~')
     .replace(/(?<=\w)\s*[(]\s(?=-{0,1}[\wΔµ])/g                                                                  , ' (')
     .replace(/(?<=[\w\dΩ])\s[)]\s*(?=[:.,;])/g                                                                   , ')')
@@ -202,7 +204,7 @@ function formatText(form) {
     .replace(/(?<=[(;, ])E *(K|Na|C[lsa]|rev)(?=[ =),;.])/g                                                      , 'E<sub>$1</sub>')
     .replace(/(?<=[(;, ])R *([Ss]|in|IN)(?=[ =),;.])/g                                                           , 'R<sub>$1</sub>')
     .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$)/g                                      , '<sup>$1</sup>') // numerical references
-    .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*)|(?<!alexa|prox|and|was|[Tt]able|[Ff]igure|paradigm)(?<=[a-z]{3}|[)])\s*(\d{1,3})(?=\.(?:\s|<br>)|\.$))/g, 
+    .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*)|(?<!alexa|prox|and|was|[Tt]able|[Ff]igure|paradigm|cell|actinin)(?<=[a-z]{3}|[)])\s*([\d–]{1,3})(?=\.(?:\s|<br>)|\.$))/g, 
       function(fullMatch,p1,p2,p3){
         var prefix = ((p1 === '^' || !p1) ? '' : p1)
         var num = Array.from((p2)?p2:p3).reduce(
@@ -263,7 +265,7 @@ function formatText(form) {
     .replace(/(?<=[(;, \]\/])(p|P)\s*([<>≤≥])\s*(?=-{0,1}\d)/g                                                   , '$1$2') // p < \d --> p<\d
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
     .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                                ,'<b>$1</b><br>$2')
-    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref)\.\s)(?![Ww]e)(\(?\w[a-z0-9]?(?: ?[,–\-] ?\w[a-z0-9]{0,1}|,{0,1} (?:and|to) \w[a-z0-9]{0,1}){0,1}[\),:]|\w[a-z0-9]{0,1}[\.,:])(?<!ml,)(?= )/g, 
+    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref)\.\s)(?![Ww]e|\(\w[a-z0-9]?,)(\(?\w[a-z0-9]?(?: ?[,–\-] ?\w[a-z0-9]{0,1}|,{0,1} (?:and|to) \w[a-z0-9]{0,1}){0,1}[\),:]|\w[a-z0-9]{0,1}[\.,:])(?<!ml,)(?= )/g, 
       function(fullMatch,p1,p2){
         return ((p1==='. ')?'.':'')+'<br><b>'+p2+'</b>'
       })                                                                                                                        // a-b, bold image list

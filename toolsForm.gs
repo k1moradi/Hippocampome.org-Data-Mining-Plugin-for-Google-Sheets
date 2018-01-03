@@ -6,7 +6,7 @@ function refHighlights(input) {
   var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
   var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) ){0,1}[-+]{0,1}"+numbers+"{0,1}(?: \\("+numbers+"%\\))?";
   var units = "(?:°C{0,1}|m(?:sec|[lLMVs])(?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}(?:ec)?|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]{0,1}\\.{0,1}[eiEI]\\.{0,1}[Pp]\\.{0,1}[Ss]\\.{0,1}[CPcp])[Ss]{0,1}))";
-  var numPattern = new RegExp("([\\s(;,=])("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
+  var numPattern = new RegExp("([\\s(;,=]|<br>)("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
   var strInput = (typeof input === 'object' && !Array.isArray(input)) ? JSON.stringify(input) : String(input);
   return strInput
   .replace('[micro]','µ')

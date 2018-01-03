@@ -13,9 +13,9 @@ function onOpen() {
   //add sub-toolbar to the toolbar 
   .createMenu('Data Mining')
   .addItem('1. Review Evidence', 'reviewEvidenceWithForm')
-  .addItem('2. Import Evidence', 'getTheLastFormResponse')
-  .addItem('3. Check  Query', 'checkQuery')
-  .addItem('4. Extract Data', 'addSynapticData')
+  .addItem('2. Check  Query', 'checkQuery')
+  .addItem('3. Extract Data', 'addSynapticData')
+  .addItem('Import Evidence', 'getTheLastFormResponse')
   .addItem('Jump to Row', 'jumpToRow')
   .addItem('Get Max', 'getMaxOfColumn')
   .addItem('Count Unique', 'countUnique')
@@ -74,7 +74,7 @@ function addSynapticData() {
   var allDataIDs = synapticDataSheet.getRange('D2:D').getValues().reduce(to1D);
   var ui = SpreadsheetApp.getUi();  
   do {
-    var templateDataID = ui.prompt('𝐓𝐞𝐦𝐩𝐥𝐚𝐭𝐢𝐧𝐠 𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐃𝐚𝐭𝐚?', '🅽🅾🆃🅴: Go to all prefilled menus to avoid losing data\n\nData ID (dID) template:', ui.ButtonSet.YES_NO);
+    var templateDataID = ui.prompt('𝐓𝐞𝐦𝐩𝐥𝐚𝐭𝐢𝐧𝐠 𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐃𝐚𝐭𝐚?', '🅽🅾🆃🅴: Go to all prefilled menus and press 🄽🄴🅇🅃 (not 🄱🄰🄲🄺) to avoid losing data\n\nData ID (dID) template:', ui.ButtonSet.YES_NO);
     var rowIndex = (templateDataID.getSelectedButton() === ui.Button.YES) ? allDataIDs.indexOf(Number(templateDataID.getResponseText())) : 0;
   } while (rowIndex === -1);
 

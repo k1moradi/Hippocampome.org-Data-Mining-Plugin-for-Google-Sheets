@@ -32,6 +32,7 @@ function getTheLastFormResponse(){
       //ID:277511854	Type:TEXT	Title:Pubmed ID
       //ID:1965398313	Type:PARAGRAPH_TEXT	Title:Evidence ID
       var IE = new referenceIE(form,formResponse,evidence,'277511854','1965398313');
+      saveSingleColumnRange(aR,eColumnObj.PMID,IE.getResponse('277511854')+';');
       saveSingleColumnRange(aR,eColumnObj.eID,IE.getResponse('1965398313'));
       
       //----------------------Experiment Description--------------------------------------------------------

@@ -1,14 +1,14 @@
 function eRev(){
 //---------------whole-cell
   //Savić 2001 Electrophysiological characterization of "giant" cells in stratum radiatum of the CA3 hippocampal region.
-  new solution(celsius=32,
-               eSolution='126 NaCl, 3.5 KCl, 1.2 NaH2PO4, 3.7 MgCl2, 25 NaHCO3, 1 EGTA',
-               pSolution='130 Cs-Methanesulfonate, 10 CsCl, 10 HEPES, 0.4 EGTA, 1 MgCl2, 0.3 NaGTP, 2 Na2ATP',
-               recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
-               Erev:{IPSC:-58.36,EPSC:-10.20,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:10,correctedAlready:true}},
-               pH={e:7.3,i:7.3,CO2:true}).log();
+//  new solution(celsius=32,
+//               eSolution='126 NaCl, 3.5 KCl, 1.2 NaH2PO4, 3.7 MgCl2, 25 NaHCO3, 1 EGTA',
+//               pSolution='130 Cs-Methanesulfonate, 10 CsCl, 10 HEPES, 0.4 EGTA, 1 MgCl2, 0.3 NaGTP, 2 Na2ATP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:-58.36,EPSC:-10.20,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:10,correctedAlready:true}},
+//               pH={e:7.3,i:7.3,CO2:true}).log();
   //Galván 2010 Critical involvement of postsynaptic protein kinase activation in long-term potentiation at hippocampal mossy fiber synapses on CA3 interneurons.
 //  new solution(celsius=32,
 //               eSolution='125 NaCl, 3 KCl, 1.25 Na2HPO4, 25 NaHCO3, 2 CaCl2, 1 MgCl2',
@@ -450,8 +450,15 @@ function eRev(){
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
   
-
-
+  //Miles 1990 Synaptic excitation of inhibitory cells by single CA3 hippocampal pyramidal cells of the guinea-pig in vitro.
+  new solution(celsius=37,
+               eSolution='124 NaCl, 4 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3',
+               pSolution='3000 K-Acetate',
+               recordingMethod='sharp electrode',
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:-7},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.4,i:7.2,CO2:true}).log();
   //Jaffe 1990 Induction of long-term potentiation at hippocampal mossy-fiber synapses follows a Hebbian rule.
 //  new solution(celsius=33,
 //               eSolution='124 NaCl, 3 KCl, 26 NaHCO3, 3 CaCl2, 3 MgCl2',
