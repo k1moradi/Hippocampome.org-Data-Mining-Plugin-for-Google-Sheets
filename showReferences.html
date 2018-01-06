@@ -8,14 +8,15 @@
         </summary>
         <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
             var theReference = references[refID]; ?>
-        <details id='Reference' open>
+        <details id='<?=theReference.rowRange?>' class='Reference' open>
           <summary style='background-color:black; color:white; margin:0; font-size:120%;'>
+          <input type='button' value='💾' onclick='saveReference(this);' class='button' style='background-color:rgba(255,255,255,0)'>
             <b>ID:</b><a style='color:pink' href='javascript:return false;' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?= refID ?></a>, 
             <? if (typeof theReference !== "undefined") {
                  var UID = theReference.UID;?>
-            <i style='color:yellow'><?=theReference.Location?></i>, 
-            <?=  (isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID
-               }?>
+            <i style='color:yellow'><?=theReference.Location?></i><span id='UID' contenteditable='true'>,
+            <?= (isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
+            <? }?>
           </summary>
           <?if (typeof theReference === "undefined") {?>
           <p style='color:red;'>
@@ -25,7 +26,7 @@
           <?} else {
               var UID = theReference.UID;
               if (UID) {?>
-          <details>
+          <!--<details>
             <summary style='background-color:#3F51B5; color:white; margin:0;'>
               <b>Cell Types:</b>
             </summary>
@@ -48,7 +49,7 @@
             <p><b><?= UID ?>: </b><?= (cellTypes[UID]) ? cellTypes[UID].Name : UID+':❌undefined cell type UID'; ?>
             </p>
             <?  } ?>
-          </details>
+          </details>-->
           <?  }?>
           <p>
             <?!= refHighlights(theReference.Quote) ?>

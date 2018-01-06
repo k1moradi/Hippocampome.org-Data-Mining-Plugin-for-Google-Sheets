@@ -1,5 +1,7 @@
 function test() { 
-//  Logger.log((Null('-'))?true:false)
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  Logger.log(ss.getRange('Mo!735:735').getCell(1, 3).setValue(value))
+  //Logger.log(JSON.stringify(sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),['25429131'],'RefID')))
 //  var form = FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8')
 //  
 //  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextDoesNotContainPattern('^[\s\n\r\t]*~~\s*').build();
@@ -11,14 +13,14 @@ function test() {
 //    item.asParagraphTextItem().setValidation(paragraphtextValidation);
 //  });
   
-  var spacer = "[^<>)(]";
-  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
-  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
-  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
-  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) ){0,1}[-+]{0,1}"+numbers+"{0,1}(?: \\("+numbers+"%\\))?";
-  var units = "(?:°C{0,1}|m(?:sec|[lLMVs])(?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}(?:ec)?|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]{0,1}\\.{0,1}[eiEI]\\.{0,1}[Pp]\\.{0,1}[Ss]\\.{0,1}[CPcp])[Ss]{0,1}))";
-  var numPattern = new RegExp("([\\s(;,=]|<br>)("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
-  Logger.log(numPattern)
+//  var spacer = "[^<>)(]";
+//  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
+//  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
+//  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
+//  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) ){0,1}[-+]{0,1}"+numbers+"{0,1}(?: \\("+numbers+"%\\))?";
+//  var units = "(?:°C{0,1}|m(?:sec|[lLMVs])(?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}(?:ec)?|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]{0,1}\\.{0,1}[eiEI]\\.{0,1}[Pp]\\.{0,1}[Ss]\\.{0,1}[CPcp])[Ss]{0,1}))";
+//  var numPattern = new RegExp("([\\s(;,=]|<br>)("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
+//  Logger.log(numPattern)
 };
 
 function getMaxOf(sheetName,columnName) {
@@ -93,43 +95,52 @@ This object gets
 an entire column range of a sheet to search whithin, also
 a cellValue to search for
 and the header that identifies Rows, which is going to be used to access multiple rows
-row(s) that contain the search cellValue are selected
-each row is converted to a JASON object based on first colums headers of the sheet
+row(s) that contain the search cellValue
+each row is converted to a JSON object based on first colums headers of the sheet
 returns an oject-of-objects one object for each row
 returns null if there is an error
 returns an empty object if nothing is found
 */
-function sheetSamplingTool(columnRange, cellValue, accessHeader)
-{
-  getRowRanges = function (sheet,rowIndices)
-  {//  get the row Indices and return an array of rwo ranges
-    return rowIndices.reduce(function(previous,rowIndex){previous.push(sheet.getRange(rowIndex.toString()+":"+rowIndex.toString()));return previous},[]);
+function sheetSamplingTool(columnRange, cellValue, accessHeader){
+  getRowRanges = function (sheet,rowIndices){
+    //  get the row Indices and return an array of rwo ranges
+    return rowIndices.reduce(
+      function(previous,rowIndex){
+        previous.push(sheet.getRange(rowIndex.toString()+":"+rowIndex.toString()));
+        return previous
+      },[]);
   };
-  getRangeAsJson = function(rangeArray,headers)
-  {// gets an array of row ranges and returns an array of JSON object based on the "original sheet's" first row headers
+  getRangeAsJson = function(rangeArray,headers){
+    // gets an array of row ranges and returns an array of JSON object based on the "original sheet's" first row headers
     return rangeArray.map(function(range) {
-      return range.getValues()[0].reduce(function(previous,value){previous[headers[Object.keys(previous).length]] = value; return previous},{})});
+      var rowObj = range.getValues()[0].reduce(
+        function(previous,value){
+          previous[headers[Object.keys(previous).length]] = value;
+          return previous
+        },{})
+      rowObj.rowRange = range.getSheet().getName()+'!'+range.getA1Notation();
+      return rowObj;
+    });
   };
   //-----------------------------function body--------------------------
   var sheet = columnRange.getSheet();
   var headers = sheet.getRange("1:1").getValues()[0];
-  if (cellValue.length === 1 && columnRange) 
-  {
+  if (cellValue.length === 1 && columnRange) {
     var rowIndices = [];
     //Search for the cellValue in the column specified by the user:
-    //get values of the range -> convert array of arrays to an array -> find the row indices that have matching key values -> store them in rowIndices
-    columnRange.getValues().reduce(to1D).forEach(function(value,index){if (value == cellValue) {rowIndices.push(index+1)}});
-    if (arguments.length === 2)
-    {
-      if (rowIndices.length === 0)
-      {
+    //get values of the range -> convert array of arrays to an array -> 
+    //find the row indices that have matching key values -> store them in rowIndices
+    columnRange.getValues().reduce(to1D).forEach(
+      function(value,index){
+        if (value == cellValue) {rowIndices.push(index+1)}
+      });
+    if (arguments.length === 2) {
+      if (rowIndices.length === 0) {
         //SpreadsheetApp.getActiveSpreadsheet().toast('sheetSamplingTool did not find any match in '+sheet.getName()+' sheet','Warning for SamplingTool');
         return {};
-      } else if (rowIndices.length === 1)
-      {
+      } else if (rowIndices.length === 1) {
         return getRangeAsJson(getRowRanges(sheet,rowIndices),headers)[0];
-      } else
-      {
+      } else {
         SpreadsheetApp.getActiveSpreadsheet().toast('more than one row is found in the '+sheet.getName()+
         ' sheet please provide the column name that has the unique identifier as the third argument to this function','Error in SamplingTool');
         return null;
@@ -264,3 +275,6 @@ function setActiveCellValue(uniCellObj,value) {
   var cellObj = JSON.parse(uniCellObj);
  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(cellObj.sheetName).getRange(cellObj.cellRange).setValue(value);
 };
+function saveReferenceToSheet(A1Notation,value){
+  SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation).getCell(1, 3).setValue(value)
+}

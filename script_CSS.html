@@ -125,11 +125,53 @@ sub {
 .dropdown:hover .dropbtn {
     background-color: #3e8e41;
 }
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
 </style>
 
 <script language='JavaScript'>
   window.onload = function() {
-    window.References = Array.from(document.querySelectorAll('#Reference'));
+    window.References = Array.from(document.querySelectorAll('.Reference'));
   }
   
   function toggleReferences(button) {
@@ -142,7 +184,8 @@ sub {
     }
   };//==========================================================================================================================
   function caseSensitiveSearch(text,id) {
-    while (span = document.querySelector('.labnol')) span.outerHTML = String(span.outerHTML).replace(/<span.*?class="labnol".*?>(.*?)<\/span>/g,"$1")
+    while (span = document.querySelector('.labnol')) 
+      span.outerHTML = String(span.outerHTML).replace(/<span.*?class="labnol".*?>(.*?)<\/span>/g,"$1");
     if (text == null || text.length == 0) return;
     function searchWithinNode(node, te, len) {
       var pos, skip, spannode, middlebit, endbit, middleclone;
@@ -185,5 +228,23 @@ sub {
     }
     document.addEventListener('copy', handler, true);
     document.execCommand('copy');
+  }
+  
+  function saveReference(ref){
+    var detailsSummaryElem = ref.parentElement.parentElement;
+    var summaryElem = ref.parentElement;
+    var uidElem = summaryElem.querySelector('#UID');
+    uidElem.innerText = uidElem.innerText.replace(/%3E|&gt;|>/g,'▶').replace(/%3C|&lt;|</g,'◀')
+    var A1Notation = detailsSummaryElem.id;
+    google.script.run
+      .withSuccessHandler(
+        function(){
+          var x = document.getElementById("snackbar")
+          x.className = "show";
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+      }).saveReferenceToSheet(A1Notation,
+                              uidElem.innerText
+                                .replace(/^(?:&nbsp|\s)*[,;]+(?:&nbsp|\s)*|(?:&nbsp|\s)*[,;]+(?:&nbsp|\s)*$/g,'')
+                                .replace(/\s+/g,' '));
   }
 </script>

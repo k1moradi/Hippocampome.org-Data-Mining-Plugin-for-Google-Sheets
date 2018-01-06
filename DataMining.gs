@@ -8,19 +8,23 @@ containing the description of eletrophysiological evidence.
 Then from the custon "Data Entry" menu select enter "Eneter Data".
 */
 //-------Data Mining 
-function onOpen() {
-  SpreadsheetApp.getUi()
-  //add sub-toolbar to the toolbar 
-  .createMenu('Data Mining')
+function onOpen() {//add sub-toolbar to the toolbar 
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Data Mining')
   .addItem('1. Review Evidence', 'reviewEvidenceWithForm')
   .addItem('2. Check  Query', 'checkQuery')
   .addItem('3. Extract Data', 'addSynapticData')
-  .addItem('Import Evidence', 'getTheLastFormResponse')
+  .addSeparator()
+  .addSubMenu(
+    ui.createMenu('Rarely Used')
+    .addItem('▶', 'typeForwardArrow')
+    .addItem('Get Max', 'getMaxOfColumn')
+    .addItem('Count Unique', 'countUnique')
+    .addItem('Import Evidence', 'getTheLastFormResponse'))
+  .addSeparator()
   .addItem('Jump to Row', 'jumpToRow')
-  .addItem('Get Max', 'getMaxOfColumn')
-  .addItem('Count Unique', 'countUnique')
-  .addItem('Text Cleaner', 'showTextCleaner')
-  .addItem('Check References', 'reviewEvidenceWithoutForm')
+  .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
+  .addItem('View References', 'reviewEvidenceWithoutForm')
   .addToUi();
 };
 //-------Evidence Review Section-------------------------------------------------------------------
@@ -233,9 +237,12 @@ function countUnique() {
     SpreadsheetApp.getUi().alert(range.getValues().reduce(to1D).filter(onlyUnique).map(
       function(item){
         return (typeof item === 'string')? item.replace(/\D+/,'') : item;
-      }).filter(isNumeric).filter(Null).length)
+      }).filter(isNumeric).filter(dash2null).length)
   }
-
+}
+function typeForwardArrow() {
+  var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
+  cell.setValue(cell.getValue()+'▶');
 }
 //-------Common function ---------------------------------------------------------------------------
 function getCheckActiveRange(activeRange,ActiveTabName) {
