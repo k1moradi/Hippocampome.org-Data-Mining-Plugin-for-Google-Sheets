@@ -5,8 +5,8 @@ function eRev(){
                eSolution='124 NaCl, 3 KCl, 2 CaCl2, 1.3 MgSO4, 25 NaHCO3, 1.2 NaH2PO4',
                pSolution='110 K-Gluconate, 10 KCl, 10 HEPES, 4 ATP, 0.3 Na2GTP, 10 Na2-Phosphocreatine',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               voltages={Vm:{RMP:-72,Vh:-70,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
                Vj:{exp:NaN,correctedAlready:false}},
                pH={e:7.3,i:7.25,CO2:true}).log();
   //Savić 2001 Electrophysiological characterization of "giant" cells in stratum radiatum of the CA3 hippocampal region.

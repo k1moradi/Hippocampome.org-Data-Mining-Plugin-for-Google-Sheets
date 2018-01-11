@@ -53,21 +53,30 @@
        font-size: 13px;
        line-height: 20px;
      }
+    mark{
+      background: white;
+      color: black;
+      font-weight: bold;
+    }
+    
    </style>
    <?!= include("sorttable") ?>
+   <?!= include("mark") ?>
  </head>
  <body>
    <div contenteditable='true' id='editor' class=text><?!= evidence.Query
      .replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)/ig,'<b>$1</b>')
      .replace(/\b(AND|OR|NOT|Axons|Dendrites|Soma)\b/g,'<b><i>$1</i></b>') ?>
-     </div>
+   </div>
      <input type="button" value="search" onclick="reCheckQuery(document.getElementById('editor').innerText)">
    <br>
    <div id='error'><b>Error:</b><?!=(error)?error:''?></div>
    <script>
+     var instance = new Mark(document.getElementById("editor"));
      document.getElementById("editor").addEventListener("input", 
        function() {
-         //updateConnectionTable();
+           instance.unmark();
+           instance.mark('bold');
        }, false);
 
      var cellTypes = JSON.parse(<?= JSON.stringify(cellTypes) ?>);

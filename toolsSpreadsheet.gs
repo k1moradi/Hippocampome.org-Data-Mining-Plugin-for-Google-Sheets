@@ -1,6 +1,5 @@
 function test() { 
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  Logger.log(ss.getRange('Mo!735:735').getCell(1, 3).setValue(value))
+  Logger.log(refHighlights.toString())
   //Logger.log(JSON.stringify(sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),['25429131'],'RefID')))
 //  var form = FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8')
 //  
@@ -275,6 +274,8 @@ function setActiveCellValue(uniCellObj,value) {
   var cellObj = JSON.parse(uniCellObj);
  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(cellObj.sheetName).getRange(cellObj.cellRange).setValue(value);
 };
-function saveReferenceToSheet(A1Notation,value){
-  SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation).getCell(1, 3).setValue(value)
+function saveReferenceToSheet(A1Notation,UID,Quote){
+  var referenceRange = SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation);
+  referenceRange.getCell(1, 3).setValue(UID);
+  referenceRange.getCell(1, 6).setValue(Quote);
 }

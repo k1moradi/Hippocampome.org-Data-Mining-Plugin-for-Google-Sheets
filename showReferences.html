@@ -9,13 +9,15 @@
         <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
             var theReference = references[refID]; ?>
         <details id='<?=theReference.rowRange?>' class='Reference' open>
-          <summary style='background-color:black; color:white; margin:0; font-size:120%;'>
-          <input type='button' value='💾' onclick='saveReference(this);' class='button' style='background-color:rgba(255,255,255,0)'>
-            <b>ID:</b><a style='color:pink' href='javascript:return false;' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?= refID ?></a>, 
+          <summary style='background-color:black; color:white; margin:0; font-size:110%;'
+           ><input type='button' value='💾' onclick='saveReference(this);' class='button' style='background-color:rgba(255,255,255,0)'
+           ><b>ID:</b
+           ><a style='color:pink' href='javascript:return false;' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?= refID ?></a>, 
             <? if (typeof theReference !== "undefined") {
                  var UID = theReference.UID;?>
-            <i style='color:yellow'><?=theReference.Location?></i><span id='UID' contenteditable='true'>,
-            <?= (isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
+            <i style='color:yellow' class='disableClick'><?=theReference.Location?>,</i
+           ><span class='UID disableClick' contenteditable='true' style='min-width:100px;display:inline-block;'><?= 
+                 (isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
             <? }?>
           </summary>
           <?if (typeof theReference === "undefined") {?>
@@ -51,9 +53,9 @@
             <?  } ?>
           </details>-->
           <?  }?>
-          <p>
+          <div class='Quote' contenteditable='true'><p>
             <?!= refHighlights(theReference.Quote) ?>
-          </p>
+          </p></div>
           <?if (theReference.Figure) {
               String(theReference.Figure)
               .split(/\s*[;,]+\s*/g)

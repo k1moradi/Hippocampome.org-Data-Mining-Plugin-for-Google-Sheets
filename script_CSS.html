@@ -172,6 +172,19 @@ sub {
 <script language='JavaScript'>
   window.onload = function() {
     window.References = Array.from(document.querySelectorAll('.Reference'));
+    
+    //document.getElementsByClassName('UID').forEach(
+    Array.from(document.querySelectorAll('.disableClick')).forEach(
+      function(elem){
+        //disable click on focus to element
+        elem.addEventListener('click',function(e) {
+          e.preventDefault();
+        });
+        //disable click on keyup
+        elem.addEventListener('keyup',function(e) {
+          e.preventDefault();
+        });
+    });
   }
   
   function toggleReferences(button) {
@@ -232,19 +245,60 @@ sub {
   
   function saveReference(ref){
     var detailsSummaryElem = ref.parentElement.parentElement;
-    var summaryElem = ref.parentElement;
-    var uidElem = summaryElem.querySelector('#UID');
-    uidElem.innerText = uidElem.innerText.replace(/%3E|&gt;|>/g,'▶').replace(/%3C|&lt;|</g,'◀')
     var A1Notation = detailsSummaryElem.id;
+    var UIDelemValue = detailsSummaryElem.querySelector('.UID').innerText
+      .replace(/\s*(?:%3E|&gt;|>)\s*/g,'▶')
+      .replace(/\s*(?:%3C|&lt;|<)\s*/g,'◀')
+      .replace(/\s*(?:\*)\s*/g,'❌')
+      .replace(/\s+/g,' ');
+    
+    var Quote = detailsSummaryElem.querySelector('.Quote');
+    //remove highlights
+    while (mark = Quote.querySelector('mark')) 
+      mark.outerHTML = mark.innerHTML;
+    //remove case-sensitive search tool highlights
+    while (span = Quote.querySelector('span')) 
+      span.outerHTML = span.innerHTML;
+    //convert <p> to <br>
+    while (p = Quote.querySelector('p')) 
+      p.outerHTML = p.innerHTML+'<br>';
+    
+    var quoteValue = Quote.innerHTML
+      .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
+      .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'')
+      .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
+      .replace(/&lt;/g,'<')
+      .replace(/&gt;/g,'>')
+      .replace(/&ndash;/g,'—')
+      .replace(/&amp;/g,'&');
+    
+    Array.from(document.querySelectorAll('.Reference')).forEach(
+      function(element) {
+        if (element.id === A1Notation){
+          element.querySelector('.UID').innerText = UIDelemValue;
+          element.querySelector('.Quote').innerHTML = '<p>'+quoteValue+'</p>';
+        }
+    })
     google.script.run
       .withSuccessHandler(
         function(){
           var x = document.getElementById("snackbar")
           x.className = "show";
-          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-      }).saveReferenceToSheet(A1Notation,
-                              uidElem.innerText
-                                .replace(/^(?:&nbsp|\s)*[,;]+(?:&nbsp|\s)*|(?:&nbsp|\s)*[,;]+(?:&nbsp|\s)*$/g,'')
-                                .replace(/\s+/g,' '));
+          setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000)})
+      .saveReferenceToSheet(A1Notation,UIDelemValue.replace(/^\s*[,;]+\s*|\s*[,;]+\s*$/g,''),quoteValue);
   }
+  /*  function insertHtmlAtCursor(html) {
+    var range, node;
+    if (window.getSelection && window.getSelection().getRangeAt) {
+        range = window.getSelection().getRangeAt(0);
+        node = range.createContextualFragment(html);
+        range.insertNode(node);
+        window.getSelection().collapseToEnd();
+        window.getSelection().modify('move', 'forward', 'character');
+    } else if (document.selection && document.selection.createRange) {
+        document.selection.createRange().pasteHTML(html);
+        document.selection.collapseToEnd();
+        document.selection.modify('move', 'forward', 'character');
+    }
+ }  */
 </script>
