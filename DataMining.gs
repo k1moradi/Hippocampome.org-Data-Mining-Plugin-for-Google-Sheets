@@ -11,9 +11,10 @@ Then from the custon "Data Entry" menu select enter "Eneter Data".
 function onOpen() {//add sub-toolbar to the toolbar 
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Data Mining')
-  .addItem('1. Review Evidence', 'reviewEvidenceWithForm')
-  .addItem('2. Check  Query', 'checkQuery')
-  .addItem('3. Extract Data', 'addSynapticData')
+  .addItem('1. Review References', 'reviewEvidenceWithoutForm')
+  .addItem('2. Review Evidence', 'reviewEvidenceWithForm')
+  .addItem('3. Check  Query', 'checkQuery')
+  .addItem('4. Extract Data', 'addSynapticData')
   .addSeparator()
   .addSubMenu(
     ui.createMenu('Rarely Used')
@@ -24,7 +25,6 @@ function onOpen() {//add sub-toolbar to the toolbar
   .addSeparator()
   .addItem('Jump to Row', 'jumpToRow')
   .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
-  .addItem('View References', 'reviewEvidenceWithoutForm')
   .addToUi();
 };
 //-------Evidence Review Section-------------------------------------------------------------------

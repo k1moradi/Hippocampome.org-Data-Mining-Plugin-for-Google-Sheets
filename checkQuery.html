@@ -61,8 +61,7 @@
     
    </style>
    <?!= include("sorttable") ?>
-   <?!= //include("mark") ?>
-   <?!= include("rainbow") ?>
+   <?!= include("rangy-selectionsaverestore") ?>
  </head>
  <body>
    <div contenteditable='true' id='editor' class=text><?!= evidence.Query
@@ -73,11 +72,45 @@
    <br>
    <div id='error'><b>Error:</b><?!=(error)?error:''?></div>
    <script>
-     //var instance = new Mark(document.getElementById("editor"));
-     document.getElementById("editor").addEventListener("input", 
+     window.onload = function() {
+       // Turn multiple selections on in IE
+       try {
+         document.execCommand("MultipleSelection", null, true);
+       } catch(ex) {}
+
+       rangy.init();
+       // Enable buttons
+       var saveRestoreModule = rangy.modules.SaveRestore;
+       //if (rangy.supported && saveRestoreModule && saveRestoreModule.supported) {}
+     }
+     var savedSel = null;
+     var savedSelActiveElement = document.getElementById("editor");
+     function saveSelection() {
+       if (savedSel) rangy.removeMarkers(savedSel);
+       savedSel = rangy.saveSelection();
+     }
+     function restoreSelection() {
+       if (savedSel) {
+         rangy.restoreSelection(savedSel, true);
+         savedSel = null;
+         window.setTimeout(function() {
+           if (savedSelActiveElement && typeof savedSelActiveElement.focus != "undefined") {
+             savedSelActiveElement.focus();
+           }
+         }, 1);
+       }
+     }
+     savedSelActiveElement.addEventListener("input", 
        function() {
-           //instance.unmark();
-           //instance.mark('bold');
+         saveSelection();
+         while (b = savedSelActiveElement.querySelector('b')) 
+                b.outerHTML = b.innerHTML;
+         while (i = savedSelActiveElement.querySelector('i')) 
+                i.outerHTML = i.innerHTML;
+         savedSelActiveElement.innerHTML = savedSelActiveElement.innerHTML
+           .replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)/ig,'<b>$1</b>')
+           .replace(/\b(AND|OR|NOT|Axons|Dendrites|Soma)\b/g,'<b><i>$1</i></b>');
+         restoreSelection();
        }, false);
 
      var cellTypes = JSON.parse(<?= JSON.stringify(cellTypes) ?>);
