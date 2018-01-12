@@ -64,14 +64,21 @@
    <?!= include("rangy-selectionsaverestore") ?>
  </head>
  <body>
-   <div contenteditable='true' id='editor' class=text><?!= evidence.Query
-     .replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)/ig,'<b>$1</b>')
-     .replace(/\b(AND|OR|NOT|Axons|Dendrites|Soma)\b/g,'<b><i>$1</i></b>') ?>
+   <div contenteditable='true' id='editor' class=text><?!= evidence.Query ?>
    </div>
      <input type="button" value="search" onclick="reCheckQuery(document.getElementById('editor').innerText)">
    <br>
    <div id='error'><b>Error:</b><?!=(error)?error:''?></div>
    <script>
+     function queryHighlighter(string){
+       return string
+         .replace(/(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/ig,'<b>$1</b>')
+         .replace(/(\b(?:AND|OR|NOT|Axons|Dendrites|Soma)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/g,'<b><i>$1</i></b>') 
+     };
+     
+     var savedSel = null;
+     var savedSelActiveElement = document.getElementById("editor");;
+     
      window.onload = function() {
        // Turn multiple selections on in IE
        try {
@@ -82,9 +89,10 @@
        // Enable buttons
        var saveRestoreModule = rangy.modules.SaveRestore;
        //if (rangy.supported && saveRestoreModule && saveRestoreModule.supported) {}
-     }
-     var savedSel = null;
-     var savedSelActiveElement = document.getElementById("editor");
+       savedSelActiveElement = document.getElementById("editor");
+       savedSelActiveElement.innerHTML = queryHighlighter(savedSelActiveElement.innerText)
+     };
+
      function saveSelection() {
        if (savedSel) rangy.removeMarkers(savedSel);
        savedSel = rangy.saveSelection();
@@ -107,9 +115,8 @@
                 b.outerHTML = b.innerHTML;
          while (i = savedSelActiveElement.querySelector('i')) 
                 i.outerHTML = i.innerHTML;
-         savedSelActiveElement.innerHTML = savedSelActiveElement.innerHTML
-           .replace(/(Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)/ig,'<b>$1</b>')
-           .replace(/\b(AND|OR|NOT|Axons|Dendrites|Soma)\b/g,'<b><i>$1</i></b>');
+         //prompt('',savedSelActiveElement.innerHTML);
+         savedSelActiveElement.innerHTML = queryHighlighter(savedSelActiveElement.innerHTML);
          restoreSelection();
        }, false);
 
