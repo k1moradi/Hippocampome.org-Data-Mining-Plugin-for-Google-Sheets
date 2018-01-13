@@ -62,6 +62,7 @@
    </style>
    <?!= include("sorttable") ?>
    <?!= include("rangy-selectionsaverestore") ?>
+   <?!= include("balance") ?>
  </head>
  <body>
    <div contenteditable='true' id='editor' class=text><?!= evidence.Query ?>
@@ -71,9 +72,18 @@
    <div id='error'><b>Error:</b><?!=(error)?error:''?></div>
    <script>
      function queryHighlighter(string){
-       return string
-         .replace(/(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/ig,'<b>$1</b>')
-         .replace(/(\b(?:AND|OR|NOT|Axons|Dendrites|Soma)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/g,'<b><i>$1</i></b>') 
+       return balanced.replacements({
+        source: string
+         .replace(/(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/ig,"<b>$1</b>")
+         .replace(/(\b(?:Axons|Dendrites|Soma|[di][+\-])\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:|(?:Excita|Inhibi)tory|both)/ig,"<b style='color:navy'><i>$1</i></b>")
+         .replace(/(\b(?:CA[1-3]|DG|EC|SUB)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/g,"<b style='color:darkred'>$1</b>")
+         .replace(/(\b(?:AND|OR|NOT)\b)/g,"<b style='color:purple'>$1</b>"),
+        open: '(',
+        close: ')',
+        replace: function (source, head, tail) {
+            return '<b>' + head + '</b>' + source + '<b>' + tail + '</b>';
+        }
+      });  
      };
      
      var savedSel = null;
@@ -86,7 +96,6 @@
        } catch(ex) {}
 
        rangy.init();
-       // Enable buttons
        var saveRestoreModule = rangy.modules.SaveRestore;
        //if (rangy.supported && saveRestoreModule && saveRestoreModule.supported) {}
        savedSelActiveElement = document.getElementById("editor");
@@ -195,7 +204,9 @@
 
    <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor,ID) {?>
    <div id="<?=ID?>"><p><b>Total: <?=cKeys.length?>:</b> <?=title?></p>
-   <table class="sortable">
+   
+   
+   <table class='sortable'>
      <tr>
        <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > sUIDs </th>
        <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > Presynaptic Cell Types </th>
@@ -212,7 +223,8 @@
        <td>   <?= (dUID) ? cellTypes[dUID].Name : '' ?> </td>
      </tr>
      <?   });?>
-   </table></div><?
+     </table>
+   </div><?
       }
 
       var cKeys = Object.keys(fetchedConns)  

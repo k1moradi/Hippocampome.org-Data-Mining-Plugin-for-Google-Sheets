@@ -1,14 +1,16 @@
+//Change Log
+//from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 function eRev(){
 //---------------whole-cell
   //Kohara 2014 Cell type-specific genetic and optogenetic tools reveal hippocampal CA2 circuits.
-  new solution(celsius=36,
-               eSolution='124 NaCl, 3 KCl, 2 CaCl2, 1.3 MgSO4, 25 NaHCO3, 1.2 NaH2PO4',
-               pSolution='110 K-Gluconate, 10 KCl, 10 HEPES, 4 ATP, 0.3 Na2GTP, 10 Na2-Phosphocreatine',
-               recordingMethod='whole-cell',
-               voltages={Vm:{RMP:-72,Vh:-70,Vss:NaN},
-               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.3,i:7.25,CO2:true}).log();
+//  new solution(celsius=36,
+//               eSolution='124 NaCl, 3 KCl, 2 CaCl2, 1.3 MgSO4, 25 NaHCO3, 1.2 NaH2PO4',
+//               pSolution='110 K-Gluconate, 10 KCl, 10 HEPES, 4 ATP, 0.3 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-72,Vh:-70,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.25,CO2:true}).log();
   //Savić 2001 Electrophysiological characterization of "giant" cells in stratum radiatum of the CA3 hippocampal region.
 //  new solution(celsius=32,
 //               eSolution='126 NaCl, 3.5 KCl, 1.2 NaH2PO4, 3.7 MgCl2, 25 NaHCO3, 1 EGTA',
@@ -458,7 +460,16 @@ function eRev(){
   
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
-  
+
+  //Mercer 2012 Local circuitry involving parvalbumin-positive basket cells in the CA2 region of the hippocampus.
+//  new solution(celsius=36,
+//               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1 MgSO4, 2.5 CaCl2',
+//               pSolution='2000 KMethylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:NaN}).log();
   //Miles 1990 Synaptic excitation of inhibitory cells by single CA3 hippocampal pyramidal cells of the guinea-pig in vitro.
 //  new solution(celsius=37,
 //               eSolution='124 NaCl, 4 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3',
@@ -529,7 +540,7 @@ function eRev(){
 //               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:-74,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:NaN,CO2:true}).log();
   //Buhl 1994 Diverse sources of hippocampal unitary inhibitory postsynaptic potentials and the number of synaptic release sites.
-     //Sharp elctrode: Experimental Erev at [-65 to -50] mV RMP from Soma=[-78 to -65]; without accetate GHK=[-74.9 to -73.1]
+  //Sharp elctrode: Experimental Erev at [-65 to -50] mV RMP from Soma=[-78 to -65]; without accetate GHK=[-74.9 to -73.1]
 //  new solution(celsius=35,
 //               eSolution='126 NaCl, 3.0 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2.0 MgSO4, 2.0 CaCl2',
 //               pSolution='1500 K-Methylsulfate',
@@ -582,6 +593,8 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
   */
                                              
   var self = this;
+  recordingMethod = recordingMethod.toLowerCase();
+  Logger.log(recordingMethod)
   var R    = 8.314;            // Gas Constant,       unit=J/(mol*K)
   var F    = 96485;		       // Faraday's Constant, unit=coulombs/mol
   var T    = 273.15 + celsius; // Kelvin
@@ -593,7 +606,7 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
       return solution.replace(/^.*[@:]\s*/,'').split(/\s*[,;]\s*/g).filter(Null).reduce(
         function(p,concentrationSformula) {
           var [concentration,formula] = concentrationSformula.split(/\s+/g);
-          //Logger.log(concentrationSformula)
+          //Logger.log([concentration,formula])
           var ionAtomsPerMolecule = 0;
           if (formula.match(RegExp(name+'\\d+','g'))) {
             ionAtomsPerMolecule =  Number(formula.replace(RegExp('.*'+name+'(\\d+).*','g'),'$1'));
@@ -623,10 +636,10 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
      p[ionName].pC  = (isNaN(pipetteCmM))? 0 : pipetteCmM * 1e-3;
      p[ionName].iC  = 0;//Make sure all ions have iC
      return p;
-   },{})
+   },{});//Logger.log(this.Ions);
  
  //calculate the intracellular concentrations knowing the pipette solution concentrations
- switch (recordingMethod.toLowerCase()) {
+ switch (recordingMethod) {
    case 'whole-cell':
    case 'outside–out':
      Object.keys(self.Ions).forEach(function(ionName){
@@ -712,16 +725,26 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
        var ion    = self.Ions[ionName];
        var pA     = ion.pA;  // pipette              solution ionic activity
        var eA     = ion.eA;  // extracellular (bath) solution ionic activity
+       var iA     = ion.iA;  // intracellular (bath) solution ionic activity
        var z      = ion.charge;
        var zmu    = ion.mu * z;
        p.pAz2ma  += z * zmu *  pA;
        p.eAz2ma  += z * zmu *  eA;
-       var SFnum  =     zmu * (eA - pA);
-       p.SFnum   +=     SFnum;
-       p.SFdenum += z * SFnum;
+       p.iAz2ma  += z * zmu *  iA;
+       var eSFnum =     zmu * (eA - pA);
+       var iSFnum =     zmu * (iA - pA);
+       p.eSFnum  +=     eSFnum;
+       p.eSFdenum+= z * eSFnum;
+       p.iSFnum  +=     iSFnum;
+       p.iSFdenum+= z * iSFnum;
        return p;
-     },{SFnum:0,SFdenum:0,pAz2ma:0,eAz2ma:0});
-   return round(R*T/F * (zigmas.SFnum / zigmas.SFdenum) * Math.log(zigmas.pAz2ma / zigmas.eAz2ma) * 1000,2)  // = iE-eE
+     },{eSFnum:0,eSFdenum:0,iSFnum:0,iSFdenum:0,pAz2ma:0,eAz2ma:0,iAz2ma:0});//Logger.log(zigmas)
+   var VjBetweenPippetAndExtracellular = (zigmas.eSFnum === 0)?
+       0:round(R*T/F * (zigmas.eSFnum / zigmas.eSFdenum) * Math.log(zigmas.pAz2ma / zigmas.eAz2ma) * 1000,2);  // = pE-eE
+   var VjBetweenPippetAndIntracellular = (zigmas.iSFnum === 0 || recordingMethod==='cell-attached' || recordingMethod==='perforated patch' || recordingMethod==='outside–out')?
+       0:round(R*T/F * (zigmas.iSFnum / zigmas.iSFdenum) * Math.log(zigmas.pAz2ma / zigmas.iAz2ma) * 1000,2);  // = pE-iE
+   Logger.log([VjBetweenPippetAndExtracellular,VjBetweenPippetAndIntracellular]);
+   return -(VjBetweenPippetAndExtracellular - VjBetweenPippetAndIntracellular);
    }())
  
  this.Vj = round(((voltages.Vj.correctedAlready)? 0 : (voltages.Vj.exp) ? voltages.Vj.exp : voltages.Vj.cal),2)
@@ -802,7 +825,8 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
                                              var ion  = self.Ions[ionName];
                                              return p+='\n'+ionName+
                                                ':\n\teAc\t\t'+round(ion.eAc,2)+'\t\teC\t\t'+round(ion.eC*1000,2)+
-                                                 '\n\tiAc\t\t'+round(ion.iAc,2)+'\t\tiC\t\t'+round(ion.iC*1000,2)
+                                                 '\n\tiAc\t\t'+round(ion.iAc,2)+'\t\tiC\t\t'+round(ion.iC*1000,2)+
+                                                   '\n\tpAc\t\t'+round(ion.pAc,2)+'\t\tpC\t\t'+round(ion.pC*1000,2)
                                            },''))
  }
 }
@@ -998,7 +1022,7 @@ var Ion = function(name) {
       this.charge = -1;
       this.mu = 1.28478E12;
       break;
-    case "Methylsulfate": // Methylsulfate
+    case "Methylsulfate": // Methylsulfate MeSO4
       this.charge = -1;
       this.mu = 3.16592544E11;
       break;  

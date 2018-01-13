@@ -122,7 +122,8 @@ function formatText(form) {
     .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co) *C[lI1] *[2z,](?=[ \/),;.])/g                                             , '$1Cl₂')  // 1I as l
     .replace(/(?<=[(;, ])(H|Na|Cs|K) *C[I1](?=[ ),;.])/g                                                         , '$1Cl')   // 1I as l
     .replace(/(?<=[(;, ])MgS[O0] *4(?=[ ),;.])/g                                                                 , 'MgSO₄')
-    .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')
+    .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')//Methylsulfonate = Methanesulfonate
+    .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *4(?=[ ),;.])/g                                                        , '$1MeSO₄')//Methylsulfate
     .replace(/(?<=[(;, ]|\.|\.\d)H *[2z,] *[O0](?=[ ),;.])/g                                                     , 'H₂O')
     .replace(/(?<=[(;, \/])C[O0] *[2z,?](?=[ ),;.])/g                                                            , 'CO₂')
     .replace(/(?<=[(;, ])[O0] *2(?=[ +\/),;.–\-])/g                                                              , 'O₂')
