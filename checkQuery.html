@@ -62,7 +62,7 @@
    </style>
    <?!= include("sorttable") ?>
    <?!= include("rangy-selectionsaverestore") ?>
-   <?!= include("balance") ?>
+   <?!= include("balanced") ?>
  </head>
  <body>
    <div contenteditable='true' id='editor' class=text><?!= evidence.Query ?>
@@ -71,23 +71,44 @@
    <br>
    <div id='error'><b>Error:</b><?!=(error)?error:''?></div>
    <script>
+     var errorElem = document.getElementById("error");
      function queryHighlighter(string){
+       try {
+         errorElem.innerHTML = '<b>Error:</b>';
+         balanced.matches({
+           source: string, 
+           open: '(', 
+           close: ')', 
+           balance: true, 
+           exceptions: true});
+       } catch (error) {
+         //prompt('',JSON.stringify(error)) {"line":1,"column":396,"index":395}
+         errorElem.innerHTML = "<b style='color:red'>Error:</b> imbalanced parentheses"/*+
+                               "<br>line:"+error.line+
+                               "<br>column:"+error.column+
+                               "<br>index:"+error.index;*/
+       };
        return balanced.replacements({
         source: string
-         .replace(/(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/ig,"<b>$1</b>")
-         .replace(/(\b(?:Axons|Dendrites|Soma|[di][+\-])\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:|(?:Excita|Inhibi)tory|both)/ig,"<b style='color:navy'><i>$1</i></b>")
-         .replace(/(\b(?:CA[1-3]|DG|EC|SUB)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/g,"<b style='color:darkred'>$1</b>")
-         .replace(/(\b(?:AND|OR|NOT)\b)/g,"<b style='color:purple'>$1</b>"),
+          .replace(/(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/ig,"<b>$1</b>")
+          .replace(/(\b(?:Axons|Dendrites|Soma|[di][+\-])\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:|(?:Excita|Inhibi)tory|both)/ig,"<b style='color:navy'><i>$1</i></b>")
+          .replace(/(\b(?:CA[1-3]|DG|EC|SUB)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/g,"<b style='color:darkred'>$1</b>")
+          .replace(/(\b(?:AND|OR|NOT)\b)/g,"<b style='color:purple'>$1</b>"),
+        head:/\(/,
         open: '(',
         close: ')',
+        balance: true, 
         replace: function (source, head, tail) {
-            return '<b>' + head + '</b>' + source + '<b>' + tail + '</b>';
+//          alert(source)
+//          alert(head)
+//          alert(tail)
+          return '<b>' + head + '</b>' + source + '<b>' + tail + '</b>';
         }
       });  
      };
      
      var savedSel = null;
-     var savedSelActiveElement = document.getElementById("editor");;
+     var savedSelActiveElement = document.getElementById("editor");
      
      window.onload = function() {
        // Turn multiple selections on in IE
