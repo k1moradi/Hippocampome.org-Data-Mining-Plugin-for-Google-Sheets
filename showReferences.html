@@ -8,16 +8,15 @@
         </summary>
         <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
             var theReference = references[refID]; ?>
-        <details id='<?=theReference.rowRange?>' class='Reference' open>
+        <details id="<?=(theReference)?theReference.rowRange:''?>" class='Refs' close>
           <summary style='background-color:black; color:white; margin:0; font-size:110%; display:flex; flex-direction:row'
-           ><input type='button' value='💾' onclick='saveReference(this);' class='button' style='background-color:rgba(255,255,255,0)'
-           ><b>ID:</b
-           ><a style='color:pink' href='javascript:return false;' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?= refID ?></a>, 
+           ><input type='button' value='💾' onclick='saveReference(this)' class='darkButton' style='background-color:rgba(255,255,255,0)'
+           ><a style='color:pink' href='javascript:return false;' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?=refID?></a><span class='disableClick'>:</span>
             <? if (typeof theReference !== "undefined") {
                  var UID = theReference.UID;?>
-            <i style='color:yellow' class='disableClick'><?=theReference.Location?>,</i
-           ><span class='UID disableClick' contenteditable='true' style='flex:1'><?= 
-                 (isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
+            <a style='color:yellow' href='javascript:return false;' onclick="copyStringToClipboard(this.text)"><?=theReference.Location?></a><span class='disableClick'>:
+            </span><input type='text' class='UID disableClick' style='color:inherit; background-color:inherit; flex:1; border:0px;' 
+                          value="<?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?>">
             <? }?>
           </summary>
           <?if (typeof theReference === "undefined") {?>
@@ -66,9 +65,9 @@
                   fileIDs.forEach(function(fileID){
                     if (fileName.replace(/\.[^.]*$/g,'') === refID || (theReference.HcoRefID && imagesShown.indexOf(fileName) === -1)) {
                       imagesShown.push(fileName);?>
-          <details open>
+          <details class='Figs' open>
           <?        } else {?>
-          <details>
+          <details class='Figs'>
           <?        }?>
             <summary style='background-color:#3F51B5; color:white; margin:0;'>
               <b>File: </b><a style='color:white' href='javascript:return false;' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>
@@ -110,3 +109,10 @@
            showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'         ,'#3F51B5','white','150%',stringToAppendToRefIDs); ?>
       </details>
       <?}; ?>
+<?!=include('shortcuts');?>    
+<script>
+shortcut.add('Ctrl+.',function(){document.execCommand('superscript', false, null)});
+shortcut.add('Ctrl+,',function(){document.execCommand('subscript', false, null)});
+//shortcut.add('Ctrl+;',function(){document.execCommand('removeFormat', false, null)});
+<?!=refHighlights.toString();?>
+</script>

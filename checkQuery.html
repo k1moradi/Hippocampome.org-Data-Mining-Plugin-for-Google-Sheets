@@ -18,7 +18,7 @@
      }
 
      .text {
-       width: 650px;
+       width: 95vw;
        height: calc(20vh - 26px); //775px; //615px
        padding: 0px;
        font: 12px/18px 'Open Sans', sans-serif;
@@ -73,6 +73,7 @@
    <script>
      var errorElem = document.getElementById("error");
      function queryHighlighter(string){
+       //prompt('',string)
        try {
          errorElem.innerHTML = '<b>Error:</b>';
          balanced.matches({
@@ -84,14 +85,15 @@
        } catch (error) {
          //prompt('',JSON.stringify(error)) {"line":1,"column":396,"index":395}
          errorElem.innerHTML = "<b style='color:red'>Error:</b> imbalanced parentheses"/*+
+                               "<br>"+error.index+":"+error.column
                                "<br>line:"+error.line+
-                               "<br>column:"+error.column+
-                               "<br>index:"+error.index;*/
+                               "<br>column:"+error.column*/;
        };
        return balanced.replacements({
         source: string
+          //.replace(/(Presynaptic|Postsynaptic|\)(?:<span.*id=.*selectionBoundary.*>﻿<\/span>|\s)*$)/ig,"<br>$1")
           .replace(/(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/ig,"<b>$1</b>")
-          .replace(/(\b(?:Axons|Dendrites|Soma|[di][+\-])\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:|(?:Excita|Inhibi)tory|both)/ig,"<b style='color:navy'><i>$1</i></b>")
+          .replace(/((?:Axons|Dendrites|Soma|[di][+\-])(?:<s.+﻿.+n>)?:|(?:Excita|Inhibi)tory|both)/ig,"<b style='color:navy'><i>$1</i></b>")
           .replace(/(\b(?:CA[1-3]|DG|EC|SUB)\b(?:<span.*id=.*selectionBoundary.*>﻿<\/span>)?:)/g,"<b style='color:darkred'>$1</b>")
           .replace(/(\b(?:AND|OR|NOT)\b)/g,"<b style='color:purple'>$1</b>"),
         head:/\(/,
@@ -99,9 +101,6 @@
         close: ')',
         balance: true, 
         replace: function (source, head, tail) {
-//          alert(source)
-//          alert(head)
-//          alert(tail)
           return '<b>' + head + '</b>' + source + '<b>' + tail + '</b>';
         }
       });  
@@ -145,6 +144,8 @@
                 b.outerHTML = b.innerHTML;
          while (i = savedSelActiveElement.querySelector('i')) 
                 i.outerHTML = i.innerHTML;
+         while (br = savedSelActiveElement.querySelector('br')) 
+                br.outerHTML = br.innerHTML;
          //prompt('',savedSelActiveElement.innerHTML);
          savedSelActiveElement.innerHTML = queryHighlighter(savedSelActiveElement.innerHTML);
          restoreSelection();

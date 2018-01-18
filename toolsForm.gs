@@ -1,24 +1,27 @@
 // a function to highlight important text
 function refHighlights(input) {
-  var spacer = "[^<>)(]";
-  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
+  var spacer = "[^<>)(A-Za-z]";
+  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)"
   var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
-  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
-  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) ){0,1}[-+]{0,1}"+numbers+"{0,1}(?: \\("+numbers+"%\\))?";
-  var units = "(?:°C{0,1}|m(?:sec|[lLMVs])(?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|times?|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}(?:ec)?|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]{0,1}\\.{0,1}[eiEI]\\.{0,1}[Pp]\\.{0,1}[Ss]\\.{0,1}[CPcp])[Ss]{0,1}))";
-  var numPattern = new RegExp("((?: n)?[\\s(;,=]|<br>)("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
+  var numbers = "(?:\\d+[.,]?\\d*|"+numberWords+")";
+  var units = "(?:°C?|m(?:sec|[lLMVs])(?:[ \\\/]min)?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|times?|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic )?connections*|[µμ].?(?:ec)?|[kKM]?Hz|.?Ω|(?:(?:consecutive|individual|single|continuous|successive))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])[Ss]?))";
+  var numberRange = "[-+∼~≈≤≥<>]?"+numbers+"("+spacer+'?'+units+")?(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) )?[-+]?"+numbers+"?(?: \\("+numbers+"%\\))?";
+  var numPattern = new RegExp("((?: n)?[\\s(;,=]|<br>)("+numberRange+")("+spacer+"?"+units+")?("+spacer+"?"+connectingWords+")?("+spacer+"?"+numberRange+")?("+spacer+"?"+units+")?", "g");
+                              //p1                    p2-3              p4                    p5                                p6-7                         p8
   var strInput = (typeof input === 'object' && !Array.isArray(input)) ? JSON.stringify(input) : String(input);
   return strInput
   .replace('[micro]','µ')
   .replace(numPattern,
-    function(fullMatch,p1,p2,p3,p4,p5,p6){
+    function(fullMatch,p1,p2,p3,p4,p5,p6,p7,p8){
       function txt(input) {return (input)? input : ''};
-      p1 = (p1 === ' n=') ? " <mark style='background-color:rgba(255,153,153,0.5); color:black;'>n=" : (txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>");
-      if (p3 || p6) {
-        if (p5 || p6) {
-          return p1+txt(p2)+txt(p3)+txt(p4)+txt(p5)+txt(p6)+"</mark>";
+      p1 = ((p1 === ' n=') ? " <mark style='background-color:rgba(255,153,153,0.5);color:black'>n=" : (txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"));
+      if (p3 || p4 || p7 || p8) {
+      //if there is a unit
+        if (p6 || p8) {
+        //don't highlight connecting words if there is no number after them
+          return p1+txt(p2)+txt(p4)+txt(p5)+txt(p6)+txt(p8)+"</mark>";
         } else {
-          return p1+txt(p2)+txt(p3)+"</mark>"+txt(p4)+txt(p5)+txt(p6);
+          return p1+txt(p2)+txt(p4)+"</mark>"+txt(p5)+txt(p6)+txt(p8);
         }} else {
           return fullMatch;
         }})                                                                                              //pink-orange
@@ -143,7 +146,10 @@ var prefillForm = function(form) {
           originalItem.asMultipleChoiceItem().setChoiceValues(choices);
           break;
         case FormApp.ItemType.CHECKBOX:
-          originalItem.asCheckboxItem().setChoiceValues(choices);
+          if (Array.isArray(choices)){
+            choices = choices.filter(dash2null);
+            originalItem.asCheckboxItem().setChoiceValues((choices.length !== 0) ? choices : ['-']);
+          }
           break;
         case FormApp.ItemType.GRID:
           originalItem.asGridItem().setRows(choices);
@@ -316,8 +322,10 @@ function dataObjToString(obj) {
 };
 function dataSecToString(obj){
   if (typeof obj === "object") {
+    //Logger.log(1)
     return obj.values.map(
       function(value){
+        //Logger.log(2)
         return value.v +
           ((value.s)?'±'+value.s:'')+
             ((value.ul && value.ll)?'['+value.ll+' to '+value.ul+']': ((value.ul)?'[<'+value.ul+']': ((value.ll)?'[>'+value.ll+']': '')))+

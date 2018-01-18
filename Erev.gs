@@ -460,16 +460,24 @@ function eRev(){
   
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
-
+  //Mercer 2012 SP-SR interneurones: a novel class of neurones of the CA2 region of the hippocampus.
+  new solution(celsius=24,
+               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1 MgSO4, 2.5 CaCl2',
+               pSolution='2000 KMethylsulfate',
+               recordingMethod='sharp electrode',
+               voltages={Vm:{RMP:-59,Vh:NaN,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:NaN,CO2:true}).log();
   //Mercer 2012 Local circuitry involving parvalbumin-positive basket cells in the CA2 region of the hippocampus.
-//  new solution(celsius=36,
+//  new solution(celsius=24,
 //               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1 MgSO4, 2.5 CaCl2',
 //               pSolution='2000 KMethylsulfate',
 //               recordingMethod='sharp electrode',
-//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+//               voltages={Vm:{RMP:-67,Vh:NaN,Vss:NaN},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:NaN,correctedAlready:false}},
-//               pH={e:NaN,i:NaN,CO2:NaN}).log();
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Miles 1990 Synaptic excitation of inhibitory cells by single CA3 hippocampal pyramidal cells of the guinea-pig in vitro.
 //  new solution(celsius=37,
 //               eSolution='124 NaCl, 4 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3',
@@ -739,12 +747,10 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
        p.iSFdenum+= z * iSFnum;
        return p;
      },{eSFnum:0,eSFdenum:0,iSFnum:0,iSFdenum:0,pAz2ma:0,eAz2ma:0,iAz2ma:0});//Logger.log(zigmas)
-   var VjBetweenPippetAndExtracellular = (zigmas.eSFnum === 0)?
-       0:round(R*T/F * (zigmas.eSFnum / zigmas.eSFdenum) * Math.log(zigmas.pAz2ma / zigmas.eAz2ma) * 1000,2);  // = pE-eE
-   var VjBetweenPippetAndIntracellular = (zigmas.iSFnum === 0 || recordingMethod==='cell-attached' || recordingMethod==='perforated patch' || recordingMethod==='outside–out')?
-       0:round(R*T/F * (zigmas.iSFnum / zigmas.iSFdenum) * Math.log(zigmas.pAz2ma / zigmas.iAz2ma) * 1000,2);  // = pE-iE
-   Logger.log([VjBetweenPippetAndExtracellular,VjBetweenPippetAndIntracellular]);
-   return -(VjBetweenPippetAndExtracellular - VjBetweenPippetAndIntracellular);
+   var VjBetweenPippetAndExtracellular = (zigmas.eSFnum === 0)?0:round(R*T/F * (zigmas.eSFnum / zigmas.eSFdenum) * Math.log(zigmas.pAz2ma / zigmas.eAz2ma) * 1000,2);  // = pE-eE
+   var VjBetweenPippetAndIntracellular = (zigmas.iSFnum === 0)?0:round(R*T/F * (zigmas.iSFnum / zigmas.iSFdenum) * Math.log(zigmas.pAz2ma / zigmas.iAz2ma) * 1000,2);  // = pE-iE
+   Logger.log(['eVj=',VjBetweenPippetAndExtracellular,'iVj=',VjBetweenPippetAndIntracellular]);
+   return (recordingMethod === 'sharp electrode')?round(VjBetweenPippetAndIntracellular - VjBetweenPippetAndExtracellular,2):VjBetweenPippetAndExtracellular;
    }())
  
  this.Vj = round(((voltages.Vj.correctedAlready)? 0 : (voltages.Vj.exp) ? voltages.Vj.exp : voltages.Vj.cal),2)

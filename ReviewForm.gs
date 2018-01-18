@@ -35,9 +35,9 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   //ID:943235084	Type:PARAGRAPH_TEXT	Title:Mapping Assumptions
   pForm.prefillItem('943235084' ,Evidence.Assumptions);
   //ID:1114795606	Type:PARAGRAPH_TEXT	Title:Presynaptic Search Query
-  pForm.prefillItem('1114795606',(Evidence.AutomationPre === '')? 'Neurotransmitter: AND Morphology:((Dendrites: AND Axons:) AND Soma:)':Evidence.AutomationPre);
+  pForm.prefillItem('1114795606',(Evidence.AutomationPre === '')? 'Neurotransmitter: AND Morphology:(Dendrites: AND Axons: AND Soma:)':Evidence.AutomationPre);
   //ID:877026955	Type:PARAGRAPH_TEXT	Title:Postsynaptic Search Query
-  pForm.prefillItem('877026955',(Evidence.AutomationPost === '')? 'Morphology:((Dendrites: AND Axons:) AND Soma:)':Evidence.AutomationPost);
+  pForm.prefillItem('877026955',(Evidence.AutomationPost === '')? 'Morphology:(Dendrites: AND Axons: AND Soma:)':Evidence.AutomationPost);
   //ID:812232442	Type:GRID	Title:Connections List
   pForm.setChoices('812232442',Evidence.PConnections);
   pForm.prefillItem('812232442',Evidence.Confidence,'Low');
@@ -68,7 +68,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   pForm.prefillItem('1968268392',(covariatesMaxRefID+4)+'@@@@');
   */
   //ID:1093425014	Type:CHECKBOX	Title:GABA or Glutamate receptors (ant)agonists
-  pForm.setChoices('1093425014', Covariates.DrugsGABAGlutamate.split(/[,;]+\s*/).filter(Null));
+  pForm.setChoices('1093425014', Covariates.DrugsGABAGlutamate.split(/\s*[,;]+\s*/));
   if (Evidence.Drugs.length != 0) pForm.prefillItem('1093425014',Evidence.Drugs);
   //ID:2058479121	Type:MULTIPLE_CHOICE	Title:Extracellular Solution
   pForm.setChoices('2058479121',Covariates.ExtracellularBathSolution

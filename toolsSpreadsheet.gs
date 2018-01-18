@@ -1,5 +1,5 @@
 function test() { 
-  Logger.log(refHighlights.toString())
+  //Logger.log(refHighlights.toString())
   //Logger.log(JSON.stringify(sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),['25429131'],'RefID')))
 //  var form = FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8')
 //  
@@ -12,14 +12,14 @@ function test() {
 //    item.asParagraphTextItem().setValidation(paragraphtextValidation);
 //  });
   
-//  var spacer = "[^<>)(]";
-//  var connectingWords = "(?:(?:before,* ){0,1}and|to|vs|or|at|(?:out ){0,1}of(?: these){0,1})"
-//  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
-//  var numbers = "(?:\\d+[.,]{0,1}\\d*|"+numberWords+")";
-//  var numberRange = "[-+∼~≈≤≥<>]{0,1}"+numbers+"(?:[–±]| (?:to|and|or|(?:out )?of(?: the)?) ){0,1}[-+]{0,1}"+numbers+"{0,1}(?: \\("+numbers+"%\\))?";
-//  var units = "(?:°C{0,1}|m(?:sec|[lLMVs])(?:[ \\\/]min){0,1}(?:⁻¹){0,1}|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic ){0,1}connections*|[µμ].{0,1}(?:ec)?|[kKM]{0,1}Hz|.{0,1}Ω|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]{0,1}\\.{0,1}[eiEI]\\.{0,1}[Pp]\\.{0,1}[Ss]\\.{0,1}[CPcp])[Ss]{0,1}))";
-//  var numPattern = new RegExp("([\\s(;,=]|<br>)("+numberRange+")("+spacer+"{0,1}"+units+"){0,1}("+spacer+"{0,1}"+connectingWords+"){0,1}("+spacer+"{0,1}"+numberRange+"){0,1}("+spacer+"{0,1}"+units+"){0,1}", "g");
-//  Logger.log(numPattern)
+  var spacer = "[^<>)(A-Za-z]";
+  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)";
+  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b";
+  var numbers = "(?:\\d+[.,]?\\d*|" + numberWords + ")";
+  var units = "(?:\xb0C?|m(?:sec|[lLMVs])(?:[ \\/]min)?(?:\u207b\xb9)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|times?|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic )?connections*|[\xb5\u03bc].?(?:ec)?|[kKM]?Hz|.?\u03a9|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])[Ss]?))";
+  var numberRange = "[-+\u223c~\u2248\u2264\u2265<>]?" + numbers + "(" + spacer + "?" + units + ")?(?:[\u2013\xb1]| (?:to|and|or|(?:out )?of(?: the)?) )?[-+]?" + numbers + "?(?: \\(" + numbers + "%\\))?";
+  var numPattern = new RegExp("((?: n)?[\\s(;,=]|<br>)(" + numberRange + ")(" + spacer + "?" + units + ")?(" + spacer + "?" + connectingWords + ")?(" + spacer + "?" + numberRange + ")?(" + spacer + "?" + units + ")?", "g");
+  Logger.log(numPattern)
 };
 
 function getMaxOf(sheetName,columnName) {

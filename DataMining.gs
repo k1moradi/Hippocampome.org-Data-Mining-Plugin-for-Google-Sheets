@@ -55,6 +55,7 @@ function reviewEvidence(displayForm) {
       output.url = (displayForm)? updateReviewForm(evidence,covariates,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity):''; //Logger.log(output.url);
       output.allRefs = mergeObjs(myRefs,morphology,markers,cellEphys,firingPatterns,connectivity,covariatesRef,dataRefs);
       output.imagesShown = [];
+      output.refHighlights = refHighlights;
       SpreadsheetApp.getUi().showModalDialog(
         output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth), 
         'Review Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
@@ -123,12 +124,12 @@ function addSynapticData() {
       return null;
     }};
 //-------Check Search Query--------------------------------------------------------------------------
-function checkQuery() {
+function checkQuery(evidence,cellTypes) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var evidenceRange = getCheckActiveRange(ss.getActiveRange(),"Evidence");
   var output = HtmlService.createTemplateFromFile("checkQuery");
-  if (evidenceRange) 
-  {// get needed data from spreadsheets
+  var evidenceRange = getCheckActiveRange(ss.getActiveRange(),"Evidence");
+  if (evidenceRange) {
+    // get needed data from spreadsheets
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
@@ -138,7 +139,7 @@ function checkQuery() {
     var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
     var fetchedConns  = output.fetchedConns   = JSON.parse(response.replace(errorRegExp,''));
     if (fetchedConns) {
-      SpreadsheetApp.getUi().showModalDialog(output.evaluate().setWidth(700).setHeight(650),'Search Query Check Tool');
+      SpreadsheetApp.getUi().showModalDialog(output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Search Query Check Tool');
       return true;
     } else {
       ss.toast('Error in UrlFetchApp');

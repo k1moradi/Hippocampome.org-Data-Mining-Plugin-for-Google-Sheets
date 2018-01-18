@@ -135,6 +135,7 @@ function formatText(form) {
     .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[oO0](?=[ ),;.])/g                                         , '[$1]ₒ')
     .replace(/(?<=[(;, ])et\s*a[1!]\.(?=[ ),;.])/g                                                               , 'et al.')
     .replace(/(?<=[(;, ])CA\s*[lI](?=[ ),;.])/g                                                                  , 'CA1')     // lI as 1
+    .replace(/(?<=[(;, ])CA\s*([1-4])(?=[ ),;.])/g                                                               , 'CA$1')     // lI as 1
     .replace(/(?<=[(;, ])([Ff]igs*|FIGS*)(\.*) *[lI]([A-Za-z]{0,2})(?=[ ),;.])/g                                 , '$1$2 1$3')// lI as 1
     .replace(/(?<=[(;,=><~≤≥ ])(\d*)\s*[lI]\s*(\d+[.]\d+|\d+)(?<![(;,=><~≤≥ ]I\d)(?=[ ),;.])/g                   , '$11$2')   // lI as 1
     .replace(/([(;, ].{1,3}[=><~≤≥])\s*(\d+\.\d+|\d+)\s*[lI]\s*(?=\d*[ ,;.)])/g                                  , '$1$21')   // lI as 1
@@ -200,7 +201,7 @@ function formatText(form) {
     .replace(/^[ .?!)}]]+(?=\w)|\xAD/g                                                                           , '')
     .replace(/(?<!\..)(?<=[\w₀₁₂₃₄₅₆₇₈₉ₙₘ⁰¹²³⁵⁶⁷⁸⁹)])\s*\.\s*(?=[a-zA-z]+\s)/g                                     , '. ')
     .replace(/\s*\.+\s*$/g                                                                                       , '.')
-    .replace(/(?<=[(;, ])V *(hold|thresh*)(?=[ =),;.])/ig                                                        , '𝑉<sub>$1</sub>')
+    .replace(/(?<=[(;, ])V *(hold(?:ing)?|thresh*)(?=[ =),;.])/ig                                                , '𝑉<sub>$1</sub>')
     .replace(/(?<=[(;, ])(?:[trτ]|tau) *(D|d|R|decay|rise)(?=[ =),;.])/g                                         , 'τ<sub>$1</sub>')
     .replace(/(?<=[(;, ])E *(K|Na|C[lsa]|rev)(?=[ =),;.])/g                                                      , 'E<sub>$1</sub>')
     .replace(/(?<=[(;, ])R *([Ss]|in|IN)(?=[ =),;.])/g                                                           , 'R<sub>$1</sub>')

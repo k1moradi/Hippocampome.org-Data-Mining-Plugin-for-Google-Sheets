@@ -20,10 +20,12 @@
         height: 100vh;
       }
       .toolBar {
-        width:calc(var(--referencePanelWidth) - 15px);
+        min-width:calc(var(--referencePanelWidth) - 15px);
         height:25px; 
         position:fixed; 
         background-color:black;
+        display:flex; 
+        flex-direction:row
       }
       .eachReference {
         width:100%;
@@ -40,8 +42,9 @@
     <iframe class='googleForm' src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
     <div id='main' class='referencePanel'>
       <div class='toolBar'>
-         <input type='button' value='References:Collapse' onclick='toggleReferences(this);'>
-         <input type='text' style='width:calc(100% - 150px);' placeholder='Case-sensitive Search and Highlight in Green' onchange="caseSensitiveSearch(this.value,'main');" >
+         <input type='button' id='Refs' class='button' value='Refs.▶' onclick='toggleReferences(this);'>
+         <input type='button' id='Figs' class='button' value='Figs.▼' onclick='toggleReferences(this);'>
+         <input type='text' placeholder='Case-sensitive Highlighter in Green' onchange="caseSensitiveSearch(this.value,'main');" style='min-width:calc(100%-150px);flex:1'>
       </div>
       <div id='evidence' style='margin-top:25px;'>
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
@@ -56,6 +59,5 @@
           showReferences   (unlinkedRefIds                                            ,allRefs,myRefs      ,'❌My Mixed Unlinked References:','#00F0F0','black','200%','')?>
       </div>
     </div>
-    <div id="snackbar">saved successfully</div>
   </body>
 </html>
