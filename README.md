@@ -6,11 +6,12 @@ The current tool, which is still under development, is a Data Mining plugin for 
 This tool is currently heavily linked to [my sheet](https://docs.google.com/spreadsheets/d/19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A/edit?usp=sharing). Still more work is needed to make it a general purspose tool.
 
 This tool has several components that are reusable.
-- *a sheet sampling tool:* returns rows of a sheet that have a specific column value,
+- a **sheet sampling tool**: returns rows of a sheet that have a specific column value,
 - *an API for prefilling google doc forms*: we use prefilled forms to collect extracted data and preview previously extracted data and link to references,
-- a *text cleaner tool* that corrects the format of text that is copied and pasted from a PDF or HTML files. This tool is optimized for Google Chrome or Opera Browsers since I use experimental javascript features, mostly lookbehind regex. For instance, this tool automatically converts [small caps](https://en.wikipedia.org/wiki/Small_caps) in the text of journal of neuroscience to large caps (2 m**m** NaCl --> 2 m**M** NaCl).
-- a *Check Query Tool*: to search potential neuronal connections by accessing a hippocampome.org API.
-- a *reference reviewer and editor*: this tool provides previews for references (figures, tables, and quotations) user has extracted form papers. At the same time highlights bits of the text that potentially have extractable data and identification information.
+- a **text cleaner tool** that corrects the format of text that is copied and pasted from a PDF or HTML files. This tool is optimized for Google Chrome or Opera Browsers since I use experimental javascript features, mostly lookbehind regex. For instance, this tool automatically converts [small caps](https://en.wikipedia.org/wiki/Small_caps) in the text of journal of neuroscience to large caps (2 m**m** NaCl --> 2 m**M** NaCl).
+- a **Check Query Tool**: to search potential neuronal connections by accessing a hippocampome.org API.
+- a **reference reviewer and editor**: this tool provides previews for references (figures, tables, and quotations) user has extracted form papers. At the same time highlights bits of the text that potentially have extractable data and identification information.
+- a set of functions that get pipette and bath solution, and a set of experimental setting to calculate **liquid junction potential** of recording pipette and the **reversal potential** of synapses.
 
 ## Preview Tool
 ![Preview Tool](https://github.com/k1moradi/Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-/blob/master/Form%26Viewer.png "Preview Tool")
