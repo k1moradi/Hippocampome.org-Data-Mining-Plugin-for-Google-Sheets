@@ -11,6 +11,6 @@ This tool has several components that are reusable.
 - a *text cleaner tool* that corrects the format of text that is copied and pasted from a PDF or HTML files. This tool is optimized for Google Chrome or Opera Browsers since I use experimental javascript features, mostly lookbehind regex. For instance, this tool automatically converts [small caps](https://en.wikipedia.org/wiki/Small_caps) in the text of journal of neuroscience to large caps (2 m**m** NaCl --> 2 m**M** NaCl).
 - a *reference reviewer and editor*: this tool provides previews for references (figures, tables, and quotations) user has extracted form papers. At the same time highlights bits of the text that potentially have extractable data and identification information.
 
-
+![Tool Preview](Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-/Form&Viewer.png)
 
 Rees, C. L., Moradi, K., & Ascoli, G. A. (2017). *Weighing the Evidence in Peters’ Rule: Does Neuronal Morphology Predict Connectivity? Trends in Neurosciences*, 40(2), 63–71. [doi:10.1016/j.tins.2016.11.007](https://doi.org/10.1016/j.tins.2016.11.007)
