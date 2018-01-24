@@ -2,7 +2,7 @@
 <html>
   <head>
     <base target="_top">
-    <?!= include('script_CSS'); ?>
+    <?!= include('commonCSS'); ?>
     <style>
       :root { 
         --googleFormWidth: <?= (displayForm)? '50vw' : '0vw' ?>;
@@ -32,20 +32,13 @@
         word-wrap:normal;
       }
       
-      p > br {
-        line-height:200%;
-      }
     </style>
   </head>
   <body>
 <?//===========================================Top======================================================================================?>
     <iframe class='googleForm' src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
     <div id='main' class='referencePanel'>
-      <div class='toolBar'>
-         <input type='button' id='Refs' class='button' value='Refs.▶' onclick='toggleReferences(this);'>
-         <input type='button' id='Figs' class='button' value='Figs.▼' onclick='toggleReferences(this);'>
-         <input type='text' placeholder='Case-sensitive Highlighter in Green' onchange="caseSensitiveSearch(this.value,'main');" style='min-width:calc(100%-150px);flex:1'>
-      </div>
+      <?!= include('toolbar')?>
       <div id='evidence' style='margin-top:25px;'>
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
         <?var unlinkedRefIds = Object.keys(myRefs).filter(function(refID){return (evidence.allRefIDs.indexOf(refID) === -1)});
@@ -59,5 +52,6 @@
           showReferences   (unlinkedRefIds                                            ,allRefs,myRefs      ,'❌My Mixed Unlinked References:','#00F0F0','black','200%','')?>
       </div>
     </div>
+    <?!= include('snackBar')?>
   </body>
 </html>

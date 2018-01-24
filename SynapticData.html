@@ -2,7 +2,7 @@
 <html>
   <head>
     <base target="_top">
-    <?!= include('script_CSS'); ?>
+    <?!= include('commonCSS'); ?>
     <style>
       :root { 
         --googleFormWidth: 50vw;
@@ -41,12 +41,8 @@
 <?//============================================top=======================================================================================?>
     <iframe class='googleForm' src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
     <div id='main' class='referencePanel'>
-       <?//-----We have access to these objects: evidence cellTypes covariates oldSynData synRefs covRefs myRefs-------------------------?>
-      <div class='toolBar'>
-        <input type='button' id='Refs' value='Refs.▶' onclick='toggleReferences(this);' class='button'>
-        <input type='button' id='Figs' value='Figs.▼' onclick='toggleReferences(this);' class='button'>
-        <input type='text' style='min-width:calc(100%-150px);flex:1' placeholder='Case-sensitive Search and Highlight in Green' style='width:504px;' onchange="caseSensitiveSearch(this.value,'main');">
-      </div>
+      <?//-----We have access to these objects: evidence cellTypes covariates oldSynData synRefs covRefs myRefs-------------------------?>
+      <?!= include('toolbar')?>
       <div id='evidence' style='margin-top:25px'>
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
       
@@ -117,5 +113,6 @@
         </details>
       </div>
     </div>
+    <?!= include('snackBar')?>
   </body>
 </html>

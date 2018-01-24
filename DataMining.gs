@@ -133,7 +133,7 @@ function checkQuery(evidence,cellTypes) {
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
-      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B'); //Logger.log(URL);
+      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/"/g,'%22'); //Logger.log(URL);
     var response      = String(UrlFetchApp.fetch(URL));
     var errorRegExp   = /<br>.*<br>/;
     var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
@@ -157,7 +157,7 @@ function accessApi(url){
 
 //-------Text Cleaner-------------------------------------------------------------------------------
 function showTextCleaner(){
-  var output = HtmlService.createTemplateFromFile("TextCleaner");
+  var output = HtmlService.createTemplateFromFile("TextCleaner2");
   //SpreadsheetApp.getUi().showModalDialog(output.evaluate().setWidth(1450).setHeight(750), 'Evidence');
   SpreadsheetApp.getUi().showSidebar(output.evaluate().setWidth(300).setHeight(700));
 }

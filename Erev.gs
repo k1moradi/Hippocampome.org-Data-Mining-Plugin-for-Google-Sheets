@@ -2,6 +2,15 @@
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 function eRev(){
 //---------------whole-cell
+  //Strüber 2015 Strength and duration of perisomatic GABAergic inhibition depend on distance between synaptically connected cells.
+  new solution(celsius=36,
+               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+               pSolution='110 K-Gluconate, 40 KCl, 10 HEPES, 2 MgCl2 , 2 Na2ATP, 0.1 EGTA',
+               recordingMethod='whole-cell',
+               voltages={Vm:{RMP:-70,Vh:-70,Vss:NaN},
+               Erev:{IPSC:-65,EPSC:0,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:7.20,CO2:true}).log();
   //Kohara 2014 Cell type-specific genetic and optogenetic tools reveal hippocampal CA2 circuits.
 //  new solution(celsius=36,
 //               eSolution='124 NaCl, 3 KCl, 2 CaCl2, 1.3 MgSO4, 25 NaHCO3, 1.2 NaH2PO4',
@@ -460,15 +469,34 @@ function eRev(){
   
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
+
+  //Buhl 1994 Physiological properties of anatomically identified axo-axonic cells in the rat hippocampus.
+//  new solution(celsius=34.5,
+//               eSolution='126 NaCl, 3.0 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2.0 MgSO4, 2.0 CaCl2',
+//               pSolution='1500 K-Methylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-66,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-66.5,EPSP:10.5},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
+  //Gulyás 1993 Hippocampal pyramidal cells excite inhibitory neurons through a single release site.
+//  new solution(celsius=24,
+//               eSolution='128 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 4 CaCl2, 4 MgCl2',
+//               pSolution='500 K-Acetate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-60,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:false}).log();
   //Mercer 2012 SP-SR interneurones: a novel class of neurones of the CA2 region of the hippocampus.
-  new solution(celsius=24,
-               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1 MgSO4, 2.5 CaCl2',
-               pSolution='2000 KMethylsulfate',
-               recordingMethod='sharp electrode',
-               voltages={Vm:{RMP:-59,Vh:NaN,Vss:NaN},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:NaN,CO2:true}).log();
+//  new solution(celsius=24,
+//               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1 MgSO4, 2.5 CaCl2',
+//               pSolution='2000 KMethylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-59,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Mercer 2012 Local circuitry involving parvalbumin-positive basket cells in the CA2 region of the hippocampus.
 //  new solution(celsius=24,
 //               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1 MgSO4, 2.5 CaCl2',
@@ -558,8 +586,6 @@ function eRev(){
 
   //Ali 1999 IPSPs elicited in CA1 pyramidal cells by putative basket cells in slices of adult rat hippocampus.
   //exp9 = new solution(34,'124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2','2000 K-Methylsulfate',Vm=-60,isSharpElectrode=true,O2_CO2_95_5=true,pHo=NaN,pHi=NaN).log(); //Sharp elctrode: Experimental Erev in Soma=-72.4±5.5, GHK=-72.11
-  //Buhl 1994 Physiological properties of anatomically identified axo-axonic cells in the rat hippocampus.
-  //exp15= new solution(35,'126 NaCl, 3.0 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2.0 MgSO4, 2.0 CaCl2','1500 K-Methylsulfate',Vm=-65.1,isSharpElectrode=true,O2_CO2_95_5=true,pHo=NaN,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at -65.1 mV RMP from Soma=-66.5; without accetate GHK=-74.91
   //Cobb 1995 Synchronization of neuronal activity in hippocampus by individual GABAergic interneurons.
   //exp16= new solution(35,'126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgSO4, 2 CaCl2','1500 K-Methylsulfate',Vm=NaN,isSharpElectrode=true,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-75.5±7.6; without accetate GHK=-83.55
   //Empson 1995 The perforant path projection to hippocampal area CA1 in the rat hippocampal-entorhinal cortex combined slice.

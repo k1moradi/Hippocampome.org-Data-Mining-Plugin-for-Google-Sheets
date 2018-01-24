@@ -147,7 +147,9 @@
          while (br = savedSelActiveElement.querySelector('br')) 
                 br.outerHTML = br.innerHTML;
          //prompt('',savedSelActiveElement.innerHTML);
+         
          savedSelActiveElement.innerHTML = queryHighlighter(savedSelActiveElement.innerHTML);
+         
          restoreSelection();
        }, false);
 
@@ -181,10 +183,12 @@
      function reCheckQuery(value) {
        var url = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
          value.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/\s+/g,' ');
-       google.script.run.withSuccessHandler(function(response){
+       google.script.run
+         .withFailureHandler(function(){document.getElementById("error").innerHTML = "<b style='color:red;'>Error:</b> unsupported query syntax"})
+         .withSuccessHandler(function(response){
          var errorRegExp   = /<br>.*<br>/;
          var error         = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
-         document.getElementById("error").innerHTML = '<b>Error:</b> ' + ((error)? error : 'No Error' );
+         document.getElementById("error").innerHTML = ((error)? "<b style='color:red;'>Error:</b> "+ error : '<b>Error:</b> No Error' );
          
          var fetchedConns  = JSON.parse(response.replace(errorRegExp,''));
          var connectionsMapped = evidence.PConnections.reduce(

@@ -3,8 +3,52 @@
   <head>
     <base target="_top">
     <?!= include('shortcuts'); ?>
-    <?!= include('script_CSS'); ?>
+    <?!= include('commonCSS'); ?>
     <style>
+      mark {
+        border-radius: 3px;
+        color: transparent;
+        background-color: #b1d5e5;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+      .container {
+        display: block;
+        margin: 0 auto;
+        -webkit-transform: translateZ(0);
+        transform: translateZ(0);
+        -webkit-text-size-adjust: none;
+      }
+      .highlights {
+        color: transparent;
+        white-space: pre-wrap;
+        word-wrap: break-word; //normal;
+      }
+      .backdrop {
+        position: absolute;
+        z-index: 1;
+        border: 2px solid #685972;
+        background-color: #fff;
+        overflow: auto;
+        pointer-events: none;
+        -webkit-transition: -webkit-transform 1s;
+        transition: -webkit-transform 1s;
+        transition: transform 1s;
+        transition: transform 1s, -webkit-transform 1s;
+      }
+      .textCleaner {
+        display: block;
+        position: absolute;
+        z-index: 2;
+        margin: 0;
+        border: 2px solid #74637f;
+        border-radius: 0;
+        color: black;
+        background-color: transparent;
+        overflow: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
       .container, .backdrop, textarea {
         width: 294px;
         height: calc(100vh - 26px); //775px; //615px
@@ -28,13 +72,32 @@
         </div>
         <TEXTAREA NAME='inputText' onSelect='formatText(this.form)' contenteditable="true" spellcheck="true" class="textCleaner"></TEXTAREA>
       </div>
-      <?!= include('jquery.min'); ?>
+      <script src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>
       <?!= include('highlightableTextArea'); ?>
       <script>
-        $(document).ready(function () {
+        window.onload = function () {
           loadValue(document.forms.CleanText);
-        });
+          
+          document.getElementById('CleanText').addEventListener("paste", function(e) {try{
+            // cancel paste
+            e.preventDefault();
+            // get text representation of clipboard
+            //var text = e.clipboardData.getData("text/plain"); 
+            var divElem = document.createElement('div');
+            divElem.innerHTML = e.clipboardData.getData('text/html');
+            //convert small-capps to real capital letters
+            while (smallCapElem = divElem.querySelector('.sc')) 
+              smallCapElem.outerHTML = smallCapElem.innerText.toUpperCase();
+            //prompt('',divElem.innerHTML)
+            document.execCommand("insertHTML", false, divElem.innerText.replace(/^[\s\n\r]+|[\s\n\r]+$/g,''));
+            
+            //t=new textHandler(this.form.inputText);t.replaceSelected(t.sel.toLowerCase());
+            }catch(error){
+              alert(error)
+            }
+          });
+        };
       </script>
-    </form>   
+    </form>
   </body>
 </html>

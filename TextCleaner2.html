@@ -1,119 +1,18 @@
-<input type='button' class='button' value='𝗕'  onmousedown='boldSelectedText(this.form)'   title='Ctrl+B'>
-<input type='button' class='button' value='𝑰'  onmousedown='italicSelectedText(this.form)' title='Ctrl+I'>
-<input type='button' class='button' value='𝐒'  onmousedown='strikeSelectedText(this.form)' style='text-decoration: line-through;'>
-<input type='button' class='button' value='𝑿₂' onmousedown='subSelectedText(this.form)'>
-<input type='button' class='button' value='𝑿²' onmousedown='supSelectedText(this.form)'>
-<input type='button' class='button' value='⌂'  onmousedown="javascript:t=new textHandler(this.form.inputText);t.replaceSelected(t.sel.replace(/ /g, ''));">
-<input type='button' class='button' value='🆄'  onmousedown="javascript:t=new textHandler(this.form.inputText);t.replaceSelected(t.sel.toUpperCase());">
-<input type='button' class='button' value='🅻'  onmousedown="javascript:t=new textHandler(this.form.inputText);t.replaceSelected(t.sel.toLowerCase());">
-  <div class="dropdown">
-    <input   type='button' class='button' value='🔣'>
-    <div class="dropdown-content">
-      <input type='button' class='button' value='°'  onmousedown="insertText(this.form,'°')"   title='degree'>
-      <input type='button' class='button' value='±'  onmousedown="insertText(this.form,'±')"   title='plus minus'>
-      <input type='button' class='button' value='×'  onmousedown="insertText(this.form,'×')"   title='multiply'>
-      <input type='button' class='button' value='√'  onmousedown="insertText(this.form,'√')"   title='root square'>
-      <input type='button' class='button' value='∑'  onmousedown="insertText(this.form,'∑')"   title='Zigma'>
-      <input type='button' class='button' value='≈'  onmousedown="insertText(this.form,'≈')"   title='almost equal to'>
-      <br>
-      <input type='button' class='button' value='α'  onmousedown="insertText(this.form,'α')"   title='alpha'>
-      <input type='button' class='button' value='ß'  onmousedown="insertText(this.form,'ß')"   title='beta'>
-      <input type='button' class='button' value='γ'  onmousedown="insertText(this.form,'γ')"   title='gamma'>
-      <input type='button' class='button' value='δ'  onmousedown="insertText(this.form,'δ')"   title='delta'>
-      <input type='button' class='button' value='ε'  onmousedown="insertText(this.form,'ε')"   title='epsilon'>
-      <input type='button' class='button' value='ζ'  onmousedown="insertText(this.form,'ζ')"   title='zeta'>
-      <input type='button' class='button' value='η'  onmousedown="insertText(this.form,'η')"   title='eta'>
-      <input type='button' class='button' value='θ'  onmousedown="insertText(this.form,'θ')"   title='theta'>
-      <input type='button' class='button' value='λ'  onmousedown="insertText(this.form,'λ')"   title='lamda'>
-      <input type='button' class='button' value='κ'  onmousedown="insertText(this.form,'κ')"   title='kappa'>
-      <input type='button' class='button' value='ζ'  onmousedown="insertText(this.form,'ζ')"   title='zeta'>
-      <input type='button' class='button' value='ξ'  onmousedown="insertText(this.form,'ξ')"   title='xi'>
-      <input type='button' class='button' value='µ'  onmousedown="insertText(this.form,'µ')"   title='mu, shortcut:Ctrl+M'>
-      <input type='button' class='button' value='ρ'  onmousedown="insertText(this.form,'ρ')"   title='rho'>
-      <input type='button' class='button' value='τ'  onmousedown="insertText(this.form,'τ')"   title='tau'>
-      <input type='button' class='button' value='π'  onmousedown="insertText(this.form,'π')"   title='pi'>
-      <input type='button' class='button' value='φ'  onmousedown="insertText(this.form,'φ')"   title='phi'>
-      <input type='button' class='button' value='χ'  onmousedown="insertText(this.form,'χ')"   title='chi'>
-      <input type='button' class='button' value='ψ'  onmousedown="insertText(this.form,'ψ')"   title='psi'>
-      <input type='button' class='button' value='ω'  onmousedown="insertText(this.form,'ω')"   title='omega'>
-      <input type='button' class='button' value='σ'  onmousedown="insertText(this.form,'σ')"   title='sigma'>
-      <input type='button' class='button' value='Δ'  onmousedown="insertText(this.form,'Δ')"   title='delta'>
-      <input type='button' class='button' value='Ω'  onmousedown="insertText(this.form,'Ω')"   title='omega'>
-      <br>
-      <input type='button' class='button' value='◀'  onmousedown="insertText(this.form,'◀')"  title='Backward triangle'>
-      <input type='button' class='button' value='▲'  onmousedown="insertText(this.form,'▲')"   title='up triangle'>
-      <input type='button' class='button' value='▼'  onmousedown="insertText(this.form,'▼')"   title='down triangle'>
-      <input type='button' class='button' value='▶'  onmousedown="insertText(this.form,'▶')"  title='Forward triangle'>
-      <input type='button' class='button' value='◁'  onmousedown="insertText(this.form,'◁')"  title='Backward triangle'>
-      <input type='button' class='button' value='△'  onmousedown="insertText(this.form,'△')"  title='up triangle'>
-      <input type='button' class='button' value='▽'  onmousedown="insertText(this.form,'▽')"  title='down triangle'>
-      <input type='button' class='button' value='▷'  onmousedown="insertText(this.form,'▷')"  title='Forward triangle'>
-      <br>
-      <input type='button' class='button' value='⬅'  onmousedown="insertText(this.form,'⬅')">
-      <input type='button' class='button' value='⬌'  onmousedown="insertText(this.form,'⬌')">
-      <input type='button' class='button' value='➞'  onmousedown="insertText(this.form,'➞')">
-      <input type='button' class='button' value='⬆'  onmousedown="insertText(this.form,'⬆')">
-      <input type='button' class='button' value='⬍'  onmousedown="insertText(this.form,'⬍')">
-      <input type='button' class='button' value='⬇'  onmousedown="insertText(this.form,'⬇')">
-      <input type='button' class='button' value='⬈'  onmousedown="insertText(this.form,'⬈')">
-      <input type='button' class='button' value='⬉'  onmousedown="insertText(this.form,'⬉')">
-      <input type='button' class='button' value='⬊'  onmousedown="insertText(this.form,'⬊')">
-      <input type='button' class='button' value='⬋'  onmousedown="insertText(this.form,'⬋')"> 
-      <br>
-      <input type='button' class='button' value='◻'  onmousedown="insertText(this.form,'◻')"   title='BLACK SQUARE'>
-      <input type='button' class='button' value='◼'  onmousedown="insertText(this.form,'◼')"   title='WHITE SQUARE'>
-      <input type='button' class='button' value='▢'  onmousedown="insertText(this.form,'▢')">
-      <input type='button' class='button' value='▣'  onmousedown="insertText(this.form,'▣')">
-      <input type='button' class='button' value='▤'  onmousedown="insertText(this.form,'▤')">
-      <input type='button' class='button' value='▥'  onmousedown="insertText(this.form,'▥')">
-      <input type='button' class='button' value='▦'  onmousedown="insertText(this.form,'▦')">
-      <input type='button' class='button' value='▧'  onmousedown="insertText(this.form,'▧')">
-      <input type='button' class='button' value='▨'  onmousedown="insertText(this.form,'▨')">
-      <input type='button' class='button' value='▩'  onmousedown="insertText(this.form,'▩')">
-      <br>
-      <input type='button' class='button' value='◆'  onmousedown="insertText(this.form,'◆')"   title='BLACK DIAMOND'>
-      <input type='button' class='button' value='◇'  onmousedown="insertText(this.form,'◇')"   title='WHITE DIAMOND'>
-      <input type='button' class='button' value='⬤'  onmousedown="insertText(this.form,'⏺')"   title='BLACK CIRCLE'>
-      <input type='button' class='button' value='⭘'  onmousedown="insertText(this.form,'⭘')"   title='WHITE CIRCLE'>
-      <input type='button' class='button' value='◍'  onmousedown="insertText(this.form,'◍')">
-    </div>
-  </div>
-  <input type='button' class='button' value=':'  onmousedown='formatColon(this.form)'        title='Format : Sign'>
-  <input type='button' class='button' value='✍' onmousedown='formatText(this.form)'         title='Format: Ctrl+A'>
-  <input type='button' class='button' value='❌' onmousedown='cleanHTMLtags(this.form)'      title='Clean HTML Tags'>          
-  <input type='button' class='button' value='🔄' onmousedown='loadValue(this.form)'          title='Load'>
-  <input type='button' class='button' value='💾' onmousedown='saveValue(this.form)'          title='Save'>
-
-<script language='JavaScript'>
-shortcut.add("enter" ,function() {insertNewLine(document.forms.CleanText)});
-shortcut.add("Ctrl+B",function() {boldSelectedText(document.forms.CleanText)});
-shortcut.add("Ctrl+I",function() {italicSelectedText(document.forms.CleanText)});
-shortcut.add("Ctrl+M",function() {insertText(document.forms.CleanText,'µ')}); //µ
-shortcut.add("Ctrl+.",function() {insertText(document.forms.CleanText,'▶')}); //▶
-shortcut.add("Ctrl+,",function() {insertText(document.forms.CleanText,'◀')}); //◀
-shortcut.add("f2",function() {saveValue(document.forms.CleanText)}); //◀
-//------------Load and Save Section--------------------------------------------------------------------------
-var globalCellObj = {};
-function loadValue(form){
-  google.script.run
-  .withSuccessHandler(
-    function(cellObj){
-      globalCellObj = cellObj;
-      form.inputText.value = globalCellObj.cellValue;
-      formatText(document.forms.CleanText);
-      formatText(document.forms.CleanText);
-      handleInput();
-  }).getActiveCell();
-};
-function saveValue(form){
-  google.script.run
-    .withFailureHandler(showSnackbar("<b style='color:lightsalmon'>failed to save</b>"))
-    .withSuccessHandler(showSnackbar('saved successfully'))
-    .setActiveCellValue(JSON.stringify(globalCellObj), 
-      form.inputText.value.replace(/(?:\<br\>)*\s*[\n\r]+\s*/g, '<br>'));
-};//===========================================================================================================
-function formatText(form) {
-  form.inputText.value = form.inputText.value
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <script>
+function highlightElem(elem){
+  elem.innerHTML = elem.innerHTML
+    .replace(/\b(epilep(?:ticus|tic|sy|sia)|seisure[s]*|field|culture|a.actinin)\b/ig,
+      "<mark style='background-color:red;color:white;'>$1</mark>") //red    exclude this paper
+    .replace(/(\d(?:[\– '&]| \.|.\ | \. )\d| \w \w |p[Mm]|µm|\bmm,?\b|[\x01\x02\x03\x04\x05\x06\x07\x08])/g, 
+      "<mark style='background-color:hotpink;'>$1</mark>")          //tomato unautomatable mistakes
+}
+function formatText(elem) {
+  removeUnwantedNodes(elem);
+  elem.innerHTML = elem.innerHTML
     .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])/g   , '')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. --> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1') // R M P --> RMP
@@ -129,7 +28,7 @@ function formatText(form) {
     .replace(/(?<=[(;, ])(Na|Cs|K)H *C *[O0] *[3,](?=[ ),;.])/g                                                  , '$1HCO₃')
     .replace(/(?<=[(;, ])(Na|Cs|K) *3 *GTP(?=[ ),;.])/g                                                          , '$1₃GTP')
     .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *(G|A)TP(?=[ ),;.])/g                                                  , '$1₂$2TP')
-    .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co) *C[lI1] *[2z,](?=[ \/),;.])/g                                             , '$1Cl₂')  // 1I as l
+    .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co|Sr) *C[lI1] *[2z,](?=[ \/),;.])/g                                          , '$1Cl₂')  // 1I as l
     .replace(/(?<=[(;, ])(H|Na|Cs|K) *C[I1](?=[ ),;.])/g                                                         , '$1Cl')   // 1I as l
     .replace(/(?<=[(;, ])M *gS[O0] *4(?=[ ),;.])/g                                                               , 'MgSO₄')
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')//Methylsulfonate = Methanesulfonate
@@ -139,10 +38,11 @@ function formatText(form) {
     .replace(/(?<=[(;, ])[O0] *2(?=[ +\/),;.–\-])/g                                                              , 'O₂')
     .replace(/(?<=[\[(\/;, –-])Cl\s*[-−"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ –),;.\]])/g                        , 'Cl⁻')
     .replace(/(?<=[\[(\/;, –-])(Na|K|Cs)\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g                , '$1⁺')
-    .replace(/(?<=[\[(\/;, –-])(Mg|Ca)\s*[2\*]\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g          , '$1²⁺')
+    .replace(/(?<=[\[(\/;, –-])(Mg|Ca|Sr)\s*[2\*]\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g       , '$1²⁺')
     .replace(/\[\s*(Cl⁻|Cs⁺|Na⁺|K⁺|Mg²⁺|Ca²⁺)\s*\]/g                                                             , '[$1]')    //[ Ca²⁺ ] -> [Ca²⁺]
     .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[iI1](?=[ ),;.])/g                                         , '[$1]ᵢ')
     .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[oO0](?=[ ),;.])/g                                         , '[$1]ₒ')
+    .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[E](?=[ ),;.])/g                                           , '[$1]<sub>E</sub>')
     .replace(/(?<=[(;, ])et\s*a[1!]\.(?=[ ),;.])/g                                                               , 'et al.')
     .replace(/(?<=[(;, ])C *A\s*[lI](?=[ ),;.])/g                                                                , 'CA1')     // lI as 1
     .replace(/(?<=[(;, ])C *A *([1-4])(?=[ ),;.])/g                                                              , 'CA$1')    // C A 1 --> CA1
@@ -282,98 +182,226 @@ function formatText(form) {
       })                                                                                                                        // a-b, bold image list
     .replace(/(?<=[\.;]|<\/b>|<br>)\s*((?:(?:right|left|top|bottom|middle|center|inset)\s*(?:panel|trace)?,(?=\s*))+)/ig, ' <b>$1</b>') // bold subsections in figures
     .replace(/^([^.,?]+\.)\s*(?=<br>)/g                                                                          , '<b>$1</b>') // bold the 1st sentence
-    .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n{3,})/g                                                       , '<br>\n\n')
+    .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n+)/g                                                          , '<br>')
     .replace(/<\/b>\s*<b>/g                                                                                      , ' ')
     .replace(/ *> +< */g                                                                                         , '><')
     //.replace(/<p>/g                                                                                              , '&lt;p&gt;')
     .replace(/(\d)\s*\/\s*(\d)(?<!\d\/\d)/g                                                                      ,'$1/$2'); //remove space between numbers and /
-    //.replace(/(<\/*[bi]>)(<\/*[bi]>)/g                                                                         ,'$1 $2');
-  handleInput();
+    highlightElem(elem);
 };
-function formatColon(form) {
-  form.inputText.value = form.inputText.value.replace(/(?<!–\d)(?<=[\w₀₁₂₃₄₅₆₇₈₉ₕᵢₘₙ⁰¹²³⁵⁶⁷⁸⁹Ω])\s*:\s*(?=\w)/g, ': ');
-  handleInput();
-};
-var textHandler = function(textarea) {
-  this.textarea = textarea;
-  //remove spaces from selection start and end
-  if (textarea.selectionStart !== textarea.selectionEnd) {
-    this.start = textarea.selectionStart + [(textarea.value.substring(textarea.selectionStart, textarea.selectionStart+1)===' ')? 1 : 0][0];
-    this.end = textarea.selectionEnd - [(textarea.value.substring(textarea.selectionEnd-1, textarea.selectionEnd)===' ')? 1 : 0][0];
-  } else {
-    this.start = this.end = textarea.selectionStart;
-  }
-  
-  this.updateParams = function() {
-    this.sel = this.textarea.value.substring(this.start, this.end);
-    this.length = this.textarea.value.length;
-  };
-  
-  this.updateParams();
-  
-  this.spliceSelected = function(preSelTxt,postSelTxt){
-    if (this.sel != '') {
-      this.textarea.value = this.textarea.value.substring(0,this.start) + preSelTxt + this.sel + postSelTxt + this.textarea.value.substring(this.end,this.length);
-      //reselect the text
-      this.end = this.textarea.selectionEnd = this.end + preSelTxt.length;
-      this.start = this.textarea.selectionStart = this.start + preSelTxt.length;
-      this.updateParams();
-    };
-  };
-  
-  this.replaceSelected = function(replacementTxt){
-    this.textarea.value = this.textarea.value.substring(0,this.start) + replacementTxt + this.textarea.value.substring(this.end,this.length);
-    this.end = this.textarea.selectionEnd = this.start + replacementTxt.length;
-    this.updateParams();
-  };
-  
-};
+    </script>
+    <style>
+      .textCleanerDiv {
+        width: 100vw;
+        height: calc(100vh - 25px);
+        padding: 1px;
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        //letter-spacing: 1px;
+        line-height: 1.5em;
+        display: block;
+        position: absolute;
+        margin: 0;
+        border: 2px solid #74637f;
+        border-radius: 0;
+        color: black;
+        background-color: white;
+        overflow: auto;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+      }
+    </style>
+    <?!=include('commonCSS')?>
+  </head>
+  <body>
+    <title>PDF Text Cleaner Tool</title>
+    <input type='button' class='button' value='𝗕'  onmousedown="document.execCommand('bold', false, null)"   title='Ctrl+B'>
+    <input type='button' class='button' value='𝑰'  onmousedown="document.execCommand('italic', false, null)" title='Ctrl+I'>
+    <input type='button' class='button' value='𝐒'  onmousedown="document.execCommand('strikeThrough', false, null)" style='text-decoration: line-through;'>
+    <input type='button' class='button' value='𝑿₂' onmousedown="document.execCommand('subscript', false, null)">
+    <input type='button' class='button' value='𝑿²' onmousedown="document.execCommand('superscript', false, null)">
+    <input type='button' class='button' value='⌂'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().replace(/ /g, ''))" title='remove all spaces'>
+    <input type='button' class='button' value='🆄'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().toUpperCase());" title='to UpperCase'>
+    <input type='button' class='button' value='🅻'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().toLowerCase());" title='to LowerCase'>
+    <div class="dropdown">
+      <input   type='button' class='button' value='🔣'>
+      <div class="dropdown-content">
+        <input type='button' class='button' value='°'  onmousedown="document.execCommand('insertText', false, '°')"   title='degree'>
+        <input type='button' class='button' value='±'  onmousedown="document.execCommand('insertText', false, '±')"   title='plus minus'>
+        <input type='button' class='button' value='×'  onmousedown="document.execCommand('insertText', false, '×')"   title='multiply'>
+        <input type='button' class='button' value='√'  onmousedown="document.execCommand('insertText', false, '√')"   title='root square'>
+        <input type='button' class='button' value='∑'  onmousedown="document.execCommand('insertText', false, '∑')"   title='Zigma'>
+        <input type='button' class='button' value='≈'  onmousedown="document.execCommand('insertText', false, '≈')"   title='almost equal to'>
+        <br>
+        <input type='button' class='button' value='α'  onmousedown="document.execCommand('insertText', false, 'α')"   title='alpha'>
+        <input type='button' class='button' value='ß'  onmousedown="document.execCommand('insertText', false, 'ß')"   title='beta'>
+        <input type='button' class='button' value='γ'  onmousedown="document.execCommand('insertText', false, 'γ')"   title='gamma'>
+        <input type='button' class='button' value='δ'  onmousedown="document.execCommand('insertText', false, 'δ')"   title='delta'>
+        <input type='button' class='button' value='ε'  onmousedown="document.execCommand('insertText', false, 'ε')"   title='epsilon'>
+        <input type='button' class='button' value='ζ'  onmousedown="document.execCommand('insertText', false, 'ζ')"   title='zeta'>
+        <input type='button' class='button' value='η'  onmousedown="document.execCommand('insertText', false, 'η')"   title='eta'>
+        <input type='button' class='button' value='θ'  onmousedown="document.execCommand('insertText', false, 'θ')"   title='theta'>
+        <input type='button' class='button' value='λ'  onmousedown="document.execCommand('insertText', false, 'λ')"   title='lamda'>
+        <input type='button' class='button' value='κ'  onmousedown="document.execCommand('insertText', false, 'κ')"   title='kappa'>
+        <input type='button' class='button' value='ζ'  onmousedown="document.execCommand('insertText', false, 'ζ')"   title='zeta'>
+        <input type='button' class='button' value='ξ'  onmousedown="document.execCommand('insertText', false, 'ξ')"   title='xi'>
+        <input type='button' class='button' value='µ'  onmousedown="document.execCommand('insertText', false, 'µ')"   title='mu, shortcut:Ctrl+M'>
+        <input type='button' class='button' value='ρ'  onmousedown="document.execCommand('insertText', false, 'ρ')"   title='rho'>
+        <input type='button' class='button' value='τ'  onmousedown="document.execCommand('insertText', false, 'τ')"   title='tau'>
+        <input type='button' class='button' value='π'  onmousedown="document.execCommand('insertText', false, 'π')"   title='pi'>
+        <input type='button' class='button' value='φ'  onmousedown="document.execCommand('insertText', false, 'φ')"   title='phi'>
+        <input type='button' class='button' value='χ'  onmousedown="document.execCommand('insertText', false, 'χ')"   title='chi'>
+        <input type='button' class='button' value='ψ'  onmousedown="document.execCommand('insertText', false, 'ψ')"   title='psi'>
+        <input type='button' class='button' value='ω'  onmousedown="document.execCommand('insertText', false, 'ω')"   title='omega'>
+        <input type='button' class='button' value='σ'  onmousedown="document.execCommand('insertText', false, 'σ')"   title='sigma'>
+        <input type='button' class='button' value='Δ'  onmousedown="document.execCommand('insertText', false, 'Δ')"   title='delta'>
+        <input type='button' class='button' value='Ω'  onmousedown="document.execCommand('insertText', false, 'Ω')"   title='omega'>
+        <br>
+        <input type='button' class='button' value='◀'  onmousedown="document.execCommand('insertText', false, '◀')"  title='Backward triangle'>
+        <input type='button' class='button' value='▲'  onmousedown="document.execCommand('insertText', false, '▲')"   title='up triangle'>
+        <input type='button' class='button' value='▼'  onmousedown="document.execCommand('insertText', false, '▼')"   title='down triangle'>
+        <input type='button' class='button' value='▶'  onmousedown="document.execCommand('insertText', false, '▶')"  title='Forward triangle'>
+        <input type='button' class='button' value='◁'  onmousedown="document.execCommand('insertText', false, '◁')"  title='Backward triangle'>
+        <input type='button' class='button' value='△'  onmousedown="document.execCommand('insertText', false, '△')"  title='up triangle'>
+        <input type='button' class='button' value='▽'  onmousedown="document.execCommand('insertText', false, '▽')"  title='down triangle'>
+        <input type='button' class='button' value='▷'  onmousedown="document.execCommand('insertText', false, '▷')"  title='Forward triangle'>
+        <br>
+        <input type='button' class='button' value='⬅'  onmousedown="document.execCommand('insertText', false, '⬅')">
+        <input type='button' class='button' value='⬌'  onmousedown="document.execCommand('insertText', false, '⬌')">
+        <input type='button' class='button' value='➞'  onmousedown="document.execCommand('insertText', false, '➞')">
+        <input type='button' class='button' value='⬆'  onmousedown="document.execCommand('insertText', false, '⬆')">
+        <input type='button' class='button' value='⬍'  onmousedown="document.execCommand('insertText', false, '⬍')">
+        <input type='button' class='button' value='⬇'  onmousedown="document.execCommand('insertText', false, '⬇')">
+        <input type='button' class='button' value='⬈'  onmousedown="document.execCommand('insertText', false, '⬈')">
+        <input type='button' class='button' value='⬉'  onmousedown="document.execCommand('insertText', false, '⬉')">
+        <input type='button' class='button' value='⬊'  onmousedown="document.execCommand('insertText', false, '⬊')">
+        <input type='button' class='button' value='⬋'  onmousedown="document.execCommand('insertText', false, '⬋')"> 
+        <br>
+        <input type='button' class='button' value='◻'  onmousedown="document.execCommand('insertText', false, '◻')"   title='BLACK SQUARE'>
+        <input type='button' class='button' value='◼'  onmousedown="document.execCommand('insertText', false, '◼')"   title='WHITE SQUARE'>
+        <input type='button' class='button' value='▢'  onmousedown="document.execCommand('insertText', false, '▢')">
+        <input type='button' class='button' value='▣'  onmousedown="document.execCommand('insertText', false, '▣')">
+        <input type='button' class='button' value='▤'  onmousedown="document.execCommand('insertText', false, '▤')">
+        <input type='button' class='button' value='▥'  onmousedown="document.execCommand('insertText', false, '▥')">
+        <input type='button' class='button' value='▦'  onmousedown="document.execCommand('insertText', false, '▦')">
+        <input type='button' class='button' value='▧'  onmousedown="document.execCommand('insertText', false, '▧')">
+        <input type='button' class='button' value='▨'  onmousedown="document.execCommand('insertText', false, '▨')">
+        <input type='button' class='button' value='▩'  onmousedown="document.execCommand('insertText', false, '▩')">
+        <br>
+        <input type='button' class='button' value='◆'  onmousedown="document.execCommand('insertText', false, '◆')"   title='BLACK DIAMOND'>
+        <input type='button' class='button' value='◇'  onmousedown="document.execCommand('insertText', false, '◇')"   title='WHITE DIAMOND'>
+        <input type='button' class='button' value='⬤'  onmousedown="document.execCommand('insertText', false, '⏺')"   title='BLACK CIRCLE'>
+        <input type='button' class='button' value='⭘'  onmousedown="document.execCommand('insertText', false, '⭘')"   title='WHITE CIRCLE'>
+        <input type='button' class='button' value='◍'  onmousedown="document.execCommand('insertText', false, '◍')">
+      </div>
+    </div>
+    <input type='button' class='button' value='✍' onmousedown='formatText(CleanTextElem)'                             title='Format: Ctrl+A'>
+    <input type='button' class='button' value='❌' onmousedown="document.execCommand('removeFormat', false, null)"     title='Remove Format'>          
+    <input type='button' class='button' value='🔄' onmousedown="loadValue(CleanTextElem)"                              title='Load'>
+    <input type='button' class='button' value='💾' onmousedown="saveValue(CleanTextElem)"                              title='Save'>
+    
+    <div id='CleanText' spellcheck='true' contenteditable='true' class='textCleanerDiv'></div>
 
-function cleanHTMLtags(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  if (textHandlerObj.sel !== '') {
-    textHandlerObj.replaceSelected(textHandlerObj.sel.replace(/(?:<\/*[bsi]>|<\/*su[pb]>)/g, ''));
-  } else {
-    textHandlerObj.textarea.value = textHandlerObj.textarea.value.replace(/(?:<\/*[bsi]>|<\/*su[pb]>)/g, '');
-  };
-  handleInput();
-};
-function boldSelectedText(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.spliceSelected('<b>','</b>');
-  handleInput();
-};
-function italicSelectedText(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.spliceSelected('<i>','</i>');
-  handleInput();
-};
-function strikeSelectedText(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.spliceSelected('<s>','</s>');
-  handleInput();
-};
-function subSelectedText(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.spliceSelected('<sub>','</sub>');
-  handleInput();
-};
-function supSelectedText(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.spliceSelected('<sup>','</sup>');
-  handleInput();
-};
-function insertNewLine(form){
-  var textHandlerObj = new textHandler(form.inputText);
-  if (textHandlerObj.sel === '') {
-    textHandlerObj.replaceSelected('<br>\n');
-    formatText(form);
-    handleInput();
-  };
-};
-function insertText(form,text){
-  var textHandlerObj = new textHandler(form.inputText);
-  textHandlerObj.replaceSelected(String(text));
-  handleInput();
-};
-</script>
+    <script>
+        var globalCellObj = {};
+        var CleanTextElem = document.getElementById('CleanText');
+        function removeUnwantedNodes(elem){
+          //remove highlights
+          while (mark = elem.querySelector('mark')) 
+            mark.outerHTML = mark.innerHTML;
+          //remove case-sensitive search tool highlights
+          while (span = elem.querySelector('span')) 
+            span.outerHTML = span.innerHTML;
+          //convert <div> to <br>
+          while (div = elem.querySelector('div')) 
+            div.outerHTML = div.innerHTML+'<br>';
+          //convert <p> to <br>
+          while (p = elem.querySelector('p')) 
+            p.outerHTML = p.innerHTML+'<br>';
+          //remove end <br>
+          elem.innerHTML = elem.innerHTML.replace(/(?:<br>|\s)+$/g,'');
+        }
+        function loadValue(elem){
+          google.script.run
+          .withSuccessHandler(function(cellObj){
+            globalCellObj = cellObj;
+            elem.innerHTML = '<p>'+globalCellObj.cellValue+'</p>';
+            formatText(CleanTextElem);
+            formatText(CleanTextElem);
+            })
+          .getActiveCell();
+        };
+        function saveValue(elem){
+          formatText(elem);
+          //remove highlights
+          removeUnwantedNodes(elem);
+          google.script.run
+            .withFailureHandler(showSnackbar("<b style='color:lightsalmon'>failed to save</b>"))
+            .withSuccessHandler(showSnackbar('saved successfully'))
+            .setActiveCellValue(JSON.stringify(globalCellObj), 
+              elem.innerHTML
+              .replace(/^<!--td.*-->|(?:<br>|\s)+$/g, '')
+              .replace(/(?:\<br\>)*\s*[\n\r]+\s*/g, '<br>')
+              .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
+              .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|\s*(±)\s*|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1')
+              .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
+              .replace(/&lt;/g,'<')
+              .replace(/&gt;/g,'>')
+              .replace(/&ndash;/g,'—')
+              .replace(/&amp;/g,'&')
+            )
+            highlightElem(elem);
+        };
+        window.onload = function () {
+          CleanTextElem = document.getElementById('CleanText');
+          
+          loadValue(CleanTextElem);
+          
+          CleanTextElem.addEventListener("paste", function(e) {try{
+            // cancel paste
+            e.preventDefault();
+            
+            //get html representation of clipboard if there is html if not get text
+            var html = e.clipboardData.getData('text/html');
+            if (html) {
+              // a temporary element
+              var divElem = document.createElement('div');
+              divElem.innerHTML = html;
+              //convert small-capps to real capital letters
+              // in journal of neurosciece they have class sc
+              while (smallCapElem = divElem.querySelector('.sc')) 
+                smallCapElem.outerHTML = smallCapElem.innerText.toUpperCase();
+              
+              //convert sub, sup, b, strong, em, italic elems to sth html nutral
+              ['p','div','sub','sup','b','i'].forEach(function(tag){
+                while (elem = divElem.querySelector(tag)) 
+                  elem.outerHTML = '@'+tag+'@'+elem.innerHTML+'@|'+tag+'@';
+              })
+              while (elem = divElem.querySelector('strong')) 
+                elem.outerHTML = '@b@'+elem.innerHTML+'@|b@';
+              while (elem = divElem.querySelector('em')) 
+                elem.outerHTML = '@i@'+elem.innerHTML+'@|i@';
+              
+              document.execCommand("insertHTML", false, divElem.innerText
+                .replace(/@(su[bp]|[bi])@(.+?)@\|\1@/g,'<$1>$2</$1>')
+                .replace(/@(p|div)@(.+?)@\|\1@/g,'$2<br>')
+                .replace(/^(?:<br>|[\s\n\r])+|(?:<br>|[\s\n\r])+$/g,'')
+              );
+            } else {
+              document.execCommand("insertHTML", false, e.clipboardData.getData('text/plain').replace(/^[\s\n\r]+|[\s\n\r]+$/g,''));
+            }
+          }catch(error){
+            alert(error)
+          }});
+        };
+    </script>
+    <?!= include('shortcuts'); ?>
+    <script>
+    shortcut.add('Ctrl+.',function(){document.execCommand('superscript', false, null)});
+    shortcut.add('Ctrl+,',function(){document.execCommand('subscript', false, null)});
+    shortcut.add('Ctrl+m',function(){document.execCommand('insertText', false, 'µ')});
+    shortcut.add('f2',function(){saveValue(CleanTextElem)});
+    </script>
+    <?!= include('snackBar'); ?>
+  </body>
+</html>
