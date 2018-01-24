@@ -3,7 +3,7 @@
 In [hippocampome.org](hippocampome.org) we find hippocampal cell types and link them to morphologies, biomarkers, membrane electrophysiology, firing pattern, connectivity and their **synaptic electrophysiology**. For this purpose, we need to extract pieces of evidence from papers, add a description to them, extract required data, link the extracted information to quotation, figures, and tables extracted from papers (i.e. references.).
 
 The current tool, which is still under development, is a Data Mining plugin for Google Sheets that uses Google Apps Script engine. 
-This tool is currently heavily linked to [my sheet](https://docs.google.com/spreadsheets/d/19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A/edit?usp=sharing). Still more work is needed to make it a general purspose tool.
+This tool is currently heavily linked to [my sheet](https://docs.google.com/spreadsheets/d/19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A/edit?usp=sharing).
 
 This tool has several components that are reusable.
 - a **sheet sampling tool**: returns rows of a sheet that have a specific column value,
