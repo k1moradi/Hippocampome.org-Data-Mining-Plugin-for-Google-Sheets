@@ -16,7 +16,7 @@ This tool has several components that are reusable.
 ![Preview Tool](https://github.com/k1moradi/Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-/blob/master/Form%26Viewer.png "Preview Tool")
 ## Check Query Tool
 ![Check Query Tool](https://github.com/k1moradi/Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-/blob/master/CheckQueryTool.png "Check Query Tool")
-## Text Cleaner Tool
+## Text Cleaner Tool as a sidebar
 ![Text Cleaner Tool](https://github.com/k1moradi/Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-/blob/master/TextCleaner.png "Text Cleaner Tool")
 
 Rees, C. L., Moradi, K., & Ascoli, G. A. (2017). *Weighing the Evidence in Peters’ Rule: Does Neuronal Morphology Predict Connectivity? Trends in Neurosciences*, 40(2), 63–71. [doi:10.1016/j.tins.2016.11.007](https://doi.org/10.1016/j.tins.2016.11.007)
