@@ -8,7 +8,7 @@ This tool is currently heavily linked to [my sheet](https://docs.google.com/spre
 This tool has several components that are reusable.
 - *a sheet sampling tool:* returns rows of a sheet that have a specific column value,
 - *an API for prefilling google doc forms*: we use prefilled forms to collect extracted data and preview previously extracted data and link to references,
-- a *text cleaner tool* that corrects the format of text that is copied and pasted from a PDF or HTML files. This tool is optimized for Google Chrome or Opera Browsers since I use experimental javascript features, mostly lookbehind regex. For instance, this tool automatically converts (small caps)[https://en.wikipedia.org/wiki/Small_caps] in the text of journal of neuroscience to large caps (2 m**m** NaCl --> 2 m**M** NaCl).
+- a *text cleaner tool* that corrects the format of text that is copied and pasted from a PDF or HTML files. This tool is optimized for Google Chrome or Opera Browsers since I use experimental javascript features, mostly lookbehind regex. For instance, this tool automatically converts [small caps](https://en.wikipedia.org/wiki/Small_caps) in the text of journal of neuroscience to large caps (2 m**m** NaCl --> 2 m**M** NaCl).
 - a *reference reviewer and editor*: this tool provides previews for references (figures, tables, and quotations) user has extracted form papers. At the same time highlights bits of the text that potentially have extractable data and identification information.
 
 
