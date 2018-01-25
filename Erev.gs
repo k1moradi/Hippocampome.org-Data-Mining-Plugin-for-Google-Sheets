@@ -2,15 +2,24 @@
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 function eRev(){
 //---------------whole-cell
-  //Strüber 2015 Strength and duration of perisomatic GABAergic inhibition depend on distance between synaptically connected cells.
+  //Daw 2009 Asynchronous transmitter release from cholecystokinin-containing inhibitory interneurons is widespread and target-cell independent.
   new solution(celsius=36,
-               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
-               pSolution='110 K-Gluconate, 40 KCl, 10 HEPES, 2 MgCl2 , 2 Na2ATP, 0.1 EGTA',
+               eSolution='125 NaCl, 3.5 KCl, 1.25 H2PO4, 25 NaHCO3, 1.5 MgSO4, 2.5 CaCl2',
+               pSolution='130 KCl, 8.5 NaCl, 4 MgATP, 0.3 NaGTP, 5 HEPES, 0.5 EGTA',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:-70,Vh:-70,Vss:NaN},
-               Erev:{IPSC:-65,EPSC:0,IPSP:NaN,EPSP:NaN},
+               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
                Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:7.20,CO2:true}).log();
+               pH={e:NaN,i:7.3,CO2:true}).log();
+  //Strüber 2015 Strength and duration of perisomatic GABAergic inhibition depend on distance between synaptically connected cells.
+//  new solution(celsius=36,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='110 K-Gluconate, 40 KCl, 10 HEPES, 2 MgCl2 , 2 Na2ATP, 0.1 EGTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-70,Vh:-70,Vss:NaN},
+//               Erev:{IPSC:-65,EPSC:0,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.20,CO2:true}).log();
   //Kohara 2014 Cell type-specific genetic and optogenetic tools reveal hippocampal CA2 circuits.
 //  new solution(celsius=36,
 //               eSolution='124 NaCl, 3 KCl, 2 CaCl2, 1.3 MgSO4, 25 NaHCO3, 1.2 NaH2PO4',

@@ -86,6 +86,7 @@ function addSynapticData() {
   if (evidenceRange && (templateDataID.getSelectedButton() === ui.Button.YES || templateDataID.getSelectedButton() === ui.Button.NO)) {
     // get needed data from spread sheets
     var output = HtmlService.createTemplate(include('showReferences')+include('SynapticData')); //HtmlService.createTemplateFromFile("SynapticData");
+    output.displayForm = true;
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     
     var dSec = evidence.dSec;

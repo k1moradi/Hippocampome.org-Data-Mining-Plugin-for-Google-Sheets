@@ -234,7 +234,7 @@
     
         var quoteValue = Quote.innerHTML
           .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
-          .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|\s*(±)\s*|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1')
+          .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|(\d+)\s*(±)\s*(\d+)|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1$2$3')
           .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
           .replace(/&lt;/g,'<')
           .replace(/&gt;/g,'>')
@@ -273,6 +273,37 @@
   }
 </script>
 <style>
+:root { 
+  --googleFormWidth: <?= (displayForm)? '50vw' : '0vw' ?>;
+}
+.googleForm {
+  float:left; 
+  width: var(--googleFormWidth);
+  height: 100vh;
+}
+.referencePanel {
+  float:right; 
+  overflow:auto;
+  --referencePanelWidth: calc(100vw - var(--googleFormWidth));
+  width: var(--referencePanelWidth);
+  height: 100vh;
+}
+.toolBar {
+  min-width:calc(var(--referencePanelWidth) - 15px);
+  height:25px; 
+  position:fixed; 
+  background-color:black;
+  display:flex; 
+  flex-direction:row
+}
+.eachReference {
+  width:100%;
+  word-wrap:normal;
+}
+.Ref {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+}
 .Refs > summary {
     background-color:black; 
     color:white; 
@@ -280,16 +311,23 @@
     font-size:100%; 
     display:flex; 
     flex-direction:row;
-    font-family:'Open Sans', sans-serif;
 }
 //.Refs > summary:focus {
 //    background-color:blue;
 //}
 
-//.Refs> details:focus{
+//.Refs details:focus{
 //    position:fixed;
 //    left: 0; top: 25px; 
 //}
+.Refs br {
+  line-height:200%;
+}
+.Refs sup {
+  font-size: 55%;
+  font-weight: bold;
+  vertical-align: 50%;
+}
 .UID {
     color:inherit; 
     background-color:inherit; 

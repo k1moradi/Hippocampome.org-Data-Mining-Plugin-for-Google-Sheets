@@ -3,36 +3,6 @@
   <head>
     <base target="_top">
     <?!= include('commonCSS'); ?>
-    <style>
-      :root { 
-        --googleFormWidth: <?= (displayForm)? '50vw' : '0vw' ?>;
-      }
-      .googleForm {
-        float:left; 
-        width: var(--googleFormWidth);
-        height: 100vh;
-      }
-      .referencePanel {
-        float:right; 
-        overflow:auto;
-        --referencePanelWidth: calc(100vw - var(--googleFormWidth));
-        width: var(--referencePanelWidth);
-        height: 100vh;
-      }
-      .toolBar {
-        min-width:calc(var(--referencePanelWidth) - 15px);
-        height:25px; 
-        position:fixed; 
-        background-color:black;
-        display:flex; 
-        flex-direction:row
-      }
-      .eachReference {
-        width:100%;
-        word-wrap:normal;
-      }
-      
-    </style>
   </head>
   <body>
 <?//===========================================Top======================================================================================?>

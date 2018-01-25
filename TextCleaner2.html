@@ -210,6 +210,14 @@ function formatText(elem) {
         white-space: pre-wrap;
         word-wrap: break-word;
       }
+      .textCleanerDiv br {
+        line-height:200%;
+      }
+      .textCleanerDiv sup {
+        font-size: 58%;
+        font-weight: bold;
+        vertical-align: 20%;
+      }
     </style>
     <?!=include('commonCSS')?>
   </head>
@@ -251,11 +259,12 @@ function formatText(elem) {
         <input type='button' class='button' value='π'  onmousedown="document.execCommand('insertText', false, 'π')"   title='pi'>
         <input type='button' class='button' value='φ'  onmousedown="document.execCommand('insertText', false, 'φ')"   title='phi'>
         <input type='button' class='button' value='χ'  onmousedown="document.execCommand('insertText', false, 'χ')"   title='chi'>
-        <input type='button' class='button' value='ψ'  onmousedown="document.execCommand('insertText', false, 'ψ')"   title='psi'>
-        <input type='button' class='button' value='ω'  onmousedown="document.execCommand('insertText', false, 'ω')"   title='omega'>
-        <input type='button' class='button' value='σ'  onmousedown="document.execCommand('insertText', false, 'σ')"   title='sigma'>
-        <input type='button' class='button' value='Δ'  onmousedown="document.execCommand('insertText', false, 'Δ')"   title='delta'>
-        <input type='button' class='button' value='Ω'  onmousedown="document.execCommand('insertText', false, 'Ω')"   title='omega'>
+        <input type='button' class='button' value='Φ'  onmousedown="document.execCommand('insertText', false, 'Φ')"   title='Phi'>
+        <input type='button' class='button' value='ψ'  onmousedown="document.execCommand('insertText', false, 'ψ')"   title='Psi'>
+        <input type='button' class='button' value='ω'  onmousedown="document.execCommand('insertText', false, 'ω')"   title='Omega'>
+        <input type='button' class='button' value='σ'  onmousedown="document.execCommand('insertText', false, 'σ')"   title='Sigma'>
+        <input type='button' class='button' value='Δ'  onmousedown="document.execCommand('insertText', false, 'Δ')"   title='Delta'>
+        <input type='button' class='button' value='Ω'  onmousedown="document.execCommand('insertText', false, 'Ω')"   title='Omega'>
         <br>
         <input type='button' class='button' value='◀'  onmousedown="document.execCommand('insertText', false, '◀')"  title='Backward triangle'>
         <input type='button' class='button' value='▲'  onmousedown="document.execCommand('insertText', false, '▲')"   title='up triangle'>
@@ -343,7 +352,7 @@ function formatText(elem) {
               .replace(/^<!--td.*-->|(?:<br>|\s)+$/g, '')
               .replace(/(?:\<br\>)*\s*[\n\r]+\s*/g, '<br>')
               .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
-              .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|\s*(±)\s*|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1')
+              .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'')
               .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
               .replace(/&lt;/g,'<')
               .replace(/&gt;/g,'>')
