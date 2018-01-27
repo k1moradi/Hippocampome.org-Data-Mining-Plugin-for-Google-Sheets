@@ -5,7 +5,7 @@
     <?!= include('commonCSS'); ?>
   </head>
   <body>
-<?//============================================top=======================================================================================?>
+  <?//============================================top=======================================================================================?>
     <iframe class='googleForm' src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
     <div id='main' class='referencePanel'>
       <?//-----We have access to these objects: evidence cellTypes covariates oldSynData synRefs covRefs myRefs-------------------------?>
@@ -51,7 +51,7 @@
         <?//-----Covariates References---------------------------------------------------------------------------------------------------?>
 
         <? showReferences(evidence.CovariatesIDs  ,allRefs, allRefs,'Covariates References','#99FFFF','black','200%','@');  
-           showAllReferences(evidence.CellePhysIDsPre, evidence.CellePhysIDsPost, allRefs, cellEphys,'Electrophysiology:','#0090CC','yellow','@');?>
+           showReferences(evidence.CellePhysIDsPost, allRefs, allRefs,'Electrophysiology:','#0090CC','yellow','@');?>
           
         <?//-----Synaptic Data References-------------------------------------------------------------------------------------------------?>
 

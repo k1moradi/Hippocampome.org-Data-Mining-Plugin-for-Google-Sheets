@@ -10,11 +10,11 @@
             var theReference = references[refID]; ?>
         <details id="<?=(theReference)?theReference.rowRange:''?>" class='Refs' close>
           <summary
-           ><input type='button' value='💾' onclick='saveReference(this)' class='darkButton'
-           ><a style='color:pink' href='javascript:return false;' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?=refID?></a><span class='disableClick'>:</span>
+           ><a class='darkButton'   href='javascript:(function(){return false})();' onclick='saveReference(this)'>💾</a
+           ><a style='color:pink'   href='javascript:(function(){return false})();' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?=refID?></a><span class='disableClick'>:</span>
             <? if (typeof theReference !== "undefined") {
                  var UID = theReference.UID;?>
-            <a style='color:yellow' href='javascript:return false;' onclick="copyStringToClipboard(this.text)"><?=theReference.Location?></a><span class='disableClick'>:
+            <a style='color:yellow' href='javascript:(function(){return false})();' onclick="copyStringToClipboard(this.text)"><?=theReference.Location?></a><span class='disableClick'>:
             </span><span contenteditable='true' class='UID disableClick'
            ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
             <? }?>
@@ -98,24 +98,26 @@
         <summary style='background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:200%;'>
           <?=groupName?>
         </summary>
-        <? var refIDsUniqueToPre  = presynapticRefIDs.filter(function(refID){return (postsynapticRefIDs.indexOf(refID) === -1)}); 
-           var refIDsUniqueToPost = postsynapticRefIDs.filter(function(refID){return (presynapticRefIDs.indexOf(refID) === -1)}); 
+        <? var refIDsUniqueToPre  = presynapticRefIDs.filter(function(refID){return (postsynapticRefIDs.indexOf(refID) === -1)});
+           var refIDsUniqueToPost = postsynapticRefIDs.filter(function(refID){return (presynapticRefIDs.indexOf(refID) === -1)});
            var refIDsCommonToBoth = presynapticRefIDs.filter(function(refID){return (refIDsUniqueToPre.indexOf(refID) === -1)});
            var linkedRefIds = mergeArrays(presynapticRefIDs,postsynapticRefIDs);
            var unlinkedRefIds = Object.keys(groupReferences).filter(function(refID){return (linkedRefIds.indexOf(refID) === -1)});
-           showReferences(refIDsCommonToBoth,allReferences  ,allReferences,'✅Both Sides'       ,'#3F51B5','white','150%',stringToAppendToRefIDs); 
-           showReferences(refIDsUniqueToPre ,allReferences  ,allReferences,'✅Presynaptic Only' ,'#3F51B5','white','150%',stringToAppendToRefIDs); 
-           showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only','#3F51B5','white','150%',stringToAppendToRefIDs); 
+           showReferences(refIDsCommonToBoth,allReferences  ,allReferences,'✅Both Sides'       ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+           showReferences(refIDsUniqueToPre ,allReferences  ,allReferences,'✅Presynaptic Only' ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+           showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only','#3F51B5','white','150%',stringToAppendToRefIDs);
            showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'         ,'#3F51B5','white','150%',stringToAppendToRefIDs); ?>
       </details>
       <?}; ?>
 <?!=include('shortcuts');?>    
 <script>
-  shortcut.add('Ctrl+.',function(){document.execCommand('superscript', false, null)});
-  shortcut.add('Ctrl+,',function(){document.execCommand('subscript', false, null)});
+  shortcut.add('Ctrl+.'  ,function(){document.execCommand('superscript', false, null)});
+  shortcut.add('Ctrl+,'  ,function(){document.execCommand('subscript', false, null)});
   //shortcut.add('Ctrl+;',function(){document.execCommand('removeFormat', false, null)});
-  shortcut.add('Ctrl+m',function(){document.execCommand('insertText', false, 'µ')});
-  shortcut.add('f2',function(){saveReference(document.activeElement)});
+  shortcut.add('Ctrl+m'  ,function(){document.execCommand('insertText', false, 'µ')});
+  shortcut.add('Ctrl+f12',function(){document.execCommand('insertText', false, '–')});
+  shortcut.add('enter',function(){document.execCommand('insertHTML', false, '<br><br>')});
+  shortcut.add('f2'      ,function(){saveReference(document.activeElement)});
   <?!=refHighlights.toString();?>
 
   window.onload = function() {
@@ -131,6 +133,16 @@
           e.preventDefault();
         });
     });
+    
+    Array.from(document.querySelectorAll('.Refs')).forEach(
+      function(elem){
+        elem.addEventListener('copy', function(e) {
+          showSnackbar('📋 '+
+            ((txt = e.clipboardData.getData('text/plain'))? txt :
+               ((html=e.clipboardData.getData('text/html'))? html: document.getSelection().toString()))
+          );
+        });
+      });
     
     Array.from(document.querySelectorAll('.UID')).forEach(
       function(elem){
@@ -205,6 +217,7 @@
     }
     document.addEventListener('copy', handler, true);
     document.execCommand('copy');
+    //showSnackbar('📋: '+string);
   }
   function saveReference(activeElement){
     var Error = false;
@@ -304,13 +317,21 @@
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
 }
-.Refs > summary {
-    background-color:black; 
-    color:white; 
-    margin:0; 
-    font-size:100%; 
-    display:flex; 
-    flex-direction:row;
+.Refs summary {
+  background-color:black; 
+  color:white; 
+  margin:0; 
+  font-size:100%; 
+  display:flex; 
+  flex-direction:row;
+  vertical-align: bottom;
+}
+//.Refs input {
+//  vertical-align:top;
+//  font-size:90%;
+//}
+.Refs a {
+  vertical-align:bottom;
 }
 //.Refs > summary:focus {
 //    background-color:blue;
@@ -329,11 +350,11 @@
   vertical-align: 50%;
 }
 .UID {
-    color:inherit; 
-    background-color:inherit; 
-    font-family:inherit;
-    font-size:inherit; 
-    flex:1; 
-    border:0px; 
+  color:inherit; 
+  background-color:inherit; 
+  font-family:inherit;
+  font-size:inherit; 
+  flex:1; 
+  border:0px; 
 }
 </style>

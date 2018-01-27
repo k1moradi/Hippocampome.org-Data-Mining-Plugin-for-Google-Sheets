@@ -191,13 +191,7 @@
          document.getElementById("error").innerHTML = ((error)? "<b style='color:red;'>Error:</b> "+ error : '<b>Error:</b> No Error' );
          
          var fetchedConns  = JSON.parse(response.replace(errorRegExp,''));
-         var connectionsMapped = evidence.PConnections.reduce(
-         function(p,v,i){
-           var [pre,post] = v.split(/\s*▶\s*/g)
-           p[i]={source_id: pre.split(/:/g)[0], 
-                 destination_id:post.split(/:/g)[0]}
-           return p
-         },{}) 
+         var connectionsMapped = evidence.PConnectionsUIDs;
 
          var cKeys = Object.keys(fetchedConns);
          var cmKeys = Object.keys(connectionsMapped);
@@ -252,17 +246,11 @@
      </table>
    </div><?
       }
-
+      
       var cKeys = Object.keys(fetchedConns)  
       showConnectionTable(cKeys,fetchedConns,'Search engine results','green','white','tableAll')
 
-      var connectionsMapped = evidence.PConnections.reduce(
-        function(p,v,i){
-          var [pre,post] = v.split(/\s*▶\s*/g)
-          p[i]={source_id: pre.split(/:/g)[0], 
-                destination_id:post.split(/:/g)[0]}
-          return p
-        },{})
+      var connectionsMapped = evidence.PConnectionsUIDs;
 
       var cmKeys=Object.keys(connectionsMapped)
 

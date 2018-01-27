@@ -385,9 +385,15 @@ function formatText(elem) {
               ['p','div','sub','sup','b','i'].forEach(function(tag){
                 while (elem = divElem.querySelector(tag)) 
                   elem.outerHTML = '@'+tag+'@'+elem.innerHTML+'@|'+tag+'@';
-              })
-              while (elem = divElem.querySelector('strong')) 
-                elem.outerHTML = '@b@'+elem.innerHTML+'@|b@';
+              });
+              ['h1','h2','h3','h4','h5','h6'].forEach(function(tag){
+                while (elem = divElem.querySelector(tag)) 
+                  elem.outerHTML = '@p@@b@'+elem.innerHTML+'@|b@@|p@';
+              });
+              ['strong'].forEach(function(tag){
+                while (elem = divElem.querySelector(tag)) 
+                  elem.outerHTML = '@b@'+elem.innerHTML+'@|b@';
+              });
               while (elem = divElem.querySelector('em')) 
                 elem.outerHTML = '@i@'+elem.innerHTML+'@|i@';
               
@@ -409,8 +415,11 @@ function formatText(elem) {
     shortcut.add('Ctrl+.',function(){document.execCommand('superscript', false, null)});
     shortcut.add('Ctrl+,',function(){document.execCommand('subscript', false, null)});
     shortcut.add('Ctrl+m',function(){document.execCommand('insertText', false, 'µ')});
+    shortcut.add('Ctrl+f12',function(){document.execCommand('insertText', false, '–')});
+    shortcut.add('enter',function(){document.execCommand('insertHTML', false, '<br><br>')});
     shortcut.add('f2',function(){saveValue(CleanTextElem)});
     </script>
+    
     <?!= include('snackBar'); ?>
   </body>
 </html>

@@ -1,5 +1,5 @@
 function test() { 
-  //Logger.log(refHighlights.toString())
+  Logger.log(getEvidenceValues(SpreadsheetApp.getActiveRange()))
   //Logger.log(JSON.stringify(sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),['25429131'],'RefID')))
 //  var form = FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8')
 //  
@@ -12,14 +12,14 @@ function test() {
 //    item.asParagraphTextItem().setValidation(paragraphtextValidation);
 //  });
   
-  var spacer = "[^<>)(A-Za-z]";
-  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)";
-  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b";
-  var numbers = "(?:\\d+[.,]?\\d*|" + numberWords + ")";
-  var units = "(?:\xb0C?|m(?:sec|[lLMVs])(?:[ \\/]min)?(?:\u207b\xb9)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|times?|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic )?connections*|[\xb5\u03bc].?(?:ec)?|[kKM]?Hz|.?\u03a9|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])[Ss]?))";
-  var numberRange = "[-+\u223c~\u2248\u2264\u2265<>]?" + numbers + "(" + spacer + "?" + units + ")?(?:[\u2013\xb1]| (?:to|and|or|(?:out )?of(?: the)?) )?[-+]?" + numbers + "?(?: \\(" + numbers + "%\\))?";
-  var numPattern = new RegExp("((?: n)?[\\s(;,=]|<br>)(" + numberRange + ")(" + spacer + "?" + units + ")?(" + spacer + "?" + connectingWords + ")?(" + spacer + "?" + numberRange + ")?(" + spacer + "?" + units + ")?", "g");
-  Logger.log(numPattern)
+//  var spacer = "[^<>)(A-Za-z]";
+//  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)";
+//  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b";
+//  var numbers = "(?:\\d+[.,]?\\d*|" + numberWords + ")";
+//  var units = "(?:\xb0C?|m(?:sec|[lLMVs])(?:[ \\/]min)?(?:\u207b\xb9)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|times?|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic )?connections*|[\xb5\u03bc].?(?:ec)?|[kKM]?Hz|.?\u03a9|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])[Ss]?))";
+//  var numberRange = "[-+\u223c~\u2248\u2264\u2265<>]?" + numbers + "(" + spacer + "?" + units + ")?(?:[\u2013\xb1]| (?:to|and|or|(?:out )?of(?: the)?) )?[-+]?" + numbers + "?(?: \\(" + numbers + "%\\))?";
+//  var numPattern = new RegExp("((?: n)?[\\s(;,=]|<br>)(" + numberRange + ")(" + spacer + "?" + units + ")?(" + spacer + "?" + connectingWords + ")?(" + spacer + "?" + numberRange + ")?(" + spacer + "?" + units + ")?", "g");
+//  Logger.log(numPattern)
 };
 
 function getMaxOf(sheetName,columnName) {
@@ -37,8 +37,13 @@ function getEvidenceValues(activeRange) {
   var columnNumObj   = headers.reduce(function(p,v,i){p[v]=i        ; return p},{});
   var Automation = rawEvidenceObj.Automation.split(/[)]\s*[,]\s*Postsynaptic:[(]/g);
   var obj = {                                 //offset(rowOffset, columnOffset     , numRows                 , numColumns)
-    PConnections        : activeRange.offset(0        , columnNumObj.sUID, activeRange.getNumRows(), 4         ).getValues()
-                          .reduce(function(p,conArray,i){p[i] = conArray[0]+':'+conArray[1]+'▶'+conArray[2]+':'+conArray[3]; return p},[]),
+    PConnections        : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().map(function(v){return v[1]+'▶'+v[3]}),
+    PConnectionsUIDs    : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().reduce(
+      function(p,v,i){
+        p[i]={source_id    : String(v[0]), 
+              destination_id:String(v[2])}
+        return p
+      },{}),
     sUID                : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
     tUID                : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
     PMID                : rawEvidenceObj.PMID.split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
@@ -52,7 +57,7 @@ function getEvidenceValues(activeRange) {
     Query               : rawEvidenceObj.Automation,
     AutomationPre       : (typeof Automation[0] === 'string') ? Automation[0].replace(/Connection\s*:\s*[(]\s*Presynaptic\s*:\s*[(]\s*/g, '') : '',
     AutomationPost      : (typeof Automation[1] === 'string') ? Automation[1].replace(/[)]{2}\s*$/g,'') : '',
-    Confidence          : activeRange.offset(0,columnNumObj.Confidence,activeRange.getNumRows(),1).getValues().reduce(to1D),
+    Confidence          : activeRange.offset(0,columnNumObj.Confidence,activeRange.getNumRows(),1).getValues().reduce(to1D).map(function(v){return(v==='High' || v ==='Direct')?v:'Low'}),
     Amplitude           : rawEvidenceObj.Amplitude,
     Kinetics            : rawEvidenceObj.Kinetics,
     ST_Plasticity       : rawEvidenceObj.ST_Plasticity,
