@@ -3,15 +3,23 @@
 In [hippocampome.org](hippocampome.org) we find hippocampal cell types and link them to morphologies, biomarkers, membrane electrophysiology, firing pattern, connectivity and their **synaptic electrophysiology**. For this purpose, we need to extract pieces of evidence from papers, add a description to them, extract required data, link the extracted information to quotation, figures, and tables extracted from papers (i.e. references.).
 
 The current tool, which is still under development, is a Data Mining plugin for Google Sheets that uses Google Apps Script engine. 
-This tool is currently heavily linked to [my sheet](https://docs.google.com/spreadsheets/d/19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A/edit?usp=sharing).
-
-This tool has several components that are reusable.
+This tool is currently heavily linked to [my sheet](https://docs.google.com/spreadsheets/d/19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A/edit?usp=sharing), but it has several components that are reusable.
 - a **sheet sampling tool**: returns rows of a sheet that have a specific column value,
 - an **API for prefilling google doc forms**: we use prefilled forms to collect extracted data and preview previously extracted data and link to references,
 - a **text cleaner tool** that corrects the format of text that is copied and pasted from a PDF or HTML files. This tool is optimized for Google Chrome or Opera Browsers since I use experimental javascript features, mostly lookbehind regex. For instance, this tool automatically converts [small caps](https://en.wikipedia.org/wiki/Small_caps) in the text of journal of neuroscience to large caps (2 m**m** NaCl --> 2 m**M** NaCl).
 - a **Check Query Tool**: to search potential neuronal connections by accessing a hippocampome.org API.
 - a **reference reviewer and editor**: this tool provides previews for references (figures, tables, and quotations) user has extracted form papers. At the same time highlights bits of the text that potentially have extractable data and identification information.
-- a set of functions that get pipette and bath solution, and a set of experimental settings to calculate **liquid junction potential** of recording pipette and the **reversal potential** of synapses.
+- a set of pure JavaScript functions that get pipette and bath solution, and a set of experimental settings to calculate **liquid junction potential** of recording pipette and the **reversal potential** of synapses.
+```javascript
+new solution(celsius=36,
+               eSolution='125 NaCl, 3.5 KCl, 1.25 H2PO4, 25 NaHCO3, 1.5 MgSO4, 2.5 CaCl2',
+               pSolution='130 KCl, 8.5 NaCl, 4 MgATP, 0.3 NaGTP, 5 HEPES, 0.5 EGTA',
+               recordingMethod='whole-cell',
+               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:7.3,CO2:true}).log();
+```
 
 ## Preview Tool
 ![Preview Tool](https://github.com/k1moradi/Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-/blob/master/Form%26Viewer.png "Preview Tool")
