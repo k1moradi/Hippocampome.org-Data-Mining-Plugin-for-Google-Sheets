@@ -12,13 +12,13 @@ This tool is currently heavily linked to [my sheet](https://docs.google.com/spre
 - a set of pure JavaScript functions that get pipette and bath solution, and a set of experimental settings to calculate **liquid junction potential** of recording pipette and the **reversal potential** of synapses.
 ```javascript
 new solution(celsius=36,
-               eSolution='125 NaCl, 3.5 KCl, 1.25 H2PO4, 25 NaHCO3, 1.5 MgSO4, 2.5 CaCl2',
-               pSolution='130 KCl, 8.5 NaCl, 4 MgATP, 0.3 NaGTP, 5 HEPES, 0.5 EGTA',
-               recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
-               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:7.3,CO2:true}).log();
+             eSolution='125 NaCl, 3.5 KCl, 1.25 H2PO4, 25 NaHCO3, 1.5 MgSO4, 2.5 CaCl2',
+             pSolution='130 KCl, 8.5 NaCl, 4 MgATP, 0.3 NaGTP, 5 HEPES, 0.5 EGTA',
+             recordingMethod='whole-cell',
+             voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+             Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
+             Vj:{exp:NaN,correctedAlready:false}},
+             pH={e:NaN,i:7.3,CO2:true}).log();
 ```
 
 ## Preview Tool
