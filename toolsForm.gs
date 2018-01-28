@@ -1,10 +1,11 @@
 // a function to highlight important text
 function refHighlights(input) {
-  var spacer = "[^<>)(A-Za-z]";
+  var spacer = "[^<>()A-Za-z]";
   var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)"
   var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
   var numbers = "(?:\\d+[.,]?\\d*|"+numberWords+")";
-  var units = "(?:[µμ].?(?:ec)?|[kKM]?Hz|.?Ω|°C?|m(?:sec|[lLMVs])(?:[ \\\/]min)?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|mS(?:[·\\\/]cm⁻²)?|%|percent|times?|mega*ohms*|(?:miniature|spontaneous|unitary|evoked|consecutive|individual|single|continuous|successive|superimposed|repetitive|representative|record(?:ed|ings?)?|morphological(?:ly)?|physiological(?:ly)?|identified|[Pp]yramidal|[Bb]asket|[Bb]istratified|[Tt]rilaminar|[Aa]xo[–-][Aa]xonic|[Gg]ranule|synaptic|and|or|from|to|of|which|after|before|the|,| )*(?:(?:cell|(?:inter)?neuron|pair|set|[PpGg][Cc]|response|sweep|event|trace|record(?:ing)?|observation|trial|quantal?|stimul(?:us|i)|connection|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])(?:ed|s)?)+)";
+  var units = "(?:[µμ].?(?:ec)?|[kKM]?Hz|.?Ω|°C?|m(?:sec|[lLMVs])(?:[ \\\/]min)?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|mS(?:[·\\\/]cm⁻²)?|%|percent|times?|mega*ohms*|[^\\d<>().]*(?:(?:cell|(?:inter)?neuron|pair|set|[PpGg][Cc]|response|sweep|event|trace|record(?:ing)?|observation|trial|quantal?|stimul(?:us|i)|connection|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])(?:ed|s)?)+)";
+  //(?:miniature|spontaneous|unitary|evoked|excitatory|inhibitory|synaptic|consecutive|individual|single|continuous|successive|superimposed|repetitive|representative|record(?:ed|ings?)?|morphological(?:ly)?|physiological(?:ly)?|identified|[Pp]yramidal|[Bb]asket|[Bb]istratified|[Tt]rilaminar|[Aa]xo[–-][Aa]xonic|[Gg]ranule|identified|as|had|have|is|was|were|and|or|from|to|of|which|after|before|the|,| )*
   var numberRange = "[-+∼~≈≤≥<>]?"+numbers+"("+spacer+'?'+units+")?(?:(?:[–±]| (?:to|and|or|vs[.]?|(?:out )?of(?: the)?) )?[-+\\\/:]?"+numbers+")?(?: \\("+numbers+"%\\))?";
   var numPattern = new RegExp("((?: n)?[\\s(;,=\\\/]|<br>)("+numberRange+")("+spacer+"?"+units+")?("+spacer+"?"+connectingWords+")?("+spacer+"?"+numberRange+")?("+spacer+"?"+units+")?", "g");
                               //p1                    p2-3              p4                    p5                                p6-7                         p8

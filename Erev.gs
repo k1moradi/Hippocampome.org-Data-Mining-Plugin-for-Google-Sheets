@@ -8,8 +8,8 @@ function eRev(){
                pSolution='150 K-Gluconate, 1.5 MgCl2, 5 HEPES, 1.1 EGTA,10 Na2-Phosphocreatine, 2 MgATP',
                recordingMethod='whole-cell',
                voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
-               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:-12,correctedAlready:false}},
+               Erev:{IPSC:-85,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:12,correctedAlready:false}},
                pH={e:NaN,i:7.25,CO2:true}).log();
   //Daw 2009 Asynchronous transmitter release from cholecystokinin-containing inhibitory interneurons is widespread and target-cell independent.
 //  new solution(celsius=36,
@@ -476,12 +476,6 @@ function eRev(){
 //                      recordingMethod='whole-cell',
 //                      voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:-73.7 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //                      pH={e:7.4,i:7.3,CO2:true}).log();
-  //Glickfeld 2006 Distinct timing in the activity of cannabinoid-sensitive and cannabinoid-insensitive basket cells.
-  //exp19 = new solution(34,'119 NaCl, 2.5 KCl, 1.3 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2, 26 NaHCO3','150 K-Gluconate, 1.5 MgCl2, 5 HEPES buffer, 1.1 EGTA,10 Phosphocreatine, 2 MgATP',Vm=NaN,isSharpElectrode=false,O2_CO2_95_5=true,pHo=NaN,pHi=7.25).log(); //Experimental Erev in Soma=-85 after Vj=-12 correction = -73, GHK -100.51 without HCO3 correction -84.06 after half HCO3 correction HCO3i= 14.36 -73.99 after full HCO3 correction HCO3i= 28.73
-  //Hájos 1997 Synaptic communication among hippocampal interneurons: properties of spontaneous IPSCs in morphologically identified cells.
-  //exp20 = new solution(34,'126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4','135 Cs-Gluconate, 5 CsCl, 20 HEPES, 2 MgCl2 , 2 MgATP',Vm=NaN,isSharpElectrode=false,O2_CO2_95_5=true,pHo=NaN,pHi=7.25).log(); //Experimental Erev in Soma=-44.6±2.6, GHK without HCO3 correction=-60.84 after HCO3 correction=-66.17
-  //Tsai 2012 Autistic-like behaviour and cerebellar dysfunction in Purkinje cell Tsc1 mutant mice -> liqiud junction potential is not corrected
-  //exp21 = new solution(34,'125 NaCl, 26 NaHCO3, 1.25 NaH2PO4, 2.5 KCl, 1 MgCl2, 2 CaCl2','140 Cs-Gluconate, 15 HEPES, 0.5 EGTA, 2 TEA-Cl, 2 MgATP, 0.3 NaGTP, 10 Phosphocreatine-Tris2, 2 QX314-Cl',RMP=NaN,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.3,pHi=7.2).log(); //Experimental Erev in Soma=-65 not corrected for Vj, GHK without HCO3 correction=-93.75 after HCO3 half correction=-80.55 HCO3 full correction -71.79
 
   
   
