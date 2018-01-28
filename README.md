@@ -9,7 +9,7 @@ This tool is currently heavily linked to [my sheet](https://docs.google.com/spre
 - a **text cleaner tool** that corrects the format of text that is copied and pasted from a PDF or HTML file. This tool is optimized for Google Chrome or Opera browsers since I use some experimental javascript features, mostly lookbehind regex. For instance, this tool automatically converts [small caps](https://en.wikipedia.org/wiki/Small_caps) in the text of journal of neuroscience to large caps (2 m**m** NaCl --> 2 m**M** NaCl).
 - a **Check Query Tool**: to search potential neuronal connections by accessing a hippocampome.org API.
 - a **reference reviewer and editor**: this tool provides previews for references (figures, tables, and quotations) user has extracted form papers. At the same time highlights bits of the text that potentially have extractable data and identification information. This tool is contenteditable and user can edit the mistakes in the copied text while extracting information.
-- a set of pure JavaScript functions that run in the browser and get pipette and bath solution, and a set of experimental settings to calculate **liquid junction potential** (V_j_) of recording pipette and the **reversal potential** (E_rev_) of synapses using *ionic activity* (Ac) and *strength* (I).
+- a set of pure JavaScript functions that run in the browser and get pipette and bath solution, and a set of experimental settings to calculate **liquid junction potential** (Vj) of recording pipette and the **reversal potential** (Erev) of synapses using *ionic activity* (Ac) and *strength* (I).
 ```javascript
   new solution(celsius=33,
                eSolution='119 NaCl, 2.5 KCl, 1.3 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2, 26 NaHCO3',
