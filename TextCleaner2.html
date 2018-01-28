@@ -188,6 +188,7 @@ function formatText(elem) {
     //.replace(/<p>/g                                                                                              , '&lt;p&gt;')
     .replace(/(\d)\s*\/\s*(\d)(?<!\d\/\d)/g                                                                      ,'$1/$2'); //remove space between numbers and /
     highlightElem(elem);
+    if (typeof elem.forceSpellCheck === 'function') elem.forceSpellCheck();
 };
     </script>
     <style>
@@ -309,7 +310,7 @@ function formatText(elem) {
     <input type='button' class='button' value='🔄' onmousedown="loadValue(CleanTextElem)"                              title='Load'>
     <input type='button' class='button' value='💾' onmousedown="saveValue(CleanTextElem)"                              title='Save'>
     
-    <div id='CleanText' spellcheck='true' contenteditable='true' class='textCleanerDiv'></div>
+    <div id='CleanText' contenteditable='true' class='textCleanerDiv' spellcheck='true' data-enable-grammarly='true' data-gramm='true'></div>
 
     <script>
         var globalCellObj = {};
@@ -376,11 +377,15 @@ function formatText(elem) {
               // a temporary element
               var divElem = document.createElement('div');
               divElem.innerHTML = html;
-              //convert small-capps to real capital letters
-              // in journal of neurosciece they have class sc
-              while (smallCapElem = divElem.querySelector('.sc')) 
-                smallCapElem.outerHTML = smallCapElem.innerText.toUpperCase();
-              
+              if (divElem.hasChildNodes()) {
+                var cElems = divElem.childNodes;
+                for (i = cElems.length; i>-1; --i)
+                  if (elem = cElems[i])
+                    if (elem.style)
+                      if (elem.style.fontFeatureSettings==='smcp' || elem.style.fontVariantCaps==='small-caps' || elem.style.fontVariant==='small-caps')
+                        elem.outerHTML = elem.innerText.toUpperCase();
+              }
+
               //convert sub, sup, b, strong, em, italic elems to sth html nutral
               ['p','div','sub','sup','b','i'].forEach(function(tag){
                 while (elem = divElem.querySelector(tag)) 

@@ -1,25 +1,13 @@
 function test() { 
-  Logger.log(getEvidenceValues(SpreadsheetApp.getActiveRange()))
-  //Logger.log(JSON.stringify(sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),['25429131'],'RefID')))
-//  var form = FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8')
-//  
-//  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextDoesNotContainPattern('^[\s\n\r\t]*~~\s*').build();
-//  
-//  form.getItems().filter(function(item){
-//    return (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT)//item.getType() === FormApp.ItemType.TEXT || 
-//  }).forEach(function(item){
-//    //Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')
-//    item.asParagraphTextItem().setValidation(paragraphtextValidation);
-//  });
-  
-//  var spacer = "[^<>)(A-Za-z]";
-//  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)";
-//  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b";
-//  var numbers = "(?:\\d+[.,]?\\d*|" + numberWords + ")";
-//  var units = "(?:\xb0C?|m(?:sec|[lLMVs])(?:[ \\/]min)?(?:\u207b\xb9)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|%|percent|times?|mega*ohms*|(?:representative |recorded )*(?:cells*|(?:inter)?neurons*|pairs*)|quantal*|stimul(?:us|i)|(?:synaptic )?connections*|[\xb5\u03bc].?(?:ec)?|[kKM]?Hz|.?\u03a9|(?:(?:consecutive|individual|single|continuous))*(?: (?:response|sweep|event|trace|observation|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])[Ss]?))";
-//  var numberRange = "[-+\u223c~\u2248\u2264\u2265<>]?" + numbers + "(" + spacer + "?" + units + ")?(?:[\u2013\xb1]| (?:to|and|or|(?:out )?of(?: the)?) )?[-+]?" + numbers + "?(?: \\(" + numbers + "%\\))?";
-//  var numPattern = new RegExp("((?: n)?[\\s(;,=]|<br>)(" + numberRange + ")(" + spacer + "?" + units + ")?(" + spacer + "?" + connectingWords + ")?(" + spacer + "?" + numberRange + ")?(" + spacer + "?" + units + ")?", "g");
-//  Logger.log(numPattern)
+//  Logger.log(getEvidenceValues(SpreadsheetApp.getActiveRange()))
+  var spacer = "[^<>)(A-Za-z]";
+  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)"
+  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
+  var numbers = "(?:\\d+[.,]?\\d*|"+numberWords+")";
+  var units = "(?:[µμ].?(?:ec)?|[kKM]?Hz|.?Ω|°C?|m(?:sec|[lLMVs])(?:[ \\\/]min)?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|mS(?:[·\\\/]cm⁻²)?|%|percent|times?|mega*ohms*|(?:miniature|spontaneous|unitary|evoked|consecutive|individual|single|continuous|successive|superimposed|repetitive|representative|record(?:ed|ings?)?|morphological(?:ly)?|physiological(?:ly)?|identified|[Pp]yramidal|[Bb]asket|[Bb]istratified|[Tt]rilaminar|[Aa]xo[–-][Aa]xonic|[Gg]ranule|synaptic|and|or|from|to|of|which|after|before|the|,| )*(?:(?:cell|(?:inter)?neuron|pair|set|[PpGg][Cc]|response|sweep|event|trace|record(?:ing)?|observation|trial|quantal?|stimul(?:us|i)|connection|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])(?:ed|s)?)+)";
+  var numberRange = "[-+∼~≈≤≥<>]?"+numbers+"("+spacer+'?'+units+")?(?:(?:[–±]| (?:to|and|or|vs[.]?|(?:out )?of(?: the)?) )?[-+\\\/:]?"+numbers+")?(?: \\("+numbers+"%\\))?";
+  var numPattern = new RegExp("((?: n)?[\\s(;,=\\\/]|<br>)("+numberRange+")("+spacer+"?"+units+")?("+spacer+"?"+connectingWords+")?("+spacer+"?"+numberRange+")?("+spacer+"?"+units+")?", "g");
+  Logger.log(numPattern)
 };
 
 function getMaxOf(sheetName,columnName) {
