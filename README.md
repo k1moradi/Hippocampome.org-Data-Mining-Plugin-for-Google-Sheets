@@ -22,12 +22,12 @@ This tool is currently heavily linked to [my sheet](https://docs.google.com/spre
 ```
 Example Result:
 ```
-I.e			0.16
-I.p			0.17
+I.e		0.16
+I.p		0.17
 
-Vj.exp			12
-Vj.cal			17.68
-Vh				-50{without Vj correction};-62{with Vj correction}@{Vh}
+Vj.exp		12
+Vj.cal		17.68
+Vh		-50{without Vj correction};-62{with Vj correction}@{Vh}
 
 Erev
 	Glutamatergic:
@@ -36,8 +36,6 @@ Erev
 		-9.32 {AMPA Ca Impermeable}; -8.6 {AMPA Ca Permeable}; -3.88 {NMDA}
 
 		Experimental:
-
-		
 
 	GABAergic:
 		Calculated:
