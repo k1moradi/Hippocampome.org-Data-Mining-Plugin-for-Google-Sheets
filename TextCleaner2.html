@@ -192,6 +192,10 @@ function formatText(elem) {
 };
     </script>
     <style>
+      body {
+        margin: 0px;
+        background-color: #e8eaf6;
+      }
       .textCleanerDiv {
         width: calc(100vw - 0px);
         height: calc(100vh - 26px);
@@ -387,7 +391,7 @@ function formatText(elem) {
               }
 
               //convert sub, sup, b, strong, em, italic elems to sth html nutral
-              ['p','div','sub','sup','b','i'].forEach(function(tag){
+              ['p','div','sub','sup','b'].forEach(function(tag){
                 while (elem = divElem.querySelector(tag)) 
                   elem.outerHTML = '@'+tag+'@'+elem.innerHTML+'@|'+tag+'@';
               });
@@ -399,12 +403,15 @@ function formatText(elem) {
                 while (elem = divElem.querySelector(tag)) 
                   elem.outerHTML = '@b@'+elem.innerHTML+'@|b@';
               });
-              while (elem = divElem.querySelector('em')) 
-                elem.outerHTML = '@i@'+elem.innerHTML+'@|i@';
-              
+              ['em','i'].forEach(function(tag){
+                while (elem = divElem.querySelector(tag)) 
+                  elem.outerHTML = (elem.innerHTML === 'n') ? elem.innerHTML : ('@i@'+elem.innerHTML+'@|i@');
+              });
+              divElem.innerHTML = divElem.innerHTML.replace(/<br[^>]*?>/ig,'@br@');
               document.execCommand("insertHTML", false, divElem.innerText
                 .replace(/@(su[bp]|[bi])@(.+?)@\|\1@/g,'<$1>$2</$1>')
                 .replace(/@(p|div)@(.+?)@\|\1@/g,'$2<br>')
+                .replace(/@br@/g,'<br>')
                 .replace(/^(?:<br>|[\s\n\r])+|(?:<br>|[\s\n\r])+$/g,'')
               );
             } else {

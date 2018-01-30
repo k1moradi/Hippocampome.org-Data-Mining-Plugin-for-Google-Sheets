@@ -10,11 +10,11 @@
             var theReference = references[refID]; ?>
         <details id="<?=(theReference)?theReference.rowRange:''?>" class='Refs' close>
           <summary
-           ><a class='darkButton'   href='javascript:(function(){return false})();' onclick='saveReference(this)'>💾</a
-           ><a style='color:pink'   href='javascript:(function(){return false})();' onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.text)"><?=refID?></a><span class='disableClick'>:</span>
+           ><input type='button' class='darkButton' value='💾'                         onclick='saveReference(this)'                                           
+           ><input type='button' class='darkButton' value='<?=refID?>'                 onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.value)" style='color:pink  '><span class='disableClick'>:</span>
             <? if (typeof theReference !== "undefined") {
                  var UID = theReference.UID;?>
-            <a style='color:yellow' href='javascript:(function(){return false})();' onclick="copyStringToClipboard(this.text)"><?=theReference.Location?></a><span class='disableClick'>:
+            <input type='button' class='darkButton' value='<?=theReference.Location?>' onclick="copyStringToClipboard(this.value)"                             style='color:yellow'><span class='disableClick'>:
             </span><span contenteditable='true' class='UID disableClick'
            ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
             <? }?>
@@ -70,7 +70,7 @@
           <details class='Figs'>
           <?        }?>
             <summary style='background-color:#3F51B5; color:white; margin:0;'>
-              <b>File: </b><a style='color:white' href='javascript:return false;' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>
+              <b>File: </b><a style='color:white' href='javascript:(function(){return false})();' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>:
               <?    var possibleRefID = fileName.replace(/\.[^.]*$/g,'');
                     if (possibleRefID.replace(/\d*/g,'') === '') {
                       var theFigRef = allReferences[possibleRefID]; 
@@ -119,9 +119,12 @@
   shortcut.add('enter',function(){document.execCommand('insertHTML', false, '<br><br>')});
   shortcut.add('f2'      ,function(){saveReference(document.activeElement)});
   <?!=refHighlights.toString();?>
+  
+  var mainFrame = null;
+  var navbar = null;
+  var sticky = 200;
 
   window.onload = function() {
-    //document.getElementsByClassName('UID').forEach(
     Array.from(document.querySelectorAll('.disableClick')).forEach(
       function(elem){
         //disable click on focus to element
@@ -137,13 +140,22 @@
     Array.from(document.querySelectorAll('.Refs')).forEach(
       function(elem){
         elem.addEventListener('copy', function(e) {
-          showSnackbar('📋 '+
-            ((txt = e.clipboardData.getData('text/plain'))? txt :
-               ((html=e.clipboardData.getData('text/html'))? html: document.getSelection().toString()))
-          );
+          showSnackbar('📋 '+ ((txt = e.clipboardData.getData('text/plain'))? txt : document.getSelection().toString()));
         });
-      });
-    
+        elem.addEventListener('focus', function(){
+          if (navbar) navbar.classList.remove('sticky');
+          navbar = document.activeElement.closest('summary');
+          if (navbar) sticky = navbar.offsetTop;
+        }, true);
+    });
+    mainFrame = document.getElementById('main');
+    mainFrame.onscroll = function() {
+      if (navbar){
+        if (mainFrame.scrollTop >= sticky) {
+          navbar.classList.add("sticky")
+        } else {
+          navbar.classList.remove("sticky");
+    }}};
     Array.from(document.querySelectorAll('.UID')).forEach(
       function(elem){
         elem.addEventListener("paste", 
@@ -161,7 +173,6 @@
           });
       });
   };
-  
   function toggleReferences(button) {
     var detailSummaryElems = Array.from(document.querySelectorAll('.'+button.id))
     if (button.value === button.id+'.▶') {
@@ -217,7 +228,6 @@
     }
     document.addEventListener('copy', handler, true);
     document.execCommand('copy');
-    //showSnackbar('📋: '+string);
   }
   function saveReference(activeElement){
     var Error = false;
@@ -283,9 +293,13 @@
     } else {
       showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>");
     }
-  }
+  };
 </script>
 <style>
+body {
+  margin: 0px;
+  background-color:white;
+}
 :root { 
   --googleFormWidth: <?= (displayForm)? '50vw' : '0vw' ?>;
 }
@@ -324,10 +338,7 @@
   font-size:100%; 
   display:flex; 
   flex-direction:row;
-  vertical-align: middle;
-}
-.Refs a {
-  vertical-align:bottom;
+  vertical-align: top;
 }
 .Refs br {
   line-height:200%;
@@ -343,6 +354,16 @@
   font-family:inherit;
   font-size:inherit; 
   flex:1; 
-  border:0px; 
+  border: 1px solid black;
+  vertical-align: inherit;
+  display: inline-block;
+  text-decoration: none;
+  text-align: left;
+  padding: 0px 0px;
+}
+.sticky {
+  position: fixed;
+  top: 23px;
+  width: 100%
 }
 </style>

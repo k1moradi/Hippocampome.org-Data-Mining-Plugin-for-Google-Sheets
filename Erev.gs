@@ -3,12 +3,20 @@
 function eRev(){
 //---------------whole-cell
   //Glickfeld 2006 Distinct timing in the activity of cannabinoid-sensitive and cannabinoid-insensitive basket cells.
+//  new solution(celsius=33,
+//               eSolution='119 NaCl, 2.5 KCl, 1.3 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2, 26 NaHCO3',
+//               pSolution='150 K-Gluconate, 1.5 MgCl2, 5 HEPES, 1.1 EGTA,10 Na2-Phosphocreatine, 2 MgATP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
+//               Erev:{IPSC:-85,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:12,correctedAlready:false}},
+//               pH={e:NaN,i:7.25,CO2:true}).log();
   new solution(celsius=33,
                eSolution='119 NaCl, 2.5 KCl, 1.3 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2, 26 NaHCO3',
                pSolution='150 K-Gluconate, 1.5 MgCl2, 5 HEPES, 1.1 EGTA,10 Na2-Phosphocreatine, 2 MgATP',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
-               Erev:{IPSC:-85,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               voltages={Vm:{RMP:NaN,Vh:-85,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
                Vj:{exp:12,correctedAlready:false}},
                pH={e:NaN,i:7.25,CO2:true}).log();
   //Daw 2009 Asynchronous transmitter release from cholecystokinin-containing inhibitory interneurons is widespread and target-cell independent.

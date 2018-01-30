@@ -1,13 +1,13 @@
 // a function to highlight important text
 function refHighlights(input) {
-  var spacer = "[^<>()A-Za-z]";
+  var spacer = "[^<>()A-Za-z.]";
   var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)"
   var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
   var numbers = "(?:\\d+[.,]?\\d*|"+numberWords+")";
-  var units = "(?:[µμ].?(?:ec)?|[kKM]?Hz|.?Ω|°C?|m(?:sec|[lLMVs])(?:[ \\\/]min)?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|mS(?:[·\\\/]cm⁻²)?|%|percent|times?|mega*ohms*|[^\\d<>().]*(?:(?:cell|(?:inter)?neuron|pair|set|[PpGg][Cc]|response|sweep|event|trace|record(?:ing)?|observation|trial|quantal?|stimul(?:us|i)|connection|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])(?:ed|s)?)+)";
+  var units = "(?:[µμ].?(?:ec)?|[kKM]?Hz|.?Ω|°C?|m(?:sec|[lLMVs])(?:[ \\\/]min)?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|mS(?:[·\\\/]cm⁻²)?|%|percent|times?|mega*ohms*|[^-–+\\dA-Z<>().;,:]*(?:(?:cell|(?:inter)?neuron|pair|set|PC|GC|pc|gc|response|sweep|event|trace|record(?:ing)?|observation|trial|quantal?|stimul(?:us|i)|connection|[esmuESMU]?\\.?[eiEI]\\.?[Pp]\\.?[Ss]\\.?[CPcp])(?:ed|s)?)+)";
   //(?:miniature|spontaneous|unitary|evoked|excitatory|inhibitory|synaptic|consecutive|individual|single|continuous|successive|superimposed|repetitive|representative|record(?:ed|ings?)?|morphological(?:ly)?|physiological(?:ly)?|identified|[Pp]yramidal|[Bb]asket|[Bb]istratified|[Tt]rilaminar|[Aa]xo[–-][Aa]xonic|[Gg]ranule|identified|as|had|have|is|was|were|and|or|from|to|of|which|after|before|the|,| )*
-  var numberRange = "[-+∼~≈≤≥<>]?"+numbers+"("+spacer+'?'+units+")?(?:(?:[–±]| (?:to|and|or|vs[.]?|(?:out )?of(?: the)?) )?[-+\\\/:]?"+numbers+")?(?: \\("+numbers+"%\\))?";
-  var numPattern = new RegExp("((?: n)?[\\s(;,=\\\/]|<br>)("+numberRange+")("+spacer+"?"+units+")?("+spacer+"?"+connectingWords+")?("+spacer+"?"+numberRange+")?("+spacer+"?"+units+")?", "g");
+  var numberRange = "[-+∼~≈≤≥<>]?"+numbers+"("+spacer+'?'+units+")?(?:(?:[–± ,;]|to|and|or|vs[.]?|out|of|the)*[-+\\\/:]?"+numbers+")*(?: \\("+numbers+"%\\))?";
+  var numPattern = new RegExp("((?:[ (]n)?[ (;,=\\\/]|<br>)("+numberRange+")("+spacer+"?"+units+")?("+spacer+"?"+connectingWords+")?("+spacer+"?"+numberRange+")?("+spacer+"?"+units+")?", "g");
                               //p1                    p2-3              p4                    p5                                p6-7                         p8
   var strInput = (typeof input === 'object' && !Array.isArray(input)) ? JSON.stringify(input) : String(input);
   return strInput
@@ -15,26 +15,29 @@ function refHighlights(input) {
   .replace(numPattern,
     function(fullMatch,p1,p2,p3,p4,p5,p6,p7,p8){
       function txt(input) {return (input)? input : ''};
-      p1 = ((p1 === ' n=') ? " <mark style='background-color:rgba(255,153,153,0.5);color:black'>n=" : (txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>"));
-      if (p3 || p4 || p7 || p8) {
-      //if there is a unit
-        if (p6 || p8) {
-        //don't highlight connecting words if there is no number after them
-          return p1+txt(p2)+txt(p4)+txt(p5)+txt(p6)+txt(p8)+"</mark>";
-        } else {
-          return p1+txt(p2)+txt(p4)+"</mark>"+txt(p5)+txt(p6)+txt(p8);
-        }} else {
-          return fullMatch;
-        }})                                                                                              //pink-orange
+      if (p1 === ' n=' || p1 === '(n=') {
+        if (p2) return p1.replace('n',"<mark style='background-color:rgba(255,153,153,0.5);color:black'>n")+p2+"</mark>"+txt(p4)+txt(p5)+txt(p6)+txt(p8);
+      } else {
+        p1 = (txt(p1)+"<mark style='background-color:rgba(255,153,153,0.5); color:black;'>");
+        if (p3 || p4 || p7 || p8) {
+          //if there is a unit
+          if (p6 || p8) {
+            //don't highlight connecting words if there is no number after them
+            return p1+txt(p2)+txt(p4)+txt(p5)+txt(p6)+txt(p8)+"</mark>";
+          } else {
+            return p1+txt(p2)+txt(p4)+"</mark>"+txt(p5)+txt(p6)+txt(p8);
+          }} else {
+            return fullMatch;
+          }}})                                                                                              //pink-orange
   .replace(new RegExp("([(;, ])("+numberWords+")("+spacer+")(?!"+connectingWords+"|"+units+")","gi"),
-           "$1<mark style='background-color:rgba(255,153,153,0.5); color:black;'>$2</mark>$3")             //pink-orange
-  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique|room|high|low)(?:[^<>)(]|[^<>)(]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>)(])){0,1}(ACSF|Q10|pH|Median|anesthesia|slice|plane|section|temperature|magic|(?:(?:paired|multiple)[^<>)(]{0,1}){0,1}pulse(?:[^<>)(]{0,1}ratio){0,1}|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>)(]voltage)*|I[^<>)(]V|voltage|conductance|failure|delay|onset|(?:frequenc|latenc|intensit)(?:y|ies)|slope|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s){0,1}([^<>)(]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/gi,
+           "$1<mark style='background-color:rgba(255,153,153,0.5); color:black;'>$2</mark>$3")           //pink-orange
+  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique|room|high|low)(?:[^<>()]|[^<>()]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>()])){0,1}(ACSF|Q10|pH|Median|anesthesia|slice|plane|section|temperature|magic|(?:(?:paired|multiple)[^<>()]{0,1}){0,1}pulse(?:[^<>()]{0,1}ratio){0,1}|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>()]voltage)*|I[^<>()]V|voltage|conductance|failure|delay|onset|(?:frequenc|latenc|intensit)(?:y|ies)|slope|amplitude|potency|charge|perforated|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise.{0,1}|decay.{0,1}|width|diameter|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s){0,1}([^<>()]{0,1}(?:patch.{0,1}clamp|patch|clamp|solution|time|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/gi,
            "<mark style='background-color:rgba(100,255,255,0.5); color:black;'>$1$2$3$4</mark>")         //cyan
   .replace(/\b(epilep(?:ticus|tic|s[yi]a*)|seisures*|field|cultured*|gluconate)\b/gi,
            "<mark style='background-color:red; color:white;'>$1</mark>")                                 //red
-  .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.?t\.?r?(?:at(?:um|a)|\.)?|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|a?synchronous|recurrent)[^<>)(]?)?(HIPP|mossy|basket|N?[FR]S|[Ff]ast[^<>)(]?[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>)(]?axonic|AAC|chandelier|ivy|neuroglia|[os]?[^<>)(]?l\.?m|lamin|hicap|retzius|interneuron(?: specific){0,1}|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant(?: path)?|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]?|MF|(?:stratum |lacunosum )*molecular|[io]?[^<>)(]?ml|oriens|radiat|lucid|hippocamp|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|calbindin|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>)(]?AP[^<>)(]?[v5]|CGP[^<>)(]?55845|sr[^<>)(]?95531|QX[^<>)(]?314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>)(]?(?:layer|cell|interneuron|IN|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>)(]?(?:layer|terminal|border)s*)?\b/gi,
+  .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.?t\.?r?(?:at(?:um|a)|\.)?|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|a?synchronous|recurrent)[^<>()]?)?(HIPP|mossy|basket|N?[FR]S|[Ff]ast[^<>()]?[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>()]?axonic|AAC|chandelier|ivy|neuroglia|[os]?[^<>()]?l\.?m|lamin|hicap|retzius|interneuron(?: specific){0,1}|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant(?: path)?|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]?|MF|(?:stratum |lacunosum )*molecular|[io]?[^<>()]?ml|oriens|radiat|lucid|hippocamp|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|calbindin|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>()]?AP[^<>()]?[v5]|CGP[^<>()]?55845|sr[^<>()]?95531|QX[^<>()]?314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>()]?(?:layer|cell|interneuron|IN|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>()]?(?:layer|terminal|border)s*)?\b/gi,
            "<mark style='background-color:rgba(255,230,144,0.5); color:black;'>$1$2$3$4$5</mark>")       //yellow
-  .replace(/\b((?:short|long|evoked|unitary|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>)(]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>)(]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|dual|coupl|Reciprocal|stimul|facilit|depress|STDP|LT[PD]|PTP|potentiat|plasticity|term|n=\d+)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>)(]{0,1}(?:record(?:ing|ed)|[AB](?= ))){0,1}\b/gi,
+  .replace(/\b((?:short|long|evoked|unitary|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>()]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>()]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|dual|coupl|Reciprocal|stimul|facilit|depress|STDP|LT[PD]|PTP|potentiat|plasticity|term)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>()]{0,1}(?:record(?:ing|ed)|[AB](?= ))){0,1}\b/gi,
            "<mark style='background-color:rgba(255,128,171,0.5); color:black;'>$1$2$3$4</mark>")         //pink
 };
 //sort RefIDs as Semicolon Separated Values or JSON
