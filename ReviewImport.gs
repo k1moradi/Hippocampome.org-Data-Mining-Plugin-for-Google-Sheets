@@ -252,8 +252,7 @@ function getTheLastFormResponse(){
     ss.toast('Please goto evidence tab and select all rows that describe a single piece of evidence and try again');
   };
 };
-function saveSingleColumnRange(aR,columnNum,res)
-{
+function saveSingleColumnRange(aR,columnNum,res){
   if (Array.isArray(res)) {
     if (res.length !== 0)
     aR.getSheet().getRange(aR.getRow(), columnNum, aR.getNumRows(), 1).setValues(

@@ -68,6 +68,7 @@
    <div contenteditable='true' id='editor' class=text><?!= evidence.Query ?>
    </div>
      <input type="button" value="search" onclick="reCheckQuery()">
+     <input type="button" value="save"   onclick="saveQuery()">
    <br>
    <div id='error'><b>Error:</b><?!=(error)?error:''?></div>
    <script>
@@ -229,6 +230,14 @@
         }).accessApi(url);
       }catch(error){
         alert(error)
+      }};
+      function saveQuery(){try{
+         google.script.run
+           .withFailureHandler(function(){document.getElementById("error").innerHTML = "<b style='color:red;'>Error:</b> failed to save"})
+           .withSuccessHandler(function(){document.getElementById("error").innerHTML = "<b>Error:</b> saved successfully"})
+           .saveToSheetGeneral(evidence.rangeA1Notation, evidence.columnName2Number.Automation+1, document.getElementById("editor").innerText)
+      }catch(e){
+        alert(e)
       }}
    </script>
 

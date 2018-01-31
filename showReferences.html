@@ -9,7 +9,7 @@
         <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
             var theReference = references[refID]; ?>
         <details id="<?=(theReference)?theReference.rowRange:''?>" class='Refs' close>
-          <summary
+          <summary class='navBar'
            ><input type='button' class='darkButton' value='💾'                         onclick='saveReference(this)'                                           
            ><input type='button' class='darkButton' value='<?=refID?>'                 onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.value)" style='color:pink  '><span class='disableClick'>:</span>
             <? if (typeof theReference !== "undefined") {
@@ -120,9 +120,9 @@
   shortcut.add('f2'      ,function(){saveReference(document.activeElement)});
   <?!=refHighlights.toString();?>
   
-  var mainFrame = null;
-  var navbar = null;
-  var sticky = 200;
+//  var mainFrame = null;
+//  var navbar = null;
+//  var sticky = 200;
 
   window.onload = function() {
     Array.from(document.querySelectorAll('.disableClick')).forEach(
@@ -143,19 +143,12 @@
           showSnackbar('📋 '+ ((txt = e.clipboardData.getData('text/plain'))? txt : document.getSelection().toString()));
         });
         elem.addEventListener('focus', function(){
-          if (navbar) navbar.classList.remove('sticky');
-          navbar = document.activeElement.closest('summary');
-          if (navbar) sticky = navbar.offsetTop;
+          document.activeElement.closest('.navBar').classList.add('sticky')
+        }, true);
+        elem.addEventListener('blur', function(){
+          document.activeElement.closest('.navBar').classList.remove('sticky')
         }, true);
     });
-    mainFrame = document.getElementById('main');
-    mainFrame.onscroll = function() {
-      if (navbar){
-        if (mainFrame.scrollTop >= sticky) {
-          navbar.classList.add("sticky")
-        } else {
-          navbar.classList.remove("sticky");
-    }}};
     Array.from(document.querySelectorAll('.UID')).forEach(
       function(elem){
         elem.addEventListener("paste", 
@@ -316,12 +309,12 @@ body {
   height: 100vh;
 }
 .toolBar {
-  min-width:calc(var(--referencePanelWidth) - 15px);
+  min-width:calc(var(--referencePanelWidth) - 16px);
   height:25px; 
   position:fixed; 
   background-color:black;
   display:flex; 
-  flex-direction:row
+  flex-direction:row;
 }
 .eachReference {
   width:100%;
@@ -362,8 +355,8 @@ body {
   padding: 0px 0px;
 }
 .sticky {
-  position: fixed;
+  position: -webkit-sticky;  // required for Safari
+  position: sticky;
   top: 23px;
-  width: 100%
 }
 </style>

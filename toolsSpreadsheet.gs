@@ -75,7 +75,8 @@ function getEvidenceValues(activeRange) {
     Drugs               : rawEvidenceObj.Drugs.split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
     ExtracellularSolution:rawEvidenceObj.ExtracellularSolution,
     IntracellularSolution:rawEvidenceObj.IntracellularSolution,
-    rangeA1Notation     : activeRange.getA1Notation()
+    rangeA1Notation     : activeRange.getSheet().getName()+'!'+activeRange.getA1Notation(),
+    columnName2Number   : columnNumObj
   };
   obj.allRefIDs = mergeArrays(
     obj.MorphologyIDsPre,obj.MarkersIDsPre,obj.CellePhysIDsPre,obj.FiringPatternIDsPre,obj.ConnectivityIDsPre,
@@ -272,4 +273,8 @@ function saveReferenceToSheet(A1Notation,UID,Quote){
   var referenceRange = SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation);
   referenceRange.getCell(1, 3).setValue(UID);
   referenceRange.getCell(1, 6).setValue(Quote);
+}
+function saveToSheetGeneral(A1Notation,columnNum,value){
+  var destinationRange = SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation);
+  saveSingleColumnRange(destinationRange,columnNum,value)
 }
