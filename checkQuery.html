@@ -165,26 +165,29 @@
 
      function deleteTableRowsByID(ID) {
        var table = document.getElementById(ID).getElementsByTagName('table')[0];
-       if (table) 
+       if (table) {
          if (table.rows.length > 1) 
            for(var i=1;i<table.rows.length;)
              table.deleteRow(i);
+       }
      } 
 
      function addTableRows(cKeys,connectionsObj,ID) {
        deleteTableRowsByID(ID)
        document.getElementById(ID).getElementsByTagName('b')[0].innerHTML = "Total: "+cKeys.length+":"
-       var table = document.getElementById(ID).getElementsByTagName('table')[0];//alert(table);
-       cKeys.forEach( 
-         function(key){
-           var eachCon = connectionsObj[key];
-           var sUID = eachCon.source_id;
-           var sCellName = ((sUID) ? cellTypes[sUID].Name : '');
-           var dUID = eachCon.destination_id;
-           var dCellName = ((dUID) ? cellTypes[dUID].Name : '');
-           var rowArray = [sUID,sCellName,dUID,dCellName];
-           table.insertRow().innerHTML = '<td>' + rowArray.join('</td><td>') + '</td>';
-         });
+       var table = document.getElementById(ID).getElementsByTagName('tbody')[0];
+       if (table){
+         cKeys.forEach(
+           function(key){
+             var eachCon = connectionsObj[key];
+             var sUID = eachCon.source_id;
+             var sCellName = ((sUID) ? cellTypes[sUID].Name : '');
+             var dUID = eachCon.destination_id;
+             var dCellName = ((dUID) ? cellTypes[dUID].Name : '');
+             var rowArray = [sUID,sCellName,dUID,dCellName];
+             table.insertRow().innerHTML = '<td>' + rowArray.join('</td><td>') + '</td>';
+           });
+       };
      };
 
      function reCheckQuery() {try{
@@ -226,7 +229,10 @@
                var fCon = fetchedConns[key]
                return (fCon.source_id === eachCon.source_id && fCon.destination_id === eachCon.destination_id)
              })
-          }),connectionsMapped,"tableDelete")
+          }),connectionsMapped,"tableDelete");
+          
+         sorttable.init();
+          
         }).accessApi(url);
       }catch(error){
         alert(error)

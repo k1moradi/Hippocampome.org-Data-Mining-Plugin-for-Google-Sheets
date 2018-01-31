@@ -1,3 +1,13 @@
+<style>
+.toolBar {
+  width:100%;
+  height:25px; 
+  position:fixed; 
+  background-color:black;
+  display:flex; 
+  flex-direction:row;
+}
+</style>
 <div class='toolBar'>
   <input     type='button' class='darkButton' value='Refs.▶' id='Refs' onclick='toggleReferences(this);'>
   <input     type='button' class='darkButton' value='Figs.▼' id='Figs' onclick='toggleReferences(this);'>
@@ -75,5 +85,5 @@
       <input type='button' class='button' value='◍'  onmousedown="document.execCommand('insertText', false, '◍')">
     </div>
   </div>
-  <input type='text' id='csSearch' style='min-width:calc(100%-150px);flex:1' placeholder='Case-sensitive Highlighter in Green' onchange="caseSensitiveSearch(this.value,'main');">
+  <input type='text' id='csSearch' style='flex:1;' placeholder='Case-sensitive Highlighter in Green' onchange="caseSensitiveSearch(this.value,'main');">
 </div>

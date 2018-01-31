@@ -15,7 +15,7 @@
             <? if (typeof theReference !== "undefined") {
                  var UID = theReference.UID;?>
             <input type='button' class='darkButton' value='<?=theReference.Location?>' onclick="copyStringToClipboard(this.value)"                             style='color:yellow'><span class='disableClick'>:
-            </span><span contenteditable='true' class='UID disableClick'
+            </span><span contenteditable='true' class='darkButton UID disableClick'
            ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
             <? }?>
           </summary>
@@ -70,7 +70,7 @@
           <details class='Figs'>
           <?        }?>
             <summary style='background-color:#3F51B5; color:white; margin:0;'>
-              <b>File: </b><a style='color:white' href='javascript:(function(){return false})();' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>:
+              <b>File: </b><a style='color:white' href='javascript:void(0)' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>:
               <?    var possibleRefID = fileName.replace(/\.[^.]*$/g,'');
                     if (possibleRefID.replace(/\d*/g,'') === '') {
                       var theFigRef = allReferences[possibleRefID]; 
@@ -113,17 +113,12 @@
 <script>
   shortcut.add('Ctrl+.'  ,function(){document.execCommand('superscript', false, null)});
   shortcut.add('Ctrl+,'  ,function(){document.execCommand('subscript', false, null)});
-  //shortcut.add('Ctrl+;',function(){document.execCommand('removeFormat', false, null)});
   shortcut.add('Ctrl+m'  ,function(){document.execCommand('insertText', false, 'µ')});
   shortcut.add('Ctrl+f12',function(){document.execCommand('insertText', false, '–')});
   shortcut.add('enter',function(){document.execCommand('insertHTML', false, '<br><br>')});
   shortcut.add('f2'      ,function(){saveReference(document.activeElement)});
   <?!=refHighlights.toString();?>
   
-//  var mainFrame = null;
-//  var navbar = null;
-//  var sticky = 200;
-
   window.onload = function() {
     Array.from(document.querySelectorAll('.disableClick')).forEach(
       function(elem){
@@ -308,14 +303,6 @@ body {
   width: var(--referencePanelWidth);
   height: 100vh;
 }
-.toolBar {
-  min-width:calc(var(--referencePanelWidth) - 16px);
-  height:25px; 
-  position:fixed; 
-  background-color:black;
-  display:flex; 
-  flex-direction:row;
-}
 .eachReference {
   width:100%;
   word-wrap:normal;
@@ -331,7 +318,7 @@ body {
   font-size:100%; 
   display:flex; 
   flex-direction:row;
-  vertical-align: top;
+  vertical-align: middle;
 }
 .Refs br {
   line-height:200%;
@@ -342,17 +329,10 @@ body {
   vertical-align: 50%;
 }
 .UID {
-  color:inherit; 
-  background-color:inherit; 
-  font-family:inherit;
-  font-size:inherit; 
   flex:1; 
-  border: 1px solid black;
-  vertical-align: inherit;
-  display: inline-block;
-  text-decoration: none;
+  //padding: 2px 2px;
   text-align: left;
-  padding: 0px 0px;
+  cursor: auto;
 }
 .sticky {
   position: -webkit-sticky;  // required for Safari
