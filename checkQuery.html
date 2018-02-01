@@ -230,9 +230,6 @@
                return (fCon.source_id === eachCon.source_id && fCon.destination_id === eachCon.destination_id)
              })
           }),connectionsMapped,"tableDelete");
-          
-         sorttable.init();
-          
         }).accessApi(url);
       }catch(error){
         alert(error)
@@ -247,18 +244,20 @@
       }}
    </script>
 
-   <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor,ID) {?>
+   <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor,ID) {
+        var style = "style=background-color:"+ ((bgColor)? bgColor:'')+";color:"+((fontColor)? fontColor:'')+";" ?>
    <div id="<?=ID?>"><p><b>Total: <?=cKeys.length?>:</b> <?=title?></p>
-   
-   
-   <table class='sortable'>
-     <tr>
-       <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > sUIDs </th>
-       <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > Presynaptic Cell Types </th>
-       <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > dUIDs </th>
-       <th style='background-color:<?=(bgColor)? bgColor:''?>;color:'<?=(fontColor)? fontColor:''?> > Postsynaptic Cell Types </th>
-     </tr>
-     <? cKeys.forEach( 
+   <table class="sortable">
+     <thead>
+       <tr>
+         <th <?!=style?>> sUIDs </th>
+         <th <?!=style?>> Presynaptic Cell Types </th>
+         <th <?!=style?>> dUIDs </th>
+         <th <?!=style?>> Postsynaptic Cell Types </th>
+       </tr>
+     </thead>
+     <tbody> 
+     <? cKeys.forEach(
           function(key){ 
             var eachCon = connectionsObj[key]  ?>
      <tr>
@@ -268,6 +267,7 @@
        <td>   <?= (dUID) ? cellTypes[dUID].Name : '' ?> </td>
      </tr>
      <?   });?>
+     </tbody>
      </table>
    </div><?
       }
@@ -276,8 +276,7 @@
       showConnectionTable(cKeys,fetchedConns,'Search engine results','green','white','tableAll')
 
       var connectionsMapped = evidence.PConnectionsUIDs;
-
-      var cmKeys=Object.keys(connectionsMapped)
+      var cmKeys=Object.keys(connectionsMapped);
 
       showConnectionTable(cKeys.filter(
         function(ckey){
@@ -289,8 +288,6 @@
             })
         }),fetchedConns,'Connections suggested by search engine to be added','blue','white','tableSuggested')
 
-        var key = Object.keys(fetchedConns)
-
       showConnectionTable(cmKeys.filter(
         function(cmkey) {
           var eachCon = connectionsMapped[cmkey]
@@ -300,7 +297,6 @@
               return (fCon.source_id === eachCon.source_id && fCon.destination_id === eachCon.destination_id)
             })
         }),connectionsMapped,'Connections suggested by search engine to be deleted','red','white','tableDelete')
-
    ?>
  </body>
 </html>

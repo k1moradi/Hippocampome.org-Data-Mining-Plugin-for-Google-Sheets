@@ -1,23 +1,24 @@
     <?//-----Functions----------------------------------------------------------------------------------------------------------------
         function showReferences(linkedRefIDs,allReferences,references,groupName,bgColor,fontColor,fontSize,stringToAppendToRefIDs) {
           if (linkedRefIDs.length !== 0) { ?>
-      <div class='eachReference'>    
+      <div class="eachReference">    
       <details open>
-        <summary style='background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:<?=fontSize?>;'>
+        <summary style="background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:<?=fontSize?>;">
           <?= groupName ?>
         </summary>
         <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
             var theReference = references[refID]; ?>
-        <details id="<?=(theReference)?theReference.rowRange:''?>" class='Refs' close>
-          <summary class='navBar'
-           ><input type='button' class='darkButton' value='💾'                         onclick='saveReference(this)'                                           
-           ><input type='button' class='darkButton' value='<?=refID?>'                 onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.value)" style='color:pink  '><span class='disableClick'>:</span>
-            <? if (typeof theReference !== "undefined") {
-                 var UID = theReference.UID;?>
-            <input type='button' class='darkButton' value='<?=theReference.Location?>' onclick="copyStringToClipboard(this.value)"                             style='color:yellow'><span class='disableClick'>:
-            </span><span contenteditable='true' class='darkButton UID disableClick'
+        <details id="<?=(theReference)?theReference.rowRange:''?>" class="Refs" close>
+          <summary class="navBar"
+           ><span class="disableClick darkButton" onclick="saveReference(this)">💾</span
+           ><span
+             ><span class="disableClick darkButton" onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.innerText)" style="color:pink"><?=refID?></span
+             ><? if (typeof theReference !== "undefined") {
+                   var UID = theReference.UID;?>
+              <span class="disableClick darkButton" onclick="copyStringToClipboard(this.innerText)" style="color:yellow"><?=theReference.Location?></span></span
+           ><span contenteditable="true" class="UID disableClick"
            ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
-            <? }?>
+            <?   }?>
           </summary>
           <?if (typeof theReference === "undefined") {?>
           <p style='color:red;'>
@@ -307,9 +308,9 @@ body {
   width:100%;
   word-wrap:normal;
 }
-.Ref {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 14px;
+.Refs {
+  font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
+  font-size: 16px;
 }
 .Refs summary {
   background-color:black; 
@@ -330,12 +331,11 @@ body {
 }
 .UID {
   flex:1; 
-  //padding: 2px 2px;
-  text-align: left;
-  cursor: auto;
+  /*padding-top:2px;*/
+  border: 1px solid black;
 }
 .sticky {
-  position: -webkit-sticky;  // required for Safari
+  position: -webkit-sticky;  /* Safari */
   position: sticky;
   top: 23px;
 }
