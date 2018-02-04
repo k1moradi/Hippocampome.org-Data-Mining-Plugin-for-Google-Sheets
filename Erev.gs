@@ -2,6 +2,32 @@
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 function eRev(){
 //---------------whole-cell
+  //Scanziani 1998 Target cell-specific modulation of transmitter release at terminals from a single axon.
+    new solution(celsius=33,
+               eSolution='119 NaCl, 2.5 KCl, 1 NaH2PO4, 4 MgCl2, 4 CaCl2, 26 NaHCO3',
+               pSolution='122.5 Cs-Gluconate, 10 CsCl, 10 HEPES, 10 BAPTA, 8 NaCl',
+               recordingMethod='whole-cell',
+               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:7.2,CO2:true}).log();
+  //Alle 2001 PTP and LTP at a hippocampal mossy fiber-interneuron synapse.
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='135 K-Gluconate, 20 KCl, 0.1 EGTA, 10 BAPTA, 2 MgCl2, 4 Na2ATP, 4 K2ATP, 0.5 Na2GTP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='120 K-Gluconate, 20 KCl, 0.2 EGTA, 7 Na2-Phosphocreatine, 2 MgCl2, 4 Na2ATP, 4 K2ATP, 0.5 Na2GTP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
   //Glickfeld 2006 Distinct timing in the activity of cannabinoid-sensitive and cannabinoid-insensitive basket cells.
 //  new solution(celsius=33,
 //               eSolution='119 NaCl, 2.5 KCl, 1.3 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2, 26 NaHCO3',

@@ -1,115 +1,124 @@
-    <?//-----Functions----------------------------------------------------------------------------------------------------------------
-        function showReferences(linkedRefIDs,allReferences,references,groupName,bgColor,fontColor,fontSize,stringToAppendToRefIDs) {
-          if (linkedRefIDs.length !== 0) { ?>
-      <div class="eachReference">    
-      <details open>
-        <summary style="background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:<?=fontSize?>;">
-          <?= groupName ?>
-        </summary>
-        <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
-            var theReference = references[refID]; ?>
-        <details id="<?=(theReference)?theReference.rowRange:''?>" class="Refs" close>
-          <summary class="navBar"
-           ><span class="disableClick darkButton" onclick="saveReference(this)">💾</span
-           ><span
-             ><span class="disableClick darkButton" onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.innerText)" style="color:pink"><?=refID?></span
-             ><? if (typeof theReference !== "undefined") {
-                   var UID = theReference.UID;?>
-              <span class="disableClick darkButton" onclick="copyStringToClipboard(this.innerText)" style="color:yellow"><?=theReference.Location?></span></span
-           ><span contenteditable="true" class="UID disableClick"
-           ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
-            <?   }?>
-          </summary>
-          <?if (typeof theReference === "undefined") {?>
-          <p style='color:red;'>
-            ❌ ID is not associated with any reference in our database. Delete it!
-          </p>
-          </details>
-          <?} else {
-              var UID = theReference.UID;
-              if (UID) {?>
-          <!--<details>
-            <summary style='background-color:#3F51B5; color:white; margin:0;'>
-              <b>Cell Types:</b>
-            </summary>
-            <?  if (typeof UID === 'string') {
-                  if (UID.replace(/[\s\d,;]+/g,'') !== '') {// is not a UID array in string format
-                    UID.split(/\s*[,;]+\s*/g)
-                       .filter(Null)
-                       .forEach(function(eachUID){ ?>
-            <p><?=       eachUID ?>
-            </p><?     });
-                  } else {
-                    UID.split(/\s*[,;]+\s*/g)
-                        .filter(Null)
-                        .forEach(function(eachUID){?>
-            <p><b><?=      eachUID ?>: </b><?=(cellTypes[eachUID]) ? cellTypes[eachUID].Name : '❌undefined cell type UID';?>
-            </p>
-            <?          }); 
-                  };
-                } else { ?>
-            <p><b><?= UID ?>: </b><?= (cellTypes[UID]) ? cellTypes[UID].Name : UID+':❌undefined cell type UID'; ?>
-            </p>
-            <?  } ?>
-          </details>-->
-          <?  }?>
-          <div class='Quote' contenteditable='true'><p>
-            <?!= refHighlights(theReference.Quote) ?>
-          </p></div>
-          <?if (theReference.Figure) {
-              String(theReference.Figure)
-              .split(/\s*[;,]+\s*/g)
-              .filter(Null)
-              .forEach(function(fileName){
-                var fileIDs = getFileIDs(fileName);
-                if (fileIDs.length !== 0) {
-                  fileIDs.forEach(function(fileID){
-                    if (fileName.replace(/\.[^.]*$/g,'') === refID || (theReference.HcoRefID && imagesShown.indexOf(fileName) === -1)) {
-                      imagesShown.push(fileName);?>
-          <details class='Figs' open>
-          <?        } else {?>
-          <details class='Figs'>
-          <?        }?>
-            <summary style='background-color:#3F51B5; color:white; margin:0;'>
-              <b>File: </b><a style='color:white' href='javascript:void(0)' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>:
-              <?    var possibleRefID = fileName.replace(/\.[^.]*$/g,'');
-                    if (possibleRefID.replace(/\d*/g,'') === '') {
-                      var theFigRef = allReferences[possibleRefID]; 
-                      if (theFigRef) {?>
-              <?=       theFigRef.Location?>
-              <?      }};?>
-            </summary>
-            <img src='https://drive.google.com/uc?export=view&id=<?=fileID?>' style='width:100%;'>
-            <?      if (theFigRef && (fileName.replace(/\.[^.]*$/g,'') !== refID)) {?>
-            <p><?!=   (theFigRef.Location !== theReference.Location) ? refHighlights(theFigRef.Quote) : ''; ?>
-              <?      theFigRef=null};?>
-            </p>
-          </details>
-          <?      })} else {?>
-          <p style='background-color:#3F51B5; color:white; margin:0;'>❌<b>File:</b> <?=String(fileName)?> does not exist</p>
-          <?  }})};?>
-        </details>
-        <?}})?>
-      </details>
-      </div>
-      <? }};
+<?//-----Functions----------------------------------------------------------------------------------------------------------------
+function showObject(Obj) {?>
+  <select name="cars">
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="fiat">Fiat</option>
+    <option value="audi">Audi</option>
+  </select>
+<?};
+
+  function showReferences(linkedRefIDs,allReferences,references,groupName,bgColor,fontColor,fontSize,stringToAppendToRefIDs) {
+    if (linkedRefIDs.length !== 0) { ?>
+<div class="eachReference">    
+<details open>
+  <summary style="background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:<?=fontSize?>;">
+    <?= groupName ?>
+  </summary>
+  <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
+      var theReference = references[refID]; ?>
+  <details id="<?=(theReference)?theReference.rowRange:''?>" class="Refs" ontoggle="toggleSticky(this)" close>
+    <summary class="navBar"
+      ><span class="disableClick darkButton" onclick="saveReference(this)">💾</span
+      ><span
+        ><span class="disableClick darkButton" onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.innerText)" style="color:pink"><?=refID?></span
+        ><? if (typeof theReference !== "undefined") {
+              var UID = theReference.UID;?>
+        <span class="disableClick darkButton" onclick="copyStringToClipboard(this.innerText)" style="color:yellow"><?=theReference.Location?></span></span
+      ><span contenteditable="true" class="UID disableClick"
+      ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
+       <?   }?>
+    </summary>
+    <?if (typeof theReference === "undefined") {?>
+    <p style='color:red;'>
+      ❌ ID is not associated with any reference in our database. Delete it!
+    </p>
+    </details>
+    <?} else {
+        var UID = theReference.UID;
+        if (UID) {?>
+    <!--<details>
+      <summary style='background-color:#3F51B5; color:white; margin:0;'>
+        <b>Cell Types:</b>
+      </summary>
+      <?  if (typeof UID === 'string') {
+            if (UID.replace(/[\s\d,;]+/g,'') !== '') {// is not a UID array in string format
+              UID.split(/\s*[,;]+\s*/g)
+                 .filter(Null)
+                 .forEach(function(eachUID){ ?>
+      <p><?=       eachUID ?>
+      </p><?     });
+            } else {
+              UID.split(/\s*[,;]+\s*/g)
+                  .filter(Null)
+                  .forEach(function(eachUID){?>
+      <p><b><?=      eachUID ?>: </b><?=(cellTypes[eachUID]) ? cellTypes[eachUID].Name : '❌undefined cell type UID';?>
+      </p>
+      <?          }); 
+            };
+          } else { ?>
+      <p><b><?= UID ?>: </b><?= (cellTypes[UID]) ? cellTypes[UID].Name : UID+':❌undefined cell type UID'; ?>
+      </p>
+      <?  } ?>
+    </details>-->
+    <?  }?>
+    <div class='Quote' contenteditable='true'><p>
+      <?!= refHighlights(theReference.Quote) ?>
+    </p></div>
+    <?if (theReference.Figure) {
+        String(theReference.Figure)
+        .split(/\s*[;,]+\s*/g)
+        .filter(Null)
+        .forEach(function(fileName){
+          var fileIDs = getFileIDs(fileName);
+          if (fileIDs.length !== 0) {
+            fileIDs.forEach(function(fileID){
+              if (fileName.replace(/\.[^.]*$/g,'') === refID || (theReference.HcoRefID && imagesShown.indexOf(fileName) === -1)) {
+                imagesShown.push(fileName);?>
+    <details class='Figs' open>
+    <?        } else {?>
+    <details class='Figs'>
+    <?        }?>
+      <summary style='background-color:#3F51B5; color:white; margin:0;'>
+        <b>File: </b><a style='color:white' href='javascript:void(0)' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>:
+        <?    var possibleRefID = fileName.replace(/\.[^.]*$/g,'');
+              if (possibleRefID.replace(/\d*/g,'') === '') {
+                var theFigRef = allReferences[possibleRefID]; 
+                if (theFigRef) {?>
+        <?=       theFigRef.Location?>
+        <?      }};?>
+      </summary>
+      <img src='https://drive.google.com/uc?export=view&id=<?=fileID?>' style='width:100%;'>
+      <?      if (theFigRef && (fileName.replace(/\.[^.]*$/g,'') !== refID)) {?>
+      <p><?!=   (theFigRef.Location !== theReference.Location) ? refHighlights(theFigRef.Quote) : ''; ?>
+        <?      theFigRef=null};?>
+      </p>
+    </details>
+    <?      })} else {?>
+    <p style='background-color:#3F51B5; color:white; margin:0;'>❌<b>File:</b> <?=String(fileName)?> does not exist</p>
+    <?  }})};?>
+  </details>
+  <?}})?>
+</details>
+</div>
+<? }};
          
-        function showAllReferences(presynapticRefIDs,postsynapticRefIDs,allReferences,groupReferences,groupName,bgColor,fontColor,stringToAppendToRefIDs) {?>
-      <details open>
-        <summary style='background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:200%;'>
-          <?=groupName?>
-        </summary>
-        <? var refIDsUniqueToPre  = presynapticRefIDs.filter(function(refID){return (postsynapticRefIDs.indexOf(refID) === -1)});
-           var refIDsUniqueToPost = postsynapticRefIDs.filter(function(refID){return (presynapticRefIDs.indexOf(refID) === -1)});
-           var refIDsCommonToBoth = presynapticRefIDs.filter(function(refID){return (refIDsUniqueToPre.indexOf(refID) === -1)});
-           var linkedRefIds = mergeArrays(presynapticRefIDs,postsynapticRefIDs);
-           var unlinkedRefIds = Object.keys(groupReferences).filter(function(refID){return (linkedRefIds.indexOf(refID) === -1)});
-           showReferences(refIDsCommonToBoth,allReferences  ,allReferences,'✅Both Sides'       ,'#3F51B5','white','150%',stringToAppendToRefIDs);
-           showReferences(refIDsUniqueToPre ,allReferences  ,allReferences,'✅Presynaptic Only' ,'#3F51B5','white','150%',stringToAppendToRefIDs);
-           showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only','#3F51B5','white','150%',stringToAppendToRefIDs);
-           showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'         ,'#3F51B5','white','150%',stringToAppendToRefIDs); ?>
-      </details>
-      <?}; ?>
+  function showAllReferences(presynapticRefIDs,postsynapticRefIDs,allReferences,groupReferences,groupName,bgColor,fontColor,stringToAppendToRefIDs) {?>
+<details open>
+  <summary style='background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:200%;'>
+    <?=groupName?>
+  </summary>
+  <? var refIDsUniqueToPre  = presynapticRefIDs.filter(function(refID){return (postsynapticRefIDs.indexOf(refID) === -1)});
+     var refIDsUniqueToPost = postsynapticRefIDs.filter(function(refID){return (presynapticRefIDs.indexOf(refID) === -1)});
+     var refIDsCommonToBoth = presynapticRefIDs.filter(function(refID){return (refIDsUniqueToPre.indexOf(refID) === -1)});
+     var linkedRefIds = mergeArrays(presynapticRefIDs,postsynapticRefIDs);
+     var unlinkedRefIds = Object.keys(groupReferences).filter(function(refID){return (linkedRefIds.indexOf(refID) === -1)});
+     showReferences(refIDsCommonToBoth,allReferences  ,allReferences,'✅Both Sides'       ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(refIDsUniqueToPre ,allReferences  ,allReferences,'✅Presynaptic Only' ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only','#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'         ,'#3F51B5','white','150%',stringToAppendToRefIDs); ?>
+</details>
+<?}; ?>
 <?!=include('shortcuts');?>    
 <script>
   shortcut.add('Ctrl+.'  ,function(){document.execCommand('superscript', false, null)});
@@ -138,12 +147,12 @@
         elem.addEventListener('copy', function(e) {
           showSnackbar('📋 '+ ((txt = e.clipboardData.getData('text/plain'))? txt : document.getSelection().toString()));
         });
-        elem.addEventListener('focus', function(){
-          document.activeElement.closest('.navBar').classList.add('sticky')
-        }, true);
-        elem.addEventListener('blur', function(){
-          document.activeElement.closest('.navBar').classList.remove('sticky')
-        }, true);
+//        elem.addEventListener('focus', function(){
+//          document.activeElement.closest('.navBar').classList.add('sticky')
+//        }, true);
+//        elem.addEventListener('blur', function(){
+//          document.activeElement.closest('.navBar').classList.remove('sticky')
+//        }, true);
     });
     Array.from(document.querySelectorAll('.UID')).forEach(
       function(elem){
@@ -166,11 +175,17 @@
     var detailSummaryElems = Array.from(document.querySelectorAll('.'+button.id))
     if (button.value === button.id+'.▶') {
       button.value =     button.id+'.▼';
-      detailSummaryElems.forEach(function(obj) {obj.open = true});
+      detailSummaryElems.forEach(function(elem) {elem.open = true});
     } else {
       button.value =     button.id+'.▶';
-      detailSummaryElems.forEach(function(obj) {obj.open = false});
+      detailSummaryElems.forEach(function(elem) {elem.open = false});
     }
+  }
+  function toggleSticky(elem) {
+    if(elem.open) 
+      elem.getElementsByClassName('navBar')[0].classList.add('sticky')
+    else 
+      elem.getElementsByClassName('navBar')[0].classList.remove('sticky')
   };//==========================================================================================================================
   function caseSensitiveSearch(text,id) {
     while (span = document.querySelector('.labnol')) 
@@ -338,5 +353,6 @@ body {
   position: -webkit-sticky;  /* Safari */
   position: sticky;
   top: 23px;
+  z-index:1;
 }
 </style>

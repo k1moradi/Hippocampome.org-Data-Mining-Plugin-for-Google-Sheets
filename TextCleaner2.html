@@ -80,7 +80,7 @@ function formatText(elem) {
     .replace(/(?<=[ =,;(]\d+)[–'&.](\d+)\s*([+±–])\s*(\d+)[–'&.](?=\d+[ ),;])/g                                  , '.$1$2$3.')//\d–\d–\d–\d --> \d.\d–\d.\d)
     .replace(/(?<=[A-Za-z])\s*[-−](\s*)(?=[A-Za-z])/g                                                            , '-$1')     // negative as hiphen between two words
     .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])[–—−-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])/g                                             , '–')       // normal hiphen as big hiphen or negative signs between two words
-    .replace(/&minus;|(?<= [∼(]) *[–—−](?=\d)/g                                                                   , '-')      // ngative
+    .replace(/&minus;|(?<= [∼(]) *[–—−](?=\d)/g                                                                  , '-')      // ngative
     .replace(/(?<=[\d])\s*(?:[–—−]|&ndash;)\s*(\d+)\s*(?=%)/g                                                    , '-$1')     // 20-80%
     .replace(/(?<=[(;, ])[I1]–0(?=[ ),;.])/g                                                                     , 'I-O')
     .replace(/(?<=[(;, ])[n«]\s*(?:[\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                  , 'n=')
@@ -99,8 +99,8 @@ function formatText(elem) {
     .replace(/approx(?=\d)/g                                                                                     , '~')
     .replace(/(?<=\w)\s*[(]\s(?=-{0,1}[\wΔµ])/g                                                                  , ' (')
     .replace(/(?<=[\w\dΩ])\s[)]\s*(?=[:.,;])/g                                                                   , ')')
-    .replace(/(?<=[\w\dΩ%])\s*[)]\s*(?=[\w])/g                                                                   , ') ')
-    .replace(/(?<=[\w¹²₂₃₄Ω])\s*([,;%])\s*(?=[A-Za-z])/g                                                         , '$1 ')     // space after ,;%
+    .replace(/(?<=[\w\dΩ%])(?<!phenoxy)\s*[)]\s*(?=[\w])(?!ethane)/g                                             , ') ')
+    .replace(/(?<=[\w¹²₂₃₄Ω])(?<![-,]N)\s*([,;%])\s*(?=[A-Za-z])(?!N,|-tetraacetic)/g                            , '$1 ')     // space after ,;%
     .replace(/\s*(?:=<(?!(?:sub|s|i|b|br|em|div|strong)>)|<=)\s*/g                                               , '≤')
     .replace(/(?<=sub|s|i|b|em|br|div|strong)(?!>=)> *= *(?=\d)/g                                                , '>=')
     .replace(/\s*(?:=>|>=(?<!sub>=|s>=|i>=|b>=|em>=|br>=|div>=|strong>=))\s*/g                                   , '≥')
@@ -114,7 +114,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])(?:[trτ]|tau) *(D|d|R|decay|rise)(?=[ =),;.])/g                                         , 'τ<sub>$1</sub>')
     .replace(/(?<=[(;, –])([EI]) *(K|Na|C[lsa]|rev|GABA)(?=[ =),;.])/g                                           , '$1<sub>$2</sub>')
     .replace(/(?<=[(;, ])R *([Ss]|in|IN)(?=[ =),;.])/g                                                           , 'R<sub>$1</sub>')
-    .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$)/g                                      , '<sup>$1</sup>') // numerical references
+    .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$)(?![,]? and)/g                          , '<sup>$1</sup>') // numerical references
     .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*(?!–))|(?<!alexa|prox|and|was|[Tt]able|[Ff]igure|paradigm|cell|neuron|actinin|GAD)(?<=[a-z]{3}|[)])\s*([\d–]{1,3})(?=\.(?:\s|<br>)|\.$))/g, 
       function(fullMatch,p1,p2,p3){
         var prefix = ((p1 === '^' || !p1) ? '' : p1)
@@ -176,7 +176,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, \]\/])(p|P)\s*([<>≤≥])\s*(?=-{0,1}\d)/g                                                   , '$1$2')      // p < \d --> p<\d
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
     .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                                , '<b>$1</b><br>$2')
-    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et ?al)\.\s)(?![Ww]e|\(\w[a-z0-9]?,)(\(?\w[a-z0-9]?(?: ?[,–\-] ?\w[a-z0-9]{0,1}|,{0,1} (?:and|to) \w[a-z0-9]{0,1}){0,1}[\),:]|\w[a-z0-9]{0,1}[\.,:])(?<!ml,)(?= )/g, 
+    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et ?al|\(\w{1,2})\.\s(?!\w{1,2}\.))(?![Ww]e|\(\w[a-z0-9]?,)(\(?\w[a-z0-9]?(?: ?[,–\-] ?\w[a-z0-9]{0,1}|,{0,1} (?:and|to) \w[a-z0-9]{0,1}){0,1}[\),:]|\w[a-z0-9]{0,1}[\.,:])(?<!ml,)(?= )/g, 
       function(fullMatch,p1,p2){
         return ((p1==='. ')?'.':'')+'<br><b>'+p2+'</b>'
       })                                                                                                                        // a-b, bold image list
@@ -200,8 +200,8 @@ function formatText(elem) {
         width: calc(100vw - 0px);
         height: calc(100vh - 26px);
         padding: 1px;
-        font-family: 'Open Sans', sans-serif;
-        font-size: 14px;
+        font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
+        font-size: 16px;
         //letter-spacing: 1px;
         line-height: 1.5em;
         display: block;
@@ -225,16 +225,16 @@ function formatText(elem) {
       }
       input {
         height:20px;
-        width:20px;
+        /*width:19px;*/
       }
     </style>
     <?!=include('commonCSS')?>
   </head>
   <body>
     <title>PDF Text Cleaner Tool</title>
+    <input   type='button' class='button' value='✍' onmousedown='formatText(CleanTextElem)'                        title='Format: Ctrl+A'>
     <div class="dropdown">
       <input   type='button' class='button' value='🔣'>
-      <input   type='button' class='button' value='✍' onmousedown='formatText(CleanTextElem)'                        title='Format: Ctrl+A'>
       <div class="dropdown-content">
         <input type='button' class='button' value='⌂'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().replace(/ /g, ''))" title='remove all spaces'>
         <input type='button' class='button' value='🆄'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().toUpperCase());" title='to UpperCase'>
@@ -265,6 +265,7 @@ function formatText(elem) {
         <input type='button' class='button' value='π'  onmousedown="document.execCommand('insertText', false, 'π')"   title='pi'>
         <input type='button' class='button' value='φ'  onmousedown="document.execCommand('insertText', false, 'φ')"   title='phi'>
         <input type='button' class='button' value='χ'  onmousedown="document.execCommand('insertText', false, 'χ')"   title='chi'>
+        <br>
         <input type='button' class='button' value='Φ'  onmousedown="document.execCommand('insertText', false, 'Φ')"   title='Phi'>
         <input type='button' class='button' value='ψ'  onmousedown="document.execCommand('insertText', false, 'ψ')"   title='Psi'>
         <input type='button' class='button' value='ω'  onmousedown="document.execCommand('insertText', false, 'ω')"   title='Omega'>
