@@ -10,69 +10,72 @@ function getMaxOf(sheetName,columnName) {
   return isNumeric(max) ? max: 0
 };
 
-function getEvidenceValues(activeRange) { 
+function getEvidenceValues(activeRange) {
   var values = activeRange.getValues().reduce(to1D);
-  var headers = activeRange.getSheet().getRange('1:1').getValues().reduce(to1D);
+  var headers = activeRange.getSheet().getRange('1:1').getValues()[0];
   var rawEvidenceObj = headers.reduce(function(p,v,i){p[v]=values[i]; return p},{});
   var columnNumObj   = headers.reduce(function(p,v,i){p[v]=i        ; return p},{});
   var Automation = rawEvidenceObj.Automation.split(/[)]\s*[,]\s*Postsynaptic:[(]/g);
   var obj = {                                 //offset(rowOffset, columnOffset     , numRows                 , numColumns)
-    PConnections        : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().map(function(v){return v[1]+'▶'+v[3]}),
-    PConnectionsUIDs    : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().reduce(
+    PConnections         : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().map(function(v){return v[1]+'▶'+v[3]}),
+    PConnectionsUIDs     : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().reduce(
       function(p,v,i){
-        p[i]={source_id    : String(v[0]), 
-              destination_id:String(v[2])}
+        p[i]={source_id      : String(v[0]), 
+              destination_id : String(v[2])}
         return p
       },{}),
-    sUID                : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
-    tUID                : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
-    PMID                : rawEvidenceObj.PMID.split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
+    sUID                 : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
+    tUID                 : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
+    PMID                 : rawEvidenceObj.PMID.split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
     //(Math.max.apply(null,activeRange.getSheet().getRange(1,columnNumObj.eID+1,activeRange.getSheet().getLastRow()).getValues().filter(isNumeric))+1)
-    eID                 : (rawEvidenceObj.eID) ? rawEvidenceObj.eID : getMaxOf('Evidence','eID')+1,
-    MicroscopyCType     : rawEvidenceObj.MicroscopyCType,
-    ePhysCType          : rawEvidenceObj.ePhysCType,
-    Description         : (typeof rawEvidenceObj.Description === 'string')? rawEvidenceObj.Description.replace(/<br>/g,'<br>\n') : rawEvidenceObj.Description,
-    Interpretation      : rawEvidenceObj.Interpretation,
-    Assumptions         : rawEvidenceObj.Assumptions,
-    Query               : rawEvidenceObj.Automation,
-    AutomationPre       : (typeof Automation[0] === 'string') ? Automation[0].replace(/Connection\s*:\s*[(]\s*Presynaptic\s*:\s*[(]\s*/g, '') : '',
-    AutomationPost      : (typeof Automation[1] === 'string') ? Automation[1].replace(/[)]{2}\s*$/g,'') : '',
-    Confidence          : activeRange.offset(0,columnNumObj.Confidence,activeRange.getNumRows(),1).getValues().reduce(to1D).map(function(v){return(v==='High' || v ==='Direct')?v:'Low'}),
-    Amplitude           : rawEvidenceObj.Amplitude,
-    Kinetics            : rawEvidenceObj.Kinetics,
-    ST_Plasticity       : rawEvidenceObj.ST_Plasticity,
-    LT_Plasticity       : rawEvidenceObj.LT_Plasticity,
-    DataLocation        : rawEvidenceObj.DataLocation,
-    dID                 : rawEvidenceObj.dID,
-    dSec                : rawEvidenceObj.dSec,
-    DataIDs             : String(rawEvidenceObj.Data).split(/\s*[,;]+\s*/g).filter(Null),
-    CovariatesIDs       : String(rawEvidenceObj.Covariates).split(/\s*[,;]+\s*/g).filter(Null),
-    MorphologyIDsPre    : String(rawEvidenceObj.Morphology).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
-    MorphologyIDsPost   : String(rawEvidenceObj.Morphology).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    MarkersIDsPre       : String(rawEvidenceObj.Markers).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    MarkersIDsPost      : String(rawEvidenceObj.Markers).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    CellePhysIDsPre     : String(rawEvidenceObj.CellEphys).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    CellePhysIDsPost    : String(rawEvidenceObj.CellEphys).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    FiringPatternIDsPre : String(rawEvidenceObj.FiringPatterns).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    FiringPatternIDsPost: String(rawEvidenceObj.FiringPatterns).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    ConnectivityIDsPre  : String(rawEvidenceObj.Connectivity).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    ConnectivityIDsPost : String(rawEvidenceObj.Connectivity).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    Notes               : rawEvidenceObj.Notes,
-    ConRatios           : rawEvidenceObj.ConRatios,
-    CellRatios          : rawEvidenceObj.CellRatios,
-    RMPorVh             : rawEvidenceObj.RMPorVh,
-    ErevAuthors         : rawEvidenceObj.ErevAuthors,
-    ErevCalculated      : rawEvidenceObj.ErevCalculated,
-    Drugs               : rawEvidenceObj.Drugs.split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
-    ExtracellularSolution:rawEvidenceObj.ExtracellularSolution,
-    IntracellularSolution:rawEvidenceObj.IntracellularSolution,
-    rangeA1Notation     : activeRange.getSheet().getName()+'!'+activeRange.getA1Notation(),
-    columnName2Number   : columnNumObj
+    eID                  : (rawEvidenceObj.eID) ? rawEvidenceObj.eID : getMaxOf('Evidence','eID')+1,
+    MicroscopyCType      : rawEvidenceObj.MicroscopyCType,
+    ePhysCType           : rawEvidenceObj.ePhysCType,
+    Description          : (typeof rawEvidenceObj.Description === 'string')? rawEvidenceObj.Description.replace(/<br>/g,'<br>\n') : rawEvidenceObj.Description,
+    Interpretation       : rawEvidenceObj.Interpretation,
+    Assumptions          : rawEvidenceObj.Assumptions,
+    Query                : rawEvidenceObj.Automation,
+    AutomationPre        : (typeof Automation[0] === 'string') ? Automation[0].replace(/Connection\s*:\s*[(]\s*Presynaptic\s*:\s*[(]\s*/g, '') : '',
+    AutomationPost       : (typeof Automation[1] === 'string') ? Automation[1].replace(/[)]{2}\s*$/g,'') : '',
+    Confidence           : activeRange.offset(0,columnNumObj.Confidence,activeRange.getNumRows(),1).getValues().reduce(to1D).map(function(v){return(v==='High' || v ==='Direct')?v:'Low'}),
+    Amplitude            : rawEvidenceObj.Amplitude,
+    Kinetics             : rawEvidenceObj.Kinetics,
+    ST_Plasticity        : rawEvidenceObj.ST_Plasticity,
+    LT_Plasticity        : rawEvidenceObj.LT_Plasticity,
+    DataLocation         : rawEvidenceObj.DataLocation,
+    dID                  : rawEvidenceObj.dID,
+    dSec                 : rawEvidenceObj.dSec,
+    DataIDs              : String(rawEvidenceObj.Data).split(/\s*[,;]+\s*/g).filter(Null),
+    CovariatesIDs        : String(rawEvidenceObj.Covariates).split(/\s*[,;]+\s*/g).filter(Null),
+    MorphologyIDsPre     : String(rawEvidenceObj.Morphology).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
+    MorphologyIDsPost    : String(rawEvidenceObj.Morphology).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    MarkersIDsPre        : String(rawEvidenceObj.Markers).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    MarkersIDsPost       : String(rawEvidenceObj.Markers).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    CellePhysIDsPre      : String(rawEvidenceObj.CellEphys).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    CellePhysIDsPost     : String(rawEvidenceObj.CellEphys).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    FiringPatternIDsPre  : String(rawEvidenceObj.FiringPatterns).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    FiringPatternIDsPost : String(rawEvidenceObj.FiringPatterns).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
+    ConnectivityIDsPre   : String(rawEvidenceObj.Connectivity).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    ConnectivityIDsPost  : String(rawEvidenceObj.Connectivity).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    Notes                : rawEvidenceObj.Notes,
+    ConRatios            : rawEvidenceObj.ConRatios,
+    CellRatios           : rawEvidenceObj.CellRatios,
+    RMPorVh              : rawEvidenceObj.RMPorVh,
+    ErevAuthors          : rawEvidenceObj.ErevAuthors,
+    ErevCalculated       : rawEvidenceObj.ErevCalculated,
+    Drugs                : rawEvidenceObj.Drugs.split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
+    ExtracellularSolution: rawEvidenceObj.ExtracellularSolution,
+    IntracellularSolution: rawEvidenceObj.IntracellularSolution,
+    rangeA1Notation      : activeRange.getSheet().getName()+'!'+activeRange.getA1Notation(),
+    columnName2Number    : columnNumObj
   };
   obj.allRefIDs = mergeArrays(
     obj.MorphologyIDsPre,obj.MarkersIDsPre,obj.CellePhysIDsPre,obj.FiringPatternIDsPre,obj.ConnectivityIDsPre,
     obj.MorphologyIDsPost,obj.MarkersIDsPost,obj.CellePhysIDsPost,obj.FiringPatternIDsPost,obj.ConnectivityIDsPost,
     obj.DataIDs,obj.CovariatesIDs);
+    rawEvidenceObj.rowRange = obj.rangeA1Notation;
+    rawEvidenceObj.columnName2Number = columnNumObj;
+    obj.rawEvidenceObject   = rawEvidenceObj;
   return obj;
 };
 /**
@@ -99,17 +102,20 @@ function sheetSamplingTool(columnRange, cellValue, accessHeader){
     // gets an array of row ranges and returns an array of JSON object based on the "original sheet's" first row headers
     return rangeArray.map(function(range) {
       var rowObj = range.getValues()[0].reduce(
-        function(previous,value){
-          previous[headers[Object.keys(previous).length]] = value;
-          return previous
+        function(p,v,i){
+          //previous[headers[Object.keys(previous).length]] = value;
+          p[headers[i]] = v;
+          return p
         },{})
       rowObj.rowRange = range.getSheet().getName()+'!'+range.getA1Notation();
+      rowObj.columnName2Number = columnNumObj;
       return rowObj;
     });
   };
   //-----------------------------function body--------------------------
   var sheet = columnRange.getSheet();
   var headers = sheet.getRange("1:1").getValues()[0];
+  var columnNumObj = headers.reduce(function(p,v,i){p[v]=i        ; return p},{});
   if (cellValue.length === 1 && columnRange) {
     var rowIndices = [];
     //Search for the cellValue in the column specified by the user:

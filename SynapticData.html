@@ -12,42 +12,9 @@
       <?!= include('toolbar')?>
       <div id='evidence' style='margin-top:25px'>
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
-      
-        <?//-----What we know about the evidence -----------------------------------------------------------------------------------------?>
-        
-        <details class='eachReference'>
-          <summary style='background-color:#4285F4;color:white; font-size:200%;'>
-            Evidence Details
-          </summary>
-          <? ['DataLocation','dSec','Description','Assumptions','ConRatios','CellRatios','Notes','RMPorVh','ErevAuthors',
-          'ErevCalculated','Drugs','ExtracellularSolution','IntracellularSolution']
-          .forEach(function(key){ 
-            if (evidence[key].length != 0) {?>
-              <p><b>
-                <?=key?>: </b><?!= evidence[key] ?>
-              </p>
-          <?}});?>
-        </details>
-      
-        <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------?>
-          
-        <details class='eachReference'>
-          <summary style='background-color:rgb(153, 255, 255);color:black; margin:0; font-size:200%;'>
-            Covariates Extracted
-          </summary>
-          <? Object.keys(covariates)
-               .filter(function(key){
-                         return (key!=='Order Added' && key!=='PMID' && key!=='Reference' && key!=='Order Added' && 
-                                 key!=='Not Mined Not Vetted' && key!=='K1 vetted Ephys parameterd reported' && 
-                                 key!=='Temperature'  && key!=='Glucose'  && key!=='Intracellular_pH'  && key!=='IntracellularPipetteSolution' &&
-                                 key!=='ExtracellularBathSolution' && key!=='DataExtracted' && key!=='Stain')})
-               .forEach(function(key){ 
-                 if (covariates[key].length != 0 && covariates[key] !='-') {?>
-              <p>
-              <b><?=key?>: </b><?= covariates[key] ?></p>
-          <? }});?>
-        </details>
-        
+        <?//showObject(evidence.rawEvidenceObject,'evidence',['sUID','Source','tUID','Target','Layer','PMID','Confidence'])?>
+        <?showObject(covariates,'covariates',['Order Added','PMID','Reference','Not Mined Not Vetted','K1 vetted Ephys parameterd reported','DataExtracted'])?>
+
         <?//-----Covariates References---------------------------------------------------------------------------------------------------?>
 
         <? showReferences(evidence.CovariatesIDs   , allRefs, allRefs,'Covariates References'         ,'#99FFFF' ,'black' ,'200%','@');  

@@ -1,11 +1,16 @@
 <?//-----Functions----------------------------------------------------------------------------------------------------------------
-function showObject(Obj) {?>
-  <select name="cars">
-    <option value="volvo">Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="fiat">Fiat</option>
-    <option value="audi">Audi</option>
+//get a sheet sampling object and make an editable form
+// this object has rowRange and columnName2Number keys
+function showObject(obj,title,filterKey) {
+  var columnName2Number = obj.columnName2Number;
+  filterKey.push('columnName2Number','rowRange')?>
+<form class="sheet">
+  <select onchange="showValue(this,'<?='showObject'+title?>')" data-range="<?=obj.rowRange?>">
+    <? Object.keys(obj).forEach(function(key){if (filterKey.indexOf(key) === -1){?>
+      <option value="<?=key?>" data-content="<?=obj[key]?>" data-column="<?=columnName2Number[key]?>"><?=key?></option><? }}); ?>
   </select>
+  <textarea id="<?='showObject'+title?>" class="editor" onblur="saveValue(this);"></textarea>
+</form>
 <?};
 
   function showReferences(linkedRefIDs,allReferences,references,groupName,bgColor,fontColor,fontSize,stringToAppendToRefIDs) {
@@ -263,8 +268,8 @@ function showObject(Obj) {?>
           .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
           .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|(\d+)\s*(±)\s*(\d+)|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1$2$3')
           .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
-          .replace(/&lt;/g,'<')
-          .replace(/&gt;/g,'>')
+//          .replace(/&lt;/g,'<')
+//          .replace(/&gt;/g,'>')
           .replace(/&ndash;/g,'—')
           .replace(/&amp;/g,'&');
       
@@ -298,6 +303,19 @@ function showObject(Obj) {?>
       showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>");
     }
   };
+  function showValue(elem,ID){
+    var selecteOptionElem = elem.options[elem.selectedIndex];
+    document.getElementById(ID).value=selecteOptionElem.dataset.content;
+  }
+  function saveValue(elem){
+    var selectElem = elem.parentElement.getElementsByTagName('select')[0];
+    var selectedOptionElem = selectElem.options[selectElem.selectedIndex];
+    selectedOptionElem.dataset.content=elem.value;
+    google.script.run
+      .withFailureHandler(function(){showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>")})
+      .withSuccessHandler(function(){showSnackbar('saved successfully')})
+      .saveToSheetGeneral(selectElem.dataset.range, Number(selectedOptionElem.dataset.column)+1, elem.value)
+  }
 </script>
 <style>
 body {
@@ -322,6 +340,7 @@ body {
 .eachReference {
   width:100%;
   word-wrap:normal;
+  z-index:0;
 }
 .Refs {
   font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
@@ -352,7 +371,24 @@ body {
 .sticky {
   position: -webkit-sticky;  /* Safari */
   position: sticky;
-  top: 23px;
+  top: 45px;
   z-index:1;
+}
+.sheet{
+  display:flex;
+  /* flex-direction:row; */
+  position: sticky;
+  top: 25px;
+  background-color:white;
+  width:100%;
+  height:22px;
+}
+.editor{
+  flex:1;
+  min-width:50%;
+  background-color:white;
+  height:22px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
+  font-size: 16px;
 }
 </style>

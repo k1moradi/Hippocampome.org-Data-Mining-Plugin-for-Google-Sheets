@@ -5,20 +5,18 @@
     <script>
 function highlightElem(elem){
   elem.innerHTML = elem.innerHTML
-    .replace(/\b(epilep(?:ticus|tic|sy|sia)|seisure[s]*|field|culture|a.actinin)\b/ig,
-      "<mark style='background-color:red;color:white;'>$1</mark>") //red    exclude this paper
-    .replace(/(\d(?:[\– '&]| \.|.\ | \. )\d| \w \w |p[Mm]|µm|\bmm,?\b|[\x01\x02\x03\x04\x05\x06\x07\x08])/g, 
-      "<mark style='background-color:hotpink;'>$1</mark>")          //tomato unautomatable mistakes
+    .replace(/(\d(?:[\– '&]| \.|.\ | \. )\d| \w \w |\bp[Mm]\b|µm|\bmm,?\b|[\x01\x02\x03\x04\x05\x06\x07\x08])/g, 
+      "<mark style='background-color:hotpink;'>$1</mark>")          // unautomatable mistakes
 }
 function formatText(elem) {
-  removeUnwantedNodes(elem);
+  elem = removeUnwantedNodes(elem);
   elem.innerHTML = elem.innerHTML
+    .replace('◦','°')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
     .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])/g   , '')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. --> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1') // R M P --> RMP
     .replace(/(?<!<br>)[\r\n]+|[\t\s]+|&nbsp;|&thinsp;|(?<=tables|table|figures|figure|figs\.|fig\.|figs|fig)(?=\w\w?[ \.\?;,)])(?!s[\. ]?)|(?<=[,;])(?=n=\d)|(?<= of)(?=–\d+)/ig, ' ')
     .replace(/(?<=(?:tables|table|figures|figure|figs\.|fig\.|figs|fig) \w) (?=\w[ ])/ig                         , '')
-    .replace(/&ndash;/g, '—').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&').replace('◦','°')
     .replace(/(?<=[(;, ])([Tt])ruce(s)?(?=[ ),;.])/g                                                             , '$1race$2')
     .replace(/([iI])n *t *e *r? *[mn] *e *u *r *o *n(s*)/g                                                       , '$1nterneuron$2')
     .replace(/(?<=[(;, ])(Na|Cs|K|N)H *[2z,*] *P *[O0] *[4,](?=[ ),;.])/g                                        , '$1H₂PO₄')
@@ -100,7 +98,7 @@ function formatText(elem) {
     .replace(/(?<=\w)\s*[(]\s(?=-{0,1}[\wΔµ])/g                                                                  , ' (')
     .replace(/(?<=[\w\dΩ])\s[)]\s*(?=[:.,;])/g                                                                   , ')')
     .replace(/(?<=[\w\dΩ%])(?<!phenoxy)\s*[)]\s*(?=[\w])(?!ethane)/g                                             , ') ')
-    .replace(/(?<=[\w¹²₂₃₄Ω])(?<![-,]N)\s*([,;%])\s*(?=[A-Za-z])(?!N,|-tetraacetic)/g                            , '$1 ')     // space after ,;%
+    .replace(/(?<=[\w¹²₂₃₄Ω])(?<![-,]N|&amp|&lt|&gt|&ndash|&plusmn|&minus|&tau)\s*([,;%])\s*(?=[A-Za-z])(?!N,|-tetraacetic)/g, '$1 ')     // space after ,;%
     .replace(/\s*(?:=<(?!(?:sub|s|i|b|br|em|div|strong)>)|<=)\s*/g                                               , '≤')
     .replace(/(?<=sub|s|i|b|em|br|div|strong)(?!>=)> *= *(?=\d)/g                                                , '>=')
     .replace(/\s*(?:=>|>=(?<!sub>=|s>=|i>=|b>=|em>=|br>=|div>=|strong>=))\s*/g                                   , '≥')
@@ -170,10 +168,10 @@ function formatText(elem) {
         return prefix+num
       })  //τ₁ PSC₁
     .replace(/(?<=[(;, ])(\w+(?:<su[bp]>\w+<\/su[bp]>|[₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙₒ])*(?:[:\/\+\-]\w+(?:<su[bp]>\w+<\/su[bp]>|[₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙₒ])*)*|\[\w\w²{0,1}[⁻⁺]\][ᵢₒ]{0,1})\s([><±≤≥])\s*(?=[-+]{0,1}\d)/g
-                                                                                                                 ,'$1 $2')      //[><≤≥±] \d --> [><≤≥±]\d //[^aI ]|[^awhumboie ][^lenyfptio ]|sub>
+                                                                                                                 , '$1 $2')     //[><≤≥±] \d --> [><≤≥±]\d //[^aI ]|[^awhumboie ][^lenyfptio ]|sub>
     .replace(/(PV|CB1{0,1}|CR|CCK|SOM|VIP)\s([+-])/g                                                             , '$1$2')      // PV +/CCK + BC --> PV+/CCK+ BC, 
     .replace(/(?<=[(;, \]\/])(sub>|[αßγδεζηθλκζξµρτπφχψωσ∆Ω\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*([=])\s*(?=[-+]{0,1}\d)/g , '$1$2')      // word = \d --> word=\d
-    .replace(/(?<=[(;, \]\/])(p|P)\s*([<>≤≥])\s*(?=-{0,1}\d)/g                                                   , '$1$2')      // p < \d --> p<\d
+    .replace(/(?<=[(;, \]\/])(<i>p<\/i>|p)\s*([<>≤≥]|&lt;|&gt;)\s*(?=-{0,1}\d)/gi                                 , '$1$2')      // p < \d --> p<\d
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
     .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                                , '<b>$1</b><br>$2')
     .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et ?al|\(\w{1,2})\.\s(?!\w{1,2}\.))(?![Ww]e|\(\w[a-z0-9]?,)(\(?\w[a-z0-9]?(?: ?[,–\-] ?\w[a-z0-9]{0,1}|,{0,1} (?:and|to) \w[a-z0-9]{0,1}){0,1}[\),:]|\w[a-z0-9]{0,1}[\.,:])(?<!ml,)(?= )/g, 
@@ -226,6 +224,10 @@ function formatText(elem) {
       input {
         height:20px;
         /*width:19px;*/
+      }
+      .redHighlight{
+        background-color:red;
+        color:white;
       }
     </style>
     <?!=include('commonCSS')?>
@@ -319,6 +321,7 @@ function formatText(elem) {
     <input type='button' class='button' value='❌' onmousedown="document.execCommand('removeFormat', false, null)"     title='Remove Format'>
     <input type='button' class='button' value='🔄' onmousedown="loadValue(CleanTextElem)"                              title='Load'>
     <input type='button' class='button' value='💾' onmousedown="saveValue(CleanTextElem)"                              title='Save'>
+    <input type='button' class='button' value='p'  onmousedown="prompt('',CleanTextElem.innerHTML)"                    title='prompt'>
     
     <div id='CleanText' contenteditable='true' class='textCleanerDiv' spellcheck='true' data-enable-grammarly='true' data-gramm='true'></div>
 
@@ -340,12 +343,14 @@ function formatText(elem) {
             p.outerHTML = p.innerHTML+'<br>';
           //remove end <br>
           elem.innerHTML = elem.innerHTML.replace(/(?:<br>|\s)+$/g,'');
+          
+          return elem;
         }
         function loadValue(elem){
           google.script.run
           .withSuccessHandler(function(cellObj){
             globalCellObj = cellObj;
-            elem.innerHTML = '<p>'+globalCellObj.cellValue+'</p>';
+            elem.innerHTML = '<p>'+(globalCellObj.cellValue)+'</p>';//.replace(/</g,'&lt;').replace(/>/g,'&gt;')
             formatText(CleanTextElem);
             formatText(CleanTextElem);
             })
@@ -365,10 +370,10 @@ function formatText(elem) {
               .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
               .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'')
               .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
-              .replace(/&lt;/g,'<')
-              .replace(/&gt;/g,'>')
-              .replace(/&ndash;/g,'—')
-              .replace(/&amp;/g,'&')
+//              .replace(/&lt;/g,'<')
+//              .replace(/&gt;/g,'>')
+//              .replace(/&ndash;/g,'—')
+//              .replace(/&amp;/g,'&')
             )
             highlightElem(elem);
         };
@@ -414,19 +419,25 @@ function formatText(elem) {
                   elem.outerHTML = (elem.innerHTML === 'n') ? elem.innerHTML : ('@i@'+elem.innerHTML+'@|i@');
               });
               divElem.innerHTML = divElem.innerHTML.replace(/<br[^>]*?>/ig,'@br@');
-                      
+              //prompt('',divElem.innerHTML);
               function atToHtml(txt) {
                 var inlineElem = /(@(su[bp]|[bi])@)(?!.*\1)(.*?)@\|\2@/g;
                 var elemToBr = /(@(p|div)@)(?!.*\1)(.*?)@\|\2@/g;
                 var br = /(?:\s*@br@\s*)+/g;
+                txt = txt.replace(/&/g,'&amp;')
+                         .replace(/</g,'&lt;')
+                         .replace(/>/g,'&gt;')
+                         .replace(/—/g,'&ndash;')
+                         ;
                 while(inlineElem.test(txt))
                  txt = txt.replace(inlineElem,'<$2>$3</$2>');
                 while(elemToBr.test(txt))
                  txt = txt.replace(elemToBr,'$3<br>');
                 while(br.test(txt))
                  txt = txt.replace(br,'<br>');
-                return txt.replace(/^(?:<br>|[\s\n\r])+|(?:<br>|[\s\n\r])+$/g,'')
+                txt = txt.replace(/^(?:<br>|[\s\n\r])+|(?:<br>|[\s\n\r])+$/g,'')
                           .replace(/(?:\s*<br>\s*)+/g,'<br>');
+                return txt;
               }
               
               document.execCommand("insertHTML", false, atToHtml(divElem.innerText));
