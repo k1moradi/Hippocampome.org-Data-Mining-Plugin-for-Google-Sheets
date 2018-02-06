@@ -2,15 +2,32 @@
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 function eRev(){
 //---------------whole-cell
-  //Scanziani 1998 Target cell-specific modulation of transmitter release at terminals from a single axon.
-    new solution(celsius=33,
-               eSolution='119 NaCl, 2.5 KCl, 1 NaH2PO4, 4 MgCl2, 4 CaCl2, 26 NaHCO3',
-               pSolution='122.5 Cs-Gluconate, 10 CsCl, 10 HEPES, 10 BAPTA, 8 NaCl',
+  //Kelsch 2014 GluN2B-containing NMDA receptors promote glutamate synapse development in hippocampal interneurons.
+  new solution(celsius=32,
+               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 1 MgCl2, 2 CaCl2',
+               pSolution='120 K-Gluconate, 10 HEPES, 15 KCl, 4 MgATP, 7 Na2-Phosphocreatine, 0.3 Na2GTP, 0.1 EGTA',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
                Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
                Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:7.2,CO2:true}).log();
+               pH={e:7.3,i:7.3,CO2:true}).log();
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 1 MgCl2, 2 CaCl2',
+//               pSolution='105 Cs-Gluconate, 25 CsCl, 10 HEPES, 4 MgATP, 0.3 Na2GTP, 10 TrisPhosphocreatine, 2.5 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:0,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.3,CO2:true}).log();
+  //Scanziani 1998 Target cell-specific modulation of transmitter release at terminals from a single axon.
+//  new solution(celsius=33,
+//               eSolution='119 NaCl, 2.5 KCl, 1 NaH2PO4, 4 MgCl2, 4 CaCl2, 26 NaHCO3',
+//               pSolution='122.5 Cs-Gluconate, 10 CsCl, 10 HEPES, 10 BAPTA, 8 NaCl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.2,CO2:true}).log();
   //Alle 2001 PTP and LTP at a hippocampal mossy fiber-interneuron synapse.
 //  new solution(celsius=33,
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',

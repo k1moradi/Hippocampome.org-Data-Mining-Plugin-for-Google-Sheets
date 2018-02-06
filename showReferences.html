@@ -1,15 +1,19 @@
 <?//-----Functions----------------------------------------------------------------------------------------------------------------
 //get a sheet sampling object and make an editable form
 // this object has rowRange and columnName2Number keys
-function showObject(obj,title,filterKey) {
+function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
   var columnName2Number = obj.columnName2Number;
   filterKey.push('columnName2Number','rowRange')?>
-<form class="sheet">
+<form class="sheet" style="top:<?=top?>;z-index:<?=zIndex?>">
   <select onchange="showValue(this,'<?='showObject'+title?>')" data-range="<?=obj.rowRange?>">
     <? Object.keys(obj).forEach(function(key){if (filterKey.indexOf(key) === -1){?>
-      <option value="<?=key?>" data-content="<?=obj[key]?>" data-column="<?=columnName2Number[key]?>"><?=key?></option><? }}); ?>
+      <option value="<?=key?>" data-content="<?=obj[key]?>" data-column="<?=columnName2Number[key]?>"
+        <?if (key === defaultSelection){?>selected<?}?>><?=key?></option>
+      <? }}); ?>
   </select>
-  <textarea id="<?='showObject'+title?>" class="editor" onblur="saveValue(this);"></textarea>
+  <textarea id="<?='showObject'+title?>" class="editor" onblur="saveValue(this);" 
+    onmouseenter="((e)=>{e.style.height=(e.scrollHeight > e.clientHeight)?(e.scrollHeight)+'px':e.parentElement.style.height+'px'})(this);" 
+    onmouseleave="this.style.height = '25px';"><?=obj[defaultSelection]?></textarea>
 </form>
 <?};
 
@@ -377,18 +381,29 @@ body {
 .sheet{
   display:flex;
   /* flex-direction:row; */
+  position: -webkit-sticky;
   position: sticky;
-  top: 25px;
+  /* top: 25px; */
   background-color:white;
   width:100%;
-  height:22px;
+  height:25px;
+  /* z-index: 2;*/
+}
+.sheet > select {
+  width:147px;
+  background-color:black;
+  color:white;
 }
 .editor{
   flex:1;
   min-width:50%;
   background-color:white;
-  height:22px;
+  height:25px;
+  resize:none;
   font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
   font-size: 16px;
+}
+.editor:hover{
+  height:fit-content;
 }
 </style>

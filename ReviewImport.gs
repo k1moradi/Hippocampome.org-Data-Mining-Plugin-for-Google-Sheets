@@ -262,8 +262,8 @@ function saveSingleColumnRange(aR,columnNum,res){
   } else {
     aR.getSheet().getRange(aR.getRow(), columnNum, aR.getNumRows(), 1).setValue(
       (typeof res === 'string') ? res.replace(/^\s+/g,'')
-      .replace(/(?:\<br>|\s\t)*[\r\n]+(?:\<br>|\s\t)*/g,'<br>')
-      .replace(/[\s\t]{2,}/g,' ') : res);
+                                     .replace(/(?:\<br>|\s\t)*[\r\n]+(?:\<br>|\s\t)*/g,'<br>')
+                                     .replace(/[\s\t]{2,}/g,' ') : res);
   }
 };
 

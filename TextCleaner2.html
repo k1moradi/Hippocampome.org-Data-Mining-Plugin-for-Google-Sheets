@@ -112,6 +112,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])(?:[trτ]|tau) *(D|d|R|decay|rise)(?=[ =),;.])/g                                         , 'τ<sub>$1</sub>')
     .replace(/(?<=[(;, –])([EI]) *(K|Na|C[lsa]|rev|GABA)(?=[ =),;.])/g                                           , '$1<sub>$2</sub>')
     .replace(/(?<=[(;, ])R *([Ss]|in|IN)(?=[ =),;.])/g                                                           , 'R<sub>$1</sub>')
+    .replace(/(?<=[(;, ])C *([mM])(?=[ =),;.])/g                                                                 , 'C<sub>$1</sub>')// Cm --> Cₘ  [not cm = centimiter]
     .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$)(?![,]? and)/g                          , '<sup>$1</sup>') // numerical references
     .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*(?!–))|(?<!alexa|prox|and|was|[Tt]able|[Ff]igure|paradigm|cell|neuron|actinin|GAD)(?<=[a-z]{3}|[)])\s*([\d–]{1,3})(?=\.(?:\s|<br>)|\.$))/g, 
       function(fullMatch,p1,p2,p3){
@@ -138,7 +139,7 @@ function formatText(elem) {
         },'');
         return prefix+num
       })                                                                                                                        //µm²
-    .replace(/((?<=[\/(;, ])[vcrτ]|[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]|_)(\d+|\s\d|\s*[nmhi])(?<!c57|CI|RI)(?=[ =\/),;.+](?!ANOVA)|\s*<\/)/ig, //RI = Resistance Internal != Rectification Index
+    .replace(/((?<=[\/(;, ])[vrτ]|[esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]|_)(\d+|\s\d|\s*[nmhi])(?<!c57|CI|RI)(?=[ =\/),;.+](?!ANOVA)|\s*<\/)/ig, //RI = Resistance Internal != Rectification Index
       function(fullMatch,p1,p2){
         var prefix = ((p1 === '_') ? '' : p1);
         var num = Array.from(p2).reduce(
