@@ -1,5 +1,14 @@
 function test() { 
-  Logger.log(numPattern)
+  var spacer = "[^<>()\\w.]";
+  var notWithinWord="(?=[)]?[,;.]?[ ±])"
+  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)"
+  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|(?:[Dd]oub|[Tt]rip|[Qq]uadrup)le|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
+  var numbers = "(?:\\d+[.,]?\\d*|"+numberWords+")";
+  var units = "(?:[µμ].?(?:ec)?|[kKM]?Hz|.?Ω|°C?|m(?:sec|[lLMVsg])(?:[ \\\/](?:min|ml))?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|mS(?:[·\\\/]cm⁻²)?|%|percent|times?|mega*ohms*|[^-–+\\dA-Z<>().;,:]*(?:(?:cell|(?:inter)?neuron|pair|set|PC|GC|pc|gc|response|sweep|event|trace|record(?:ing)?|observation|trial|quantal?|stimul(?:us|i)|connection|[esmuESMU]?\\.?[eiEI]?\\.?[Pp]\\.?[Ss]\\.?[CPcp])(?:ed|s)?)+"+notWithinWord+")";
+  var numberRange = "[-+∼~≈≤≥<>]?"+numbers+"("+spacer+'?'+units+")?(?:(?:[–± ,;]|to|and|or|vs[.]?|out|of|the)*[-+\\\/:]?"+numbers+notWithinWord+")*(?: \\("+numbers+"%\\))?";
+  var numPattern = new RegExp("((?:[ (]n)?[ (;,=\\\/]|<br>)("+numberRange+")("+spacer+"?"+units+")?("+spacer+"?"+connectingWords+")?("+spacer+"?"+numberRange+notWithinWord+")?("+spacer+"?"+units+")?", "g");
+                                //p1                        p2-3             p4                     p5                               p6-7                                       p8
+  Logger.log(numberRange)
 };
 
 function getMaxOf(sheetName,columnName) {

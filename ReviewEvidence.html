@@ -7,6 +7,9 @@
     .sticky {
       top: 50px;
     }
+    .Quote th {
+      top: 94px;
+    }
     </style>
   </head>
   <body>
@@ -19,13 +22,13 @@
         <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------?>
         <?showObject(covariates,'covariates','25px',2,'IntracellularPipetteSolution',['Order Added','PMID','Reference','Not Mined Not Vetted','K1 vetted Ephys parameterd reported','DataExtracted'])?>
         <?var unlinkedRefIds = Object.keys(myRefs).filter(function(refID){return (evidence.allRefIDs.indexOf(refID) === -1)});
-          showAllReferences(evidence.CovariatesIDs      ,evidence.CovariatesIDs       ,allRefs,covariatesRef ,'Covariates:'                  ,'#99FFFF','black' ,'');
-          showAllReferences(evidence.MorphologyIDsPre   ,evidence.MorphologyIDsPost   ,allRefs,morphology    ,'Anatomy & Morphology:'        ,'#F9DF16','black' ,'');
-          showAllReferences(evidence.MarkersIDsPre      ,evidence.MarkersIDsPost      ,allRefs,markers       ,'Markers:'                     ,'#DD0083','yellow','');
-          showAllReferences(evidence.CellePhysIDsPre    ,evidence.CellePhysIDsPost    ,allRefs,cellEphys     ,'Electrophysiology:'           ,'#0090CC','yellow','');
-          showAllReferences(evidence.FiringPatternIDsPre,evidence.FiringPatternIDsPost,allRefs,firingPatterns,'Firing Patterns:'             ,'#F47C01','yellow','');
-          showAllReferences(evidence.ConnectivityIDsPre ,evidence.ConnectivityIDsPost ,allRefs,connectivity  ,'Connectivity:'                ,'#01AA59','yellow','');
-          showAllReferences(evidence.DataIDs            ,evidence.DataIDs             ,allRefs,dataRefs      ,'Synaptic Data:'               ,'#E91E63','white' ,'');
+          showAllReferences(evidence.CovariatesIDs      ,evidence.CovariatesIDs       ,allRefs,covariatesRef ,'Covariates:'                  ,'#5C9292','white','');
+          showAllReferences(evidence.MorphologyIDsPre   ,evidence.MorphologyIDsPost   ,allRefs,morphology    ,'Anatomy & Morphology:'        ,'#86685B','white','');
+          showAllReferences(evidence.MarkersIDsPre      ,evidence.MarkersIDsPost      ,allRefs,markers       ,'Markers:'                     ,'#853D81','white','');
+          showAllReferences(evidence.CellePhysIDsPre    ,evidence.CellePhysIDsPost    ,allRefs,cellEphys     ,'Electrophysiology:'           ,'#0090CC','white','');
+          showAllReferences(evidence.FiringPatternIDsPre,evidence.FiringPatternIDsPost,allRefs,firingPatterns,'Firing Patterns:'             ,'#F08C74','white','');
+          showAllReferences(evidence.ConnectivityIDsPre ,evidence.ConnectivityIDsPost ,allRefs,connectivity  ,'Connectivity:'                ,'#36A692','white','');
+          showAllReferences(evidence.DataIDs            ,evidence.DataIDs             ,allRefs,dataRefs      ,'Synaptic Data:'               ,'#E91E63','white','');
           showReferences   (unlinkedRefIds                                            ,allRefs,myRefs      ,'❌My Mixed Unlinked References:','#00F0F0','black','200%','')?>
       </div>
     </div>

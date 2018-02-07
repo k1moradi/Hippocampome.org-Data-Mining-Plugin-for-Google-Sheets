@@ -7,6 +7,9 @@
     .sticky {
       top: 75px;
     }
+    .Quote th {
+      top: 119px;
+    }
     </style>
   </head>
   <body>
@@ -20,11 +23,11 @@
         <?showObject(evidence.rawEvidenceObject,'evidence'  ,'25px',3,'Description'    ,['sUID','Source','tUID','Target','Layer',
                                                                                          'PMID','Confidence']                       );
           showObject(covariates                ,'covariates','50px',2,'ExtStimProtocol',['Order Added','PMID','Reference','Not Mined Not Vetted',
-                                                                              'K1 vetted Ephys parameterd reported','DataExtracted']);
+                                                                                         'K1 vetted Ephys parameterd reported','DataExtracted']);
           //----- References---------------------------------------------------------------------------------------------------
-          showReferences(evidence.CovariatesIDs   , allRefs, allRefs,'Covariates References'         ,'#99FFFF' ,'black' ,'200%','@');  
-          showReferences(evidence.CellePhysIDsPost, allRefs, allRefs,'Postsynaptic Electrophysiology','#0090CC' ,'yellow','200%','@');
-          showReferences(evidence.DataIDs         , allRefs, allRefs,'Synaptic Data'                 ,'#E91E63' ,'white' ,'200%','@'); ?>
+          showReferences(evidence.CovariatesIDs   , allRefs, allRefs,'Covariates References'         ,'#5C9292' ,'white','200%','@');  
+          showReferences(evidence.CellePhysIDsPost, allRefs, allRefs,'Postsynaptic Electrophysiology','#0090CC' ,'white','200%','@');
+          showReferences(evidence.DataIDs         , allRefs, allRefs,'Synaptic Data'                 ,'#E91E63' ,'white','200%','@'); ?>
       </div>
     </div>
     <?!= include('snackBar')?>

@@ -28,7 +28,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
       var theReference = references[refID]; ?>
   <details id="<?=(theReference)?theReference.rowRange:''?>" class="Refs" ontoggle="toggleSticky(this)" close>
     <summary class="navBar"
-      ><span class="disableClick darkButton" onclick="saveReference(this)">💾</span
+      ><span class="disableClick darkButton" onclick="saveReference(this)" style="padding-top:8px;">💾</span
       ><span
         ><span class="disableClick darkButton" onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.innerText)" style="color:pink"><?=refID?></span
         ><? if (typeof theReference !== "undefined") {
@@ -71,9 +71,9 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
       <?  } ?>
     </details>-->
     <?  }?>
-    <div class='Quote' contenteditable='true'><p>
+    <div class='Quote' contenteditable='true'>
       <?!= refHighlights(theReference.Quote) ?>
-    </p></div>
+    </div>
     <?if (theReference.Figure) {
         String(theReference.Figure)
         .split(/\s*[;,]+\s*/g)
@@ -131,10 +131,10 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
 <?!=include('shortcuts');?>    
 <script>
   shortcut.add('Ctrl+.'  ,function(){document.execCommand('superscript', false, null)});
-  shortcut.add('Ctrl+,'  ,function(){document.execCommand('subscript', false, null)});
-  shortcut.add('Ctrl+m'  ,function(){document.execCommand('insertText', false, 'µ')});
-  shortcut.add('Ctrl+f12',function(){document.execCommand('insertText', false, '–')});
-  shortcut.add('enter',function(){document.execCommand('insertHTML', false, '<br><br>')});
+  shortcut.add('Ctrl+,'  ,function(){document.execCommand('subscript'  , false, null)});
+  shortcut.add('Ctrl+m'  ,function(){document.execCommand('insertText' , false, 'µ')});
+  shortcut.add('Ctrl+f12',function(){document.execCommand('insertText' , false, '–')});
+  //shortcut.add('enter'   ,function(){document.execCommand('insertHTML' , false, '<br><br>')});
   shortcut.add('f2'      ,function(){saveReference(document.activeElement)});
   <?!=refHighlights.toString();?>
   
@@ -285,7 +285,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
             if (element.id === A1Notation) {
               element.querySelector('.UID').innerText = UIDelemValue;
               //element.querySelector('.UID').value = UIDelemValue;
-              element.querySelector('.Quote').innerHTML = '<p>'+quoteValueHighlighted+'</p>';
+              element.querySelector('.Quote').innerHTML = quoteValueHighlighted;
               return true; //means no error
             } else {
               return false;
@@ -296,7 +296,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
         }
     } catch(error) {
       Error = true;
-    }
+    };
     
     if (!Error) {google.script.run
       .withFailureHandler(showSnackbar("<b style='color:lightsalmon'>failed to save</b>"))
@@ -305,21 +305,25 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
       caseSensitiveSearch(document.getElementById('csSearch').value,'main');
     } else {
       showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>");
-    }
+    };
   };
+  
   function showValue(elem,ID){
     var selecteOptionElem = elem.options[elem.selectedIndex];
     document.getElementById(ID).value=selecteOptionElem.dataset.content;
-  }
+  };
+  
   function saveValue(elem){
     var selectElem = elem.parentElement.getElementsByTagName('select')[0];
     var selectedOptionElem = selectElem.options[selectElem.selectedIndex];
-    selectedOptionElem.dataset.content=elem.value;
-    google.script.run
-      .withFailureHandler(function(){showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>")})
-      .withSuccessHandler(function(){showSnackbar('saved successfully')})
-      .saveToSheetGeneral(selectElem.dataset.range, Number(selectedOptionElem.dataset.column)+1, elem.value)
-  }
+    if (selectedOptionElem.dataset.content !== elem.value) {
+      selectedOptionElem.dataset.content=elem.value;
+      google.script.run
+        .withFailureHandler(function(){showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>")})
+        .withSuccessHandler(function(){showSnackbar('saved successfully')})
+        .saveToSheetGeneral(selectElem.dataset.range, Number(selectedOptionElem.dataset.column)+1, elem.value);
+    };
+  };
 </script>
 <style>
 body {
@@ -359,8 +363,16 @@ body {
   flex-direction:row;
   vertical-align: middle;
 }
-.Refs br {
-  line-height:200%;
+.Quote {
+  display:inline-block;/* contenteditable elem will not generate div, p and span automatically in Chrome.*/
+}
+.Quote br {
+  line-height:200%; 
+}
+.Quote th {
+  position: sticky;
+  background-color:#2b2727de;
+  color:white;
 }
 .Refs sup {
   font-size: 55%;
