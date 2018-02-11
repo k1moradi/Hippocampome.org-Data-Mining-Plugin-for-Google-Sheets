@@ -1,0 +1,474 @@
+<script>
+// a function to highlight important text
+function refHighlights(input) {
+  var spacer = "[^<>()\\w.]";
+  var notWithinWord="(?=[)]?[,;.]?[ ±])"
+  var connectingWords = "(?:(?:before,* )?and|to|vs|or|at|(?:out )?of(?: these)?)"
+  var numberWords = "\\b(?:[Tt]en|[Ee]leven|[Tt]welve)(?:th)?|(?:[Tt]hir|[Ff]our|[Ff]if|[Ss]ix|[Ss]even|[Ee]igh|[Nn]in)t(?:een|y|h)|[Ss]ingle|(?:[Dd]oub|[Tt]rip|[Qq]uadrup)le|[Ff]irst|[Ss]econd|[Tt]hird|[Zz]ero|[Nn]one|[Oo]ne|[Tt]wo|[Tt]hree|[Ff]our|[Ff]ive|[Ss]ix|[Ss]even|[Ee]ight|[Nn]ine|[Tt]wenty|[Hh]undreds?|[Tt]housands?\\b"
+  var numbers = "(?:\\d+[.,]?\\d*|"+numberWords+")";
+  var units = "(?:[µμ].?(?:ec)?|micron|[kKM]?Hz|.?Ω|°C?|m(?:sec|[AlLMVsg])(?:[ \\\/](?:min|ml))?(?:⁻¹)?|min(?:utes?)?|(?!nAChR*)[pn][ASF]|mS(?:[·\\\/]cm⁻²)?|%|percent|times?|mega*ohms*|[^-–+\\dA-Z<>().;,:]*(?:(?:cell|(?:inter)?neuron|pair|set|PC|GC|pc|gc|response|sweep|event|trace|record(?:ing)?|observation|trial|quantal?|stimul(?:us|i)|connection|[esmuESMU]?\\.?[eiEI]?\\.?[Pp]\\.?[Ss]\\.?[CPcp])(?:ed|s)?)+"+notWithinWord+")";
+  var numberRange = "[-+∼~≈≤≥<>]?"+numbers+"("+spacer+'?'+units+")?(?:(?:[–± ,;]|to|and|or|vs[.]?|out|of|the)*[-+\\\/:]?"+numbers+notWithinWord+")*(?: \\("+numbers+"%\\))?";
+  var numPattern = new RegExp("((?<![Tt]ables?|[Ff]igs?\\.|[Ff]igures?)(?:[ (]n)?[ (;,=\\\/]|<br>)("+numberRange+")("+spacer+"?"+units+")?("+spacer+"?"+connectingWords+")?("+spacer+"?"+numberRange+notWithinWord+")?("+spacer+"?"+units+")?", "g");
+                                //p1                        p2-3             p4                     p5                               p6-7                                       p8
+  var strInput = (typeof input === 'object' && !Array.isArray(input)) ? JSON.stringify(input) : String(input);
+  return strInput
+  .replace('[micro]','µ')
+  .replace(numPattern,
+    function(fullMatch,p1,p2,p3,p4,p5,p6,p7,p8){
+      function txt(input) {return (input)? input : ''};
+      if (p1 === ' n=' || p1 === '(n=') {
+        if (p8) return p1.replace('n',"<mark style='background-color:rgba(255,153,153,0.2);color:inherit;'>n")+p2+txt(p4)+txt(p5)+txt(p6)+txt(p8)+"</mark>";
+        if (p6) return p1.replace('n',"<mark style='background-color:rgba(255,153,153,0.2);color:inherit;'>n")+p2+txt(p4)+txt(p5)+txt(p6)+"</mark>"+txt(p8);
+        if (p4) return p1.replace('n',"<mark style='background-color:rgba(255,153,153,0.2);color:inherit;'>n")+p2+txt(p4)+"</mark>"+txt(p5)+txt(p6)+txt(p8);
+        if (p2) return p1.replace('n',"<mark style='background-color:rgba(255,153,153,0.2);color:inherit;'>n")+p2+"</mark>"+txt(p4)+txt(p5)+txt(p6)+txt(p8);
+      } else {
+        p1 = (txt(p1)+"<mark style='background-color:rgba(255,153,153,0.2); color:inherit;'>");
+        if (p3 || p4 || p7 || p8) {
+          //if there is a unit
+          if (p6 || p8) {
+            //don't highlight connecting words if there is no number after them
+            return p1+txt(p2)+txt(p4)+txt(p5)+txt(p6)+txt(p8)+"</mark>";
+          } else {
+            return p1+txt(p2)+txt(p4)+"</mark>"+txt(p5)+txt(p6)+txt(p8);
+          }} else {
+            return fullMatch;
+          }}})                                                                                           //pink-orange
+  .replace(new RegExp("([(;, ])("+numberWords+")("+spacer+")(?!"+connectingWords+"|"+units+")","gi"),
+         "$1<mark style='background-color:rgba(255,153,153,0.2);color:inherit;'>$2</mark>$3")           //pink-orange
+  .replace(/\b((?:Mono|Single|Double|Triple|di|bi|reversal|holding|resting|recording|equilibrium|access|series|time|tight|half|action|quantal|patch|transverse|horizontal|longitudinal|oblique|room|high|low)(?:[^<>()]|[^<>()]{0,1}(?:exponential|Brain|hippocampal|entorhinal cortex|EC)[^<>()])){0,1}(ACSF|Q10|pH|Median|anesthesia|slice|plane|section|temperature|magic|(?:(?:paired|multiple)[^<>()]{0,1}){0,1}pulse(?:[^<>()]{0,1}ratio){0,1}|(?:in|ex)(?:tracellular|ternal)|flow|physiologic(?:al)*|membrane|potential|RMP|peak|current(?:[^<>()]voltage)*|I[^<>()]V|voltage|conductance|failure|delay|onset|(?:frequenc|latenc|intensit)(?:y|ies)|slope|amplitude|potency|charge|perforated|clamp|whole.{0,1}cell|cell.{0,1}attached|outside.{0,1}out|electrode|pipette|injec|constant|seal|resist|capacit|duration|rise[ds]?|decaye?[ds]?|width|diameter|analysis|measure|PP[FDR])(tions*|ances*|ive|ing|ly|e*s)?([^<>()]?(?:patch.?clamp|patch|clamp|solution|time(?:.constant)?|potential|transfer)(?:e*[sd]|ing)*){0,1}\b/gi,
+           "<mark style='background-color:rgba(100,255,255,0.2);color:inherit;'>$1$2$3$4</mark>")         //cyan
+  .replace(/\b(epilep(?:ticus|tic|s[yi]a*)|seisures?|field|culture[ds]?|[^ <>]{0,10}gluconate)\b/gi,
+           "<mark style='background-color:red; color:white;     color:inherit;'>$1</mark>")                                 //red
+  .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.?t\.?r?(?:at(?:um|a)|\.)?|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|a?synchronous|recurrent|(?:strat(?:um|a)))[^<>()]?)?(HIPP|mossy|basket|N?[FR]S|[Ff]ast[^<>()]?[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>()]?axonic|AAC|chandelier|bistratified|ivy|neuroglia|(?:[ors][^<>()]?)?l\.?m|lamin|hicap|retzius|interneuron(?: specific){0,1}|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant(?: path)?|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]?|MF|(?:lacunosum.?)*moleculare?|[io]?[^<>()]?ml|oriens|radiat|lucid|hippocamp|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|sagittal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|calbindin|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>()]?AP[^<>()]?[v5]|CGP[^<>()]?55845|sr[^<>()]?95531|QX[^<>()]?314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>()]?(?:layer|cell|interneuron|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>()]?(?:layer|terminal|border)s*)?\b/gi,
+           "<mark style='background-color:rgba(255,230,144,0.2);color:inherit;'>$1$2$3$4$5</mark>")       //yellow
+  .replace(/\b((?:short|long|evoked|unitary|compound|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>()]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>()]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|dual|coupl|Reciprocal|stimul|facilit|depress|STDP|LT[PD]|PTP|potentiat|plasticity|term)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>()]{0,1}(?:record(?:ing|ed)|[AB](?= ))){0,1}\b/gi,
+           "<mark style='background-color:rgba(255,128,171,0.2);color:inherit;'>$1$2$3$4</mark>")         //pink
+}
+</script>
+<?//-----Functions----------------------------------------------------------------------------------------------------------------
+//get a sheet sampling object and make an editable form
+// this object has rowRange and columnName2Number keys .replace(/\s*(;|,)\s*/g,'$1\n\n')
+function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
+  var columnName2Number = obj.columnName2Number;
+  var notes = obj.columnNotes;
+  filterKey.push('columnName2Number','rowRange','columnNotes')?>
+<form class="sheet" style="top:<?=top?>;z-index:<?=zIndex?>">
+  <select onchange="showValue(this,'<?='showObject'+title?>')" data-range="<?=obj.rowRange?>" title=<?=notes[defaultSelection]?>>
+    <? Object.keys(obj).forEach(function(key){if (filterKey.indexOf(key) === -1){?>
+      <option value="<?=key?>" data-content="<?=obj[key]?>" data-column="<?=columnName2Number[key]?>" data-note="<?=notes[key]?>"
+        <?if (key === defaultSelection){?>selected<?}?>><?=key?></option>
+      <? }}); ?>
+  </select>
+  <textarea id="<?='showObject'+title?>" class="editor" 
+    onchange    ="saveValue(this);" 
+    oninput     ="((e)=>{e.style.height=(e.scrollHeight > e.clientHeight)?(e.scrollHeight)+'px':e.parentElement.style.height+'px'})(this);"
+    onfocus     ="((e)=>{e.style.height=(e.scrollHeight > e.clientHeight)?(e.scrollHeight)+'px':e.parentElement.style.height+'px'})(this);"
+    <?/*onmouseenter="((e)=>{e.style.height=(e.scrollHeight > e.clientHeight)?(e.scrollHeight)+'px':e.parentElement.style.height+'px'})(this);"
+    onmouseleave="this.style.height = '25px';"*/?>
+    onblur      ="this.style.height = '25px';"
+ ><?=obj[defaultSelection]?></textarea>
+</form>
+<?};
+
+  function showReferences(linkedRefIDs,allReferences,references,groupName,bgColor,fontColor,fontSize,stringToAppendToRefIDs) {
+    if (linkedRefIDs.length !== 0) { ?>
+<div class="eachReference">    
+<details open>
+  <summary style="background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:<?=fontSize?>;">
+    <?= groupName ?>
+  </summary>
+  <? linkedRefIDs.sort(function(a,b){return a-b}).forEach(function(refID){
+      var theReference = references[refID]; ?>
+  <details id="<?=(theReference)?theReference.rowRange:''?>" class="Refs" ontoggle="toggleSticky(this)" close>
+    <summary class="navBar"
+      ><span class="disableClick darkButton" onclick="saveReference(this)" style="padding-top:8px;">💾</span
+      ><span
+        ><span class="disableClick darkButton" onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.innerText)" style="color:pink"><?=refID?></span
+        ><? if (typeof theReference !== "undefined") {
+              var UID = theReference.UID;?>
+        <span class="disableClick darkButton" onclick="copyStringToClipboard(this.innerText)" style="color:yellow"><?=theReference.Location?></span></span
+      ><span contenteditable="true" class="UID disableClick"
+      ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
+       <?   }?>
+    </summary>
+    <?if (typeof theReference === "undefined") {?>
+    <p style='color:red;'>
+      ❌ ID is not associated with any reference in our database. Delete it!
+    </p>
+    </details>
+    <?} else {
+        var UID = theReference.UID;
+        if (UID) {?>
+    <!--<details>
+      <summary style='background-color:#3F51B5; color:white; margin:0;'>
+        <b>Cell Types:</b>
+      </summary>
+      <?  if (typeof UID === 'string') {
+            if (UID.replace(/[\s\d,;]+/g,'') !== '') {// is not a UID array in string format
+              UID.split(/\s*[,;]+\s*/g)
+                 .filter(Null)
+                 .forEach(function(eachUID){ ?>
+      <p><?=       eachUID ?>
+      </p><?     });
+            } else {
+              UID.split(/\s*[,;]+\s*/g)
+                  .filter(Null)
+                  .forEach(function(eachUID){?>
+      <p><b><?=      eachUID ?>: </b><?=(cellTypes[eachUID]) ? cellTypes[eachUID].Name : '❌undefined cell type UID';?>
+      </p>
+      <?          }); 
+            };
+          } else { ?>
+      <p><b><?= UID ?>: </b><?= (cellTypes[UID]) ? cellTypes[UID].Name : UID+':❌undefined cell type UID'; ?>
+      </p>
+      <?  } ?>
+    </details>-->
+    <?  }?>
+    <div class='Quote' contenteditable='true'>
+      <?!= theReference.Quote ?>
+    </div>
+    <?if (theReference.Figure) {
+        String(theReference.Figure)
+        .split(/\s*[;,]+\s*/g)
+        .filter(Null)
+        .forEach(function(fileName){
+          var fileIDs = getFileIDs(fileName);
+          if (fileIDs.length !== 0) {
+            fileIDs.forEach(function(fileID){
+              if (fileName.replace(/\.[^.]*$/g,'') === refID || (theReference.HcoRefID && imagesShown.indexOf(fileName) === -1)) {
+                imagesShown.push(fileName);?>
+    <details class='Figs' open>
+    <?        } else {?>
+    <details class='Figs'>
+    <?        }?>
+      <summary style='background-color:#3F51B5; color:white; margin:0;'>
+        <b>File: </b><a style='color:white' href='javascript:void(0)' onclick="copyStringToClipboard(this.text)"><?=fileName?></a>:
+        <?    var possibleRefID = fileName.replace(/\.[^.]*$/g,'');
+              if (possibleRefID.replace(/\d*/g,'') === '') {
+                var theFigRef = allReferences[possibleRefID]; 
+                if (theFigRef) {?>
+        <?=       theFigRef.Location?>
+        <?      }};?>
+      </summary>
+      <img src='https://drive.google.com/uc?export=view&id=<?=fileID?>' style='width:100%;'>
+      <?      if (theFigRef && (fileName.replace(/\.[^.]*$/g,'') !== refID)) {?>
+      <p><?!=   (theFigRef.Location !== theReference.Location) ? theFigRef.Quote : ''; ?>
+        <?      theFigRef=null};?>
+      </p>
+    </details>
+    <?      })} else {?>
+    <p style='background-color:#3F51B5; color:white; margin:0;'>❌<b>File:</b> <?=String(fileName)?> does not exist</p>
+    <?  }})};?>
+  </details>
+  <?}})?>
+</details>
+</div>
+<? }};
+         
+  function showAllReferences(presynapticRefIDs,postsynapticRefIDs,allReferences,groupReferences,groupName,bgColor,fontColor,stringToAppendToRefIDs) {?>
+<details open>
+  <summary style='background-color:<?=bgColor?>;color:<?=fontColor?>; margin:0; font-size:200%;'>
+    <?=groupName?>
+  </summary>
+  <? var refIDsUniqueToPre  = presynapticRefIDs.filter(function(refID){return (postsynapticRefIDs.indexOf(refID) === -1)});
+     var refIDsUniqueToPost = postsynapticRefIDs.filter(function(refID){return (presynapticRefIDs.indexOf(refID) === -1)});
+     var refIDsCommonToBoth = presynapticRefIDs.filter(function(refID){return (refIDsUniqueToPre.indexOf(refID) === -1)});
+     var linkedRefIds = mergeArrays(presynapticRefIDs,postsynapticRefIDs);
+     var unlinkedRefIds = Object.keys(groupReferences).filter(function(refID){return (linkedRefIds.indexOf(refID) === -1)});
+     showReferences(refIDsCommonToBoth,allReferences  ,allReferences,'✅Both Sides'       ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(refIDsUniqueToPre ,allReferences  ,allReferences,'✅Presynaptic Only' ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only','#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'         ,'#3F51B5','white','150%',stringToAppendToRefIDs); ?>
+</details>
+<?}; ?>
+<?!=include('shortcuts');?>    
+<script>
+  shortcut.add('Ctrl+.'  ,function(){document.execCommand('superscript', false, null)});
+  shortcut.add('Ctrl+,'  ,function(){document.execCommand('subscript'  , false, null)});
+  shortcut.add('Ctrl+m'  ,function(){document.execCommand('insertText' , false, 'µ')});
+  shortcut.add('Ctrl+f12',function(){document.execCommand('insertText' , false, '–')});
+  shortcut.add('f2'      ,function(){saveReference(document.activeElement)});
+  
+  window.onload = function() {
+    Array.from(document.querySelectorAll('.disableClick')).forEach(
+      function(elem){
+        //disable click on focus to element
+        elem.addEventListener('click',function(e) {
+          e.preventDefault();
+        });
+        //disable click on keyup
+        elem.addEventListener('keyup',function(e) {
+          e.preventDefault();
+        });
+    });
+    
+    Array.from(document.querySelectorAll('.Refs')).forEach(
+      function(elem){
+        elem.addEventListener('copy', function(e) {
+          showSnackbar('📋 '+ ((txt = e.clipboardData.getData('text/plain'))? txt : document.getSelection().toString()));
+        });
+    });
+    Array.from(document.querySelectorAll('.UID')).forEach(
+      function(elem){
+        elem.addEventListener("paste", 
+          function(e) {
+            // cancel paste
+            e.preventDefault();
+            // get text representation of clipboard
+            //var text = e.clipboardData.getData("text/plain"); 
+            var divElem = document.createElement('div');
+            divElem.innerHTML = e.clipboardData.getData('text/html');
+            //convert small-capps to real capital letters
+            while (smallCapElem = divElem.querySelector('.sc')) 
+              smallCapElem.outerHTML = smallCapElem.innerText.toUpperCase();
+            document.execCommand("insertHTML", false, divElem.innerText.replace(/^[\s\n\r]+|[\s\n\r]+$/g,''));
+          });
+      });
+      
+      Array.from(document.getElementsByClassName('Quote')).forEach(e=>{e.innerHTML = refHighlights(e.innerHTML)});
+  };
+  function toggleReferences(button) {
+    var detailSummaryElems = Array.from(document.querySelectorAll('.'+button.id))
+    if (button.value === button.id+'.▶') {
+      button.value =     button.id+'.▼';
+      detailSummaryElems.forEach(function(elem) {elem.open = true});
+    } else {
+      button.value =     button.id+'.▶';
+      detailSummaryElems.forEach(function(elem) {elem.open = false});
+    }
+  }
+  function toggleSticky(elem) {
+    if(elem.open) 
+      elem.getElementsByClassName('navBar')[0].classList.add('sticky')
+    else 
+      elem.getElementsByClassName('navBar')[0].classList.remove('sticky')
+  };//==========================================================================================================================
+  function caseSensitiveSearch(text,id) {
+    while (span = document.querySelector('.labnol')) 
+      span.outerHTML = span.innerHTML;
+    if (text == null || text.length == 0) return;
+    function searchWithinNode(node, te, len) {
+      var pos, skip, spannode, middlebit, endbit, middleclone;
+      skip = 0;
+      if (node && node.nodeType == 3) {
+        pos = node.data.indexOf(te);
+        if (pos >= 0) {
+          spannode = document.createElement('span');
+          spannode.setAttribute('class', 'labnol');
+          spannode.style.backgroundColor = 'rgb(140, 255, 26 )';
+          middlebit = node.splitText(pos);
+          endbit = middlebit.splitText(len);
+          middleclone = middlebit.cloneNode(true);
+          spannode.appendChild(middleclone);
+          middlebit.parentNode.replaceChild(spannode, middlebit);
+          skip = 1
+        }
+      } else if (node && node.nodeType == 1 && node.childNodes && node.tagName.toUpperCase() != 'SCRIPT' && node.tagName.toUpperCase != 'STYLE') {
+        for (var child = 0; child < node.childNodes.length; ++child) {
+          child = child + searchWithinNode(node.childNodes[child], te, len)
+        }
+      }
+      return skip
+    }
+    text.split(/\s*\|+\s*|\s+/g)
+      .filter(e=>e)
+      .sort((a, b)=>{b.length - a.length})
+      .forEach(function(txt) {
+        var len = txt.length;
+        var elem = document.getElementById(id);
+        searchWithinNode(elem, txt, len);
+        if (/^[a-z][a-z]/.test(txt))
+          searchWithinNode(elem, txt.replace(/^[a-z]/,f=>f.toUpperCase()), len)
+        else if (/^[A-Z][a-z]/.test(txt)) 
+          searchWithinNode(elem, txt.replace(/^[A-Z]/,f=>f.toLowerCase()), len);
+      });
+  };
+  
+  function copyStringToClipboard(string) {
+    function handler(event){
+        event.clipboardData.setData('text/plain', string);
+        event.preventDefault();
+        document.removeEventListener('copy', handler, true);
+    }
+    document.addEventListener('copy', handler, true);
+    document.execCommand('copy');
+  }
+  function saveReference(activeElement){
+    var Error = false;
+    try {
+      var detailsSummaryElem = activeElement.closest('.Refs');
+      if (detailsSummaryElem) if (detailsSummaryElem.nodeName === 'DETAILS' && detailsSummaryElem.className === 'Refs'){
+        var A1Notation = detailsSummaryElem.id;
+        var UIDelemValue = detailsSummaryElem.querySelector('.UID').innerText
+        //var UIDelemValue = detailsSummaryElem.querySelector('.UID').value
+          .replace(/\s*(?:%3E|&gt;|>|▶)\s*/g,'▶')
+          .replace(/\s*(?:%3C|&lt;|<|◀)\s*/g,'◀')
+          .replace(/\s*(?:\*|❌)\s*/g,'❌')
+          .replace(/\s+/g,' ');
+        var Quote = detailsSummaryElem.querySelector('.Quote');
+        //remove highlights
+        while (mark = Quote.querySelector('mark')) 
+          mark.outerHTML = mark.innerHTML;
+        //remove case-sensitive search tool highlights
+        while (span = Quote.querySelector('span')) 
+          span.outerHTML = span.innerHTML;
+        //convert <div> to <br>
+        while (div = Quote.querySelector('div')) 
+          div.outerHTML = div.innerHTML+'<br>';
+        //convert <p> to <br>
+        while (p = Quote.querySelector('p')) 
+          p.outerHTML = p.innerHTML+'<br>';
+    
+        var quoteValue = Quote.innerHTML
+          .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
+          .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|(\d+)\s*(±)\s*(\d+)|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1$2$3')
+          .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
+//          .replace(/&lt;/g,'<')
+//          .replace(/&gt;/g,'>')
+          .replace(/&ndash;/g,'—')
+          .replace(/&amp;/g,'&');
+      
+        var quoteValueHighlighted = refHighlights(quoteValue);
+      
+        Error = Array.from(document.querySelectorAll('.Refs')).filter(
+          function(element) {
+            //alert(element.id+' : '+A1Notation)
+            if (element.id === A1Notation) {
+              element.querySelector('.UID').innerText = UIDelemValue;
+              //element.querySelector('.UID').value = UIDelemValue;
+              element.querySelector('.Quote').innerHTML = quoteValueHighlighted;
+              return true; //means no error
+            } else {
+              return false;
+            }
+          }).length === 0;
+        } else {
+          Error = true;
+        }
+    } catch(error) {
+      Error = true;
+    };
+    
+    if (!Error) {google.script.run
+      .withFailureHandler(showSnackbar("<b style='color:lightsalmon'>failed to save</b>"))
+      .withSuccessHandler(showSnackbar('saved successfully'))
+      .saveReferenceToSheet(A1Notation,UIDelemValue.replace(/^[\s,;]*|[\s,;]*$/g,''),quoteValue);
+      caseSensitiveSearch(document.getElementById('csSearch').value,'main');
+    } else {
+      showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>");
+    };
+  };
+  
+  function showValue(elem,ID){
+    var selectedOptionElemDataset = elem.options[elem.selectedIndex].dataset;
+    document.getElementById(ID).value = selectedOptionElemDataset.content;
+    elem.title = selectedOptionElemDataset.note;
+  };
+  
+  function saveValue(elem){
+    var selectElem = elem.parentElement.getElementsByTagName('select')[0];
+    var selectedOptionElem = selectElem.options[selectElem.selectedIndex];
+    selectedOptionElem.dataset.content=elem.value;
+    google.script.run
+      .withFailureHandler(function(){showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>")})
+      .withSuccessHandler(function(){showSnackbar('saved successfully')})
+      .saveToSheetGeneral(selectElem.dataset.range, Number(selectedOptionElem.dataset.column)+1, elem.value);//.replace(/(;|,)\s*/g,'$1 ')
+  };
+</script>
+<style>
+body {
+  margin: 0px;
+  background-color:white;
+}
+:root { 
+  --googleFormWidth: <?= (displayForm)? '50vw' : '0vw' ?>;
+}
+.googleForm {
+  float:left; 
+  width: var(--googleFormWidth);
+  height: 100vh;
+}
+.referencePanel {
+  float:right; 
+  overflow:auto;
+  --referencePanelWidth: calc(100vw - var(--googleFormWidth));
+  width: var(--referencePanelWidth);
+  height: 100vh;
+}
+.eachReference {
+  width:100%;
+  word-wrap:normal;
+  z-index:0;
+}
+.Refs {
+  font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
+  font-size: 16px;
+}
+.Refs summary {
+  background-color:black; 
+  color:white; 
+  margin:0; 
+  font-size:100%; 
+  display:flex; 
+  flex-direction:row;
+  vertical-align: middle;
+  word-break:break-word;
+}
+.Quote {
+  display:inline-block;/* contenteditable elem will not generate div, p and span automatically in Chrome.*/
+  width:100%;
+}
+.Quote br {
+  line-height:200%; 
+}
+.Quote table {
+  font-size:1vw;
+}
+.Quote th {
+  position: sticky;
+  background-color:#2b2727de;
+  color:white;
+}
+.Refs sup {
+  font-size: 55%;
+  font-weight: bold;
+  vertical-align: 50%;
+}
+.UID {
+  flex:1; 
+  /*padding-top:2px;*/
+  border: 1px solid black;
+}
+.sticky {
+  position: -webkit-sticky;  /* Safari */
+  position: sticky;
+  top: 45px;
+  z-index:1;
+}
+.sheet{
+  display:flex;
+  /* flex-direction:row; */
+  position: -webkit-sticky;
+  position: sticky;
+  /* top: 25px; */
+  background-color:white;
+  width:100%;
+  height:25px;
+  /* z-index: 2;*/
+}
+.sheet > select {
+  width:147px;
+  background-color:black;
+  color:white;
+}
+.editor{
+  flex:1;
+  min-width:50%;
+  background-color:white;
+  height:25px;
+  resize:none;
+  font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
+  font-size: 16px;
+  overflow:hidden; /*remove schroll bar*/
+}
+</style>

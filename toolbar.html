@@ -1,0 +1,184 @@
+<style>
+.toolBar {
+  width:calc(var(--referencePanelWidth) - 17px);
+  height:25px;
+  position:fixed;
+  top:0px;
+  background-color:black;
+  display:flex; 
+  flex-direction:row;
+  z-index:999;
+}
+</style>
+<div class='toolBar'>
+  <input     type='button' class='darkButton' value='Refs.▶' id='Refs' onclick='toggleReferences(this);'>
+  <input     type='button' class='darkButton' value='Figs.▼' id='Figs' onclick='toggleReferences(this);'>
+  <input     type='button' class='darkButton' value='❌' onmousedown="document.execCommand('removeFormat', false, null)" title='Remove Format'>
+  <div class="dropdown">
+    <input   type='button' class='darkButton' value='🔣'>
+    <div class="dropdown-content">
+      <input type='button' class='button' value='°'  onmousedown="document.execCommand('insertText', false, '°')"   title='degree'>
+      <input type='button' class='button' value='±'  onmousedown="document.execCommand('insertText', false, '±')"   title='plus minus'>
+      <input type='button' class='button' value='×'  onmousedown="document.execCommand('insertText', false, '×')"   title='multiply'>
+      <input type='button' class='button' value='√'  onmousedown="document.execCommand('insertText', false, '√')"   title='root square'>
+      <input type='button' class='button' value='∑'  onmousedown="document.execCommand('insertText', false, '∑')"   title='Zigma'>
+      <input type='button' class='button' value='≈'  onmousedown="document.execCommand('insertText', false, '≈')"   title='almost equal to'>
+      
+      <input type='button' class='button' value='Φ'  onmousedown="document.execCommand('insertText', false, 'Φ')"   title='Phi'>
+      <input type='button' class='button' value='ψ'  onmousedown="document.execCommand('insertText', false, 'ψ')"   title='Psi'>
+      <input type='button' class='button' value='ω'  onmousedown="document.execCommand('insertText', false, 'ω')"   title='Omega'>
+      <input type='button' class='button' value='σ'  onmousedown="document.execCommand('insertText', false, 'σ')"   title='Sigma'>
+      <input type='button' class='button' value='Δ'  onmousedown="document.execCommand('insertText', false, 'Δ')"   title='Delta'>
+      <input type='button' class='button' value='Ω'  onmousedown="document.execCommand('insertText', false, 'Ω')"   title='Omega'>
+      <br>
+      <input type='button' class='button' value='α'  onmousedown="document.execCommand('insertText', false, 'α')"   title='alpha'>
+      <input type='button' class='button' value='ß'  onmousedown="document.execCommand('insertText', false, 'ß')"   title='beta'>
+      <input type='button' class='button' value='γ'  onmousedown="document.execCommand('insertText', false, 'γ')"   title='gamma'>
+      <input type='button' class='button' value='δ'  onmousedown="document.execCommand('insertText', false, 'δ')"   title='delta'>
+      <input type='button' class='button' value='ε'  onmousedown="document.execCommand('insertText', false, 'ε')"   title='epsilon'>
+      <input type='button' class='button' value='ζ'  onmousedown="document.execCommand('insertText', false, 'ζ')"   title='zeta'>
+      <input type='button' class='button' value='η'  onmousedown="document.execCommand('insertText', false, 'η')"   title='eta'>
+      <input type='button' class='button' value='θ'  onmousedown="document.execCommand('insertText', false, 'θ')"   title='theta'>
+      <input type='button' class='button' value='λ'  onmousedown="document.execCommand('insertText', false, 'λ')"   title='lamda'>
+      <input type='button' class='button' value='κ'  onmousedown="document.execCommand('insertText', false, 'κ')"   title='kappa'>
+      <input type='button' class='button' value='ζ'  onmousedown="document.execCommand('insertText', false, 'ζ')"   title='zeta'>
+      <input type='button' class='button' value='ξ'  onmousedown="document.execCommand('insertText', false, 'ξ')"   title='xi'>
+      <input type='button' class='button' value='µ'  onmousedown="document.execCommand('insertText', false, 'µ')"   title='mu, shortcut:Ctrl+M'>
+      <input type='button' class='button' value='ρ'  onmousedown="document.execCommand('insertText', false, 'ρ')"   title='rho'>
+      <input type='button' class='button' value='τ'  onmousedown="document.execCommand('insertText', false, 'τ')"   title='tau'>
+      <input type='button' class='button' value='π'  onmousedown="document.execCommand('insertText', false, 'π')"   title='pi'>
+      <input type='button' class='button' value='φ'  onmousedown="document.execCommand('insertText', false, 'φ')"   title='phi'>
+      <input type='button' class='button' value='χ'  onmousedown="document.execCommand('insertText', false, 'χ')"   title='chi'>
+      <br>
+      <input type='button' class='button' value='⁰'  onmousedown="document.execCommand('insertText', false, '⁰')"   title='Superscript'>
+      <input type='button' class='button' value='¹'  onmousedown="document.execCommand('insertText', false, '¹')"   title='Superscript'>
+      <input type='button' class='button' value='²'  onmousedown="document.execCommand('insertText', false, '²')"   title='Superscript'>
+      <input type='button' class='button' value='³'  onmousedown="document.execCommand('insertText', false, '³')"   title='Superscript'>
+      <input type='button' class='button' value='⁴'  onmousedown="document.execCommand('insertText', false, '⁴')"   title='Superscript'>
+      <input type='button' class='button' value='⁵'  onmousedown="document.execCommand('insertText', false, '⁵')"   title='Superscript'>
+      <input type='button' class='button' value='⁶'  onmousedown="document.execCommand('insertText', false, '⁶')"   title='Superscript'>
+      <input type='button' class='button' value='⁷'  onmousedown="document.execCommand('insertText', false, '⁷')"   title='Superscript'>
+      <input type='button' class='button' value='⁸'  onmousedown="document.execCommand('insertText', false, '⁸')"   title='Superscript'>
+      <input type='button' class='button' value='⁹'  onmousedown="document.execCommand('insertText', false, '⁹')"   title='Superscript'>
+      <input type='button' class='button' value='⁺'  onmousedown="document.execCommand('insertText', false, '⁺')"   title='Superscript'>
+      <input type='button' class='button' value='⁻'  onmousedown="document.execCommand('insertText', false, '⁻')"   title='Superscript'>
+      <input type='button' class='button' value='⁼'  onmousedown="document.execCommand('insertText', false, '⁼')"   title='Superscript'>
+      <input type='button' class='button' value='⁽'  onmousedown="document.execCommand('insertText', false, '⁽')"   title='Superscript'>
+      <input type='button' class='button' value='⁾'  onmousedown="document.execCommand('insertText', false, '⁾')"   title='Superscript'>
+      <br>
+      <input type='button' class='button' value='₀'  onmousedown="document.execCommand('insertText', false, '₀')"   title='Subscript'>
+      <input type='button' class='button' value='₁'  onmousedown="document.execCommand('insertText', false, '₁')"   title='Subscript'>
+      <input type='button' class='button' value='₂'  onmousedown="document.execCommand('insertText', false, '₂')"   title='Subscript'>
+      <input type='button' class='button' value='₃'  onmousedown="document.execCommand('insertText', false, '₃')"   title='Subscript'>
+      <input type='button' class='button' value='₄'  onmousedown="document.execCommand('insertText', false, '₄')"   title='Subscript'>
+      <input type='button' class='button' value='₅'  onmousedown="document.execCommand('insertText', false, '₅')"   title='Subscript'>
+      <input type='button' class='button' value='₆'  onmousedown="document.execCommand('insertText', false, '₆')"   title='Subscript'>
+      <input type='button' class='button' value='₇'  onmousedown="document.execCommand('insertText', false, '₇')"   title='Subscript'>
+      <input type='button' class='button' value='₈'  onmousedown="document.execCommand('insertText', false, '₈')"   title='Subscript'>
+      <input type='button' class='button' value='₉'  onmousedown="document.execCommand('insertText', false, '₉')"   title='Subscript'>
+      <input type='button' class='button' value='₊'  onmousedown="document.execCommand('insertText', false, '₊')"   title='Subscript'>
+      <input type='button' class='button' value='₋'  onmousedown="document.execCommand('insertText', false, '₋')"   title='Subscript'>
+      <input type='button' class='button' value='₌'  onmousedown="document.execCommand('insertText', false, '₌')"   title='Subscript'>
+      <input type='button' class='button' value='₍'  onmousedown="document.execCommand('insertText', false, '₍')"   title='Subscript'>
+      <input type='button' class='button' value='₎'  onmousedown="document.execCommand('insertText', false, '₎')"   title='Subscript'>
+      <br>
+      <input type='button' class='button' value='ᵃ'  onmousedown="document.execCommand('insertText', false, 'ᵃ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵇ'  onmousedown="document.execCommand('insertText', false, 'ᵇ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᶜ'  onmousedown="document.execCommand('insertText', false, 'ᶜ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵈ'  onmousedown="document.execCommand('insertText', false, 'ᵈ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵉ'  onmousedown="document.execCommand('insertText', false, 'ᵉ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᶠ'  onmousedown="document.execCommand('insertText', false, 'ᶠ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵍ'  onmousedown="document.execCommand('insertText', false, 'ᵍ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ʰ'  onmousedown="document.execCommand('insertText', false, 'ʰ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ⁱ'  onmousedown="document.execCommand('insertText', false, 'ⁱ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ʲ'  onmousedown="document.execCommand('insertText', false, 'ʲ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵏ'  onmousedown="document.execCommand('insertText', false, 'ᵏ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ˡ'  onmousedown="document.execCommand('insertText', false, 'ˡ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵐ'  onmousedown="document.execCommand('insertText', false, 'ᵐ')"   title='Superscript Minuscule'> 
+      <input type='button' class='button' value='ⁿ'  onmousedown="document.execCommand('insertText', false, 'ⁿ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵒ'  onmousedown="document.execCommand('insertText', false, 'ᵒ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵖ'  onmousedown="document.execCommand('insertText', false, 'ᵖ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ʳ'  onmousedown="document.execCommand('insertText', false, 'ʳ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ˢ'  onmousedown="document.execCommand('insertText', false, 'ˢ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵗ'  onmousedown="document.execCommand('insertText', false, 'ᵗ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵘ'  onmousedown="document.execCommand('insertText', false, 'ᵘ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᵛ'  onmousedown="document.execCommand('insertText', false, 'ᵛ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ʷ'  onmousedown="document.execCommand('insertText', false, 'ʷ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ˣ'  onmousedown="document.execCommand('insertText', false, 'ˣ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ʸ'  onmousedown="document.execCommand('insertText', false, 'ʸ')"   title='Superscript Minuscule'>
+      <input type='button' class='button' value='ᶻ'  onmousedown="document.execCommand('insertText', false, 'ᶻ')"   title='Superscript Minuscule'>
+      <br>
+      <input type='button' class='button' value='ᴬ'  onmousedown="document.execCommand('insertText', false, 'ᴬ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴮ'  onmousedown="document.execCommand('insertText', false, 'ᴮ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴰ'  onmousedown="document.execCommand('insertText', false, 'ᴰ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴱ'  onmousedown="document.execCommand('insertText', false, 'ᴱ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴳ'  onmousedown="document.execCommand('insertText', false, 'ᴳ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴴ'  onmousedown="document.execCommand('insertText', false, 'ᴴ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴵ'  onmousedown="document.execCommand('insertText', false, 'ᴵ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴶ'  onmousedown="document.execCommand('insertText', false, 'ᴶ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴷ'  onmousedown="document.execCommand('insertText', false, 'ᴷ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴸ'  onmousedown="document.execCommand('insertText', false, 'ᴸ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴹ'  onmousedown="document.execCommand('insertText', false, 'ᴹ')"   title='Superscript Capital'> 
+      <input type='button' class='button' value='ᴺ'  onmousedown="document.execCommand('insertText', false, 'ᴺ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴼ'  onmousedown="document.execCommand('insertText', false, 'ᴼ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴾ'  onmousedown="document.execCommand('insertText', false, 'ᴾ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᴿ'  onmousedown="document.execCommand('insertText', false, 'ᴿ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᵀ'  onmousedown="document.execCommand('insertText', false, 'ᵀ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᵁ'  onmousedown="document.execCommand('insertText', false, 'ᵁ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ⱽ'  onmousedown="document.execCommand('insertText', false, 'ⱽ')"   title='Superscript Capital'>
+      <input type='button' class='button' value='ᵂ'  onmousedown="document.execCommand('insertText', false, 'ᵂ')"   title='Superscript Capital'>
+      <br>
+      <input type='button' class='button' value='ₐ'  onmousedown="document.execCommand('insertText', false, 'ₐ')"   title='Subscript'>
+      <input type='button' class='button' value='ₑ'  onmousedown="document.execCommand('insertText', false, 'ₑ')"   title='Subscript'>
+      <input type='button' class='button' value='ₒ'  onmousedown="document.execCommand('insertText', false, 'ₒ')"   title='Subscript'>
+      <input type='button' class='button' value='ₓ'  onmousedown="document.execCommand('insertText', false, 'ₓ')"   title='Subscript'>
+      <input type='button' class='button' value='ₔ'  onmousedown="document.execCommand('insertText', false, 'ₔ')"   title='Subscript'>
+      <input type='button' class='button' value='ₕ'  onmousedown="document.execCommand('insertText', false, 'ₕ')"   title='Subscript'>
+      <input type='button' class='button' value='ₖ'  onmousedown="document.execCommand('insertText', false, 'ₖ')"   title='Subscript'>
+      <input type='button' class='button' value='ₗ'  onmousedown="document.execCommand('insertText', false, 'ₗ')"   title='Subscript'>
+      <input type='button' class='button' value='ₘ'  onmousedown="document.execCommand('insertText', false, 'ₘ')"   title='Subscript'>
+      <input type='button' class='button' value='ₙ'  onmousedown="document.execCommand('insertText', false, 'ₙ')"   title='Subscript'>
+      <input type='button' class='button' value='ₚ'  onmousedown="document.execCommand('insertText', false, 'ₚ')"   title='Subscript'>
+      <input type='button' class='button' value='ₛ'  onmousedown="document.execCommand('insertText', false, 'ₛ')"   title='Subscript'>
+      <input type='button' class='button' value='ₜ'  onmousedown="document.execCommand('insertText', false, 'ₜ')"   title='Subscript'>
+      <br>
+      <input type='button' class='button' value='◀'  onmousedown="document.execCommand('insertText', false, '◀')"  title='Backward triangle'>
+      <input type='button' class='button' value='▲'  onmousedown="document.execCommand('insertText', false, '▲')"   title='up triangle'>
+      <input type='button' class='button' value='▼'  onmousedown="document.execCommand('insertText', false, '▼')"   title='down triangle'>
+      <input type='button' class='button' value='▶'  onmousedown="document.execCommand('insertText', false, '▶')"  title='Forward triangle'>
+      <input type='button' class='button' value='◁'  onmousedown="document.execCommand('insertText', false, '◁')"  title='Backward triangle'>
+      <input type='button' class='button' value='△'  onmousedown="document.execCommand('insertText', false, '△')"  title='up triangle'>
+      <input type='button' class='button' value='▽'  onmousedown="document.execCommand('insertText', false, '▽')"  title='down triangle'>
+      <input type='button' class='button' value='▷'  onmousedown="document.execCommand('insertText', false, '▷')"  title='Forward triangle'>
+      <br>
+      <input type='button' class='button' value='⬅'  onmousedown="document.execCommand('insertText', false, '⬅')">
+      <input type='button' class='button' value='⬌'  onmousedown="document.execCommand('insertText', false, '⬌')">
+      <input type='button' class='button' value='➞'  onmousedown="document.execCommand('insertText', false, '➞')">
+      <input type='button' class='button' value='⬆'  onmousedown="document.execCommand('insertText', false, '⬆')">
+      <input type='button' class='button' value='⬍'  onmousedown="document.execCommand('insertText', false, '⬍')">
+      <input type='button' class='button' value='⬇'  onmousedown="document.execCommand('insertText', false, '⬇')">
+      <input type='button' class='button' value='⬈'  onmousedown="document.execCommand('insertText', false, '⬈')">
+      <input type='button' class='button' value='⬉'  onmousedown="document.execCommand('insertText', false, '⬉')">
+      <input type='button' class='button' value='⬊'  onmousedown="document.execCommand('insertText', false, '⬊')">
+      <input type='button' class='button' value='⬋'  onmousedown="document.execCommand('insertText', false, '⬋')"> 
+      <br>
+      <input type='button' class='button' value='◻'  onmousedown="document.execCommand('insertText', false, '◻')"   title='BLACK SQUARE'>
+      <input type='button' class='button' value='◼'  onmousedown="document.execCommand('insertText', false, '◼')"   title='WHITE SQUARE'>
+      <input type='button' class='button' value='▢'  onmousedown="document.execCommand('insertText', false, '▢')">
+      <input type='button' class='button' value='▣'  onmousedown="document.execCommand('insertText', false, '▣')">
+      <input type='button' class='button' value='▤'  onmousedown="document.execCommand('insertText', false, '▤')">
+      <input type='button' class='button' value='▥'  onmousedown="document.execCommand('insertText', false, '▥')">
+      <input type='button' class='button' value='▦'  onmousedown="document.execCommand('insertText', false, '▦')">
+      <input type='button' class='button' value='▧'  onmousedown="document.execCommand('insertText', false, '▧')">
+      <input type='button' class='button' value='▨'  onmousedown="document.execCommand('insertText', false, '▨')">
+      <input type='button' class='button' value='▩'  onmousedown="document.execCommand('insertText', false, '▩')">
+      <br>
+      <input type='button' class='button' value='◆'  onmousedown="document.execCommand('insertText', false, '◆')"   title='BLACK DIAMOND'>
+      <input type='button' class='button' value='◇'  onmousedown="document.execCommand('insertText', false, '◇')"   title='WHITE DIAMOND'>
+      <input type='button' class='button' value='⬤'  onmousedown="document.execCommand('insertText', false, '⏺')"   title='BLACK CIRCLE'>
+      <input type='button' class='button' value='⭘'  onmousedown="document.execCommand('insertText', false, '⭘')"   title='WHITE CIRCLE'>
+      <input type='button' class='button' value='◍'  onmousedown="document.execCommand('insertText', false, '◍')">
+    </div>
+  </div>
+  <input type='text' id='csSearch' style='flex:1;font-size:16px;' placeholder='Case-Sensitive but Sentence-Case Highlighter in Green' onblur="caseSensitiveSearch(this.value,'main');">
+</div>
