@@ -175,12 +175,12 @@ function formatText(elem) {
     .replace(/(?<=[(;, \]\/])(sub>|[αßγδεζηθλκζξµρτπφχψωσ∆Ω\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*([=])\s*(?=[-+]{0,1}\d)/g , '$1$2')      // word = \d --> word=\d
     .replace(/(?<=[(;, \]\/])(<i>p<\/i>|p)\s*([<>≤≥]|&lt;|&gt;)\s*(?=-{0,1}\d)/gi                                 , '$1$2')      // p < \d --> p<\d
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
-    .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                                , '<b>$1</b><br>$2')
-    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et ?al|\(\w{1,2})\.\s(?!\w{1,2}\.))(?![Ww]e|\(\w[a-z0-9]?,)((?:<i>)?\(?\w[a-z0-9]?(?: ?[,–\-] ?\w[a-z0-9]{0,1}|,? (?:and|to) \w[a-z0-9]?)?(?:<\/i>)?[\),:]|\w[a-z0-9]?[\.,:])(?<!ml,)(?= )/g, 
-      function(fullMatch,p1,p2){
-        return ((p1==='. ')?'.':'')+'<br><b>'+p2+'</b>'
+    .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                                , '<b>$1</b><br>$2') // bold the first sentence of the images
+    .replace(/(<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et ?al|\(\w{1,2})\.\s(?!\w{1,2}\.))(?![Ww]e|\(\w[a-z0-9]?,)(\(?(?:<(i|b)>)?\w[a-z0-9]?(?:<\/\3>)?(?: ?[,–\-] ?(?:<(i)>)? ?\w[a-z0-9]?(?:<\/\4>)?|,? (?:and|to) (?:<(b|i)>)?\w[a-z0-9]?(?:<\/(\5)>)?)?[\),:]|\w[a-z0-9]?[\.,:])(?<!ml,)(?= )/g, 
+      function(fullMatch,p1,p2,p3,p4,p5){
+        return ((p1==='. ')?'.':'')+((p3==='b' || p5==='b')?'<br>'+p2:'<br><b>'+p2+'</b>')
       })                                                                                                                        // a-b, bold image list
-    .replace(/(?<=[\.;]|<\/b>|<br>)\s*((?:(?:right|left|top|bottom|middle|center|inset)\s*(?:panel|trace)?,(?=\s*))+)/ig, ' <b>$1</b>') // bold subsections in figures
+    .replace(/(?<=[\.;]|<\/b>|<br>)\s*((?:(?:right|left|top|bottom|middle|center|inset)\s*(?:panel|trace)?,(?=\s*))+)/ig,' <b>$1</b>') // bold subsections in figures
     .replace(/^([^.,?]+\.)\s*(?=<br>)/g                                                                          , '<b>$1</b>') // bold the 1st sentence
     .replace(/(?:<br><i>)([\w ]*?\.)(?:<\/i>(?:<br>)*)/g                                                         , '<br><b>$1</b><br>') // bold subsections
     .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n+)/g                                                          , '<br>')
