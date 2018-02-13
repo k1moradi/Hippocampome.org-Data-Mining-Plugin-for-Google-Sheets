@@ -24,6 +24,7 @@ function onOpen() {//add sub-toolbar to the toolbar
     .addItem('Import Evidence', 'getTheLastFormResponse'))
   .addSeparator()
   .addItem('Jump to Row', 'jumpToRow')
+  .addItem('Insert Rows', 'insertRow')
   .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
   .addToUi();
 };
@@ -170,8 +171,18 @@ function jumpToRow() {
     var rowIndex =  row.getResponseText();
     if (rowIndex !== '') 
       sheet.setActiveRange(sheet.getRange(rowIndex+':'+rowIndex));
-  };
-};
+  }
+}
+function insertRow() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var ui = SpreadsheetApp.getUi();
+  var row = ui.prompt('Insert Rows','How Many Rows?', ui.ButtonSet.OK);
+  if (row.getSelectedButton() === ui.Button.OK) {
+    var rowNumbers =  row.getResponseText();
+    if (rowNumbers !== '') 
+      sheet.insertRowsAfter(sheet.getActiveRange().getRowIndex(),rowNumbers);
+  }
+}
 //
 function getMaxOfColumn(){
   var ss = SpreadsheetApp.getActiveSpreadsheet();

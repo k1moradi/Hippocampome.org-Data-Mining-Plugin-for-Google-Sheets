@@ -79,7 +79,8 @@ function formatText(elem) {
     .replace(/(?<=[ =,;(]\d+)[–'&.](\d+)\s*([+±–])\s*(\d+)[–'&.](?=\d+[ ),;])/g                                  , '.$1$2$3.')//\d–\d–\d–\d --> \d.\d–\d.\d)
     .replace(/(?<=[A-Za-z])\s*[-−](\s*)(?=[A-Za-z])/g                                                            , '-$1')     // negative as hiphen between two words
     .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])[–—−-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ])/g                                             , '–')       // normal hiphen as big hiphen or negative signs between two words
-    .replace(/&minus;|(?<= [∼(]) *[–—−](?=\d)/g                                                                  , '-')      // ngative
+    .replace(/(?<=[(;, ])(?:<(i)>)?\s*t\s*(?:<\/\1>)?\s*test/ig                                                  , 't–test')  // t–test
+    .replace(/&minus;|(?<= [∼(]) *[–—−](?=\d)|(?<=[(;, ])[–—−](?=\d+[– ]ms)/g                                    , '-')       // ngative
     .replace(/(?<=[\d])\s*(?:[–—−]|&ndash;)\s*(\d+)\s*(?=%)/g                                                    , '-$1')     // 20-80%
     .replace(/(?<=[(;, ])[I1]–0(?=[ ),;.])/g                                                                     , 'I-O')
     .replace(/(?<=[(;, ])[n«]\s*(?:[\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                  , 'n=')
@@ -445,7 +446,7 @@ function formatText(elem) {
           google.script.run
           .withSuccessHandler(function(cellObj){
             globalCellObj = cellObj;
-            elem.innerHTML = '<p>'+(globalCellObj.cellValue)+'</p>';
+            elem.innerHTML = '<p>'+(cellObj.cellValue)+'</p>';
             formatText(CleanTextElem);
             formatText(CleanTextElem);
             })

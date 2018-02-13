@@ -2,21 +2,22 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
   var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
   
-//  var paragraphtextValidation = FormApp.createParagraphTextValidation().requireTextDoesNotContainPattern('^[\\s\\n\\r\\t]*~~\\s*').build();
-//  pForm.form.getItems().filter(function(item){
-//    return (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT)//item.getType() === FormApp.ItemType.TEXT || 
-//  }).forEach(function(item){
+//  var paragraphtextValidation = FormApp.createParagraphTextValidation()
+//  .setHelpText("Remove ~~ if the response is valid to you")
+//  .requireTextDoesNotContainPattern('^[\\s\\n\\r\\t]*~~\\s*').build();
+//  pForm.form.getItems().forEach(function(item){
 //    //Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')
-//    item.asParagraphTextItem().setValidation(paragraphtextValidation);
+//    if (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT) 
+//      item.asParagraphTextItem().setValidation(paragraphtextValidation);
 //  });
   var ErevCalculated = evidence.ErevCalculated.split(/\s*(?:[,;]|<br>)+\s*/g);
-  var ErevCalculatedFast = '';
+  var ErevCalculatedFast = (dash2null(evidence.ErevAuthors))?tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs])+', ':'';
   var ErevCalculatedSlow = '';
   if (ErevCalculated.length===3) {
-    ErevCalculatedFast = ErevCalculated.splice(0,2).join('; ')+'@{calculated}';
+    ErevCalculatedFast+= ErevCalculated.splice(0,2).join('; ')+'@{calculated}';
     ErevCalculatedSlow = ErevCalculated.pop()+'@{calculated}';
   } else if (ErevCalculated.length===6) {
-    ErevCalculatedFast = [ErevCalculated[0],ErevCalculated[1],ErevCalculated[3],ErevCalculated[4]].join('; ')+'@{calculated}';
+    ErevCalculatedFast+= [ErevCalculated[0],ErevCalculated[1],ErevCalculated[3],ErevCalculated[4]].join('; ')+'@{calculated}';
     ErevCalculatedSlow = [ErevCalculated[2],ErevCalculated[5]].join('; ')+'@{calculated}';
   }
   
@@ -58,7 +59,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:265541588	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:436659317	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:4275336	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('4275336',(dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast);
+        pForm.prefillEmptyItem('4275336',ErevCalculatedFast);
         //ID:1712702434	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1712702434',ErevCalculatedSlow);
         if (String(evidence.RMPorVh).match('RMP')) {
@@ -127,7 +128,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1443996945	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:2008241553	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1529021711	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('1529021711',(dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast);
+        pForm.prefillEmptyItem('1529021711',ErevCalculatedFast);
         //ID:1717332473	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1717332473',ErevCalculatedSlow);
         
@@ -194,7 +195,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1214131409	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:903954085	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1121608872	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('1121608872',(dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast);
+        pForm.prefillEmptyItem('1121608872',ErevCalculatedFast);
         //ID:1674601306	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1674601306', ErevCalculatedSlow);
         if (String(evidence.RMPorVh).match('RMP')) {
@@ -264,7 +265,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1177876013	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:649910150	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:255478031	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('255478031',(dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast);
+        pForm.prefillEmptyItem('255478031',ErevCalculatedFast);
         //ID:1546411811	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1546411811', ErevCalculatedSlow);
         if (String(evidence.RMPorVh).match('RMP')) {
@@ -330,7 +331,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:304789355	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:1670263156	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:336517228	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('336517228',((dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast));
+        pForm.prefillEmptyItem('336517228',(ErevCalculatedFast));
         //ID:2013943367	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('2013943367', ErevCalculatedSlow);
         if (String(evidence.RMPorVh).match('RMP')) {
@@ -456,7 +457,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:2145805456	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:138331116	Type:SECTION_HEADER	Title:Postsynaptic Membrane (mV)
         //ID:1883690145	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('1883690145',(dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast);
+        pForm.prefillEmptyItem('1883690145',ErevCalculatedFast);
         //ID:1347925473	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1347925473', ErevCalculatedSlow);
         if (String(evidence.RMPorVh).match('RMP')) {
@@ -578,7 +579,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:356322618	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:1563201628	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1305317523	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('1305317523',(dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast);
+        pForm.prefillEmptyItem('1305317523',ErevCalculatedFast);
         //ID:1519191194	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1519191194', ErevCalculatedSlow);
         if (String(evidence.RMPorVh).match('RMP')) {
@@ -703,7 +704,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:82994963	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         //ID:606923254	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:808792303	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
-        pForm.prefillEmptyItem('808792303',(dash2null(evidence.ErevAuthors)) ? tagRefIDUniversal(evidence.ErevAuthors,[covRefs,synRefs]) : ErevCalculatedFast);
+        pForm.prefillEmptyItem('808792303',ErevCalculatedFast);
         //ID:635382742	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('635382742', ErevCalculatedSlow);
         if (String(evidence.RMPorVh).match('RMP')) {

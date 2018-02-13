@@ -2,6 +2,15 @@
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 function eRev(){
 //---------------whole-cell
+  //Hájos 1997 Synaptic communication among hippocampal interneurons: properties of spontaneous IPSCs in morphologically identified cells.
+  new solution(celsius=22.5,
+               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2, 3 Na-pyruvate, 1 ascorbate',
+               pSolution='135 K-Methylsulfate, 5 KCl, 2 NaCl, 0.2 EGTA, 10 HEPES, 10 Na2-Phosphocreatine, 5 MgATP, 0.4 Na2GTP',
+               recordingMethod='whole-cell',
+               voltages={Vm:{RMP:NaN,Vh:10,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.3,i:NaN,CO2:true}).log();
 //  new solution(celsius=22.5,
 //               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
 //               pSolution='135 Cs-Gluconate, 5 CsCl, 20 HEPES, 2 MgCl2 , 2 MgATP',
@@ -541,14 +550,14 @@ function eRev(){
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
   //Lacaille 1988 Stratum lacunosum-moleculare interneurons of hippocampal CA1 region. I. Intrasomatic and intradendritic recordings of local circuit synaptic interactions
-  new solution(celsius=35.5,
-               eSolution='124 NaCl, 5 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2, 26 NaHCO3',
-               pSolution='4000 K-Acetate, 10 KCl',
-               recordingMethod='sharp electrode',
-               voltages={Vm:{RMP:-60,Vh:NaN,Vss:NaN},
-               Erev:{IPSC:-75,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:NaN,i:NaN,CO2:true}).log();
+//  new solution(celsius=35.5,
+//               eSolution='124 NaCl, 5 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2, 26 NaHCO3',
+//               pSolution='4000 K-Acetate, 10 KCl',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-60,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:-75,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Buhl 1994 Physiological properties of anatomically identified axo-axonic cells in the rat hippocampus.
 //  new solution(celsius=34.5,
 //               eSolution='126 NaCl, 3.0 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2.0 MgSO4, 2.0 CaCl2',

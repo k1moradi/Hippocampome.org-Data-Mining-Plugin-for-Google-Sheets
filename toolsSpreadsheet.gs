@@ -1,8 +1,14 @@
 function test() { 
-  value = {ll:'35' , ul:'36'}
-  var a = round((Number(value.ul) + Number(value.ll))/2, 2) + '±' + round((Number(value.ul) - Number(value.ll))/2, 2)
-  Logger.log(a)
-};
+  var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
+  var paragraphtextValidation = FormApp.createParagraphTextValidation()
+  .setHelpText("Remove ~~ if the response is valid to you")
+  .requireTextDoesNotContainPattern('^[\\s\\n\\r\\t]*~~\\s*').build();
+  pForm.form.getItems().forEach(function(item){
+    //Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')
+    if (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT) 
+      item.asParagraphTextItem().setValidation(paragraphtextValidation);
+  });
+}
 
 function getMaxOf(sheetName,columnName) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
@@ -10,7 +16,7 @@ function getMaxOf(sheetName,columnName) {
   //               rowStarts,columnNum,rowsEnds
   var max = sheet.getRange(1,columnNum,sheet.getLastRow()).getValues().reduce(function(p,v){if (isNumeric(v[0]) && v[0]>p) p=v[0];return p},Number.NEGATIVE_INFINITY);
   return isNumeric(max) ? max: 0
-};
+}
 
 function getEvidenceValues(activeRange) {
   var values  = activeRange.getValues().reduce(to1D);
