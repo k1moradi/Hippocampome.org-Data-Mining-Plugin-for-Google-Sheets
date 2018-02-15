@@ -1,16 +1,35 @@
 //Change Log
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
+//PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
-  //Hájos 1997 Synaptic communication among hippocampal interneurons: properties of spontaneous IPSCs in morphologically identified cells.
-  new solution(celsius=22.5,
-               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2, 3 Na-pyruvate, 1 ascorbate',
-               pSolution='135 K-Methylsulfate, 5 KCl, 2 NaCl, 0.2 EGTA, 10 HEPES, 10 Na2-Phosphocreatine, 5 MgATP, 0.4 Na2GTP',
+  //Anstötz 2016 Developmental Profile, Morphology, and Synaptic Connectivity of Cajal-Retzius Cells in the Postnatal Mouse Hippocampus.
+  new solution(celsius=30,
+               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+               pSolution='105 K-Methylsulfate, 10 NaCl, 20 KCl, 4 MgATP, 0.3 Na3GTP, 16 KHCO3',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:10,Vss:NaN},
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-60},
                Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
                Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.3,i:NaN,CO2:true}).log();
+               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Basu 2016 Gating of hippocampal activity, plasticity, and memory by entorhinal cortex long-range inhibition.
+//  new solution(celsius=34,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2, 3 Na-pyruvate, 1 ascorbate',
+//               pSolution='135 Cs-Methylsulfate, 5 KCl, 2 NaCl, 0.2 EGTA, 10 HEPES, 10 Na2-Phosphocreatine, 5 MgATP, 0.4 Na2GTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:10,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:NaN,CO2:true}).log();
+//  new solution(celsius=34,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2, 3 Na-pyruvate, 1 ascorbate',
+//               pSolution='135 K-Methylsulfate, 5 KCl, 2 NaCl, 0.2 EGTA, 10 HEPES, 10 Na2-Phosphocreatine, 5 MgATP, 0.4 Na2GTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-68,Vh:10,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:NaN,CO2:true}).log();
+//Hájos 1997 Synaptic communication among hippocampal interneurons: properties of spontaneous IPSCs in morphologically identified cells.
 //  new solution(celsius=22.5,
 //               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
 //               pSolution='135 Cs-Gluconate, 5 CsCl, 20 HEPES, 2 MgCl2 , 2 MgATP',

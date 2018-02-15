@@ -1,4 +1,4 @@
-function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,ui,templateDataID,dSec) {
+function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,response,dSec,ui) {
   //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
   var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
   
@@ -23,24 +23,20 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   
   var findPranteses = /(?:\((.*)\))/;
 
-  if (templateDataID.getSelectedButton() == ui.Button.YES) {
+  if (response === ui.Button.YES) {
     var rowNum = String(rowIndex+2);
     var synData = synapticDataSheet.getRange(rowNum+':'+rowNum).getValues()[0]; //Logger.log(synData)
     pForm.form.getItems()
-    .filter(
-      function(item){
-        return (item.getType() !== FormApp.ItemType.PAGE_BREAK && item.getType() !== FormApp.ItemType.SECTION_HEADER)
-      })
-    .forEach(
-      function(item,i){
-        if (synData[i+1]) {//Logger.log(synData[i+1]+', '+item.getType()+', '+item.getTitle());
-          if (item.getType() === FormApp.ItemType.CHECKBOX)
-            pForm.prefillItem(item.getId(),synData[i+1].split(/\s*,+\s*/g))
-            else
-              pForm.prefillItem(item.getId(),synData[i+1]);
-        }
-      });
-  } else if (templateDataID.getSelectedButton() == ui.Button.NO) {
+    .filter(function(item){return (item.getType() !== FormApp.ItemType.PAGE_BREAK && item.getType() !== FormApp.ItemType.SECTION_HEADER)})
+    .forEach(function(item,i){
+      if (synData[i+1]) {//Logger.log(synData[i+1]+', '+item.getType()+', '+item.getTitle());
+        if (item.getType() === FormApp.ItemType.CHECKBOX)
+          pForm.prefillItem(item.getId(),synData[i+1].split(/\s*,+\s*/g))
+          else
+            pForm.prefillItem(item.getId(),synData[i+1]);
+      }
+    });
+  } else if (response == ui.Button.NO) {
     Logger.log('The user didn\'t want to use template.');
   } else {
     Logger.log('The user clicked the close button in the dialog\'s title bar.');

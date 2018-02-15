@@ -24,7 +24,7 @@ function onOpen() {//add sub-toolbar to the toolbar
     .addItem('Import Evidence', 'getTheLastFormResponse'))
   .addSeparator()
   .addItem('Jump to Row', 'jumpToRow')
-  .addItem('Insert Rows', 'insertRow')
+  .addItem('Insert Rows After', 'insertRow')
   .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
   .addToUi();
 };
@@ -72,25 +72,14 @@ function reviewEvidence(displayForm) {
 };
 //-------Synaptic Data------------------------------------------------------------------------------
 function addSynapticData() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var evidenceRange = getCheckActiveRange(ss.getActiveRange(),"Evidence");
-  // get the template dID
-  var synapticDataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("SD");
-  //var allDataIDs = synapticDataSheet.getRange('D2:D').getValues().map(to1DFast);
-  var ui = SpreadsheetApp.getUi();  
-  do {
-    var templateDataID = ui.prompt('𝐓𝐞𝐦𝐩𝐥𝐚𝐭𝐢𝐧𝐠 𝐄𝐱𝐭𝐫𝐚𝐜𝐭𝐞𝐝 𝐃𝐚𝐭𝐚?', '🅽🅾🆃🅴: Go to all prefilled menus and press 🄽🄴🅇🅃 (not 🄱🄰🄲🄺) to avoid losing data\n\nData ID (dID) template:', ui.ButtonSet.YES_NO);
-    var rowIndex = (templateDataID.getSelectedButton() === ui.Button.YES) ? synapticDataSheet.getRange('D2:D').getValues().map(to1DFast).indexOf(Number(templateDataID.getResponseText())) : 0;
-  } while (rowIndex === -1);
-
-  if (evidenceRange && (templateDataID.getSelectedButton() === ui.Button.YES || templateDataID.getSelectedButton() === ui.Button.NO)) {
+  var ss=SpreadsheetApp.getActiveSpreadsheet(),ui=SpreadsheetApp.getUi(),synapticDataSheet=ss.getSheetByName("SD"),evidenceRange,rowIndex,response;
+  [evidenceRange,rowIndex,response] = getCheckActiveRange(ss.getActiveRange(),"Evidence",synapticDataSheet);
+  if (evidenceRange) {
     // get needed data from spread sheets
     var output = HtmlService.createTemplate(include('showReferences')+include('SynapticData')); //HtmlService.createTemplateFromFile("SynapticData");
-    output.displayForm = true;
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
-    
-    var dSec = evidence.dSec;
-    var dSecTypes = ['mPSP', 'mPSC', 'sPSP', 'sPSC', 'uPSP', 'uPSC', 'ePSP', 'ePSC'];
+                        output.displayForm    = true;
+    var dSec = evidence.dSec, dSecTypes = ['mPSP', 'mPSC', 'sPSP', 'sPSC', 'uPSP', 'uPSC', 'ePSP', 'ePSC'];
     while (dSec.split(/[\s,;]+/g).some(function(item){return (dSecTypes.indexOf(item) === -1)}))
       dSec = ui.prompt('Enter Data Type', 'Options: mPSP, mPSC, sPSP, sPSC, uPSP, uPSC, ePSP, or ePSC', ui.ButtonSet.OK).getResponseText();
     
@@ -109,7 +98,7 @@ function addSynapticData() {
     
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     if (covariates && oldSynData && synRefs && covRefs && myRefs && morphology && markers && cellEphys && firingPatterns && connectivity) {
-      output.url = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,ui,templateDataID,dSec); //Logger.log(output.url);
+      output.url = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,response,dSec,ui); //Logger.log(output.url);
       output.imagesShown = [];
       output.allRefs = mergeObjs(synRefs,covRefs,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity);
       SpreadsheetApp.getUi().showModalDialog(
@@ -180,7 +169,7 @@ function insertRow() {
   if (row.getSelectedButton() === ui.Button.OK) {
     var rowNumbers =  row.getResponseText();
     if (rowNumbers !== '') 
-      sheet.insertRowsAfter(sheet.getActiveRange().getRowIndex(),rowNumbers);
+      sheet.insertRowsAfter(sheet.getActiveRange().getLastRow(),rowNumbers);
   }
 }
 //
@@ -257,21 +246,32 @@ function typeForwardArrow() {
   cell.setValue(cell.getValue()+'▶');
 }
 //-------Common function ---------------------------------------------------------------------------
-function getCheckActiveRange(activeRange,ActiveTabName) {
+function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
   // check the active range with the user
-  var ui = SpreadsheetApp.getUi();
-  var response = ui.alert(
-    ActiveTabName+':'+activeRange.getA1Notation()+'\n'+
-    'Have you selected a correct range?\n'
-    ,ui.ButtonSet.YES_NO);
-  
+  var response, ui=SpreadsheetApp.getUi(), massage='You have selected '+activeRange.getSheet().getName()+'!'+activeRange.getA1Notation()+' range';
+  if (synapticDataSheet) {
+    do {
+      var templateDataID = ui.prompt(
+        'Do you want to link the data you will extract to an already extracted data?',
+        
+        '🅽🅾🆃🅴: for proper linking, you need to visit linked menus of the form\n'+
+        '        and press 🄽🄴🅇🅃 (not 🄱🄰🄲🄺) to avoid losing data\n\n'+
+        
+        '𝙄𝙛 𝙮𝙚𝙨, 𝙚𝙣𝙩𝙚𝙧 𝙖 𝙙𝙖𝙩𝙖 𝙄𝘿 𝙥𝙡𝙚𝙖𝙨𝙚',
+        ui.ButtonSet.YES_NO_CANCEL);
+      var rowIndex = ((response = templateDataID.getSelectedButton()) === ui.Button.YES) ? 
+        synapticDataSheet.getRange('D2:D').getValues().map(to1DFast).indexOf(Number(templateDataID.getResponseText())) : 0;
+    } while (rowIndex === -1);
+  }else{
+    response = ui.alert(response,ui.ButtonSet.OK_CANCEL);
+  }
   // Process the user's response.
-  if (response === ui.Button.YES && ActiveTabName === activeRange.getSheet().getName()) {
-    return activeRange;
+  if (response !== ui.Button.CANCEL && response !== ui.Button.CLOSE && ActiveTabName === activeRange.getSheet().getName()) {
+    return (synapticDataSheet)? [activeRange,rowIndex,response] : activeRange;
   } else {
     Logger.log('response:'+response)
     Logger.log('ActiveTabName:'+ActiveTabName+'=?'+activeRange.getSheet().getName())
-    return null;
+    return (synapticDataSheet)? [null,null,null] : null;
   };
 };
 function include(filename) {

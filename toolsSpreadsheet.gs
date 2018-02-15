@@ -1,13 +1,6 @@
 function test() { 
-  var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
-  var paragraphtextValidation = FormApp.createParagraphTextValidation()
-  .setHelpText("Remove ~~ if the response is valid to you")
-  .requireTextDoesNotContainPattern('^[\\s\\n\\r\\t]*~~\\s*').build();
-  pForm.form.getItems().forEach(function(item){
-    //Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')
-    if (item.getType() === FormApp.ItemType.PARAGRAPH_TEXT) 
-      item.asParagraphTextItem().setValidation(paragraphtextValidation);
-  });
+  var a=1,b=2,c=a;
+  Logger.log([a,b,c])
 }
 
 function getMaxOf(sheetName,columnName) {
