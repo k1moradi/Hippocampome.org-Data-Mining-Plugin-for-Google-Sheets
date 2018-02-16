@@ -29,7 +29,7 @@ function getEvidenceValues(activeRange) {
       },{}),
     sUID                 : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
     tUID                 : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
-    PMID                 : rawEvidenceObj.PMID.split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
+    PMID                 : String(rawEvidenceObj.PMID).split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
     //(Math.max.apply(null,activeRange.getSheet().getRange(1,columnNumObj.eID+1,activeRange.getSheet().getLastRow()).getValues().filter(isNumeric))+1)
     eID                  : (rawEvidenceObj.eID) ? rawEvidenceObj.eID : getMaxOf('Evidence','eID')+1,
     MicroscopyCType      : rawEvidenceObj.MicroscopyCType,

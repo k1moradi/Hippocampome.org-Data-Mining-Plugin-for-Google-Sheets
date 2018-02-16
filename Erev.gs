@@ -3,15 +3,23 @@
 //PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
-  //Anstötz 2016 Developmental Profile, Morphology, and Synaptic Connectivity of Cajal-Retzius Cells in the Postnatal Mouse Hippocampus.
-  new solution(celsius=30,
-               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
-               pSolution='105 K-Methylsulfate, 10 NaCl, 20 KCl, 4 MgATP, 0.3 Na3GTP, 16 KHCO3',
+    new solution(celsius=33,
+               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
+               pSolution='135 K-Methylsulfate, 5 KCl, 0.1 Na-EGTA, 10 HEPES, 2 NaCl, 5 Na2ATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-60},
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-73},
                Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.4,i:7.3,CO2:true}).log();
+               Vj:{exp:1.2,correctedAlready:true}},
+               pH={e:7.4,i:7.2,CO2:true}).log();
+  //Anstötz 2016 Developmental Profile, Morphology, and Synaptic Connectivity of Cajal-Retzius Cells in the Postnatal Mouse Hippocampus.
+//  new solution(celsius=30,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='105 K-Methylsulfate, 10 NaCl, 20 KCl, 4 MgATP, 0.3 Na3GTP, 16 KHCO3',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-60},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
   //Basu 2016 Gating of hippocampal activity, plasticity, and memory by entorhinal cortex long-range inhibition.
 //  new solution(celsius=34,
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 MgCl2, 2 CaCl2, 3 Na-pyruvate, 1 ascorbate',

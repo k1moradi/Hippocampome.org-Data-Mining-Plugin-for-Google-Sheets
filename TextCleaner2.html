@@ -12,7 +12,7 @@ function formatText(elem) {
   elem = removeUnwantedNodes(elem);
   elem.innerHTML = elem.innerHTML
     .replace('◦','°')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
-    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])/g   , '')
+    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<= SR) (?=95531 )|(?<= CGP) (?=55845[ Aa])/g   , '')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. --> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1')      // R M P --> RMP
     .replace(/(?<!<br>)[\r\n]+|[\t\s]+|&nbsp;|&thinsp;|(?<=tables|table|figures|figure|figs\.|fig\.|figs|fig)(?=\w\w?[ \.\?;,)])(?!s[\. ]?)|(?<=[,;])(?=n=\d)|(?<= of)(?=–\d+)/ig, ' ')
@@ -177,7 +177,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, \]\/])(<i>p<\/i>|p)\s*([<>≤≥]|&lt;|&gt;)\s*(?=-{0,1}\d)/gi                                 , '$1$2')      // p < \d --> p<\d
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
     .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                                , '<b>$1</b><br>$2') // bold the first sentence of the images
-    .replace(/((?:<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et[ .]?al|\(\w{1,2})\.\s)(?:(?=\([^.)]{1,20}\)|(?!\w{1,2}[\. ]|\())))(\(?(?:(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)(?:(?:[,\-– ]{1,2}|and|or){1,3}(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)){0,2}|<b>\w[a-z1-9]?(?:(?:[,\-– ]{1,2}|and|or){1,3}\w[a-z1-9]?){0,2}<\/b>)[\),]?)(?= )/g,
+    .replace(/((?:<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et[ .]?al|\(\w{1,2})\.\s)(?:(?=\([^.)]{1,20}\))|(?!\w{1,2}[\. ]|\(|<b>[^.,<>]{1,20}<\/b> )))(\(?(?:(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)(?:(?:[,\-– ]{1,2}|and|or){1,3}(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)){0,2}|<b>\w[a-z1-9]?(?:(?:[,\-– ]{1,2}|and|or){1,3}\w[a-z1-9]?){0,2}<\/b>)(?:[\),]|(?<=(?:and|or) \w[a-z1-9]?)))(?= )/g,
       function(fullMatch,p1,p2){
         return ((p1==='. ')?'.':'')+'<br><b>'+p2.replace(/<\/?b>/g,'')+'</b>';                                      })          // a-b, bold image list                                                                                                                        
     .replace(/(?<=[\.;]|<\/b>|<br>)\s*((?:(?:right|left|top|bottom|middle|center|inset)\s*(?:panel|trace)?,(?=\s*))+)/ig,' <b>$1</b>') // bold subsections in figures

@@ -248,7 +248,7 @@ function typeForwardArrow() {
 //-------Common function ---------------------------------------------------------------------------
 function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
   // check the active range with the user
-  var response, ui=SpreadsheetApp.getUi(), massage='You have selected '+activeRange.getSheet().getName()+'!'+activeRange.getA1Notation()+' range';
+  var response, ui=SpreadsheetApp.getUi();
   if (synapticDataSheet) {
     do {
       var templateDataID = ui.prompt(
@@ -263,7 +263,10 @@ function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
         synapticDataSheet.getRange('D2:D').getValues().map(to1DFast).indexOf(Number(templateDataID.getResponseText())) : 0;
     } while (rowIndex === -1);
   }else{
-    response = ui.alert(response,ui.ButtonSet.OK_CANCEL);
+    response = ui.alert(
+      'The range you have selected:\n'+
+      activeRange.getSheet().getName()+'!'+activeRange.getA1Notation(),
+      ui.ButtonSet.OK_CANCEL);
   }
   // Process the user's response.
   if (response !== ui.Button.CANCEL && response !== ui.Button.CLOSE && ActiveTabName === activeRange.getSheet().getName()) {
