@@ -23,8 +23,8 @@ function onOpen() {//add sub-toolbar to the toolbar
     .addItem('Count Unique', 'countUnique')
     .addItem('Import Evidence', 'getTheLastFormResponse'))
   .addSeparator()
-  .addItem('Jump to Row', 'jumpToRow')
   .addItem('Insert Rows After', 'insertRow')
+  .addItem('Jump to Row', 'jumpToRow')
   .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
   .addToUi();
 };
@@ -72,8 +72,8 @@ function reviewEvidence(displayForm) {
 };
 //-------Synaptic Data------------------------------------------------------------------------------
 function addSynapticData() {
-  var ss=SpreadsheetApp.getActiveSpreadsheet(),ui=SpreadsheetApp.getUi(),synapticDataSheet=ss.getSheetByName("SD"),evidenceRange,rowIndex,response;
-  [evidenceRange,rowIndex,response] = getCheckActiveRange(ss.getActiveRange(),"Evidence",synapticDataSheet);
+  var ss=SpreadsheetApp.getActiveSpreadsheet(),ui=SpreadsheetApp.getUi(),synapticDataSheet=ss.getSheetByName("SD"),evidenceRange,rowIndex;
+  [evidenceRange,rowIndex] = getCheckActiveRange(ss.getActiveRange(),"Evidence",synapticDataSheet);
   if (evidenceRange) {
     // get needed data from spread sheets
     var output = HtmlService.createTemplate(include('showReferences')+include('SynapticData')); //HtmlService.createTemplateFromFile("SynapticData");
@@ -98,7 +98,7 @@ function addSynapticData() {
     
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     if (covariates && oldSynData && synRefs && covRefs && myRefs && morphology && markers && cellEphys && firingPatterns && connectivity) {
-      output.url = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,response,dSec,ui); //Logger.log(output.url);
+      output.url = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,dSec); //Logger.log(output.url);
       output.imagesShown = [];
       output.allRefs = mergeObjs(synRefs,covRefs,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity);
       SpreadsheetApp.getUi().showModalDialog(
@@ -252,15 +252,15 @@ function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
   if (synapticDataSheet) {
     do {
       var templateDataID = ui.prompt(
-        'Do you want to link the data you will extract to an already extracted data?',
+        'Do you let me proceed without data linking?',
         
-        '🅽🅾🆃🅴: for proper linking, you need to visit linked menus of the form\n'+
-        '        and press 🄽🄴🅇🅃 (not 🄱🄰🄲🄺) to avoid losing data\n\n'+
+        '🅽🅾🆃🅴: proper linking needs visiting the linked form menus\n'+
+        '        then pressing 🄽🄴🅇🅃 (not 🄱🄰🄲🄺) to avoid losing data\n\n'+
         
-        '𝙄𝙛 𝙮𝙚𝙨, 𝙚𝙣𝙩𝙚𝙧 𝙖 𝙙𝙖𝙩𝙖 𝙄𝘿 𝙥𝙡𝙚𝙖𝙨𝙚',
+        '𝙄𝙛 𝙣𝙤, 𝙚𝙣𝙩𝙚𝙧 𝙖 𝙙𝙖𝙩𝙖 𝙄𝘿 𝙥𝙡𝙚𝙖𝙨𝙚',
         ui.ButtonSet.YES_NO_CANCEL);
-      var rowIndex = ((response = templateDataID.getSelectedButton()) === ui.Button.YES) ? 
-        synapticDataSheet.getRange('D2:D').getValues().map(to1DFast).indexOf(Number(templateDataID.getResponseText())) : 0;
+      var rowIndex = ((response = templateDataID.getSelectedButton()) === ui.Button.NO) ? 
+        synapticDataSheet.getRange('D2:D').getValues().map(to1DFast).indexOf(Number(templateDataID.getResponseText()))+2 : 0;
     } while (rowIndex === -1);
   }else{
     response = ui.alert(
@@ -270,26 +270,13 @@ function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
   }
   // Process the user's response.
   if (response !== ui.Button.CANCEL && response !== ui.Button.CLOSE && ActiveTabName === activeRange.getSheet().getName()) {
-    return (synapticDataSheet)? [activeRange,rowIndex,response] : activeRange;
+    return (synapticDataSheet)? [activeRange,rowIndex] : activeRange;
   } else {
     Logger.log('response:'+response)
     Logger.log('ActiveTabName:'+ActiveTabName+'=?'+activeRange.getSheet().getName())
-    return (synapticDataSheet)? [null,null,null] : null;
+    return (synapticDataSheet)? [null,null] : null;
   };
 };
 function include(filename) {
   return HtmlService.createTemplateFromFile(filename).getRawContent();
 }
-//function getData(url) {
-//  if (arguments.length === 1)
-//  { // Load the resulting form url using
-//    // (1) This Method can load the page within google sheets has problem with prefilled forms
-//    var output = HtmlService.createHtmlOutput("<form action='"+url+"' method='get' id='foo'></form>"+"<script>document.getElementById('foo').submit();</script>").setWidth(1200).setHeight(750);
-//    // (2) This Method cannot load the page within google sheets but works well with prefilled forms
-//    //var output = HtmlService.createHtmlOutput("<a href='" +url+"' target='_blank'>Open the form in a new window</a>");
-//  } else 
-//  { // (3) This Method dows not work well
-//    var output = HtmlService.createTemplateFromFile("Index").evaluate().setWidth(1450).setHeight(750);
-//  };
-//  SpreadsheetApp.getUi().showModalDialog(output, 'Evidence');
-//};

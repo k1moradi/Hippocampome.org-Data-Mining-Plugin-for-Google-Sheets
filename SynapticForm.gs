@@ -1,4 +1,4 @@
-function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,response,dSec,ui) {
+function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,dSec) {
   //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
   var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
   
@@ -20,12 +20,20 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
     ErevCalculatedFast+= [ErevCalculated[0],ErevCalculated[1],ErevCalculated[3],ErevCalculated[4]].join('; ')+'@{calculated}';
     ErevCalculatedSlow = [ErevCalculated[2],ErevCalculated[5]].join('; ')+'@{calculated}';
   }
-  
+ 
+  var noSlowComponent = '';
+  if (evidence.ErevCalculated.match(/GABA/) && evidence.ErevCalculated.match(/AMPA/)) {
+    noSlowComponent = ''
+  } else if (evidence.ErevCalculated.match(/GABA/) && (String(evidence.Drugs).match(/\bCGP(?:52432|55845A?)|Saclofen\b/g) || String(evidence.IntracellularSolution).match(/Cs/g))) {
+    noSlowComponent = 'No slow component'
+  } else if (evidence.ErevCalculated.match(/AMPA/) && String(evidence.Drugs).match(/\bAP[5V]|CPP|MK801|7CK\b/g)) {
+    noSlowComponent = 'No slow component';
+  }
   var findPranteses = /(?:\((.*)\))/;
-
-  if (response === ui.Button.YES) {
-    var rowNum = String(rowIndex+2);
-    var synData = synapticDataSheet.getRange(rowNum+':'+rowNum).getValues()[0]; //Logger.log(synData)
+  
+  Logger.log(rowIndex)
+  if (rowIndex) {//if rowidex>0
+    var synData = synapticDataSheet.getRange(rowIndex+':'+rowIndex).getValues()[0]; //Logger.log(synData)
     pForm.form.getItems()
     .filter(function(item){return (item.getType() !== FormApp.ItemType.PAGE_BREAK && item.getType() !== FormApp.ItemType.SECTION_HEADER)})
     .forEach(function(item,i){
@@ -36,10 +44,6 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
             pForm.prefillItem(item.getId(),synData[i+1]);
       }
     });
-  } else if (response == ui.Button.NO) {
-    Logger.log('The user didn\'t want to use template.');
-  } else {
-    Logger.log('The user clicked the close button in the dialog\'s title bar.');
   }
   //ID:277511854	Type:TEXT	Title:Pubmed ID
   pForm.prefillItem('277511854',evidence.PMID);
@@ -53,6 +57,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:427341935	Type:PAGE_BREAK	Title:Miniature Potentials (mPSP)
         //ID:1141504215	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:265541588	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('265541588',noSlowComponent);
         //ID:436659317	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:4275336	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('4275336',ErevCalculatedFast);
@@ -122,6 +127,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:372254299	Type:PAGE_BREAK	Title:Miniature Currents (mPSC)
         //ID:1501419860	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:1443996945	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('1443996945',noSlowComponent);
         //ID:2008241553	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1529021711	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1529021711',ErevCalculatedFast);
@@ -189,6 +195,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1794492914	Type:PAGE_BREAK	Title:Spontaneous Potentials (sPSP)
         //ID:774049725	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:1214131409	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('1214131409',noSlowComponent);
         //ID:903954085	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1121608872	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1121608872',ErevCalculatedFast);
@@ -259,6 +266,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:592341402	Type:PAGE_BREAK	Title:Spontaneous Currents (sPSC)
         //ID:941536151	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:1177876013	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('1177876013',noSlowComponent);
         //ID:649910150	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:255478031	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('255478031',ErevCalculatedFast);
@@ -325,6 +333,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:570119060	Type:PAGE_BREAK	Title:Unitary Potentials (uPSP)
         //ID:1894463225	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:304789355	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('304789355',noSlowComponent);
         //ID:1670263156	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:336517228	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('336517228',(ErevCalculatedFast));
@@ -400,6 +409,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:2061253119	Type:PARAGRAPH_TEXT	Title:0-50% Rise-to-Decay time (ms)
         //ID:640776671	Type:PARAGRAPH_TEXT	Title:50-50% Rise-to-Decay time (ms)
         //ID:51372518	Type:SECTION_HEADER	Title:Short-Term Plasticity (ST-P)
+        if (evidence.ST_Plasticity) {
         //ID:315691427	Type:PARAGRAPH_TEXT	Title:ST-P Sample Size
         //ID:845913872	Type:PARAGRAPH_TEXT	Title:Inter Stimulus Interval (ms)
         //ID:60313155	Type:MULTIPLE_CHOICE	Title:Qualitative ST-P
@@ -411,7 +421,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1512636320	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse summation ratio
         //ID:46789494	Type:SECTION_HEADER	Title:Multiple-pulse Short-Term Plasticity
         //ID:759362541	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
-        pForm.prefillEmptyItem('759362541',covariates.IntStimProtocol);
+          pForm.prefillEmptyItem('759362541',covariates.IntStimProtocol);
         //ID:953695801	Type:PARAGRAPH_TEXT	Title:3:1 Paired-pulse amplitude ratio
         //ID:830413276	Type:PARAGRAPH_TEXT	Title:4:1 Paired-pulse amplitude ratio
         //ID:1123814716	Type:PARAGRAPH_TEXT	Title:5:1 Paired-pulse amplitude ratio
@@ -429,9 +439,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1093021328	Type:PARAGRAPH_TEXT	Title:Synaptic Resource Recovery Time Constant (𝜏ᵣ)
         //ID:1899212293	Type:PARAGRAPH_TEXT	Title:Synaptic Facilitation Time Constant (𝜏ᶠ)
         //ID:294799600	Type:PARAGRAPH_TEXT	Title:Synaptic Release Probability (F)
+        }
         //ID:5529568	Type:SECTION_HEADER	Title:Long-Term Plasticity (LT-P)
+        if (evidence.LT_Plasticity) {
         //ID:439284473	Type:PARAGRAPH_TEXT	Title:LT-P Sample Size
-        //ID:1035761729	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s) 
+        //ID:1035761729	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
+          pForm.prefillEmptyItem('1035761729',covariates.IntStimProtocol);
         //ID:1881291135	Type:PARAGRAPH_TEXT	Title:Failure Rate change (%)
         //ID:1628854073	Type:PARAGRAPH_TEXT	Title:Amplitude change (%)
         //ID:1634725731	Type:PARAGRAPH_TEXT	Title:Potency change (%)
@@ -440,6 +453,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:424263117	Type:PARAGRAPH_TEXT	Title:Conductance change (%)
         //ID:321808882	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse amplitude ratio change (%)
         //ID:470776803	Type:PARAGRAPH_TEXT	Title:STDP
+        }
         //ID:1418426278	Type:SECTION_HEADER	Title:Other
         //ID:1220178917	Type:PARAGRAPH_TEXT	Title:Electrical coupling ratio (%)
         //ID:1023200219	Type:PARAGRAPH_TEXT	Title:Electrical coupling conductance (nS)
@@ -451,6 +465,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:367793735	Type:PAGE_BREAK	Title:Unitary Currents (uPSC)
         //ID:646965923	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:2145805456	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('2145805456',noSlowComponent);
         //ID:138331116	Type:SECTION_HEADER	Title:Postsynaptic Membrane (mV)
         //ID:1883690145	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1883690145',ErevCalculatedFast);
@@ -522,6 +537,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:501888621	Type:PARAGRAPH_TEXT	Title:0-50% Rise-to-Decay time (ms)
         //ID:1202545766	Type:PARAGRAPH_TEXT	Title:50-50% Rise-to-Decay time (ms)
         //ID:766387667	Type:SECTION_HEADER	Title:Short-Term Plasticity (ST-P)
+        if (evidence.ST_Plasticity) {
         //ID:2003128042	Type:PARAGRAPH_TEXT	Title:ST-P Sample Size
         //ID:341058259	Type:PARAGRAPH_TEXT	Title:Inter Stimulus Interval (ms)
         //ID:1675575476	Type:MULTIPLE_CHOICE	Title:Qualitative ST-P
@@ -533,7 +549,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1152716817	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse summation ratio
         //ID:1487561528	Type:SECTION_HEADER	Title:Multiple-pulse Short-Term Plasticity
         //ID:1846413186	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
-        pForm.prefillEmptyItem('1846413186',covariates.IntStimProtocol);
+          pForm.prefillEmptyItem('1846413186',covariates.IntStimProtocol);
         //ID:837302549	Type:PARAGRAPH_TEXT	Title:3:1 Paired-pulse amplitude ratio
         //ID:1435683142	Type:PARAGRAPH_TEXT	Title:4:1 Paired-pulse amplitude ratio
         //ID:1527430622	Type:PARAGRAPH_TEXT	Title:5:1 Paired-pulse amplitude ratio
@@ -551,9 +567,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1753507516	Type:PARAGRAPH_TEXT	Title:Synaptic Resource Recovery Time Constant (𝜏ᵣ)
         //ID:1678160603	Type:PARAGRAPH_TEXT	Title:Synaptic Facilitation Time Constant (𝜏ᶠ)
         //ID:430278002	Type:PARAGRAPH_TEXT	Title:Synaptic Release Probability (F)
+        }
         //ID:410299224	Type:SECTION_HEADER	Title:Long-Term Plasticity (LT-P)
+        if (evidence.LT_Plasticity) {
         //ID:1314938576	Type:PARAGRAPH_TEXT	Title:LT-P Sample Size
-        //ID:1203535293	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s) 
+        //ID:1203535293	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
+          pForm.prefillEmptyItem('1203535293',covariates.IntStimProtocol);
         //ID:1550458073	Type:PARAGRAPH_TEXT	Title:Failure Rate change (%)
         //ID:1539495313	Type:PARAGRAPH_TEXT	Title:Amplitude change (%)
         //ID:1157241891	Type:PARAGRAPH_TEXT	Title:Potency change (%)
@@ -562,6 +581,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1757715651	Type:PARAGRAPH_TEXT	Title:Conductance change (%)
         //ID:571664364	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse amplitude ratio change (%)
         //ID:980332733	Type:PARAGRAPH_TEXT	Title:STDP
+        }
         //ID:241195129	Type:SECTION_HEADER	Title:Other
         //ID:536216644	Type:PARAGRAPH_TEXT	Title:Electrical coupling ratio (%)
         //ID:1885441925	Type:PARAGRAPH_TEXT	Title:Electrical coupling conductance (nS)
@@ -573,6 +593,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:954095570	Type:PAGE_BREAK	Title:Evoked Potentials (ePSP)
         //ID:758395333	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:356322618	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('356322618',noSlowComponent);
         //ID:1563201628	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1305317523	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1305317523',ErevCalculatedFast);
@@ -652,6 +673,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:87483279	Type:PARAGRAPH_TEXT	Title:0-50% Rise-to-Decay time (ms)
         //ID:1549461844	Type:PARAGRAPH_TEXT	Title:50-50% Rise-to-Decay time (ms)
         //ID:509579889	Type:SECTION_HEADER	Title:Short-Term Plasticity (ST-P)
+        if (evidence.ST_Plasticity) {
         //ID:1125211831	Type:PARAGRAPH_TEXT	Title:ST-P Sample Size
         //ID:1457912889	Type:PARAGRAPH_TEXT	Title:Inter Stimulus Interval (ms)
         //ID:1127895128	Type:MULTIPLE_CHOICE	Title:Qualitative ST-P
@@ -663,6 +685,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1483238125	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse summation ratio
         //ID:1342857036	Type:SECTION_HEADER	Title:Multiple-pulse Short-Term Plasticity
         //ID:133771767	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
+          pForm.prefillEmptyItem('133771767',covariates.ExtStimProtocol);
         //ID:1944889336	Type:PARAGRAPH_TEXT	Title:3:1 Paired-pulse amplitude ratio
         //ID:1003578029	Type:PARAGRAPH_TEXT	Title:4:1 Paired-pulse amplitude ratio
         //ID:530970690	Type:PARAGRAPH_TEXT	Title:5:1 Paired-pulse amplitude ratio
@@ -680,9 +703,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1509125090	Type:PARAGRAPH_TEXT	Title:Synaptic Resource Recovery Time Constant (𝜏ᵣ)
         //ID:1503214232	Type:PARAGRAPH_TEXT	Title:Synaptic Facilitation Time Constant (𝜏ᶠ)
         //ID:321426725	Type:PARAGRAPH_TEXT	Title:Synaptic Release Probability (F)
+        }
         //ID:1454017149	Type:SECTION_HEADER	Title:Long-Term Plasticity (LT-P)
+        if (evidence.LT_Plasticity) {
         //ID:843693811	Type:PARAGRAPH_TEXT	Title:LT-P Sample Size
-        //ID:1062684050	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s) 
+        //ID:1062684050	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
+          pForm.prefillEmptyItem('1062684050',covariates.ExtStimProtocol);
         //ID:2127747752	Type:PARAGRAPH_TEXT	Title:Failure Rate change (%)
         //ID:685810279	Type:PARAGRAPH_TEXT	Title:Amplitude change (%)
         //ID:90271655	Type:PARAGRAPH_TEXT	Title:Potency change (%)
@@ -691,6 +717,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:138834462	Type:PARAGRAPH_TEXT	Title:Conductance change (%)
         //ID:588249608	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse amplitude ratio change (%)
         //ID:272083772	Type:PARAGRAPH_TEXT	Title:STDP
+        }
         break;
       case 'ePSC':
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
@@ -698,6 +725,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:714132856	Type:PAGE_BREAK	Title:Evoked Currents (ePSC)
         //ID:970590711	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:82994963	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
+        pForm.prefillEmptyItem('82994963',noSlowComponent);
         //ID:606923254	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:808792303	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('808792303',ErevCalculatedFast);
@@ -773,6 +801,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1751338615	Type:PARAGRAPH_TEXT	Title:0-50% Rise-to-Decay time (ms)
         //ID:1145716053	Type:PARAGRAPH_TEXT	Title:50-50% Rise-to-Decay time (ms)
         //ID:1758054914	Type:SECTION_HEADER	Title:Short-Term Plasticity (ST-P)
+        if (evidence.ST_Plasticity) {
         //ID:1318680464	Type:PARAGRAPH_TEXT	Title:ST-P Sample Size
         //ID:855104603	Type:PARAGRAPH_TEXT	Title:Inter Stimulus Interval (ms)
         //ID:716790583	Type:MULTIPLE_CHOICE	Title:Qualitative ST-P
@@ -784,6 +813,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1358943788	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse summation ratio
         //ID:1542680192	Type:SECTION_HEADER	Title:Multiple-pulse Short-Term Plasticity
         //ID:1249403607	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s) 
+          pForm.prefillEmptyItem('1249403607',covariates.ExtStimProtocol);
         //ID:1572783839	Type:PARAGRAPH_TEXT	Title:3:1 Paired-pulse amplitude ratio
         //ID:706025634	Type:PARAGRAPH_TEXT	Title:4:1 Paired-pulse amplitude ratio
         //ID:1767481196	Type:PARAGRAPH_TEXT	Title:5:1 Paired-pulse amplitude ratio
@@ -801,9 +831,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1819660186	Type:PARAGRAPH_TEXT	Title:Synaptic Resource Recovery Time Constant (𝜏ᵣ)
         //ID:298713428	Type:PARAGRAPH_TEXT	Title:Synaptic Facilitation Time Constant (𝜏ᶠ)
         //ID:606538783	Type:PARAGRAPH_TEXT	Title:Synaptic Release Probability (F)
+        }
         //ID:645612322	Type:SECTION_HEADER	Title:Long-Term Plasticity (LT-P)
+        if (evidence.LT_Plasticity) {
         //ID:1112708990	Type:PARAGRAPH_TEXT	Title:LT-P Sample Size
-        //ID:1736099880	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s) 
+        //ID:1736099880	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
+          pForm.prefillEmptyItem('1736099880',covariates.ExtStimProtocol);
         //ID:1825502761	Type:PARAGRAPH_TEXT	Title:Failure Rate change (%)
         //ID:1475416330	Type:PARAGRAPH_TEXT	Title:Amplitude change (%)
         //ID:1950923689	Type:PARAGRAPH_TEXT	Title:Potency change (%)
@@ -812,6 +845,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:340120784	Type:PARAGRAPH_TEXT	Title:Conductance change (%)
         //ID:76525192	Type:PARAGRAPH_TEXT	Title:2:1 Paired-pulse amplitude ratio change (%)
         //ID:1007419556	Type:PARAGRAPH_TEXT	Title:STDP
+        }
         break;
       default:
         Logger.log('error in switch');
@@ -843,12 +877,14 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   // Covariates
   //ID:1383516774	Type:MULTIPLE_CHOICE	Title:Species
   pForm.setDescription('1383516774',covariates.Species);
+  if (['Rats','Mice','Guinea pigs'].indexOf(covariates.Species)!==-1) 
+    pForm.prefillEmptyItem('1383516774',covariates.Species);
   //ID:1929289061	Type:PARAGRAPH_TEXT	Title:Strain
   pForm.prefillEmptyItem('1929289061',covariates.Strain);
   //ID:1268392618	Type:MULTIPLE_CHOICE	Title:Slice Region
   //ID:49449155	Type:MULTIPLE_CHOICE	Title:Slice Orientation
+  pForm.setDescription('49449155',covariates.SliceOrientation);
   //ID:665351252	Type:PARAGRAPH_TEXT	Title:Slice Thickness (µm)
-  pForm.setDescription('665351252',covariates.SliceOrientation);
   pForm.prefillEmptyItem('665351252',tagRefIDUniversal(getEverythingWithinParentheses(covariates.SliceOrientation),covRefs));
   //ID:2031543787	Type:MULTIPLE_CHOICE	Title:Subcellular Recording Domain
   //ID:1755334452	Type:PARAGRAPH_TEXT	Title:Input Resistance (MΩ)
@@ -866,7 +902,15 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   var eColumnObj = aR.getSheet().getRange('1:1').getValues().reduce(to1D).reduce(function(p,v,i){p[v]=i+1; return p},{});
   saveSingleColumnRange(aR,eColumnObj.dID,String(evidence.dID).split(/\s*[,;]+\s*/g).filter(Null).concat(String(dID)).filter(onlyUnique).join('; '));
   
-  if (!(evidence.dSec === 'mPSP' || evidence.dSec === 'mPSP' || evidence.dSec === 'mPSC' || evidence.dSec === 'sPSP' || evidence.dSec === 'sPSC' || evidence.dSec === 'uPSP' || evidence.dSec === 'uPSC' || evidence.dSec === 'ePSP' || evidence.dSec === 'ePSC'))
+  if (!(evidence.dSec === 'mPSP' || 
+        evidence.dSec === 'mPSP' || 
+        evidence.dSec === 'mPSC' || 
+        evidence.dSec === 'sPSP' || 
+        evidence.dSec === 'sPSC' || 
+        evidence.dSec === 'uPSP' || 
+        evidence.dSec === 'uPSC' || 
+        evidence.dSec === 'ePSP' || 
+        evidence.dSec === 'ePSC'))
     saveSingleColumnRange(aR,eColumnObj.dSec,(evidence.dSec+','+dSec).split(/\s*[,;]+\s*/g).filter(onlyUnique).filter(Null).join(','));
   
   

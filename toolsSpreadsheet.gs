@@ -1,6 +1,5 @@
 function test() { 
-  var a=1,b=2,c=a;
-  Logger.log([a,b,c])
+  Logger.log(isNumeric('1;'))
 }
 
 function getMaxOf(sheetName,columnName) {
@@ -31,7 +30,7 @@ function getEvidenceValues(activeRange) {
     tUID                 : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
     PMID                 : String(rawEvidenceObj.PMID).split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
     //(Math.max.apply(null,activeRange.getSheet().getRange(1,columnNumObj.eID+1,activeRange.getSheet().getLastRow()).getValues().filter(isNumeric))+1)
-    eID                  : (rawEvidenceObj.eID) ? rawEvidenceObj.eID : getMaxOf('Evidence','eID')+1,
+    eID                  : (isNumeric(rawEvidenceObj.eID)) ? rawEvidenceObj.eID : getMaxOf('Evidence','eID')+1,
     MicroscopyCType      : rawEvidenceObj.MicroscopyCType,
     ePhysCType           : rawEvidenceObj.ePhysCType,
     Description          : (typeof rawEvidenceObj.Description === 'string')? rawEvidenceObj.Description.replace(/<br>/g,'<br>\n') : rawEvidenceObj.Description,
@@ -273,9 +272,10 @@ function setActiveCellValue(uniCellObj,value) {
   var cellObj = JSON.parse(uniCellObj);
  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(cellObj.sheetName).getRange(cellObj.cellRange).setValue(value);
 };
-function saveReferenceToSheet(A1Notation,UID,Quote){
+function saveReferenceToSheet(A1Notation,UID,location,Quote){
   var referenceRange = SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation);
   referenceRange.getCell(1, 3).setValue(UID);
+  referenceRange.getCell(1, 4).setValue(location);
   referenceRange.getCell(1, 6).setValue(Quote);
 }
 function saveToSheetGeneral(A1Notation,columnNum,value){

@@ -77,6 +77,7 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
                    .concat(Covariates.ExtracellularPipetteSolution.split(/\s*;\s*/).filter(Null).map(function(solution){return 'Pipette@'+solution}))
                    .sort());
   pForm.prefillItem('2058479121',Evidence.ExtracellularSolution.split(/\s*;+\s*/g));
+  //var checkBoxValidation = FormApp.createCheckboxValidation().setHelpText("Select two condiments.").requireSelectExactly(2).build();
   
   //ID:1364258333   Type:MULTIPLE_CHOICE    Title:Intracellular Solution
   pForm.setChoices('1364258333',Covariates.IntracellularPipetteSolution.split(/\s*;\s*/).filter(Null).sort());

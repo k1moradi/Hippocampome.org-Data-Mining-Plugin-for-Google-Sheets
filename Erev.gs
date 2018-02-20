@@ -3,14 +3,50 @@
 //PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
-    new solution(celsius=33,
-               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
-               pSolution='135 K-Methylsulfate, 5 KCl, 0.1 Na-EGTA, 10 HEPES, 2 NaCl, 5 Na2ATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
-               recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-73},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:1.2,correctedAlready:true}},
-               pH={e:7.4,i:7.2,CO2:true}).log();
+  //Piskorowski 2013 Delta-opioid receptors mediate unique plasticity onto parvalbumin-expressing interneurons in area CA2 of the hippocampus.
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
+//               pSolution='135 Cs-Methylsulfate, 5 KCl, 0.1 EGTA-Na, 10 HEPES, 2 NaCl, 5 ATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:0,Vss:-73},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:3,correctedAlready:true}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
+  //Vida 2000 A hippocampal interneuron associated with the mossy fiber system.
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='78 K-Gluconate, 78 KCl, 0.1 EGTA, 10 HEPES, 2 MgCl2, 2 ATP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
+  //Nicholson 2014 Long-term potentiation in hippocampal oriens interneurons: postsynaptic induction, presynaptic expression and evaluation of candidate retrograde factors.
+//  new solution(celsius=24,
+//               eSolution='119 NaCl, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 2 MgCl2, 1.25 NaH2PO4, 25 NaHCO3',
+//               pSolution='80 K-Gluconate, 8 NaCl, 20 KOH-HEPES, 0.2 EGTA, 25 BAPTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-70},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
+  //Nasrallah 2015 Inhibitory Plasticity Permits the Recruitment of CA2 Pyramidal Neurons by CA3(1,2,3).
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
+//               pSolution='135 Cs-Methylsulfate, 5 KCl, 0.1 Na-EGTA, 10 HEPES, 2 NaCl, 5 Na2ATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:1.2,correctedAlready:true}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
+//               pSolution='135 K-Methylsulfate, 5 KCl, 0.1 Na-EGTA, 10 HEPES, 2 NaCl, 5 Na2ATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-73},
+//               Erev:{IPSC:-77,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:1.2,correctedAlready:true}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
   //Anstötz 2016 Developmental Profile, Morphology, and Synaptic Connectivity of Cajal-Retzius Cells in the Postnatal Mouse Hippocampus.
 //  new solution(celsius=30,
 //               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
@@ -708,8 +744,24 @@ function eRev(){
 
 
   //---------------perforated patch  
-
-
+  //Szabo 2012 Calcium-permeable AMPA receptors provide a common mechanism for LTP in glutamatergic synapses of distinct hippocampal interneuron types.
+  new solution(celsius=32,
+               eSolution='119 NaCl, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4, 25 NaHCO3',
+               pSolution='145 K-Gluconate, 5 QX314-Br, 0.2 ',
+               recordingMethod='perforated patch',
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.4,i:7.2,CO2:true}).log();
+  //Nasrallah 2015 Inhibitory Plasticity Permits the Recruitment of CA2 Pyramidal Neurons by CA3(1,2,3).
+//  new solution(celsius=33,
+//               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
+//               pSolution='135 K-Methylsulfate, 4 CaCl2, 5 KCl, 0.1 EGTA-Na, 10 HEPES, 2 NaCl, 5 ATP, 0.4 GTP, 10 Na2-phosphocreatine',
+//               recordingMethod='perforated patch',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-73},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:1.2,correctedAlready:true}},
+//               pH={e:7.4,i:NaN,CO2:true}).log();
   //Dallwig 1999 On the mechanism of GABA-induced currents in cultured rat cortical neurons -> HCO3-Cl cotransport
   //exp10 = new experiment(22,'125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','',Vm=-70,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.4,pHi=NaN).log();    //Perforated-patch:HCO3/CO2-buffered saline: Experimental Erev in Soma=–59, GHK at -70 mV RMP =-58.8
   //exp11 = new experiment(22,'125 NaCl, 2.5 KCl, 26 Na-Gluconate, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','',Vm=-65,isSharpElectrode=false,O2_CO2_95_5=false,pHo=7.4,pHi=NaN).log(); //Perforated-patch:Hepes-buffered saline: Experimental Erev in Soma=-73, GHK at -65 mV RMP=-64.86

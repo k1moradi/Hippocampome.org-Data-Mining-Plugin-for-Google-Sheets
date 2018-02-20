@@ -12,7 +12,7 @@ function formatText(elem) {
   elem = removeUnwantedNodes(elem);
   elem.innerHTML = elem.innerHTML
     .replace('◦','°')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
-    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<= SR) (?=95531 )|(?<= CGP) (?=55845[ Aa])/g   , '')
+    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<= SR) (?=95531 )|(?<= CGP) (?=55845[ Aa]|52432)/g   , '')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. --> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1')      // R M P --> RMP
     .replace(/(?<!<br>)[\r\n]+|[\t\s]+|&nbsp;|&thinsp;|(?<=tables|table|figures|figure|figs\.|fig\.|figs|fig)(?=\w\w?[ \.\?;,)])(?!s[\. ]?)|(?<=[,;])(?=n=\d)|(?<= of)(?=–\d+)/ig, ' ')
@@ -174,13 +174,13 @@ function formatText(elem) {
                                                                                                                  , '$1 $2')     //[><≤≥±] \d --> [><≤≥±]\d //[^aI ]|[^awhumboie ][^lenyfptio ]|sub>
     .replace(/(PV|CB1{0,1}|CR|CCK|SOM|VIP)\s([+-])/g                                                             , '$1$2')      // PV +/CCK + BC --> PV+/CCK+ BC, 
     .replace(/(?<=[(;, \]\/])(sub>|[αßγδεζηθλκζξµρτπφχψωσ∆Ω\w₀₁₂₃₄₅₆₇₈₉⁰¹²³⁵⁶⁷⁸⁹ₕᵢₘₙ]+)\s*([=])\s*(?=[-+]{0,1}\d)/g , '$1$2')      // word = \d --> word=\d
-    .replace(/(?<=[(;, \]\/])(<i>p<\/i>|p)\s*([<>≤≥]|&lt;|&gt;)\s*(?=-{0,1}\d)/gi                                 , '$1$2')      // p < \d --> p<\d
+    .replace(/(?<=[(;, \]\/])(\**p)\s*([<>≤≥]|&lt;|&gt;)\s*(?=-{0,1}\d)/gi                                       , '$1$2')      // p < \d --> p<\d
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
     .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                                , '<b>$1</b><br>$2') // bold the first sentence of the images
-    .replace(/((?:<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et[ .]?al|\(\w{1,2})\.\s)(?:(?=\([^.)]{1,20}\))|(?!\w{1,2}[\. ]|\(|<b>[^.,<>]{1,20}<\/b> )))(\(?(?:(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)(?:(?:[,\-– ]{1,2}|and|or){1,3}(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)){0,2}|<b>\w[a-z1-9]?(?:(?:[,\-– ]{1,2}|and|or){1,3}\w[a-z1-9]?){0,2}<\/b>)(?:[\),]|(?<=(?:and|or) \w[a-z1-9]?)))(?= )/g,
+    .replace(/((?:<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et[ .]?al|\(\w{1,2})\.\s)(?:(?=\([^.)]{1,20}\))|(?!\w{1,3}[\. ]|\(|<b>[^.,<>]{1,20}<\/b> )))(\(?(?:(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)(?:(?:[,\-– ]{1,2}|and|or){1,3}(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)){0,2}|<b>\w[a-z1-9]?(?:(?:[,\-– ]{1,2}|and|or){1,3}\w[a-z1-9]?){0,2}<\/b>)(?:[\),]|(?<=(?:and|or) \w[a-z1-9]?)))(?= )/g,
       function(fullMatch,p1,p2){
         return ((p1==='. ')?'.':'')+'<br><b>'+p2.replace(/<\/?b>/g,'')+'</b>';                                      })          // a-b, bold image list                                                                                                                        
-    .replace(/(?<=[\.;]|<\/b>|<br>)\s*((?:(?:right|left|top|bottom|middle|center|inset)\s*(?:panel|trace)?,(?=\s*))+)/ig,' <b>$1</b>') // bold subsections in figures
+    .replace(/(?<=[\.;]\s|<\/?b>)((?:(?:right|left|top|bottom|middle|center|insets?)\s*(?:panel|trace|left|right|top|bottom|middle|center)?[,:]\s*)+)(?=\s)/ig,' <b>$1</b>') // bold subsections in figures
     .replace(/^([^.,?]+\.)\s*(?=<br>)/g                                                                          , '<b>$1</b>') // bold the 1st sentence
     .replace(/(?:<br><i>)([\w ]*?\.)(?:<\/i>(?:<br>)*)/g                                                         , '<br><b>$1</b><br>') // bold subsections
     .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n+)/g                                                          , '<br>')
@@ -362,13 +362,35 @@ function formatText(elem) {
         <input type='button' class='button' value='ₓ'  onmousedown="document.execCommand('insertText', false, 'ₓ')"   title='Subscript'>
         <input type='button' class='button' value='ₔ'  onmousedown="document.execCommand('insertText', false, 'ₔ')"   title='Subscript'>
         <input type='button' class='button' value='ₕ'  onmousedown="document.execCommand('insertText', false, 'ₕ')"   title='Subscript'>
+        <input type='button' class='button' value='ᵢ'  onmousedown="document.execCommand('insertText', false, 'ᵢ')"   title='Subscript'>
+        <input type='button' class='button' value='ⱼ'  onmousedown="document.execCommand('insertText', false, 'ⱼ')"   title='Subscript'>
         <input type='button' class='button' value='ₖ'  onmousedown="document.execCommand('insertText', false, 'ₖ')"   title='Subscript'>
         <input type='button' class='button' value='ₗ'  onmousedown="document.execCommand('insertText', false, 'ₗ')"   title='Subscript'>
         <input type='button' class='button' value='ₘ'  onmousedown="document.execCommand('insertText', false, 'ₘ')"   title='Subscript'>
         <input type='button' class='button' value='ₙ'  onmousedown="document.execCommand('insertText', false, 'ₙ')"   title='Subscript'>
+        <input type='button' class='button' value='ₒ'  onmousedown="document.execCommand('insertText', false, 'ₒ')"   title='Subscript'>
         <input type='button' class='button' value='ₚ'  onmousedown="document.execCommand('insertText', false, 'ₚ')"   title='Subscript'>
+        <input type='button' class='button' value='ᵣ'  onmousedown="document.execCommand('insertText', false, 'ᵣ')"   title='Subscript'>
         <input type='button' class='button' value='ₛ'  onmousedown="document.execCommand('insertText', false, 'ₛ')"   title='Subscript'>
-        <input type='button' class='button' value='ₜ'  onmousedown="document.execCommand('insertText', false, 'ₜ')"   title='Subscript'>
+        <input type='button' class='button' value='ₜ'  onmousedown="document.execCommand('insertText', false, 'ₜ')"   title='Subscript'>     
+        <input type='button' class='button' value='ᵤ'  onmousedown="document.execCommand('insertText', false, 'ᵤ')"   title='Subscript'>
+        <input type='button' class='button' value='ᵥ'  onmousedown="document.execCommand('insertText', false, 'ᵥ')"   title='Subscript'>
+        <input type='button' class='button' value='ₓ'  onmousedown="document.execCommand('insertText', false, 'ₓ')"   title='Subscript'>
+        <input type='button' class='button' value='ᵦ'  onmousedown="document.execCommand('insertText', false, 'ᵦ')"   title='Subscript'>
+        <input type='button' class='button' value='ᵧ'  onmousedown="document.execCommand('insertText', false, 'ᵧ')"   title='Subscript'>     
+        <input type='button' class='button' value='ᵨ'  onmousedown="document.execCommand('insertText', false, 'ᵨ')"   title='Subscript'>
+        <input type='button' class='button' value='ᵩ'  onmousedown="document.execCommand('insertText', false, 'ᵩ')"   title='Subscript'>
+        <input type='button' class='button' value='ᵪ'  onmousedown="document.execCommand('insertText', false, 'ᵪ')"   title='Subscript'>
+        
+        <input type='button' class='button' value='ᵅ'  onmousedown="document.execCommand('insertText', false, 'ᵅ')"   title='Superscript Minuscule'>
+        <input type='button' class='button' value='ᵝ'  onmousedown="document.execCommand('insertText', false, 'ᵝ')"   title='Superscript Minuscule'>
+        <input type='button' class='button' value='ᵞ'  onmousedown="document.execCommand('insertText', false, 'ᵞ')"   title='Superscript Minuscule'>
+        <input type='button' class='button' value='ᵟ'  onmousedown="document.execCommand('insertText', false, 'ᵟ')"   title='Superscript Minuscule'>
+        <input type='button' class='button' value='ᶿ'  onmousedown="document.execCommand('insertText', false, 'ᶿ')"   title='Superscript Minuscule'>
+        <input type='button' class='button' value='ᶥ'  onmousedown="document.execCommand('insertText', false, 'ᶥ')"   title='Superscript Minuscule'>
+        <input type='button' class='button' value='ᵠ'  onmousedown="document.execCommand('insertText', false, 'ᵠ')"   title='Superscript Minuscule'>
+        <input type='button' class='button' value='ᵡ'  onmousedown="document.execCommand('insertText', false, 'ᵡ')"   title='Superscript Minuscule'>
+        
         <br>
         <input type='button' class='button' value='◀'  onmousedown="document.execCommand('insertText', false, '◀')"  title='Backward triangle'>
         <input type='button' class='button' value='▲'  onmousedown="document.execCommand('insertText', false, '▲')"   title='up triangle'>

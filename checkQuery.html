@@ -148,7 +148,9 @@
            else if (findGroup4.test(w)) txt = txt.replace(wf,"<b style='color:purple'>" +wf+"</b>");
          } else if (results = morphologyAroundCursor.exec(txt)) {
            [wf,w] = [results[0],results[1]+results[2]];//console.log('match',txt)
-           if (findGroup5.test(w)) txt = txt.replace(wf,f=>f.replace(/([0-2\?]{0,6})<span/,"<i>$1<span").replace(/<\/span>([0-2\?]{0,6})/,"</span>$1</i>"));
+           if (findGroup5.test(w)) txt = txt.replace(wf,f=>f.replace(/(?<=:)([0-2\?]{0,6})<span/,"<i>$1<span")
+                                                            .replace(/(?<=<\/span>:)([0-2\?]{0,6})/,"<i>$1</i>")
+                                                            .replace(/<\/span>([0-2\?]{0,6})/,"</span>$1</i>"));
          }
          return txt
            .replace(findGroup1,(f,p1)=>"<b>"+p1.replace(/^[a-z]/,t=>t.toUpperCase())+"</b>")

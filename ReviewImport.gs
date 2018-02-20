@@ -76,13 +76,15 @@ function getTheLastFormResponse(){
         newChoise.forEach(function(response){
           if (typeof response === 'string' && response.length !== 0)
             if (/^Pipette/i.test(response)) {
-              saveSingleColumnRange(covariatesRange,covariatesColumnObj.ExtracellularPipetteSolution,
-                                    (String(covariates.ExtracellularPipetteSolution))
-                                    .split(/\s*\;+\s*/g).concat(response.replace(/^Pipette[\s@:]*/ig,'')).filter(Null).filter(onlyUnique).join('; '))
+              response = response.replace(/^Pipette[\s@:]*|\s+$/ig,'');
+              var ExtracellularPipetteSolution = (String(covariates.ExtracellularPipetteSolution)).split(/\s*\;+\s*/g).filter(Null).filter(onlyUnique);
+              if (ExtracellularPipetteSolution.indexOf(response)===-1)              
+                saveSingleColumnRange(covariatesRange, covariatesColumnObj.ExtracellularPipetteSolution, ExtracellularPipetteSolution.concat(response).join('; '))
             } else {
-              saveSingleColumnRange(covariatesRange,covariatesColumnObj.ExtracellularBathSolution,
-                                    (String(covariates.ExtracellularBathSolution))
-                                    .split(/\s*\;+\s*/g).concat(response.replace(/^Bath[\s@:]*/ig,'')).filter(Null).filter(onlyUnique).join('; '))
+              response = response.replace(/^Bath[\s@:]*|\s+$/ig,'');
+              var ExtracellularBathSolution = String(covariates.ExtracellularBathSolution).split(/\s*\;+\s*/g).filter(Null).filter(onlyUnique);
+              if (ExtracellularBathSolution.indexOf(response)===-1)
+                saveSingleColumnRange(covariatesRange, covariatesColumnObj.ExtracellularBathSolution, ExtracellularBathSolution.concat(response).join('; '))
             }
         })}(IE.getResponse('2058479121'),
         form.getItemById('2058479121').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()})));
@@ -92,10 +94,12 @@ function getTheLastFormResponse(){
         saveSingleColumnRange(aR,eColumnObj.IntracellularSolution,responses.filter(Null).filter(onlyUnique).join('; '));
         var newChoise = responses.filter(function(res){return choises.indexOf(res) === -1});
         newChoise.forEach(function(response){
-          if (typeof response === 'string' && response.length !== 0)
-            saveSingleColumnRange(covariatesRange,covariatesColumnObj.IntracellularPipetteSolution,
-                                  (String(covariates.IntracellularPipetteSolution))
-                                  .split(/\s*\;+\s*/g).concat(response).filter(Null).filter(onlyUnique).join('; '));
+          if (typeof response === 'string' && response.length !== 0) {
+            response = response.replace(/^\s+|\s+$/ig,'');
+            var IntracellularPipetteSolution = String(covariates.IntracellularPipetteSolution).split(/\s*\;+\s*/g).filter(Null).filter(onlyUnique);
+            if (IntracellularPipetteSolution.indexOf(response) === -1)
+              saveSingleColumnRange(covariatesRange,covariatesColumnObj.IntracellularPipetteSolution,IntracellularPipetteSolution.concat(response).join('; '));
+          }
         })}(IE.getResponse('1364258333'),
         form.getItemById('1364258333').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()})));
       
