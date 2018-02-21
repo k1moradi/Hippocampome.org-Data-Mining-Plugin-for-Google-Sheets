@@ -40,14 +40,21 @@ function getTheLastFormResponse(){
       saveSingleColumnRange(aR,eColumnObj.Description,IE.getResponse('1109441292'));
       
       //ID:1093425014	Type:CHECKBOX	Title:GABA or Glutamate receptors (ant)agonists
-      (function(response,choises){
-        saveSingleColumnRange(aR,eColumnObj.Drugs,response.join(', '));
-        var newChoise = response.filter(function(res){return choises.indexOf(res) === -1});
-        if (newChoise.length !== 0)
-          saveSingleColumnRange(covariatesRange,covariatesColumnObj.DrugsGABAGlutamate,
-                                covariates.DrugsGABAGlutamate.split(/\s*[,;]+\s*/g).concat(newChoise).filter(Null).filter(onlyUnique).join(', '));
-      }(IE.getResponse('1093425014').filter(Null).filter(onlyUnique),
-        form.getItemById('1093425014').asCheckboxItem().getChoices().map(function(choice){return choice.getValue().split(/ *[,;] */)}).reduce(to1D).filter(Null)));
+      function saveCheckBoxResponce(idStr,splitRegEx,JoinStr,evidenceColName,columnName){
+        var userResponse = IE.getResponse(idStr).filter(Null).filter(onlyUnique);
+        saveSingleColumnRange(aR,eColumnObj[evidenceColName],userResponse.join(JoinStr));
+        var choises = form.getItemById(idStr).asCheckboxItem().getChoices().map(
+          function(choice){return choice.getValue().split(splitRegEx)}).reduce(to1D,[]).filter(Null).filter(onlyUnique);
+        var newChoises = userResponse.filter(function(res){return choises.indexOf(res) === -1});
+        // if multiple new responces are provided split them
+        var dataInCovariatesColum = String(covariates[columnName]).split(splitRegEx).filter(Null).filter(onlyUnique);
+        var savable = newChoises.map(function(res){return res.split(splitRegEx)}).reduce(to1D,[]).filter(
+          function(res){return dataInCovariatesColum.indexOf(res) === -1});
+        if (savable.length !== 0)
+          saveSingleColumnRange(covariatesRange, covariatesColumnObj[columnName], dataInCovariatesColum.concat(savable).join(JoinStr));
+      }
+      saveCheckBoxResponce('1093425014',/\s*[,;]+\s*/g,', ','Drugs','DrugsGABAGlutamate');
+
            
       //ID:530154900	Type:TEXT	Title:Holding Potential or Steady State Membrane Potential (mV)
       (function(response){
@@ -90,18 +97,19 @@ function getTheLastFormResponse(){
         form.getItemById('2058479121').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()})));
       
       //Intracellular Solutions
-      (function (responses,choises) {
-        saveSingleColumnRange(aR,eColumnObj.IntracellularSolution,responses.filter(Null).filter(onlyUnique).join('; '));
-        var newChoise = responses.filter(function(res){return choises.indexOf(res) === -1});
-        newChoise.forEach(function(response){
-          if (typeof response === 'string' && response.length !== 0) {
-            response = response.replace(/^\s+|\s+$/ig,'');
-            var IntracellularPipetteSolution = String(covariates.IntracellularPipetteSolution).split(/\s*\;+\s*/g).filter(Null).filter(onlyUnique);
-            if (IntracellularPipetteSolution.indexOf(response) === -1)
-              saveSingleColumnRange(covariatesRange,covariatesColumnObj.IntracellularPipetteSolution,IntracellularPipetteSolution.concat(response).join('; '));
-          }
-        })}(IE.getResponse('1364258333'),
-        form.getItemById('1364258333').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()})));
+      saveCheckBoxResponce('1364258333',/\s*\;+\s*/g,'; ','IntracellularSolution','IntracellularPipetteSolution');
+//      (function (responses,choises) {
+//        saveSingleColumnRange(aR,eColumnObj.IntracellularSolution,responses.filter(Null).filter(onlyUnique).join('; '));
+//        var newChoise = responses.filter(function(res){return choises.indexOf(res) === -1});
+//        newChoise.forEach(function(response){
+//          if (typeof response === 'string' && response.length !== 0) {
+//            response = response.replace(/^\s+|\s+$/ig,'');
+//            var IntracellularPipetteSolution = String(covariates.IntracellularPipetteSolution).split(/\s*\;+\s*/g).filter(Null).filter(onlyUnique);
+//            if (IntracellularPipetteSolution.indexOf(response) === -1)
+//              saveSingleColumnRange(covariatesRange,covariatesColumnObj.IntracellularPipetteSolution,IntracellularPipetteSolution.concat(response).join('; '));
+//          }
+//        })}(IE.getResponse('1364258333'),
+//        form.getItemById('1364258333').asCheckboxItem().getChoices().map(function(choice){return choice.getValue()})));
       
       //ID:701084432	Type:CHECKBOX	Title:Recorded Signal Type
       saveSingleColumnRange(aR,eColumnObj.dSec, IE.getResponse('701084432').join(', '));
@@ -189,37 +197,18 @@ function getTheLastFormResponse(){
       //ID:126071277	Type:PARAGRAPH_TEXT	Title:Presynaptic
       //ID:2058029950	Type:PARAGRAPH_TEXT	Title:Postsynaptic
       saveSingleColumnRange(aR,eColumnObj.FiringPatterns,IE.getPrePostResponse('126071277','2058029950'));
-      /*
-      //ID:1602622469	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('1602622469',FPSheet);
-      //ID:961807150	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('961807150',FPSheet);
-      */
+
       //----------------------Covariates-----------------------------------------------------------------------
       
       //ID:1693269062	Type:PARAGRAPH_TEXT	Title:Reference IDs
       saveSingleColumnRange(aR, eColumnObj.Covariates, sortIDsAsSSV(IE.getResponse('1693269062')));
-      /*
-      //ID:1020355522	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('1020355522',covSheet);
-      //ID:756698613	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('756698613',covSheet);
-      //ID:62357583	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('62357583',covSheet);
-      //ID:1968268392	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('1968268392',covSheet);
-      */
+
       //----------------------Connection Probability and Cell Type Ratios---------------------------------------
       
       //ID:1015974164	Type:PARAGRAPH_TEXT	Title:Presynaptic
-      //ID:17441795	Type:PARAGRAPH_TEXT	Title:Postsynaptic
-      saveSingleColumnRange(aR,eColumnObj.Connectivity,IE.getPrePostResponse('1015974164','17441795'));
-      /*
-      //ID:976435207	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('976435207',connectivitySheet);
-      //ID:1313946887	Type:PARAGRAPH_TEXT	Title:New
-      IE.saveReference('1313946887',connectivitySheet);
-      */
+      //ID:1015974164	Type:PARAGRAPH_TEXT	Title:Postsynaptic
+      saveSingleColumnRange(aR,eColumnObj.Connectivity,IE.getPrePostResponse('1015974164','1015974164'));
+
       ////----------------------Synaptic Data--------------------------------------------------------------------
       
       //ID:977930606	Type:PARAGRAPH_TEXT	Title:Data Location
@@ -338,3 +327,4 @@ var referenceIE = function(form,formResponse,evidence,PMIDresItemID,evidenceID) 
     };
   };
 };
+

@@ -41,7 +41,7 @@ function refHighlights(input) {
            "<mark style='background-color:red; color:white;     color:inherit;'>$1</mark>")               //red
   .replace(/\b((?:a|e|contra|ipsi|tri|quadri|sub|rostro|antero|postero|medio|septo|s\.?t\.?r?(?:at(?:um|a)|\.)?|principal|inter|inner|outer|associational|apical|basal|axonal|pre|post|peri|dentate|non|a?synchronous|recurrent|(?:strat(?:um|a)))[^<>()]?)?(HIPP|mossy|basket|N?[FR]S|[Ff]ast[^<>()]?[Ss]piking|p\.*y\.*r\.*(?:amid)*|granul|s*GCl*|BC|PP|stellate|axo[^<>()]?axonic|AAC|chandelier|bistratified|ivy|SCA|neuroglia|(?:[ors][^<>()]?)?l\.?m|lamin|hicap|retzius|interneuron(?: specific){0,1}|lmr|lamella|morpholog|dendrit|soma|bod|axon|fiber|wire|hillock|thorny|varicos|vesicl|spin|synap|symmet|bouton|en passant|termin|release|transmi|contact|connect|fferent|communicat|target|origin|innervat|collateral|commissur|project|arbor|arboriz|input|output|pathway|efferent|afferent|body|origin|innervat|end|branch|bifurcat|fissure|perforant(?: path)?|Schaffer|fimbria|fornix|alve|CA[1-4][a-c]?|MF|(?:lacunosum.?)*moleculare?|[io]?[^<>()]?ml|oriens|radiat|lucid|hippocamp|DG|dentat|hilus|hilar|subicul|entorhinal|LEC|MEC|sept|tempor|dorsal|ventral|caudal|rostral|posterior|coronal|sagittal|medial|lateral|distal|distant|proximal|distance|remote|region|antidromic|orthodromic|calbindin|RGS14|bicuculline|[cd]nqx|nbqx|[DL]{0,2}[^<>()]?AP[^<>()]?[v5]|CGP[^<>()]?55845|sr[^<>()]?95531|QX[^<>()]?314|glycine|picrotoxin|gabazine|kyn(?:urenic|a)*|[PT]TX|DCG[^<>(]{1,3}|[^<>)]{0,2}CCG[^<(]{1,2})(ular|form|ivity|[tr]*ic|ing|tter|ale*(?:ly){0,1}|[ats]*ion|ate|ar|ta|us|um|[iesay]*){0,1}([^<>()]?(?:layer|cell|interneuron|BC|GC|PC|neuron|like|gyrus|fiber|border|terminal)s*){0,1}([^<>()]?(?:layer|terminal|border)s*)?\b/gi,
            "<mark style='background-color:rgba(255,230,144,0.2);color:inherit;'>$1$2$3$4$5</mark>")       //yellow
-  .replace(/\b((?:short|long|evoked|unitary|compound|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>()]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA[^<>()]{0,1}(?:A|B)*|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|dual|coupl|Reciprocal|stimul|facilit|depress|STDP|(?:i.?)?LT[PD]|PTP|potentiat|plasticity|term)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>()]{0,1}(?:record(?:ing|ed)|[AB](?= ))){0,1}\b/gi,
+  .replace(/\b((?:short|long|evoked|unitary|compound|spontaneous|miniature|quantal|photo|electr(?:o|ical))[^<>()]{0,1}){0,1}([esmu]{0,1}\.{0,1}[ei]\.{0,1}p\.{0,1}s\.{0,1}[cp]\d*|unitary|AMPA|NMDA|GABA(?:.?(?:A|B)|<sub>(?:A|B)<\/sub>)?|suppress|feed.{0,1}back|feed.{0,1}forward|inhibit|excit|glutamat|paired(?!.{0,1}pulse|.{0,1}t.test)|simultaneous|dual|coupl|Reciprocal|stimul|facilit|depress|STDP|(?:i.?)?LT[PD]|PTP|potentiat|plasticity|term)(ergic|atory|[at]*ion|[at]*ing|ory|ated*|us|ly|ed|th|[es]{0,2}){0,1}([^<>()]{0,1}(?:record(?:ing|ed)|[AB](?= ))){0,1}\b/gi,
            "<mark style='background-color:rgba(255,128,171,0.2);color:inherit;'>$1$2$3$4</mark>")         //pink
 }
 </script>
@@ -49,16 +49,22 @@ function refHighlights(input) {
 //get a sheet sampling object and make an editable form
 // this object has rowRange and columnName2Number keys .replace(/\s*(;|,)\s*/g,'$1\n\n')
 function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
+  function formatNote(str){
+    return str.replace(/\n\s*\*\s([^{}<>]*?)(?=\n)/g,"<li>$1</li>").replace(/<\/li>[\n\r]/g,'</li>')
+             .replace(/\s*({|}|<\/li>)\s*([^{}<>]+?)\s*(?={(?:\n|<li>))/g,"$1<br><b style='color:yellow;'>$2</b>")
+             .replace(/^\s*([^{}<>]+?)\s*(?={<li>)/g,"<b style='color:yellow;'>$1</b>")
+             .replace(/\n+/g,"<br>")
+  }
   var columnName2Number = obj.columnName2Number;
   var notes = obj.columnNotes;
   filterKey.push('columnName2Number','rowRange','columnNotes')?>
 <form class="sheet" style="top:<?=top?>;z-index:<?=zIndex?>">
   <select data-range="<?=obj.rowRange?>" 
-          title="<?=notes[defaultSelection]?>"
+          title=""
           onchange="showValue(this,'<?='showObject'+title?>')" 
-          onmousewheel="mouseWheel(this,event,'<?='showObject'+title?>')">
+          onmousewheel="mouseWheel(this,event,'<?='showObject'+title?>')">  
     <? Object.keys(obj).forEach(function(key){if (filterKey.indexOf(key) === -1){?>
-      <option value="<?=key?>" data-content="<?=obj[key]?>" data-column="<?=columnName2Number[key]?>" data-note="<?=notes[key]?>"
+      <option value="<?=key?>" data-content="<?=obj[key]?>" data-column="<?=columnName2Number[key]?>" data-note="<?=formatNote(notes[key])?>"
         <?if (key === defaultSelection){?>selected<?}?>><?=key?></option>
       <? }}); //Array.from(document.getElementsByClassName('sheet')).forEach(el=>el.addEventListener('mousewheel',function(e){console.log(e.wheelDelta,this)}));?>
   </select>
@@ -70,6 +76,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
     onmouseleave="this.style.height = '25px';"*/?>
     onblur      ="this.style.height = '25px';"
  ><?=obj[defaultSelection]?></textarea>
+ <div class="tooltip"><?!=formatNote(notes[defaultSelection])?></div>
 </form>
 <?};
 
@@ -89,9 +96,9 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
         ><span class="disableClick darkButton" onclick="copyStringToClipboard(<?=stringToAppendToRefIDs?>+this.innerText)" style="color:pink"><?=refID?></span
         ><? if (typeof theReference !== "undefined") {
               var UID = theReference.UID;?>
-        <span class="disableClick darkButton location" onclick="copyStringToClipboard(this.innerText)" style="color:yellow" contenteditable="true"
+        <span class="disableClick darkButton location" onclick="copyStringToClipboard(this.innerText)" style="color:yellow" contenteditable="true" oninput="makeGlowing(this)"
         ><?=theReference.Location?></span></span
-      ><span contenteditable="true" class="UID disableClick"
+      ><span contenteditable="true" class="UID disableClick" oninput="makeGlowing(this)" data-before-save="<?= UID ?>"
       ><?=(isNumeric(UID)) ? ((cellTypes[UID]) ? cellTypes[UID].Name : '❌undefined cell type UID') : UID ?></span>
        <?   }?>
     </summary>
@@ -128,7 +135,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
       <?  } ?>
     </details>-->
     <?  }?>
-    <div class='Quote' contenteditable='true'>
+    <div class="Quote" contenteditable="true" oninput="makeGlowing(this)" data-before-save="<?= theReference.Quote ?>">
       <?!= theReference.Quote ?>
     </div>
     <?if (theReference.Figure) {
@@ -310,14 +317,16 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
     var Error = false;
     try {
       var detailsSummaryElem = activeElement.closest('.Refs');
+      detailsSummaryElem.querySelector(".darkButton").classList.remove("glowingButton");
       if (detailsSummaryElem) if (detailsSummaryElem.nodeName === 'DETAILS' && detailsSummaryElem.className === 'Refs'){
         var A1Notation = detailsSummaryElem.id;
-        var UIDelemValue = detailsSummaryElem.querySelector('.UID').innerText
-        //var UIDelemValue = detailsSummaryElem.querySelector('.UID').value
+        var uidElem = detailsSummaryElem.querySelector('.UID');
+        var UIDelemValue = uidElem.dataset.beforeSave = uidElem.innerText
           .replace(/\s*(?:%3E|&gt;|>|▶)\s*/g,'▶')
           .replace(/\s*(?:%3C|&lt;|<|◀)\s*/g,'◀')
           .replace(/\s*(?:\*|❌)\s*/g,'❌')
           .replace(/\s+/g,' ');
+          
         var Quote = detailsSummaryElem.querySelector('.Quote');
         //remove highlights
         while (mark = Quote.querySelector('mark')) 
@@ -340,7 +349,9 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
 //          .replace(/&gt;/g,'>')
           .replace(/&ndash;/g,'—')
           .replace(/&amp;/g,'&');
-      
+        
+        Quote.dataset.beforeSave = Quote.innerText;
+        
         var quoteValueHighlighted = refHighlights(quoteValue);
       
         Error = Array.from(document.querySelectorAll('.Refs')).filter(
@@ -376,7 +387,8 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
   function showValue(elem,ID){
     var selectedOptionElemDataset = elem.options[elem.selectedIndex].dataset;
     document.getElementById(ID).value = selectedOptionElemDataset.content;
-    elem.title = selectedOptionElemDataset.note;
+    //elem.title = selectedOptionElemDataset.note;
+    elem.parentElement.querySelector(".tooltip").innerHTML = selectedOptionElemDataset.note;
   };
   function mouseWheel(selectElem,event,ID){
     event.preventDefault();
@@ -404,7 +416,23 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
       .withFailureHandler(function(){showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>")})
       .withSuccessHandler(function(){showSnackbar('saved successfully')})
       .saveToSheetGeneral(selectElem.dataset.range, Number(selectedOptionElem.dataset.column)+1, elem.value);//.replace(/(;|,)\s*/g,'$1 ')
-  };
+  }
+  function makeGlowing(elem) {
+    function addGlow   (e){e.parentElement.querySelector(".darkButton").classList.add   ("glowingButton")}
+    function removeGlow(e){e.parentElement.querySelector(".darkButton").classList.remove("glowingButton")}
+    if (elem.dataset.beforeSave) {
+     var dummyElem = document.createElement("div");
+     dummyElem.innerHTML = elem.dataset.beforeSave;
+     console.log(dummyElem.innerText);
+     console.log(elem.innerText);
+     if (dummyElem.innerText !== elem.innerText)
+       addGlow(elem)
+     else 
+       removeGlow(elem);
+    } else {
+      addGlow(elem)
+    }
+  }
 </script>
 <style>
 body {
@@ -502,5 +530,30 @@ body {
   font-family: Verdana, Arial, Helvetica, sans-serif;/*'Open Sans', sans-serif;*/
   font-size: 16px;
   overflow:hidden; /*remove schroll bar*/
+}
+.tooltip {
+  visibility: hidden;
+  background-color: #384148;
+  color:white;
+  position: absolute;
+  top:+25px;
+  width:90%;
+  max-height:85vh;
+  overflow-y:auto;
+  z-index: 99;
+}
+.sheet>select:hover ~ .tooltip {
+  visibility: visible;
+}
+.tooltip:hover {
+  visibility: visible;
+}
+@-webkit-keyframes glowing {
+  0% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; -webkit-box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+}
+.glowingButton {
+  animation: glowing 1500ms infinite;
 }
 </style>

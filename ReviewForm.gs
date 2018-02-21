@@ -103,74 +103,33 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   pForm.prefillItem('2122294445',sortIDsAsSSV(Evidence.MorphologyIDsPre));
   //ID:83198848	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('83198848',sortIDsAsSSV(Evidence.MorphologyIDsPost));
-  /*
-  //ID:512288845	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('512288845',(morphologyMaxRefID+1)+'@@@@');
-  //ID:578591438	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('578591438',(morphologyMaxRefID+2)+'@@@@');
-  //ID:1399359107	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('1399359107',(morphologyMaxRefID+3)+'@@@@');
-  //ID:212382436	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('212382436',(morphologyMaxRefID+4)+'@@@@');
-  //ID:776106632	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('776106632',(morphologyMaxRefID+5)+'@@@@');
-  //ID:1169888085	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('1169888085',(morphologyMaxRefID+6)+'@@@@');
-  //ID:2018280377	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('2018280377',(morphologyMaxRefID+7)+'@@@@');
-  //ID:475478390	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('475478390',(morphologyMaxRefID+8)+'@@@@');
-  */
+
   //----------------------Biomarkers--------------------------------------------------------
   
   //ID:908652486	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('908652486',sortIDsAsSSV(Evidence.MarkersIDsPre));
   //ID:1478469428	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('1478469428',sortIDsAsSSV(Evidence.MarkersIDsPost));
-  /*
-  //ID:419507241	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('419507241',(markersMaxRefID+1)+'@@@@');
-  //ID:1096376200	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('1096376200',(markersMaxRefID+2)+'@@@@');
-  //ID:862580482	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('862580482',(markersMaxRefID+3)+'@@@@');
-  //ID:1464604105	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('1464604105',(markersMaxRefID+4)+'@@@@');
-  */
+
   //----------------------Cell Electrophysiology--------------------------------------------
   
   //ID:503459476	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('503459476',sortIDsAsSSV(Evidence.CellePhysIDsPre));
   //ID:628210084	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('628210084',sortIDsAsSSV(Evidence.CellePhysIDsPost));
-  /*
-  //ID:1907148981	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('1907148981',(cellEphysMaxRefID+1)+'@@@@');
-  //ID:1772984287	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('1772984287',(cellEphysMaxRefID+2)+'@@@@');
-  */
+
   //----------------------Firing Patterns---------------------------------------------------
   //ID:126071277	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('126071277',sortIDsAsSSV(Evidence.FiringPatternIDsPre));
   //ID:2058029950	Type:PARAGRAPH_TEXT	Title:Postsynaptic
   pForm.prefillItem('2058029950',sortIDsAsSSV(Evidence.FiringPatternIDsPost));
-  /*
-  //ID:1602622469	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('1602622469',(FPMaxRefID+1)+'@@@@');
-  //ID:961807150	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('961807150',(FPMaxRefID+2)+'@@@@');
-  */
+
   //----------------------Connection Probability and Cell Type Ratios-----------------------
   //ID:1015974164	Type:PARAGRAPH_TEXT	Title:Presynaptic
   pForm.prefillItem('1015974164',sortIDsAsSSV(Evidence.ConnectivityIDsPre));
   //ID:17441795	    Type:PARAGRAPH_TEXT	Title:Postsynaptic
-  pForm.prefillItem('17441795',sortIDsAsSSV(Evidence.ConnectivityIDsPost));
-  /*
-  //ID:976435207	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('976435207',(connectivityMaxRefID+1)+'@@@@');
-  //ID:1313946887	Type:PARAGRAPH_TEXT	Title:Additional Quotation or Image RefIDs
-  pForm.prefillItem('1313946887',(connectivityMaxRefID+2)+'@@@@');
-  */
+  //pForm.prefillItem('17441795',sortIDsAsSSV(Evidence.ConnectivityIDsPost));
+
   //----------------------Synaptic Data-----------------------------------------------------
   
   //ID:126234543	Type:PARAGRAPH_TEXT	Title:Reference IDs

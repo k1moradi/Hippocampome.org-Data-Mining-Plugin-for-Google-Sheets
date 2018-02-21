@@ -612,6 +612,16 @@ function eRev(){
   
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
+  //Cobb 1995 Synchronization of neuronal activity in hippocampus by individual GABAergic interneurons.
+  //ue,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-75.5±7.6; without accetate GHK=-83.55
+  new solution(celsius=34.5,
+               eSolution='126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgSO4, 2 CaCl2',
+               pSolution='1500 K-Methylsulfate',
+               recordingMethod='sharp electrode',
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-69,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.2,i:NaN,CO2:true}).log();
   //Lacaille 1988 Stratum lacunosum-moleculare interneurons of hippocampal CA1 region. I. Intrasomatic and intradendritic recordings of local circuit synaptic interactions
 //  new solution(celsius=35.5,
 //               eSolution='124 NaCl, 5 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2, 26 NaHCO3',
@@ -737,22 +747,20 @@ function eRev(){
 
   //Ali 1999 IPSPs elicited in CA1 pyramidal cells by putative basket cells in slices of adult rat hippocampus.
   //exp9 = new solution(34,'124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2','2000 K-Methylsulfate',Vm=-60,isSharpElectrode=true,O2_CO2_95_5=true,pHo=NaN,pHi=NaN).log(); //Sharp elctrode: Experimental Erev in Soma=-72.4±5.5, GHK=-72.11
-  //Cobb 1995 Synchronization of neuronal activity in hippocampus by individual GABAergic interneurons.
-  //exp16= new solution(35,'126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgSO4, 2 CaCl2','1500 K-Methylsulfate',Vm=NaN,isSharpElectrode=true,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-75.5±7.6; without accetate GHK=-83.55
   //Empson 1995 The perforant path projection to hippocampal area CA1 in the rat hippocampal-entorhinal cortex combined slice.
   //exp17= new solution(34,'124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4','2500 K-acetate',Vm=-61,isSharpElectrode=true,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-66.9±0.9;-69.2±0.7;-71.8±1.22;-85.9±2.3 for IPSPs, 7.5±0.2;8.6±0.6;13.2±1.2 for EPSPs, GHK=IPSP:-79.25  EPSP:-8.21
 
-
-  //---------------perforated patch  
+  //---------------perforated patch
+  
   //Szabo 2012 Calcium-permeable AMPA receptors provide a common mechanism for LTP in glutamatergic synapses of distinct hippocampal interneuron types.
-  new solution(celsius=32,
-               eSolution='119 NaCl, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4, 25 NaHCO3',
-               pSolution='145 K-Gluconate, 5 QX314-Br, 0.2 ',
-               recordingMethod='perforated patch',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.4,i:7.2,CO2:true}).log();
+//  new solution(celsius=32,
+//               eSolution='119 NaCl, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4, 25 NaHCO3',
+//               pSolution='145 K-Gluconate, 5 QX314-Br, 0.2 ',
+//               recordingMethod='perforated patch',
+//               voltages={Vm:{RMP:-66,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
   //Nasrallah 2015 Inhibitory Plasticity Permits the Recruitment of CA2 Pyramidal Neurons by CA3(1,2,3).
 //  new solution(celsius=33,
 //               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',

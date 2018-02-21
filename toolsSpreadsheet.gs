@@ -1,5 +1,10 @@
 function test() { 
-  Logger.log(isNumeric('1;'))
+  Logger.log(SpreadsheetApp.getActiveSheet().getActiveCell().getNote()
+             .replace(/\n\s*\*\s([^{}<>]*?)(?=\n)/g,"<li>$1</li>").replace(/<\/li>[\n\r]/g,'</li>')
+             .replace(/\s*({|}|<\/li>)\s*([^{}<>]+?)\s*(?={(?:\n|<li>))/g,"$1<br><b style='color:yellow;'>$2</b>")
+             .replace(/^\s*([^{}<>]+?)\s*(?={<li>)/g,"<b style='color:yellow;'>$1</b>")
+             .replace(/\n+/g,"<br>")
+            )
 }
 
 function getMaxOf(sheetName,columnName) {

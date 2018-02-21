@@ -32,6 +32,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')//Methylsulfonate = Methanesulfonate
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *4(?=[ ),;.])/g                                                        , '$1MeSO₄')//Methylsulfate
     .replace(/(?<=[(;, ]|\.|\.\d)H *[2z,] *[O0](?=[ ),;.])/g                                                     , 'H₂O')
+    .replace(/(?<=[(;, ]|\.|\.\d)H₂O\s*2(?=[ ),;.])/g                                                            , 'H₂O₂')
     .replace(/(?<=[(;, \/])C *[O0] *[2z,?J](?=[ ),;.])/g                                                         , 'CO₂')
     .replace(/(?<=[(;, ])[O0] *[2z](?=[ +\/),;.–\-])/g                                                           , 'O₂')
     .replace(/(?<=[\[(\/;, –-])Cl\s*[-−"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ –),;.\]])/g                        , 'Cl⁻')
@@ -55,13 +56,13 @@ function formatText(elem) {
                                                                                                                  , 'mM')
     .replace(/(?<=[(;, ])m M(?=[ ),;.])/g                                                                        , 'mM')
     .replace(/(?<=[(\d])\s*(?:mY|m V|mV)(?=[ ),;.])/g                                                            , ' mV')
-    .replace(/(\d+(?:\.\d+){0,1})([^<>)(\d]{0,1})(?:F[Li]?|[Uut]|\/[uxnijt\/\^]|[mg]u|I[Lt]|J\.*L|JI|j[af<iu]|[\(]i|i[xj]|p[\.Rut]|[!tl]J\.|[-~]t|,u\.?|#£|\|x|[gì\x01\x02\x03\x04\x05\^])\s*([MmsA]|m2|rn|[Ss]ec)(?<!gm)(?=[ ),;.–]|.thick)/g,
+    .replace(/(\d+(?:\.\d+)?)([^<>)(\d]?)(?:F[Li]?|l|[Uut]|\/[uxnijt\/\^]|[mg]u|I[Lt]|J\.*L|JI|j[af<iu]|[\(]i|\)\.l|i[xj]|p[\.Rut]|[!tl]J\.|[-~]t|,u\.?|#£|\|x|[gì\x01\x02\x03\x04\x05\^])\s*([MmsA]|m2|rn|[Ss]ec)(?<!gm)(?=[ ),;.–]|.thick)/g,
       function(fullMatch,p1,p2,p3){
         return p1+((p2)?p2:' ')+'µ'+((p3 === 'm2')?'m²':((p3==='rn')?'m':p3))})                                                                 //µM
     .replace(/(?<=[(\d])\s*(?:[pP]|\|x)(M)(?=[ ),;.])/g                                                          , ' µ$1')    //µM µV not PV+
     .replace(/\|/g                                                                                               , 'I')
     .replace(/(?<=[(\d])\s*[\x01\x02\x03\x04\x05]\s*([tT])(?=[ ),;.])/g                                          , ' Δ$1')
-    .replace(/(?<=[(\d])\s*([GM])\s*(?:[ÙQ\x01\x02\x03\x04\x05\x06\x07O]|[Oo]mega|[St1I]2|IL|f[li])(?=[ ),;.])/g, ' $1Ω')
+    .replace(/(?<=[(\d])\s*([GM])\s*(?:[ÙQ\x01\x02\x03\x04\x05\x06\x07O]|[Oo]mega|[St1I]2|IL|f[li]|tl)(?=[ ),;.])/g, ' $1Ω')
     .replace(/([(;, ]R)(?:m|,,|, ?n)(,? \d+(?:\.\d+)?(?:±\d+\.?\d*)? MΩ)/g                                       , ' $1<sub>in</sub>$2') //R,, -> Rin
     .replace(/(?<=\d)\sÒ/g                                                                                       , ' M')
     .replace(/(?<=[\(\s])CV\s*[\x01\x02\x03\x04\x05\x06\x07-−]\s*2(?=[\s\)])/g                                  , 'CV⁻²')
@@ -75,6 +76,7 @@ function formatText(elem) {
     .replace(/Greek Letter Mu|&micro;\s*|μ|&mu;/g                                                                , 'µ')       //ALT+230 convert unicode to ascii
     .replace(/(?:\\tau|&tau;|(?<= )tau(?= )|tau(?= *=)|((?:time constants*|decay|rise) *\(*)tau\)*)/ig           , '$1τ')     //ALT+231
     .replace(/omega([^<>)(]{0,1}(?:aga|cono)toxin)/g                                                             , 'ω$1')
+    .replace(/(?<=[(;, ])[\(\{]\}(?=[\- ),;.])/g                                                                   , 'θ')
     .replace(/(?<=\d)\s*[·*]\s*(?=\d)|(?<=[ ±+–]0)–?(?=(?:0\d+|[1-9])[ ±+])/g                                    , '.')       // decimal point  |(?<=[ +=]\d)[–'](?=\d+[ +])
     .replace(/(?<=[ =,;(]\d+)[–'&.](\d+)\s*([+±–])\s*(\d+)[–'&.](?=\d+[ ),;])/g                                  , '.$1$2$3.')//\d–\d–\d–\d --> \d.\d–\d.\d)
     .replace(/(?<=[A-Za-z])\s*[-−](\s*)(?=[A-Za-z])/g                                                            , '-$1')     // negative as hiphen between two words
@@ -83,14 +85,16 @@ function formatText(elem) {
     .replace(/&minus;|(?<= [∼(]) *[–—−](?=\d)|(?<=[(;, ])[–—−](?=\d+[– ]ms)/g                                    , '-')       // ngative
     .replace(/(?<=[\d])\s*(?:[–—−]|&ndash;)\s*(\d+)\s*(?=%)/g                                                    , '-$1')     // 20-80%
     .replace(/(?<=[(;, ])[I1]–0(?=[ ),;.])/g                                                                     , 'I-O')
-    .replace(/(?<=[(;, ])[n«]\s*(?:[\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                  , 'n=')
+    .replace(/(?<=[(;, ])[n«]\s*(?:[¼\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                 , 'n=')
     .replace(/(?<=[(;, ])([pP])\s*[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=0*\.0(5|1|01)[ ),;.])/g                , '$1<')
     .replace(/(?<=[(;, ])([pP])\s*[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?!0*\.0(5|1|01))(?=0*\.0\d+[ ),;.])/g    , '$1=')
     .replace(/(?<=\<\/sub>)\s*[\x01\x02\x03\x04\x05\x06\x07\x08](?=[ ),;.])/g                                    , '=')
     .replace(/plusminus|&plusmn;/g                                                                               , '±')
-    .replace(/(?<=[(;, >=])([\-−+]{0,1}\d+(?:\.\d+){0,1})(?<!55845|95531|314|222)\s*(.{0,1}Ω|[µμ].{0,1}|°C|m[MVs]|m[lL].{0,1}min|[pn][ASF]|Hz|%)*\s*(?:[±+\x01\x02\x03\x04\x05\x06\x07\xAD])\s*(?=\d+(?:\.\d+){0,1}[ )%,;°.<])/g
-                                                                                                                 , '$1$2±')//\d ± \d    --> \d±\d
-    .replace(/([(;, \][\/])([Mm]eans?|MEANS?)\s*(?:[±+\x01\x02\x03\x04\x05\x06\x07\xAD])\s*(?=[Ss][\.\/]?[EeDd]\.?[Mm]?)/g
+    .replace(/(?<=[(;, >=])([\-−+]?\d+(?:\.\d+)?)(?<!55845|95531|314|222)\s*(.?Ω|[µμ].?|°C|m[MVs]|m[lL].?min|[pn][ASF]|Hz|%)*\s*(?:[±+6\x01\x02\x03\x04\x05\x06\x07\xAD]|\+\/-)\s*(?=\d+(?:\.\d+)?[ )%,;°.<])/g
+                                                                                                                 , '$1$2±')//\d ± \d  -> \d±\d
+    .replace(/(?<=[(;, >=])([\-−+]?\d+(?:\.\d+)?)(?<!55845|95531|314|222)\s*(.?Ω|[µμ].?|°C|m[MVs]|m[lL].?min|[pn][ASF]|Hz|%)*\s+(?:[6])\s+(?=\d+(?:\.\d+)?[ )%,;°.<])/g
+                                                                                                                 , '$1$2±')//\d 6 \d  -> \d±\d
+    .replace(/([(;, \][\/])([Mm]eans?|MEANS?)\s*(?:[±+6\x01\x02\x03\x04\x05\x06\x07\xAD]|\+\/-)\s*(?=[Ss][\.\/]?[EeDd]\.?[Mm]?)/g
                                                                                                                  , '$1$2±')     // Mean ± SEM --> Mean±SEM
     .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=[5-8][05][ ),;.])/g                   , '$1-')     // control character as negative sign for values <-50
     .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=\d+[±.]\d+[ ),;.±])/g                 , '$1-')     // control character as negative sign between a word and a number with decimals
@@ -100,14 +104,14 @@ function formatText(elem) {
     .replace(/(?<=\w)\s*[(]\s(?=-{0,1}[\wΔµ])/g                                                                  , ' (')
     .replace(/(?<=[\w\dΩ])\s[)]\s*(?=[:.,;])/g                                                                   , ')')
     .replace(/(?<=[\w\dΩ%])(?<!phenoxy)\s*[)]\s*(?=[\w])(?!ethane)/g                                             , ') ')
-    .replace(/(?<=[\w¹²₂₃₄Ω])(?<![-,]N|&amp|&lt|&gt|&ndash|&plusmn|&minus|&tau)\s*([,;%])\s*(?=[A-Za-z])(?!N,|-tetraacetic)/g, '$1 ')     // space after ,;%
+    .replace(/(?<=[\w¹²₂₃₄Ω])(?<![-,]N|&amp|&lt|&gt|&ndash|&plusmn|&minus|&tau)\s+([,;])\s*(?=[A-Za-z]|\d+\.?\d* )(?!N,|-tetraacetic)/g,'$1 ')// space after ,;
+    .replace(/(?<=[(;, ]\d+(?:\.\d+)?)\s+%\s*(?=[A-Za-z]|\d+(?:\.\d+)?[ ),;.±])/g                                ,'% ')       // remove space before %
     .replace(/\s*(?:=<(?!(?:sub|s|i|b|br|em|div|strong)>)|<=)\s*/g                                               , '≤')
     .replace(/(?<=sub|s|i|b|em|br|div|strong)(?!>=)> *= *(?=\d)/g                                                , '>=')
     .replace(/\s*(?:=>|>=(?<!sub>=|s>=|i>=|b>=|em>=|br>=|div>=|strong>=))\s*/g                                   , '≥')
     .replace(/-->/g                                                                                              , '➞')
     .replace(/<--/g                                                                                              , '⬅')
     .replace(/<->/g                                                                                              , '⬌')
-    .replace(/^[ .?!)}]]+(?=\w)|\xAD/g                                                                           , '')
     .replace(/(?<!\..)(?<=[\w₀₁₂₃₄₅₆₇₈₉ₙₘ⁰¹²³⁵⁶⁷⁸⁹)])\s*\.\s*(?=[a-zA-z]+\s)/g                                     , '. ')
     .replace(/\s*\.+\s*$/g                                                                                       , '.')
     .replace(/(?<=[(;, ])V *(amp|hold(?:ing)?|thresh*)(?=[ =),;.])/ig                                            , '𝑉<sub>$1</sub>')
@@ -187,7 +191,8 @@ function formatText(elem) {
     .replace(/<\/b>\s*<b>/g                                                                                      , ' ')
     .replace(/ *> +< */g                                                                                         , '><')
     //.replace(/<p>/g                                                                                              , '&lt;p&gt;')
-    .replace(/(\d)\s*\/\s*(\d)(?<!\d\/\d)/g                                                                      ,'$1/$2'); //remove space between numbers and /
+    .replace(/(\d)\s*\/\s*(\d)(?<!\d\/\d)/g                                                                      ,'$1/$2')      //remove spaces between numbers and /
+    .replace(/^(?:[ .?!)}\]\xAD]+|<br>)+(?=\w|<b>)/g                                                             , '');         //remove spaces from the begining of quote
     highlightElem(elem);
     if (typeof elem.forceSpellCheck === 'function') elem.forceSpellCheck();
 };
