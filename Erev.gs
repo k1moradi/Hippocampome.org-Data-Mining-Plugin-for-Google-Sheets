@@ -1,8 +1,18 @@
 //Change Log
+//from eID 418 PSC Vj correction for Erev is reversed(->+, +>-)
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 //PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
+  //Cossart 2006 Interneurons targeting similar layers receive synaptic inputs with similar kinetics.
+  new solution(celsius=31,
+               eSolution='124 NaCl, 3 KCl, 1.25 KH2PO4, 26 NaHCO3, 1.3 MgSO4-7H2O, 2 CaCl2',
+               pSolution='135 Cs-Gluconate, 10 MgCl2, 0.1 CaCl2, 1 EGTA, 2 Na2ATP, 10 HEPES',
+               recordingMethod='whole-cell',
+               voltages={Vm:{RMP:NaN,Vh:60,Vss:NaN},
+               Erev:{IPSC:-60,EPSC:10,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.4,i:7.25,CO2:true}).log();
   //Piskorowski 2013 Delta-opioid receptors mediate unique plasticity onto parvalbumin-expressing interneurons in area CA2 of the hippocampus.
 //  new solution(celsius=33,
 //               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
@@ -613,15 +623,14 @@ function eRev(){
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
   //Cobb 1995 Synchronization of neuronal activity in hippocampus by individual GABAergic interneurons.
-  //ue,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-75.5±7.6; without accetate GHK=-83.55
-  new solution(celsius=34.5,
-               eSolution='126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgSO4, 2 CaCl2',
-               pSolution='1500 K-Methylsulfate',
-               recordingMethod='sharp electrode',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-69,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.2,i:NaN,CO2:true}).log();
+//  new solution(celsius=34.5,
+//               eSolution='126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgSO4, 2 CaCl2',
+//               pSolution='1500 K-Methylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-69,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.2,i:NaN,CO2:true}).log();
   //Lacaille 1988 Stratum lacunosum-moleculare interneurons of hippocampal CA1 region. I. Intrasomatic and intradendritic recordings of local circuit synaptic interactions
 //  new solution(celsius=35.5,
 //               eSolution='124 NaCl, 5 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2, 26 NaHCO3',
@@ -1021,12 +1030,12 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
                        '\n\t\tCalculated:'+
                          '\n\n\t\t'+this.ErevCaImpermeableAMPA+' {AMPA Ca Impermeable}; '+this.ErevCaPermeableAMPA+' {AMPA Ca Permeable}; '+this.ErevNMDA+' {NMDA}'+
                            '\n\n\t\tExperimental:'+
-                             '\n\n\t\t'+((isNumeric(voltages.Erev.EPSC) || isNumeric(voltages.Erev.EPSP)) ? ((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC : voltages.Erev.EPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC - self.Vj : voltages.Erev.EPSP + self.Vj, 2)+' {with Vj correction}':'') +
+                             '\n\n\t\t'+((isNumeric(voltages.Erev.EPSC) || isNumeric(voltages.Erev.EPSP)) ? ((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC : voltages.Erev.EPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC + self.Vj : voltages.Erev.EPSP - self.Vj, 2)+' {with Vj correction}':'') +
                                '\n\n\tGABAergic:'+
                                  '\n\t\tCalculated:'+
                                    '\n\n\t\t'+this.ErevGABAA+' {GABA-A}; '+this.ErevGABAAwithGluconate+' {GABA-A-Gluconate Permeable}; '+this.ErevGABAB+' {GABA-B}'+
                                      '\n\n\t\tExperimental:'+
-                                       '\n\n\t\t'+((isNumeric(voltages.Erev.IPSC) || isNumeric(voltages.Erev.IPSP)) ? ((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC : voltages.Erev.IPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC - self.Vj : voltages.Erev.IPSP + self.Vj, 2)+' {with Vj correction}':'') +
+                                       '\n\n\t\t'+((isNumeric(voltages.Erev.IPSC) || isNumeric(voltages.Erev.IPSP)) ? ((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC : voltages.Erev.IPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC + self.Vj : voltages.Erev.IPSP - self.Vj, 2)+' {with Vj correction}':'') +
                                          '\n'+Object.keys(self.Ions).reduce(
                                            function(p,ionName) {
                                              var ion  = self.Ions[ionName];

@@ -127,7 +127,7 @@ function checkQuery(evidence,cellTypes) {
     var response      = String(UrlFetchApp.fetch(URL));
     var errorRegExp   = /<br>.*<br>/;
     var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
-    var fetchedConns  = output.fetchedConns   = JSON.parse(response.replace(errorRegExp,''));
+    var fetchedConns  = output.fetchedConns   = (response) ? JSON.parse(response.replace(errorRegExp,'')) : {};
     if (fetchedConns) {
       SpreadsheetApp.getUi().showModalDialog(output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Search Query Check Tool');
       return true;

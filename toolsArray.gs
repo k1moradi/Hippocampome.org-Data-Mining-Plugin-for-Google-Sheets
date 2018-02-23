@@ -58,3 +58,17 @@ function fill(length,value)
 {
   return Array.apply(null, Array(length)).map(String.prototype.valueOf,value);
 };
+/**
+* fill the array with a range
+*
+* @param {array}
+* @return {array} a one dimentional array
+* @customfunction
+*/
+function range(start, end) {
+    var foo = [];
+    for (var i = start; i <= end; i++) {
+        foo.push(i);
+    }
+    return foo;
+}

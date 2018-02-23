@@ -61,14 +61,16 @@
  <body>
    <div contenteditable='true' id='editor' class=text><?!= evidence.Query ?></div>
    <input type="button" value="search" onclick="reCheckQuery()">
-   <input type="button" value="save"   onclick="saveQuery()">
+   <input id="saveQueryButton" type="button" value="save"   onclick="saveQuery()">
    <span  id="error"><?= (error)? ('<b>Error:</b>'+ error) : ''?></span>
-
-   <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor,ID) {
+   
+   <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor,ID,saveFunction) {
         var style = "style=background-color:"+ ((bgColor)? bgColor:'')+";color:"+((fontColor)? fontColor:'')+";" ?>
    <div id="<?=ID?>">
-     <input type='button' value='Accept Selected Rows' style='display:inline-block;'>
-     <p style='display:inline-block;'>     <b>Total: <?=cKeys.length?>:</b> <?=title?></p>
+     <? if (saveFunction) {?>
+     <input type="button" value="Accept Selected Rows" style="display:inline-block;" onclick="<?!=saveFunction?>">
+     <? } ?>
+     <p style="display:inline-block;">     <b>Total: <?=cKeys.length?>:</b> <?=title?></p>
      <table class="sortable">
        <thead>
          <tr>
@@ -108,7 +110,7 @@
               var cmCon = connectionsMapped[cmkey]
               return (eachCon.source_id === cmCon.source_id && eachCon.destination_id === cmCon.destination_id)
             })
-        }),fetchedConns,'Connections suggested by search engine to be added','blue','white','tableSuggested')
+        }),fetchedConns,'Connections suggested by search engine to be added','blue','white','tableSuggested',"addSuggestedRows(this)")
 
       showConnectionTable(cmKeys.filter(
         function(cmkey) {
@@ -118,7 +120,7 @@
               var fCon = fetchedConns[key]
               return (fCon.source_id === eachCon.source_id && fCon.destination_id === eachCon.destination_id)
             })
-        }),connectionsMapped,'Connections suggested by search engine to be deleted','red','white','tableDelete') ?>
+        }),connectionsMapped,'Connections suggested by search engine to be deleted','red','white','tableDelete',"deleteSuggestedRows(this)") ?>
    <?!= include("sorttable") ?>
    <?!= include("rangy-selectionsaverestore") ?>
    <?!= include("balanced") ?>
@@ -174,18 +176,19 @@
        try {
          // Turn multiple selections on in IE
          document.execCommand("MultipleSelection", null, true);
-         // allow plane text paste only
-         document.getElementById('editor').addEventListener("paste", function(e) {
-           e.preventDefault();
-           document.execCommand("insertText", false, e.clipboardData.getData('text/plain').replace(/^[\s\n\r]+|[\s\n\r]+$/g,''))
-         })
          rangy.init();
          var saveRestoreModule = rangy.modules.SaveRestore;
          if (!(rangy.supported && saveRestoreModule && saveRestoreModule.supported))
            throw 'rangy is not supported';
            
          savedSelActiveElement = editor = document.getElementById("editor");
-         savedSelActiveElement.innerHTML = queryHighlighter(savedSelActiveElement.innerText);
+         editor.innerHTML = queryHighlighter((editor.innerText)? editor.innerText : 'Connection:(Presynaptic:(Neurotransmitter: AND Morphology:(Dendrites: Axons: Soma:)), Postsynaptic:(Morphology:(Dendrites: Axons: Soma:)))');
+         
+         // allow plane text paste only
+         editor.addEventListener("paste", function(e) {
+           e.preventDefault();
+           document.execCommand("insertText", false, e.clipboardData.getData('text/plain').replace(/^[\s\n\r]+|[\s\n\r]+$/g,''))
+         })
          
          savedSelActiveElement.addEventListener("input", 
            function() {
@@ -318,14 +321,54 @@
         }};
       
       function saveQuery(){try{
-         google.script.run
-           .withFailureHandler(function(){errorElem.innerHTML = "<b style='color:red;'>Error:</b> failed to save"})
-           .withSuccessHandler(function(){errorElem.innerHTML = " saved successfully"})
-           .saveToSheetGeneral(evidence.rangeA1Notation, 
-                               Number(evidence.columnName2Number.Automation)+1, 
-                               document.getElementById("editor").innerText.replace(/\uFEFF/g,''))
+        google.script.run
+          .withFailureHandler(function(){errorElem.innerHTML = "<b style='color:red;'>Error:</b> failed to save"})
+          .withSuccessHandler(function(){errorElem.innerHTML = " saved successfully"})
+          .saveToSheetGeneral(evidence.rangeA1Notation, 
+                              Number(evidence.columnName2Number.Automation)+1, 
+                              document.getElementById("editor").innerText.replace(/\uFEFF/g,''))
         }catch(e){alert(e)}
       };
+      
+      function addSuggestedRows(elem){
+        var saveQueryButton = document.getElementById('saveQueryButton');
+        elem.disabled = saveQueryButton.disabled = true;
+        var table = tableToArray(elem.parentElement.querySelector("table"));
+        google.script.run
+          .withFailureHandler(function(){errorElem.innerHTML = "<b style='color:red;'>Error:</b> failed to save"})
+          .withSuccessHandler(function(newRange){
+            evidence.rangeA1Notation = newRange;
+            saveQueryButton.disabled = false;
+            errorElem.innerHTML = " new rows added successfully"})
+          .addTableToSheet(evidence.rangeA1Notation,table)
+      }
+      
+      function deleteSuggestedRows(elem){
+        elem.disabled=true;
+        var addSuggestedRowsButton = document.getElementById('tableSuggested').querySelector("input");
+        var previousStateOfAddSuggestedRowsButton = addSuggestedRowsButton.disabled;
+        var saveQueryButton = document.getElementById('saveQueryButton');
+        addSuggestedRowsButton.disabled = saveQueryButton.disabled = true;
+        var table = tableToArray(elem.parentElement.querySelector("table"));
+        google.script.run
+          .withFailureHandler(function(){errorElem.innerHTML = "<b style='color:red;'>Error:</b> failed to save"})
+          .withSuccessHandler(
+            function(newRange){
+              errorElem.innerHTML = " sheet successfully modified"; 
+              evidence.rangeA1Notation = newRange;
+              addSuggestedRowsButton.disabled = previousStateOfAddSuggestedRowsButton;
+              saveQueryButton.disabled = false})
+          .deleteRowsOfSheet(evidence.rangeA1Notation,table)
+      }
+      
+      function tableToArray(table) {
+        var rows = table.rows;
+        var results = [];
+        for (var i=1, iLen=rows.length; i<iLen; i++) {
+          results.push(Array.from(rows[i].cells).map(c=>c.innerText))
+        }// console.log(results)
+        return results;
+      }
    </script>
  </body>
 </html>

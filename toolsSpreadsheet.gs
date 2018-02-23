@@ -1,10 +1,7 @@
 function test() { 
-  Logger.log(SpreadsheetApp.getActiveSheet().getActiveCell().getNote()
-             .replace(/\n\s*\*\s([^{}<>]*?)(?=\n)/g,"<li>$1</li>").replace(/<\/li>[\n\r]/g,'</li>')
-             .replace(/\s*({|}|<\/li>)\s*([^{}<>]+?)\s*(?={(?:\n|<li>))/g,"$1<br><b style='color:yellow;'>$2</b>")
-             .replace(/^\s*([^{}<>]+?)\s*(?={<li>)/g,"<b style='color:yellow;'>$1</b>")
-             .replace(/\n+/g,"<br>")
-            )
+  var a = [1,2,3];
+  Logger.log(a.slice(-1)[0])
+  Logger.log(a)
 }
 
 function getMaxOf(sheetName,columnName) {
@@ -286,4 +283,41 @@ function saveReferenceToSheet(A1Notation,UID,location,Quote){
 function saveToSheetGeneral(A1Notation,columnNum,value){
   var destinationRange = SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation);
   saveSingleColumnRange(destinationRange,columnNum,value)
+}
+function addTableToSheet(a1notation,table){
+  var destinationRange = SpreadsheetApp.getActiveSpreadsheet().getRange(a1notation);
+  var sheet = destinationRange.getSheet();
+  sheet.insertRowsAfter(destinationRange.getLastRow(),table.length);
+  sheet.getRange(destinationRange.getLastRow()+1, 1, table.length, 4).setValues(table);
+  var newRange = sheet.getName() + '!' + destinationRange.offset(0, 0, destinationRange.getNumRows()+table.length).getA1Notation();
+  sheet.setActiveRange(sheet.getRange(newRange));
+  return newRange;
+}
+function deleteRowsOfSheet(a1notation,table){
+  var destinationRange = SpreadsheetApp.getActiveSpreadsheet().getRange(a1notation);
+  var sheet = destinationRange.getSheet();
+  var rowIdices = range(destinationRange.getRow(),destinationRange.getLastRow());
+  var rangeValues = destinationRange.offset(0, 0, destinationRange.getNumRows(), 4).getValues();
+  var numRows = rangeValues.length-1;
+  var sheetIndicesLtoS = [];
+  var iPreviousMatch = null;
+  for (var i=numRows; i>=0; i--) {
+    var sRow = rangeValues[i];
+    if (table.some(function(tRow){return (tRow[0]==sRow[0] && tRow[3]==sRow[3])})){
+      //sheet.deleteRow(rowIdices[i]);
+      if (sheetIndicesLtoS.length===0 || ((i+1) === iPreviousMatch)) {
+        sheetIndicesLtoS.push(rowIdices[i]);
+      } else {
+        sheet.deleteRows(sheetIndicesLtoS[sheetIndicesLtoS.length-1],sheetIndicesLtoS.length)
+        sheetIndicesLtoS = [];
+        sheetIndicesLtoS.push(rowIdices[i]);
+      }
+      iPreviousMatch = i;
+    }
+  }
+  if (sheetIndicesLtoS.length > 0) 
+    sheet.deleteRows(sheetIndicesLtoS[sheetIndicesLtoS.length-1],sheetIndicesLtoS.length);
+  var newRange = sheet.getName() + '!' + destinationRange.offset(0, 0, rangeValues.length-table.length).getA1Notation();
+  sheet.setActiveRange(sheet.getRange(newRange));
+  return newRange;
 }
