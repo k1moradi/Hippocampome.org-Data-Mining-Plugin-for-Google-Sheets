@@ -4,15 +4,24 @@
 //PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
-  //Cossart 2006 Interneurons targeting similar layers receive synaptic inputs with similar kinetics.
+  //Le Duigou 2015 Induction of Anti-Hebbian LTP in CA1 Stratum Oriens Interneurons: Interactions between Group I Metabotropic Glutamate Receptors and M1 Muscarinic Receptors.
   new solution(celsius=31,
-               eSolution='124 NaCl, 3 KCl, 1.25 KH2PO4, 26 NaHCO3, 1.3 MgSO4-7H2O, 2 CaCl2',
-               pSolution='135 Cs-Gluconate, 10 MgCl2, 0.1 CaCl2, 1 EGTA, 2 Na2ATP, 10 HEPES',
+               eSolution='119 NaCl, 2.5 KCl, 26 NaHCO3, 1 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2',
+               pSolution='110 K-Gluconate, 17.5 KCl, 10 HEPES, 0.2 EGTA, 8 NaCl, 2 MgATP, 0.3 Na3GTP, 5 QX314-Br',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:60,Vss:NaN},
-               Erev:{IPSC:-60,EPSC:10,IPSP:NaN,EPSP:NaN},
+               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-100},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:15.6},
                Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.4,i:7.25,CO2:true}).log();
+               pH={e:7.3,i:7.2,CO2:true}).log();
+  //Cossart 2006 Interneurons targeting similar layers receive synaptic inputs with similar kinetics.
+//  new solution(celsius=31,
+//               eSolution='124 NaCl, 3 KCl, 1.25 KH2PO4, 26 NaHCO3, 1.3 MgSO4-7H2O, 2 CaCl2',
+//               pSolution='135 Cs-Gluconate, 10 MgCl2, 0.1 CaCl2, 1 EGTA, 2 Na2ATP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:60,Vss:NaN},
+//               Erev:{IPSC:-60,EPSC:10,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
   //Piskorowski 2013 Delta-opioid receptors mediate unique plasticity onto parvalbumin-expressing interneurons in area CA2 of the hippocampus.
 //  new solution(celsius=33,
 //               eSolution='125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
@@ -622,6 +631,16 @@ function eRev(){
   
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
+  
+  //Lacaille 1987 Local circuit interactions between oriens/alveus interneurons and CA1 pyramidal cells in hippocampal slices: electrophysiology and morphology.
+//  new solution(celsius=34.5,
+//               eSolution='124 NaCl, 5 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2, 26 NaHCO3',
+//               pSolution='4000 K-Acetate, 10 KCl',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-40,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Cobb 1995 Synchronization of neuronal activity in hippocampus by individual GABAergic interneurons.
 //  new solution(celsius=34.5,
 //               eSolution='126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgSO4, 2 CaCl2',
@@ -760,6 +779,15 @@ function eRev(){
   //exp17= new solution(34,'124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4','2500 K-acetate',Vm=-61,isSharpElectrode=true,O2_CO2_95_5=true,pHo=7.2,pHi=NaN).log(); //Sharp elctrode: Experimental Erev at ? mV RMP from Soma=-66.9±0.9;-69.2±0.7;-71.8±1.22;-85.9±2.3 for IPSPs, 7.5±0.2;8.6±0.6;13.2±1.2 for EPSPs, GHK=IPSP:-79.25  EPSP:-8.21
 
   //---------------perforated patch
+  //Le Duigou 2015 Induction of Anti-Hebbian LTP in CA1 Stratum Oriens Interneurons: Interactions between Group I Metabotropic Glutamate Receptors and M1 Muscarinic Receptors.
+  new solution(celsius=31,
+               eSolution='119 NaCl, 2.5 KCl, 26 NaHCO3, 1 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2',
+               pSolution='145 K-Gluconate, 8 NaCl, 20 HEPES, 0.2 EGTA, 5 QX-314-Br',
+               recordingMethod='perforated patch',
+               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-75},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.3,i:7.2,CO2:true}).log();
   
   //Szabo 2012 Calcium-permeable AMPA receptors provide a common mechanism for LTP in glutamatergic synapses of distinct hippocampal interneuron types.
 //  new solution(celsius=32,

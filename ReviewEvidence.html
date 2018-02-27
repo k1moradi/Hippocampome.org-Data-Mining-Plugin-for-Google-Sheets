@@ -13,15 +13,15 @@
     </style>
   </head>
   <body>
-<?//===========================================Top======================================================================================?>
+  <?//===========================================Top======================================================================================?>
     <iframe class='googleForm' src="<?=url?>" scrolling="yes" marginwidth="0" marginheight="0" frameborder="0" vspace="0" hspace="0"></iframe>
     <div id='main' class='referencePanel'>
       <?!= include('toolbar')?>
       <div id='evidence' style='margin-top:25px;'>
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
-        <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------?>
-        <?showObject(covariates,'covariates','25px',2,'IntracellularPipetteSolution',['Order Added','PMID','Reference','Not Mined Not Vetted','DataExtracted'])?>
-        <?var unlinkedRefIds = Object.keys(myRefs).filter(function(refID){return (evidence.allRefIDs.indexOf(refID) === -1)});
+        <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------
+          showObject(covariates,'covariates','25px',2,'SliceOrientation',['Order Added','PMID','Reference','Not Mined Not Vetted','DataExtracted'])
+          var unlinkedRefIds = Object.keys(myRefs).filter(function(refID){return (evidence.allRefIDs.indexOf(refID) === -1)});
           showAllReferences(evidence.CovariatesIDs      ,evidence.CovariatesIDs       ,allRefs,covariatesRef ,'Covariates:'                  ,'#5C9292','white','');
           showAllReferences(evidence.MorphologyIDsPre   ,evidence.MorphologyIDsPost   ,allRefs,morphology    ,'Anatomy & Morphology:'        ,'#86685B','white','');
           showAllReferences(evidence.MarkersIDsPre      ,evidence.MarkersIDsPost      ,allRefs,markers       ,'Markers:'                     ,'#853D81','white','');
