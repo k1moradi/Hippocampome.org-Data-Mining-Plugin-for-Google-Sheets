@@ -3,7 +3,7 @@ function getTheLastFormResponse(){
   var form  = FormApp.openById('1L42oPGtpodgmw48FMs1DVdpgmLB9ISEMFZ-DuOu4HIc');
   var formResponses = form.getResponses();
   var formResponse = formResponses[formResponses.length-1];//The last submitted form response
-  var aRNumInFormRes = formResponse.getItemResponses().length - 3; //item number 3 from the end of the form responses which is A1Notation of the save location
+  var aRNumInFormRes = formResponse.getItemResponses().length - 3; //item number 3 from the end of the form responses which has the A1Notation of the save location
   
   var ss = SpreadsheetApp.openById('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A');
   var dataSheet         = ss.getSheetByName('Da');
@@ -14,11 +14,7 @@ function getTheLastFormResponse(){
   var connectivitySheet = ss.getSheetByName('Con');
   var covSheet          = ss.getSheetByName('Cov');
   var evidenceSheet     = ss.getSheetByName('Evidence');
-  
-
-  
-  var aR = (arguments.length === 0) ? ss.getSheetByName('Evidence').getRange(         formResponse.getItemResponses()[aRNumInFormRes].getResponse())//getCheckActiveRange(ss.getSheetByName('Evidence').getActiveRange(),'Evidence') 
-                                    : ss.getSheetByName('Evidence').getRange(arguments[0].response.getItemResponses()[aRNumInFormRes].getResponse());
+  var aR = ss.getRange(((arguments.length===0)?formResponse:arguments[0].response).getItemResponses()[aRNumInFormRes].getResponse());
   if (aR) {
     try {
       var eColumnObj = evidenceSheet.getRange('1:1').getValues()[0].reduce(function(p,v,i){p[v]=i+1; return p},{});

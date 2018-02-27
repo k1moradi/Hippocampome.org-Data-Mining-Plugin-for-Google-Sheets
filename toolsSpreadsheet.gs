@@ -1,7 +1,7 @@
 function test() { 
-  var a = [1,2,3];
-  Logger.log(a.slice(-1)[0])
-  Logger.log(a)
+  Logger.log((true)?
+             true : 
+             false)
 }
 
 function getMaxOf(sheetName,columnName) {
