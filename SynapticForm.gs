@@ -24,11 +24,16 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   var noSlowComponent = '';
   if (evidence.ErevCalculated.match(/GABA/) && evidence.ErevCalculated.match(/AMPA/)) {
     noSlowComponent = ''
-  } else if (evidence.ErevCalculated.match(/GABA/) && (String(evidence.Drugs).match(/\bCGP(?:52432|55845A?)|Saclofen\b/g) || String(evidence.IntracellularSolution).match(/Cs/g))) {
-    noSlowComponent = 'No slow component'
+  } else if (evidence.ErevCalculated.match(/GABA/) && (String(evidence.Drugs).match(/\bCGP(?:52432|55845A?)|Saclofen\b/g) || String(evidence.IntracellularSolution).match(/Cs|QX.?314/g))) {
+    noSlowComponent = 'Blocked'
   } else if (evidence.ErevCalculated.match(/AMPA/) && String(evidence.Drugs).match(/\bAP[5V]|CPP|MK801|7CK\b/g)) {
-    noSlowComponent = 'No slow component';
+    noSlowComponent = 'Blocked';
   }
+  
+  var CalciumPermeableAMPA = "";
+  if (evidence.ErevCalculated.match(/GABA/) && !(evidence.ErevCalculated.match(/AMPA/)))
+    CalciumPermeableAMPA = "Not Applicable";
+  
   var findPranteses = /(?:\((.*)\))/;
   
   Logger.log(rowIndex)
@@ -58,6 +63,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1141504215	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:265541588	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('265541588',noSlowComponent);
+        //ID:97211865	Type:MULTIPLE_CHOICE	Title:mP:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('97211865',CalciumPermeableAMPA);
         //ID:436659317	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:4275336	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('4275336',ErevCalculatedFast);
@@ -128,6 +135,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1501419860	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:1443996945	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('1443996945',noSlowComponent);
+        //ID:297518803	Type:MULTIPLE_CHOICE	Title:mC:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('297518803',CalciumPermeableAMPA);
         //ID:2008241553	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1529021711	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1529021711',ErevCalculatedFast);
@@ -196,6 +205,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:774049725	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:1214131409	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('1214131409',noSlowComponent);
+        //ID:1666194539	Type:MULTIPLE_CHOICE	Title:sP:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('1666194539',CalciumPermeableAMPA);
         //ID:903954085	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1121608872	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1121608872',ErevCalculatedFast);
@@ -267,6 +278,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:941536151	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:1177876013	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('1177876013',noSlowComponent);
+        //ID:132657594	Type:MULTIPLE_CHOICE	Title:sC:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('132657594',CalciumPermeableAMPA);
         //ID:649910150	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:255478031	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('255478031',ErevCalculatedFast);
@@ -334,6 +347,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1894463225	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:304789355	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('304789355',noSlowComponent);
+        //ID:1633992263	Type:MULTIPLE_CHOICE	Title:uP:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('1633992263',CalciumPermeableAMPA);
         //ID:1670263156	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:336517228	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('336517228',(ErevCalculatedFast));
@@ -466,6 +481,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:646965923	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:2145805456	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('2145805456',noSlowComponent);
+        //ID:252444326	Type:MULTIPLE_CHOICE	Title:uC:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('252444326',CalciumPermeableAMPA);
         //ID:138331116	Type:SECTION_HEADER	Title:Postsynaptic Membrane (mV)
         //ID:1883690145	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1883690145',ErevCalculatedFast);
@@ -594,6 +611,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:758395333	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:356322618	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('356322618',noSlowComponent);
+        //ID:1878653873	Type:MULTIPLE_CHOICE	Title:eP:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('1878653873',CalciumPermeableAMPA);
         //ID:1563201628	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:1305317523	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('1305317523',ErevCalculatedFast);
@@ -618,11 +637,14 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1712141964	Type:MULTIPLE_CHOICE	Title:Measure of Central Tendency
         pForm.setDescription('1712141964',covariates.Statistics);
         //ID:959794961	Type:MULTIPLE_CHOICE	Title:Measure of Spread
-        //ID:1553760774	Type:SECTION_HEADER	Title:Synaptic Parameters
+        //ID:1553760774	Type:SECTION_HEADER	    Title:Synaptic Parameters
         //ID:509604390	Type:MULTIPLE_CHOICE	Title:Stimulation Method
         //ID:1675807610	Type:PARAGRAPH_TEXT	Title:Stimulation Region
         //ID:571191364	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
-        pForm.prefillEmptyItem('571191364',covariates.ExtStimProtocol);
+        if (evidence.Description.match(/photostim|optogenetic/i)) {
+          pForm.prefillEmptyItem('509604390','Optogenetic');
+          pForm.prefillEmptyItem('571191364',covariates.PhotoStimProtocol);
+        } else pForm.prefillEmptyItem('571191364',covariates.ExtStimProtocol);
         //ID:230871403	Type:MULTIPLE_CHOICE	Title:Recording Method
         //ID:52393348	Type:MULTIPLE_CHOICE	Title:Traces
         //ID:1186412212	Type:PARAGRAPH_TEXT	Title:Averaged Traces Number
@@ -726,6 +748,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:970590711	Type:MULTIPLE_CHOICE	Title:Section Marker
         //ID:82994963	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('82994963',noSlowComponent);
+        //ID:281908569	Type:MULTIPLE_CHOICE	Title:eC:Has Calcium-Permeable AMPA Component?
+        pForm.prefillEmptyItem('281908569',CalciumPermeableAMPA);
         //ID:606923254	Type:SECTION_HEADER	Title:Postsynaptic Membrane
         //ID:808792303	Type:PARAGRAPH_TEXT	Title:Fast Synaptic 𝐸ᵣₑᵥ (AMPA, GABA-A or Mixed)
         pForm.prefillEmptyItem('808792303',ErevCalculatedFast);
@@ -750,7 +774,10 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:925670235	Type:MULTIPLE_CHOICE	Title:Stimulation Method
         //ID:769938451	Type:PARAGRAPH_TEXT	Title:Stimulation Region
         //ID:1705092766	Type:PARAGRAPH_TEXT	Title:Presynaptic Stimulation Protocol(s)
-        pForm.prefillEmptyItem('1705092766',covariates.ExtStimProtocol);
+        if (evidence.Description.match(/photostim|optogenetic/i)) {
+          pForm.prefillEmptyItem('925670235','Optogenetic');
+          pForm.prefillEmptyItem('1705092766',covariates.PhotoStimProtocol);
+        } else pForm.prefillEmptyItem('1705092766',covariates.ExtStimProtocol);
         //ID:765592262	Type:MULTIPLE_CHOICE	Title:Recording Method
         //ID:1273711824	Type:MULTIPLE_CHOICE	Title:Traces
         //ID:1944774554	Type:PARAGRAPH_TEXT	Title:Averaged Traces Number

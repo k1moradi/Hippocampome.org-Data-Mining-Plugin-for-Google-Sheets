@@ -79,9 +79,9 @@ function formatText(elem) {
     .replace(/(?<=\d)\s*[·*]\s*(?=\d)|(?<=[ ±+–]0)–?(?=(?:0\d+|[1-9])[ ±+])/g                                    , '.')       // decimal point  |(?<=[ +=]\d)[–'](?=\d+[ +])
     .replace(/(?<=[ =,;(]\d+)[–'&.](\d+)\s*([+±–])\s*(\d+)[–'&.](?=\d+[ ),;])/g                                  , '.$1$2$3.')//\d–\d–\d–\d --> \d.\d–\d.\d)
     .replace(/(?<=[A-Za-z])\s*[-−](\s*)(?=[A-Za-z])/g                                                            , '-$1')     // negative as hiphen between two words
-    .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\)])[–—−-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\(])/g                                             , '–')       // normal hiphen as big hiphen or negative signs between two words
+    .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\)])[–—−-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\(])/g                                         , '–')       // normal hiphen as big hiphen or negative signs between two words
     .replace(/(?<=[(;, ])(?:<(i)>)?\s*t\s*(?:<\/\1>)?\s*test/ig                                                  , 't–test')  // t–test
-    .replace(/&minus;|(?<= [∼(]) *[–—−](?=\d)|(?<=[(;, ])[–—−](?=\d+[– ]ms)/g                                    , '-')       // ngative
+    .replace(/&minus;|(?<= [∼(]) *[–—−](?=\d)|(?<=[(;, ])[–—−](?=\d+[– ]ms|\d+\/\d+ )/g                           , '-')       // ngative
     .replace(/(?<=[\d])\s*(?:[–—−]|&ndash;)\s*(\d+)\s*(?=%)/g                                                    , '-$1')     // 20-80%
     .replace(/(?<=[(;, ])[I1]–0(?=[ ),;.])/g                                                                     , 'I-O')
     .replace(/(?<=[(;, ])[n«]\s*(?:[¼\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                 , 'n=')
@@ -122,7 +122,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])R *([Ss]|in|IN|input)(?=[ =),;.])/g                                               , 'R<sub>$1</sub>')// Rin Rs
     .replace(/(?<=[(;, ])C *([mM])(?=[ =),;.])/g                                                           , 'C<sub>$1</sub>')// Cm --> Cₘ  [not cm = centimiter]
     .replace(/(?<=(?:[A-Za-z]{3}|[)])\s*\d+(?:,\d+)*)\s*'\s*(?=\d+(?:\s\(|[.,]\s|\.$|\.<br>))/g            , ',')             // numerical references miss spelling \d'\d -> \d,\d
-    .replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$|\.<br>)(?![,]? and)/g             , '<sup>$1</sup>') // numerical references
+    //.replace(/(?<=[A-Za-z]{3}|[)])\s*(\d+(?:,\s*\d+)+)(?=\s\(|[.,]\s|\.$|\.<br>)(?![,]? and)/g             , '<sup>$1</sup>') // numerical references during 1, 5, 10, and 20 Hz
     .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*(?!–))|(?<!alexa|prox|and|was|[Tt]able|[Ff]igure|paradigm|cell|neuron|actinin|GAD)(?<=[a-z]{3}|[)])\s*([\d–]{1,3})(?=\.(?:\s|<br>)|\.$))/g, 
       function(fullMatch,p1,p2,p3){
         var prefix = ((p1 === '^' || !p1) ? '' : p1)
@@ -188,7 +188,7 @@ function formatText(elem) {
     .replace(/((?:<br>\s*|(?<![Ff]igs|[Ff]ig|refs|ref|vs|et[ .]?al|\(\w{1,2})\.\s)(?:(?=\([^.)]{1,20}\)|\w (?:and|or) \w,)|(?!\w{1,3}[\. ]|\(|<b>[^.,<>]{1,20}<\/b> )))(\(?(?:(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)(?:(?:[,\-– ]{1,2}|and|or){1,3}(?:\w[a-z1-9]?|<b>\w[a-z1-9]?<\/b>)){0,2}|<b>\w[a-z1-9]?(?:(?:[,\-– ]{1,2}|and|or){1,3}\w[a-z1-9]?){0,2}<\/b>)(?:[\),]|(?<=(?:and|or) \w[a-z1-9]?)))(?= )/g,
       function(fullMatch,p1,p2){
         return ((p1==='. ')?'.':'')+'<br><b>'+p2.replace(/<\/?b>/g,'')+'</b>';                                      })          // a-b, bold image list                                                                                                                        
-    .replace(/(?<=[\.;]\s|<\/?b>)((?:(?:right|left|top|bottom|middle|center|insets?)\s*(?:panel|trace|left|right|top|bottom|middle|center)?[,:]\s*)+)(?=\s)/ig,' <b>$1</b>') // bold subsections in figures
+    .replace(/(?<=[\.;]\s|<\/?b>)((?:(?:right|left|top|bottom|middle|center|insets?)\s+(?:to\s*)?(?:panel|trace|left|right|top|bottom|middle|center)?[,:]\s*)+)(?=\s)/ig,' <b>$1</b>') // bold subsections in figures
     .replace(/^([^.,?<>]+\.)\s*(?=<br>)/g                                                                        , '<b>$1</b>') // bold the 1st sentence
     .replace(/(?<!<\/b>)(?:<br>)([\w ]*?\.)(?:(?:<br>(?!<b>)))/g                                         , '<br><b>$1</b><br>') // bold subsections
     .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n+)/g                                                          , '<br>')

@@ -1,7 +1,5 @@
 function test() { 
-  Logger.log((true)?
-             true : 
-             false)
+  Logger.log('In transverse hippocampal slices of SOM–IRES–Cre; ChR2(H134R)–EYFP mice, the whole-slice is photostimulated to record eIPSCs from CA1 Cajal-Retzius cells identified by their characteristic firing pattern or post hoc morphological reconstruction (Fig. 7).'.match(/photostim|optogenetic/i))
 }
 
 function getMaxOf(sheetName,columnName) {
@@ -319,5 +317,23 @@ function deleteRowsOfSheet(a1notation,table){
     sheet.deleteRows(sheetIndicesLtoS[sheetIndicesLtoS.length-1],sheetIndicesLtoS.length);
   var newRange = sheet.getName() + '!' + destinationRange.offset(0, 0, rangeValues.length-table.length).getA1Notation();
   sheet.setActiveRange(sheet.getRange(newRange));
+  return newRange;
+}
+function overwriteRows(a1notation,table){
+  var destinationRange = SpreadsheetApp.getActiveSpreadsheet().getRange(a1notation);
+  var sheet = destinationRange.getSheet();
+  var newRange = a1notation;
+  if (destinationRange.getNumRows() === 1) {
+    Logger.log(table)
+    Logger.log(table.length)
+    if(table.length>1) {
+      sheet.insertRowsAfter(destinationRange.getLastRow(),table.length-1);
+      sheet.getRange(destinationRange.getRow(), 1, table.length, 4).setValues(table);
+      newRange = sheet.getName() + '!' + destinationRange.offset(0, 0, destinationRange.getNumRows()+table.length-1).getA1Notation();
+      sheet.setActiveRange(sheet.getRange(newRange));
+    } else {
+      destinationRange.offset(0, 0, 1, 4).setValues(table);
+    }
+  }
   return newRange;
 }

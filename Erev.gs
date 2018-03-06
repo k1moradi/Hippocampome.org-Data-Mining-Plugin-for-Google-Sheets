@@ -1,18 +1,54 @@
 //Change Log
+//from eID 433 PSC Vj correction for Erev is reversed(+>-, ->+)
 //from eID 418 PSC Vj correction for Erev is reversed(->+, +>-)
 //from eID 307 the Vj calculation method changed this change will affect only sharp eletrode recordings
 //PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
-  //Le Duigou 2015 Induction of Anti-Hebbian LTP in CA1 Stratum Oriens Interneurons: Interactions between Group I Metabotropic Glutamate Receptors and M1 Muscarinic Receptors.
+  //Quattrocolo 2013 Novel GABAergic circuits mediating excitation/inhibition of Cajal-Retzius cells in the developing hippocampus.
   new solution(celsius=31,
-               eSolution='119 NaCl, 2.5 KCl, 26 NaHCO3, 1 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2',
-               pSolution='110 K-Gluconate, 17.5 KCl, 10 HEPES, 0.2 EGTA, 8 NaCl, 2 MgATP, 0.3 Na3GTP, 5 QX314-Br',
+               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+               pSolution='125 KCl, 10 NaCl, 0.3 Na3GTP, 4 MgATP, 16 KHCO3, 10 QX314-Cl',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-100},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:15.6},
+               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
                Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.3,i:7.2,CO2:true}).log();
+               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Quattrocolo 2014 Optogenetic activation of cajal-retzius cells reveals their glutamatergic output and a novel feedforward circuit in the developing mouse hippocampus.
+//  new solution(celsius=32,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='125 Cs-Methanesulfonate, 0.3 NaGTP, 4 Mg2ATP, 16 KHCO3, 10 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:0,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Tyan 2014 Dendritic inhibition provided by interneuron-specific cells controls the firing rate and timing of the hippocampal feedback inhibitory circuitry.
+//  new solution(celsius=32,
+//               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 2 CaCl2',
+//               pSolution='80 CsMethylsulfate, 50 CsCl, 10 Na2-Phosphocreatine, 10 HEPES, 2 TrisATP, 0.2 TrisGTP, 2 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-40},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+//  new solution(celsius=32,
+//               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 2 CaCl2',
+//               pSolution='130 CsMethylsulfate, 2 CsCl, 10 Na2-Phosphocreatine, 10 HEPES, 2 TrisATP, 0.2 TrisGTP, 2 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:0,Vss:-45},
+//               Erev:{IPSC:-71.9,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+  //Le Duigou 2015 Induction of Anti-Hebbian LTP in CA1 Stratum Oriens Interneurons: Interactions between Group I Metabotropic Glutamate Receptors and M1 Muscarinic Receptors.
+//  new solution(celsius=31,
+//               eSolution='119 NaCl, 2.5 KCl, 26 NaHCO3, 1 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2',
+//               pSolution='110 K-Gluconate, 17.5 KCl, 10 HEPES, 0.2 EGTA, 8 NaCl, 2 MgATP, 0.3 Na3GTP, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-100},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:15.6},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.2,CO2:true}).log();
   //Cossart 2006 Interneurons targeting similar layers receive synaptic inputs with similar kinetics.
 //  new solution(celsius=31,
 //               eSolution='124 NaCl, 3 KCl, 1.25 KH2PO4, 26 NaHCO3, 1.3 MgSO4-7H2O, 2 CaCl2',
@@ -780,14 +816,14 @@ function eRev(){
 
   //---------------perforated patch
   //Le Duigou 2015 Induction of Anti-Hebbian LTP in CA1 Stratum Oriens Interneurons: Interactions between Group I Metabotropic Glutamate Receptors and M1 Muscarinic Receptors.
-  new solution(celsius=31,
-               eSolution='119 NaCl, 2.5 KCl, 26 NaHCO3, 1 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2',
-               pSolution='145 K-Gluconate, 8 NaCl, 20 HEPES, 0.2 EGTA, 5 QX-314-Br',
-               recordingMethod='perforated patch',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-75},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.3,i:7.2,CO2:true}).log();
+//  new solution(celsius=31,
+//               eSolution='119 NaCl, 2.5 KCl, 26 NaHCO3, 1 NaH2PO4, 1.3 MgCl2, 2.5 CaCl2',
+//               pSolution='145 K-Gluconate, 8 NaCl, 20 HEPES, 0.2 EGTA, 5 QX-314-Br',
+//               recordingMethod='perforated patch',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-75},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.2,CO2:true}).log();
   
   //Szabo 2012 Calcium-permeable AMPA receptors provide a common mechanism for LTP in glutamatergic synapses of distinct hippocampal interneuron types.
 //  new solution(celsius=32,
@@ -1058,12 +1094,12 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
                        '\n\t\tCalculated:'+
                          '\n\n\t\t'+this.ErevCaImpermeableAMPA+' {AMPA Ca Impermeable}; '+this.ErevCaPermeableAMPA+' {AMPA Ca Permeable}; '+this.ErevNMDA+' {NMDA}'+
                            '\n\n\t\tExperimental:'+
-                             '\n\n\t\t'+((isNumeric(voltages.Erev.EPSC) || isNumeric(voltages.Erev.EPSP)) ? ((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC : voltages.Erev.EPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC + self.Vj : voltages.Erev.EPSP - self.Vj, 2)+' {with Vj correction}':'') +
+                             '\n\n\t\t'+((isNumeric(voltages.Erev.EPSC) || isNumeric(voltages.Erev.EPSP)) ? ((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC : voltages.Erev.EPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.EPSC)) ? voltages.Erev.EPSC - self.Vj : voltages.Erev.EPSP + self.Vj, 2)+' {with Vj correction}':'') +
                                '\n\n\tGABAergic:'+
                                  '\n\t\tCalculated:'+
                                    '\n\n\t\t'+this.ErevGABAA+' {GABA-A}; '+this.ErevGABAAwithGluconate+' {GABA-A-Gluconate Permeable}; '+this.ErevGABAB+' {GABA-B}'+
                                      '\n\n\t\tExperimental:'+
-                                       '\n\n\t\t'+((isNumeric(voltages.Erev.IPSC) || isNumeric(voltages.Erev.IPSP)) ? ((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC : voltages.Erev.IPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC + self.Vj : voltages.Erev.IPSP - self.Vj, 2)+' {with Vj correction}':'') +
+                                       '\n\n\t\t'+((isNumeric(voltages.Erev.IPSC) || isNumeric(voltages.Erev.IPSP)) ? ((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC : voltages.Erev.IPSP)+' {without Vj correction}; '+round((isNumeric(voltages.Erev.IPSC)) ? voltages.Erev.IPSC - self.Vj : voltages.Erev.IPSP + self.Vj, 2)+' {with Vj correction}':'') +
                                          '\n'+Object.keys(self.Ions).reduce(
                                            function(p,ionName) {
                                              var ion  = self.Ions[ionName];

@@ -97,7 +97,7 @@
    <? };
       
       var cKeys = Object.keys(fetchedConns)  
-      showConnectionTable(cKeys,fetchedConns,'Search engine results','green','white','tableAll')
+      showConnectionTable(cKeys,fetchedConns,'Search engine results','green','white','tableAll','overwriteRows(this)')
 
       var connectionsMapped = evidence.PConnectionsUIDs;
       var cmKeys=Object.keys(connectionsMapped);
@@ -329,6 +329,19 @@
                               document.getElementById("editor").innerText.replace(/\uFEFF/g,''))
         }catch(e){alert(e)}
       };
+      
+      function overwriteRows(elem){
+        //addSuggestedRows + deleteSuggestedRows ?
+        //connections that have no sUID and tUIDs
+        var table = tableToArray(elem.parentElement.querySelector("table"));
+        google.script.run
+          .withFailureHandler(function(){errorElem.innerHTML = "<b style='color:red;'>Error:</b> failed to save"})
+          .withSuccessHandler(function(newRange){
+            evidence.rangeA1Notation = newRange;
+            saveQueryButton.disabled = false;
+            errorElem.innerHTML = " new rows added successfully"})
+          .overwriteRows(evidence.rangeA1Notation,table)
+      }
       
       function addSuggestedRows(elem){
         var saveQueryButton = document.getElementById('saveQueryButton');
