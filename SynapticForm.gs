@@ -21,11 +21,21 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
     ErevCalculatedSlow = [ErevCalculated[2],ErevCalculated[5]].join('; ')+'@{calculated}';
   }
  
-  var noSlowComponent = '';
+  var SynapticResponse,noSlowComponent = '';
+  
   if (evidence.ErevCalculated.match(/GABA/) && evidence.ErevCalculated.match(/AMPA/)) {
-    noSlowComponent = ''
+    SynapticResponse='';
+  } else if (evidence.ErevCalculated.match(/GABA/)) {
+    SynapticResponse='GABAergic';
+  } else if (evidence.ErevCalculated.match(/AMPA/)) {
+    SynapticResponse='Glutamatergic';
+  }
+  
+  if (evidence.ErevCalculated.match(/GABA/) && evidence.ErevCalculated.match(/AMPA/)) {
+    noSlowComponent = ((String(evidence.Drugs).match(/\bCGP(?:52432|55845A?)|Saclofen\b/g) || String(evidence.IntracellularSolution).match(/Cs|QX.?314/g)) && String(evidence.Drugs).match(/\bAP[5V]|CPP|MK801|7CK\b/g))?
+      'Blocked' : '';
   } else if (evidence.ErevCalculated.match(/GABA/) && (String(evidence.Drugs).match(/\bCGP(?:52432|55845A?)|Saclofen\b/g) || String(evidence.IntracellularSolution).match(/Cs|QX.?314/g))) {
-    noSlowComponent = 'Blocked'
+    noSlowComponent = 'Blocked';
   } else if (evidence.ErevCalculated.match(/AMPA/) && String(evidence.Drugs).match(/\bAP[5V]|CPP|MK801|7CK\b/g)) {
     noSlowComponent = 'Blocked';
   }
@@ -60,7 +70,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Miniature Potentials (mPSP)');
         //ID:427341935	Type:PAGE_BREAK	Title:Miniature Potentials (mPSP)
-        //ID:1141504215	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:1141504215	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('1141504215',SynapticResponse);
         //ID:265541588	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('265541588',noSlowComponent);
         //ID:97211865	Type:MULTIPLE_CHOICE	Title:mP:Has Calcium-Permeable AMPA Component?
@@ -132,7 +143,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Miniature Currents (mPSC)');
         //ID:372254299	Type:PAGE_BREAK	Title:Miniature Currents (mPSC)
-        //ID:1501419860	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:1501419860	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('1501419860',SynapticResponse);
         //ID:1443996945	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('1443996945',noSlowComponent);
         //ID:297518803	Type:MULTIPLE_CHOICE	Title:mC:Has Calcium-Permeable AMPA Component?
@@ -202,7 +214,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Spontaneous Potentials (sPSP)');
         //ID:1794492914	Type:PAGE_BREAK	Title:Spontaneous Potentials (sPSP)
-        //ID:774049725	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:774049725	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('774049725',SynapticResponse);
         //ID:1214131409	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('1214131409',noSlowComponent);
         //ID:1666194539	Type:MULTIPLE_CHOICE	Title:sP:Has Calcium-Permeable AMPA Component?
@@ -275,7 +288,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Spontaneous Currents (sPSC)');
         //ID:592341402	Type:PAGE_BREAK	Title:Spontaneous Currents (sPSC)
-        //ID:941536151	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:941536151	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('941536151',SynapticResponse);
         //ID:1177876013	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('1177876013',noSlowComponent);
         //ID:132657594	Type:MULTIPLE_CHOICE	Title:sC:Has Calcium-Permeable AMPA Component?
@@ -344,7 +358,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Unitary Potentials (uPSP)');
         //ID:570119060	Type:PAGE_BREAK	Title:Unitary Potentials (uPSP)
-        //ID:1894463225	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:1894463225	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('1894463225',[SynapticResponse]);
         //ID:304789355	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('304789355',noSlowComponent);
         //ID:1633992263	Type:MULTIPLE_CHOICE	Title:uP:Has Calcium-Permeable AMPA Component?
@@ -478,7 +493,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Unitary Currents (uPSC)');
         //ID:367793735	Type:PAGE_BREAK	Title:Unitary Currents (uPSC)
-        //ID:646965923	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:646965923	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('646965923',[SynapticResponse]);
         //ID:2145805456	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('2145805456',noSlowComponent);
         //ID:252444326	Type:MULTIPLE_CHOICE	Title:uC:Has Calcium-Permeable AMPA Component?
@@ -608,7 +624,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Evoked Potentials (ePSP)');
         //ID:954095570	Type:PAGE_BREAK	Title:Evoked Potentials (ePSP)
-        //ID:758395333	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:758395333	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('758395333',SynapticResponse);
         //ID:356322618	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('356322618',noSlowComponent);
         //ID:1878653873	Type:MULTIPLE_CHOICE	Title:eP:Has Calcium-Permeable AMPA Component?
@@ -745,7 +762,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1173200506	Type:MULTIPLE_CHOICE	Title:Recorded Modality
         pForm.prefillItem('1173200506','Evoked Currents (ePSC)');
         //ID:714132856	Type:PAGE_BREAK	Title:Evoked Currents (ePSC)
-        //ID:970590711	Type:MULTIPLE_CHOICE	Title:Section Marker
+        //ID:970590711	Type:MULTIPLE_CHOICE	Title:Synaptic Response
+        pForm.prefillEmptyItem('970590711',SynapticResponse);
         //ID:82994963	Type:MULTIPLE_CHOICE	Title:Has Slow NMDA or GABA-B Component?
         pForm.prefillEmptyItem('82994963',noSlowComponent);
         //ID:281908569	Type:MULTIPLE_CHOICE	Title:eC:Has Calcium-Permeable AMPA Component?
@@ -912,7 +930,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   //ID:49449155	Type:MULTIPLE_CHOICE	Title:Slice Orientation
   pForm.setDescription('49449155',covariates.SliceOrientation);
   //ID:665351252	Type:PARAGRAPH_TEXT	Title:Slice Thickness (µm)
-  pForm.prefillEmptyItem('665351252',tagRefIDUniversal(getEverythingWithinParentheses(covariates.SliceOrientation),covRefs));
+  pForm.prefillEmptyItem('665351252',tagRefIDUniversal(getEverythingWithinParentheses(covariates.SliceOrientation),covRefs)||'NA');
   //ID:2031543787	Type:MULTIPLE_CHOICE	Title:Subcellular Recording Domain
   //ID:1755334452	Type:PARAGRAPH_TEXT	Title:Input Resistance (MΩ)
   pForm.prefillEmptyItem('1755334452',covariates.PostSynRin);

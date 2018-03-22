@@ -21,9 +21,9 @@ function onOpen() {//add sub-toolbar to the toolbar
     .addItem('▶', 'typeForwardArrow')
     .addItem('Get Max', 'getMaxOfColumn')
     .addItem('Count Unique', 'countUnique')
-    .addItem('Import Evidence', 'getTheLastFormResponse'))
+    .addItem('Import Evidence', 'getTheLastFormResponse')
+    .addItem('Insert Rows After', 'insertRow'))
   .addSeparator()
-  .addItem('Insert Rows After', 'insertRow')
   .addItem('Jump to Row', 'jumpToRow')
   .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
   .addToUi();
