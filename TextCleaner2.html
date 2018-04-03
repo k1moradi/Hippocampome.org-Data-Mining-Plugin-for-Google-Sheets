@@ -12,7 +12,7 @@ function formatText(elem) {
   elem = removeUnwantedNodes(elem);
   elem.innerHTML = elem.innerHTML
     .replace('◦','°')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
-    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st)|\u200B|, available at www.jneurosci. ?org ?as ?supplemental material/g,'')
+    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st)|\u200B|(?<=\])\s+(?=<sub>)|, available at www.jneurosci. ?org ?as ?supplemental material/g,'')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. -> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1')      // R M P -> RMP
     .replace(/(?<!<br>)[\r\n]+|[\t\s]+|&nbsp;|&thinsp;|(?<=tables|table|figures|figure|figs\.|fig\.|figs|fig)(?=\w\w?[ \.\?;,)])(?!s[\. ]?)|(?<=[,;])(?=n=\d)|(?<= of)(?=–\d+)|(?<=\d+)(?=°C)|(?<=GABA(?:.?(?:A|B|<sub>[AB]<\/sub>)))(?=\w)/ig,' ')
@@ -80,10 +80,10 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])[\(\{]\}(?=[\- ),;.])/g                                                                 , 'θ')
     .replace(/(?<=\d)\s*[·*]\s*(?=\d)|(?<=[ ±+–]0)–?(?=(?:0\d+|[1-9])[ ±+])/g                                    , '.')       // decimal point  |(?<=[ +=]\d)[–'](?=\d+[ +])
     .replace(/(?<=[ =,;(]\d+)[–'&.](\d+)\s*([+±–])\s*(\d+)[–'&.](?=\d+[ ),;])/g                                  , '.$1$2$3.')//\d–\d–\d–\d --> \d.\d–\d.\d)
-    .replace(/(?<=[A-Za-z])\s*[-−](\s*)(?=[A-Za-z])/g                                                            , '-$1')     // negative as hiphen between two words
-    .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\)])[–—−-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\(])/g                                         , '–')       // normal hiphen as big hiphen or negative signs between two words
+    .replace(/(?<=[A-Za-z])\s*[-−‐](\s*)(?=[A-Za-z])/g                                                           , '-$1')     // negative as hiphen between two words
+    .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\)])[–—−‐\-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\(])/g                                       , '–')       // normal hiphen as big hiphen or negative signs between two words
     .replace(/(?<=[(;, ])(?:<(i)>)?\s*t\s*(?:<\/\1>)?\s*test|(?<=paired)–t test/ig                               , ' t–test')  // t–test
-    .replace(/&minus;|(?<= [∼(]|>\(?|\d+\/) *[–—−](?=\d)|(?<=[(;, ])[–—−](?=\d+[– ]ms|\d+\/\d+ )/g               , '-')       // ngative
+    .replace(/&minus;|(?<= [∼(]|>\(?|\d+\/) *[–—−‐](?=\d)|(?<=[(;, ])[–—−‐](?=\d+[– ]ms|\d+\/\d+ )/g             , '-')       // ngative
     .replace(/(?<=[\d])\s*(?:[–—−]|&ndash;)\s*(\d+)\s*(?=%)/g                                                    , '-$1')     // 20-80%
     .replace(/(?<=[(;, ])[I1]–0(?=[ ),;.])/g                                                                     , 'I-O')
     .replace(/(?<=[(;, ])[n«]\s*(?:[¼\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                 , 'n=')
@@ -123,7 +123,7 @@ function formatText(elem) {
                                                                                                                  ,' $1Ω')
     .replace(/(?<=[(;, ]R)(?:m|,,|[,l] ?n)(?=,? \d+(?:\.\d+)?(?:±\d+\.?\d*)? MΩ)|(?<=input resistance\s*[(;, ]R)(?:m|,,|[,l] ?n)/g
                                                                                                            ,  '<sub>in</sub>')// R,, -> Rin
-    .replace(/(?<=[(;, ])R *([Ss]|in|IN|input)(?=[ =),;.])/g                                               , 'R<sub>$1</sub>')// Rin Rs
+    .replace(/(?<=[(;, ])R *(s|in|IN|input)(?=[ =),;.])/g                                                  , 'R<sub>$1</sub>')// Rin Rs not RS = Reqular-Spiking
     .replace(/(?<=[(;, ])C *([mM])(?=[ =),;.])/g                                                           , 'C<sub>$1</sub>')// Cm --> Cₘ  [not cm = centimiter]
     .replace(/(?<=(?:[A-Za-z]{3}|[)])\s*\d+(?:,\d+)*)\s*'\s*(?=\d+(?:\s\(|[.,]\s|\.$|\.<br>))/g            , ',')             // numerical references miss spelling \d'\d -> \d,\d
     .replace(/(?<=[A-Za-z]{3}|[)])(?<![Ff]ig(?:ure|s?\.)?s?|[Tt]ables?|<br>)(?![,\d\s]*(?:and|\(\d{4}\)))\s*(\d{1,2}(?:,\s*\d{1,2})+)(?=\s\(|[.,]\s|\.$|\.<br>)/g
@@ -191,10 +191,11 @@ function formatText(elem) {
     .replace(/\s+\<(br|\/td)>/g                                                                                  , '<$1>')
     .replace(/\s+<\/(br?)>/g                                                                                     , '</$1> ')
     .replace(/(^[\-– \w]{1,100}? )([Aa](?: and [Bb]){0,1},)(?= )/                                          , '<b>$1</b><br>$2') // bold the first sentence of the images
-    .replace(/((?:<br>\s*|(?<![Ff]igs?|[Rr]efs?|vs|et[ .]?al|\(\w{1,2})\.\s)(?:(?=\([^.):]{1,20}[):]|\w (?:and|or) \w,)|(?!\w{1,3}[\. ]|\(|<b>[^.,:<>]{1,20}<\/b> )))(\(?(?:(?:\w[a-z1-9]?|<b>\w[a-z1-9]?:?<\/b>)(?:(?:[,\-– ]{1,2}|and|or){1,3}(?:\w[a-z1-9]?|<b>\w[a-z1-9]?:?<\/b>)){0,2}|<b>\w[a-z1-9]?(?:(?:[,\-– ]{1,2}|and|or){1,3}\w[a-z1-9]?){0,2}:?<\/b>)(?:(?<=:<\/b>)|[\),:]|(?<=(?:and|or) \w[a-z1-9]?)))(?= )/g,
+    .replace(/((?:<br>\s*|(?<![Ff]igs?|[Rr]efs?|vs|et[ .]?al|\(\w{1,2})\.\s)(?:(?=\([^.):]{1,20}[):]|\w (?:and(?= )|or(?= )) \w,)|(?!\w{1,3}[\. ]|\(|<b>[^.,:<>]{1,20}<\/b> )))(\(?(?:(?:\w[a-z1-9]?|<b>\w[a-z1-9]?:?<\/b>)(?:(?:[,\-– ]{1,2}|and(?= )|or(?= )){1,3}(?:\w[a-z1-9]?|<b>\w[a-z1-9]?:?<\/b>)){0,2}|<b>\w[a-z1-9]?(?:(?:[,\-– ]{1,2}|and(?= )|or(?= )){1,3}\w[a-z1-9]?){0,2}:?<\/b>)(?:(?<=:<\/b>)|[\),:]|(?<=(?:and(?= )|or(?= )) \w[a-z1-9]?)))(?= )/g,
       function(fullMatch,p1,p2){
         return ((p1==='. ')?'.':'')+'<br><b>'+p2.replace(/<\/?b>/g,'')+'</b>';                                      })          // a-b, bold image list                                                                                                                        
-    .replace(/(?<=[\.;]\s|<\/?br?>)(\s*(?:(?:right|left|top|bottom|middle|center|insets?|upper|lower|abbreviations?)(?:(?:\s+to\s+|\s+)?(?:panel|graph|trace|left|right|top|bottom|middle|center))?[,:]\s*)+)(?=\s)/ig,' <b>$1</b>') // bold subsections in figures
+    .replace(/(?<=[\.;]\s|<\/?br?>)([\s\(]*(?:(?:right|left|top|bottom|middle|center|insets?|upper|lower|abbreviations?)(?:(?:\s+to\s+|\s+)?(?:panel|graph|trace|left|right|top|bottom|middle|center|traces?))?[,:)]\s*)+)(?=\s)/ig
+                                                                                                                 ,' <b>$1</b>') // bold subsections in figures
     .replace(/^([^.,?<>]+\.)\s*(?=<br>)/g                                                                        , '<b>$1</b>') // bold the 1st sentence
     .replace(/(?<!<\/b>)(?:<br>)([\w ]*?\.)(?:(?:<br>(?!<b>)))/g                                         , '<br><b>$1</b><br>') // bold subsections
     .replace(/(?:[\n\s]*(?:<br>)+(?!\n)|(?:<br>)+\n+)/g                                                          , '<br>')
@@ -269,9 +270,8 @@ function formatText(elem) {
     </style>
     <?!=include('commonCSS')?>
   </head>
-  <body>
+  <body style="font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 16px;">
     <title>PDF Text Cleaner Tool</title>
-    <input   type='button' class='button' value='✍' onmousedown='formatText(CleanTextElem)'                          title='Format: Shortcut=F2'>
     <div class="dropdown">
       <input   type='button' class='button' value='🔣'>
       <div class="dropdown-content">
@@ -303,15 +303,15 @@ function formatText(elem) {
         <input type='button' class='button' value='κ'  onmousedown="document.execCommand('insertText', false, 'κ')"   title='kappa Minuscule'>
         <input type='button' class='button' value='λ'  onmousedown="document.execCommand('insertText', false, 'λ')"   title='lamda Minuscule'>
         <input type='button' class='button' value='µ'  onmousedown="document.execCommand('insertText', false, 'µ')"   title='mu Minuscule, shortcut:Ctrl+M'>
-        <input type='button' class='button' value='ξ'  onmousedown="document.execCommand('insertText', false, 'ξ')"   title='xi Minuscule'
-        ><input type='button' class='button' value='π'  onmousedown="document.execCommand('insertText', false, 'π')"   title='pi Minuscule'
-        ><input type='button' class='button' value='ρ'  onmousedown="document.execCommand('insertText', false, 'ρ')"   title='rho Minuscule'
-        ><input type='button' class='button' value='σ'  onmousedown="document.execCommand('insertText', false, 'σ')"   title='sigma Minuscule'
-        ><input type='button' class='button' value='τ'  onmousedown="document.execCommand('insertText', false, 'τ')"   title='tau Minuscule'
-        ><input type='button' class='button' value='φ'  onmousedown="document.execCommand('insertText', false, 'φ')"   title='phi Minuscule'
-        ><input type='button' class='button' value='χ'  onmousedown="document.execCommand('insertText', false, 'χ')"   title='chi Minuscule'
-        ><input type='button' class='button' value='ψ'  onmousedown="document.execCommand('insertText', false, 'ψ')"   title='psi Minuscule'
-        ><input type='button' class='button' value='ω'  onmousedown="document.execCommand('insertText', false, 'ω')"   title='Omega Minuscule'>
+        <input type='button' class='button' value='ξ'  onmousedown="document.execCommand('insertText', false, 'ξ')"   title='xi Minuscule'>
+        <input type='button' class='button' value='π'  onmousedown="document.execCommand('insertText', false, 'π')"   title='pi Minuscule'>
+        <input type='button' class='button' value='ρ'  onmousedown="document.execCommand('insertText', false, 'ρ')"   title='rho Minuscule'>
+        <input type='button' class='button' value='σ'  onmousedown="document.execCommand('insertText', false, 'σ')"   title='sigma Minuscule'>
+        <input type='button' class='button' value='τ'  onmousedown="document.execCommand('insertText', false, 'τ')"   title='tau Minuscule'>
+        <input type='button' class='button' value='φ'  onmousedown="document.execCommand('insertText', false, 'φ')"   title='phi Minuscule'>
+        <input type='button' class='button' value='χ'  onmousedown="document.execCommand('insertText', false, 'χ')"   title='chi Minuscule'>
+        <input type='button' class='button' value='ψ'  onmousedown="document.execCommand('insertText', false, 'ψ')"   title='psi Minuscule'>
+        <input type='button' class='button' value='ω'  onmousedown="document.execCommand('insertText', false, 'ω')"   title='Omega Minuscule'>
         <br>
         <input type='button' class='button' value='⁰'  onmousedown="document.execCommand('insertText', false, '⁰')"   title='Superscript'>
         <input type='button' class='button' value='¹'  onmousedown="document.execCommand('insertText', false, '¹')"   title='Superscript'>
@@ -440,7 +440,7 @@ function formatText(elem) {
         <br>
         <input type='button' class='button' value='⬅'  onmousedown="document.execCommand('insertText', false, '⬅')">
         <input type='button' class='button' value='⬌'  onmousedown="document.execCommand('insertText', false, '⬌')">
-        <input type='button' class='button' value='➞'  onmousedown="document.execCommand('insertText', false, '➞')">
+        <input type='button' class='button' value='➡'  onmousedown="document.execCommand('insertText', false, '➡')">
         <input type='button' class='button' value='⬆'  onmousedown="document.execCommand('insertText', false, '⬆')">
         <input type='button' class='button' value='⬍'  onmousedown="document.execCommand('insertText', false, '⬍')">
         <input type='button' class='button' value='⬇'  onmousedown="document.execCommand('insertText', false, '⬇')">
@@ -448,6 +448,7 @@ function formatText(elem) {
         <input type='button' class='button' value='⬉'  onmousedown="document.execCommand('insertText', false, '⬉')">
         <input type='button' class='button' value='⬊'  onmousedown="document.execCommand('insertText', false, '⬊')">
         <input type='button' class='button' value='⬋'  onmousedown="document.execCommand('insertText', false, '⬋')"> 
+        <input type='button' class='button' value='⟲'  onmousedown="document.execCommand('insertText', false, '⟲')">
         <br>
         <input type='button' class='button' value='◻'  onmousedown="document.execCommand('insertText', false, '◻')" title='BLACK SQUARE'>
         <input type='button' class='button' value='◼'  onmousedown="document.execCommand('insertText', false, '◼')" title='WHITE SQUARE'>
@@ -460,26 +461,27 @@ function formatText(elem) {
         <input type='button' class='button' value='▨'  onmousedown="document.execCommand('insertText', false, '▨')">
         <input type='button' class='button' value='▩'  onmousedown="document.execCommand('insertText', false, '▩')">
         <br>
-        <input type='button' class='button' value='◆'  onmousedown="document.execCommand('insertText', false, '◆')" title='BLACK DIAMOND'>
-        <input type='button' class='button' value='◇'  onmousedown="document.execCommand('insertText', false, '◇')" title='WHITE DIAMOND'>
+        <input type='button' class='button' value='◆'  onmousedown="document.execCommand('insertText', false, '◆')"   title='BLACK DIAMOND'>
+        <input type='button' class='button' value='◇'  onmousedown="document.execCommand('insertText', false, '◇')"   title='WHITE DIAMOND'>
         <input type='button' class='button' value='⬤'  onmousedown="document.execCommand('insertText', false, '⬤')" title='BLACK CIRCLE'>
-        <input type='button' class='button' value='⭘'  onmousedown="document.execCommand('insertText', false, '⭘')" title='WHITE CIRCLE'>
+        <input type='button' class='button' value='⭘'  onmousedown="document.execCommand('insertText', false, '⭘')"  title='WHITE CIRCLE'>
         <input type='button' class='button' value='◍'  onmousedown="document.execCommand('insertText', false, '◍')">
         &nbsp;
-        <input type='button' class='button' value='⋮'  onmousedown="document.execCommand('insertText', false, '⋮')"   title='Vertical Ellipses'>
+        <input type='button' class='button' value='⋮' onmousedown="document.execCommand('insertText', false, '⋮')"   title='Vertical Ellipses'>
         <input type='button' class='button' value='†'  onmousedown="document.execCommand('insertText', false, '†')"   title='Dagger'>
       </div>
     </div>
-    <input type='button' class='button' value='𝗕'  onmousedown="document.execCommand('bold', false, null)"             title='Ctrl+B' style="padding-top:2px;">
+    <input   type='button' class='button' value='✍' onmousedown='formatText(CleanTextElem)'                           title='Format: Shortcut=F2'>
+    <input type='button' class='button' value='𝗕'  onmousedown="document.execCommand('bold', false, null)"            title='Ctrl+B' style="padding-top:2px;">
     <input type='button' class='button' value='𝑰'  onmousedown="document.execCommand('italic', false, null)"           title='Ctrl+I' style="padding-top:2px;">
-    <input type='button' class='button' value='𝐒'  onmousedown="document.execCommand('strikeThrough', false, null)" style='text-decoration: line-through;padding-top:2px;'>
-    <input type='button' class='button' value='𝑿₂' onmousedown="document.execCommand('subscript', false, null)"                       style="padding-top:2px;">
-    <input type='button' class='button' value='𝑿²' onmousedown="document.execCommand('superscript', false, null)"                     style="padding-top:2px;">
-    <input type='button' class='button' value='𝟭.' onmousedown="document.execCommand('insertOrderedList', false, null)"               style="padding-top:2px;">
+    <input type='button' class='button' value='𝐒'  onmousedown="document.execCommand('strikeThrough', false, null)"                  style='text-decoration: line-through;padding-top:2px;'>
+    <input type='button' class='button' value='𝑿₂' onmousedown="document.execCommand('subscript', false, null)"                      style="padding-top:2px;">
+    <input type='button' class='button' value='𝑿²' onmousedown="document.execCommand('superscript', false, null)"                    style="padding-top:2px;">
+    <input type='button' class='button' value='𝟭.' onmousedown="document.execCommand('insertOrderedList', false, null)"              style="padding-top:2px;">
     <input type='button' class='button' value='≔' onmousedown="document.execCommand('insertUnorderedList', false, null)"             style="padding-top:2px;">
-    <input type='button' class='button' value='❌' onmousedown="document.execCommand('removeFormat', false, null)"     title='Remove Format'>
-    <input type='button' class='button' value='🔄' onmousedown="loadValue(CleanTextElem)"                              title='Load'>
-    <input type='button' class='button' value='💾' onmousedown="saveValue(CleanTextElem)"                              title='Save'>
+    <input type='button' class='button' value='❌' onmousedown="document.execCommand('removeFormat', false, null)"      title='Remove Format'>
+    <input type='button' class='button' value='🔄' onmousedown="loadValue(CleanTextElem)"                               title='Load'>
+    <input type='button' class='button' value='💾' onmousedown="saveValue(CleanTextElem)"                               title='Save'>
     <!--<input type='button' class='button' value='p'  onmousedown="prompt('',CleanTextElem.innerHTML)"                    title='prompt'>-->
     <br>
     <div id="CleanText" contenteditable="true" class="textCleanerDiv" spellcheck="true" data-enable-grammarly="true" data-gramm="true"></div>
@@ -618,7 +620,7 @@ function formatText(elem) {
     shortcut.add('Ctrl+,',function(){document.execCommand('subscript', false, null)});
     shortcut.add('Ctrl+m',function(){document.execCommand('insertText', false, 'µ')});
     shortcut.add('Ctrl+f12',function(){document.execCommand('insertText', false, '–')});
-    shortcut.add('enter',function(){document.execCommand('insertHTML', false, '<br>')});
+    //shortcut.add('enter',function(){document.execCommand('insertHTML', false, '<br>')});
     shortcut.add('f2',function(){saveValue(CleanTextElem)});
     </script>
     

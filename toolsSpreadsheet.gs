@@ -1,12 +1,19 @@
 function test() { 
-  Logger.log('In transverse hippocampal slices of SOM–IRES–Cre; ChR2(H134R)–EYFP mice, the whole-slice is photostimulated to record eIPSCs from CA1 Cajal-Retzius cells identified by their characteristic firing pattern or post hoc morphological reconstruction (Fig. 7).'.match(/photostim|optogenetic/i))
+  a = [];
+  Logger.log((0)?1:2)
 }
 
 function getMaxOf(sheetName,columnName) {
   var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
   var columnNum = (sheet.getRange('1:1').getValues()[0].indexOf(columnName))+1;
   //               rowStarts,columnNum,rowsEnds
-  var max = sheet.getRange(1,columnNum,sheet.getLastRow()).getValues().reduce(function(p,v){if (isNumeric(v[0]) && v[0]>p) p=v[0];return p},Number.NEGATIVE_INFINITY);
+  var max = sheet.getRange(1,columnNum,sheet.getLastRow()).getValues().reduce(
+    function(p,v){
+      if (typeof v[0] === 'string' || v[0] instanceof String)
+        v[0] = Math.max.apply(null, v[0].split(/\s*[;,]\s*/).filter(isNumeric));
+      if (isNumeric(v[0]) && v[0]>p) p=v[0];
+      return p;
+    },Number.NEGATIVE_INFINITY);
   return isNumeric(max) ? max: 0
 }
 
@@ -30,7 +37,7 @@ function getEvidenceValues(activeRange) {
     tUID                 : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
     PMID                 : String(rawEvidenceObj.PMID).split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
     //(Math.max.apply(null,activeRange.getSheet().getRange(1,columnNumObj.eID+1,activeRange.getSheet().getLastRow()).getValues().filter(isNumeric))+1)
-    eID                  : (isNumeric(rawEvidenceObj.eID)) ? rawEvidenceObj.eID : getMaxOf('Evidence','eID')+1,
+    eID                  : (isNumeric(ID=rawEvidenceObj.eID) && ID>getMaxOf('SD','Evidence ID')) ? ID : getMaxOf('Evidence','eID')+1,
     MicroscopyCType      : rawEvidenceObj.MicroscopyCType,
     ePhysCType           : rawEvidenceObj.ePhysCType,
     Description          : (typeof rawEvidenceObj.Description === 'string')? rawEvidenceObj.Description.replace(/<br>/g,'<br>\n') : rawEvidenceObj.Description,

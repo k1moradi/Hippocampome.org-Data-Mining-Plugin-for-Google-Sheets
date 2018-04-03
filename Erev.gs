@@ -5,15 +5,42 @@
 //PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
-  //Elfant 2008 Specific inhibitory synapses shift the balance from feedforward to feedback inhibition of hippocampal CA1 pyramidal cells.
-  new solution(celsius=33,
-               eSolution='130 NaCl2, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 2 MgCl2',
-               pSolution='126 K-Gluconate, 10 HEPES, 10 Na2-Phosphocreatine, 4 KCl, 4 MgATP, 0.3 NaGTP',
+  //
+  new solution(celsius=35,
+               eSolution='125 NaCl, 2.5 KCl, 25 NaHCO3, 1.25 NaH2PO4, 2 Na-pyruvate, 2 CaCl2, 1 MgCl2',
+               pSolution='135 K-Gluconate, 5 KCl, 0.1 EGTANa, 10 HEPES, 2 NaCl, 5 Mg ATP, 0.4 Na2GTP, 10 Na2-Phosphocreatine',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
+               voltages={Vm:{RMP:-70,Vh:NaN,Vss:-73},
                Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
                Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.3,i:7.3,CO2:true}).log();  
+               pH={e:7.4,i:7.2,CO2:true}).log();
+  //Magee 1997 A synaptically controlled, associative signal for Hebbian plasticity in hippocampal neurons.
+//  new solution(celsius=35,
+//               eSolution='124 NaCl, 2.5 KCl, 1.2 NaH2PO4, 25 NaHCO3, 2.5 CaCl2, 1.5 MgCl2',
+//               pSolution='120 K-Gluconate, 20 KCl, 10 Hepes, 4 NaCl, 4 MgATP, 0.3 MgGTP, 14 phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-74,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.25,CO2:true}).log();
+  //Losonczy 2002 Cell type dependence and variability in the short-term plasticity of EPSCs in identified mouse hippocampal interneurones.
+//  new solution(celsius=26,
+//               eSolution='126 NaCl, 2.5 KCl, 1.25 NaH2PO4, 24 NaHCO3, 2 MgCl2, 2 CaCl2',
+//               pSolution='130 K-Gluconate, 5 KCl, 2 MgCl2, 0.05 EGTA, 10 Hepes, 2 Mg–ATP, 0.4 Mg–GTP, 10 creatinine-phosphate',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+  //Elfant 2008 Specific inhibitory synapses shift the balance from feedforward to feedback inhibition of hippocampal CA1 pyramidal cells.
+//  new solution(celsius=33,
+//               eSolution='130 NaCl2, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 2 MgCl2',
+//               pSolution='126 K-Gluconate, 10 HEPES, 10 Na2-Phosphocreatine, 4 KCl, 4 MgATP, 0.3 NaGTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.3,CO2:true}).log();  
   //Fuentealba 2008 Ivy cells: a population of nitric-oxide-producing, slow-spiking GABAergic neurons and their involvement in hippocampal network activity.
 //  new solution(celsius=33,
 //               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2',
@@ -715,13 +742,30 @@ function eRev(){
 //                      recordingMethod='whole-cell',
 //                      voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:-73.7 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //                      pH={e:7.4,i:7.3,CO2:true}).log();
-
   
   
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
   
   
+  //Pawelzik 2003 Modulation of inhibitory autapses and synapses on rat CA1 interneurones by GABA(A) receptor ligands.
+//  new solution(celsius=35,
+//               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1 MgSO4, 2.5 CaCl2',
+//               pSolution='2000 K-Methylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-56,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-76,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
+  //Ali 1998 CA1 pyramidal to basket and bistratified cell EPSPs: dual intracellular recordings in rat hippocampal slices.
+//  new solution(celsius=34.5,
+//               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2',
+//               pSolution='2000 K-Methylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-76},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Ali 1998 Facilitating pyramid to horizontal oriens-alveus interneurone inputs: dual intracellular recordings in slices of rat hippocampus.
 //  new solution(celsius=34.5,
 //               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2',

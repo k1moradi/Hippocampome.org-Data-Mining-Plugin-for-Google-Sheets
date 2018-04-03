@@ -38,13 +38,13 @@ function getTheLastFormResponse(){
       
       //ID:1093425014	Type:CHECKBOX	Title:GABA or Glutamate receptors (ant)agonists
       function saveCheckBoxResponce(idStr,splitRegEx,JoinStr,evidenceColName,columnName){
-        var userResponse = IE.getResponse(idStr).filter(Null).filter(onlyUnique);
+        var userResponse = IE.getResponse(idStr).filter(dash2null).filter(onlyUnique);
         saveSingleColumnRange(aR,eColumnObj[evidenceColName],userResponse.join(JoinStr));
         var choises = form.getItemById(idStr).asCheckboxItem().getChoices().map(
-          function(choice){return choice.getValue().split(splitRegEx)}).reduce(to1D,[]).filter(Null).filter(onlyUnique);
+          function(choice){return choice.getValue().split(splitRegEx)}).reduce(to1D,[]).filter(dash2null).filter(onlyUnique);
         var newChoises = userResponse.filter(function(res){return choises.indexOf(res) === -1});
         // if multiple new responces are provided split them
-        var dataInCovariatesColum = String(covariates[columnName]).split(splitRegEx).filter(Null).filter(onlyUnique);
+        var dataInCovariatesColum = String(covariates[columnName]).split(splitRegEx).filter(dash2null).filter(onlyUnique);
         var savable = newChoises.map(function(res){return res.split(splitRegEx)}).reduce(to1D,[]).filter(
           function(res){return dataInCovariatesColum.indexOf(res) === -1});
         if (savable.length !== 0)
@@ -60,7 +60,7 @@ function getTheLastFormResponse(){
         if (addRegEx.test(response)) {
           var [match, itemToBeAdded] = addRegEx.exec(response)
           saveSingleColumnRange(covariatesRange, covariatesColumnObj.PostsynVm,
-                                (String(covariates.PostsynVm).split(/ *, */g).concat(itemToBeAdded).filter(Null).filter(onlyUnique).join(', ')));
+                                (String(covariates.PostsynVm).split(/ *, */g).concat(itemToBeAdded).filter(dash2null).filter(onlyUnique).join(', ')));
         } else if (replaceRegEx.test(response)) {
           var [match, itemToBeDeleted, itemToBeAdded] = replaceRegEx.exec(response);
           saveSingleColumnRange(covariatesRange, covariatesColumnObj.PostsynVm,
@@ -68,7 +68,7 @@ function getTheLastFormResponse(){
                                  .split(/ *, */g)
                                  .filter(function(item){return item !== itemToBeDeleted})
                                  .concat(itemToBeAdded)
-                                 .filter(Null).filter(onlyUnique).join(', ')));
+                                 .filter(dash2null).filter(onlyUnique).join(', ')));
         }
         saveSingleColumnRange(aR, eColumnObj.RMPorVh, (itemToBeAdded)? itemToBeAdded : response.split(/ *, */g).filter(Null).join(', '));
       }(IE.getResponse('530154900')));

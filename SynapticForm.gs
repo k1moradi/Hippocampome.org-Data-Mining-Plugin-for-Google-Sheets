@@ -1,7 +1,7 @@
 function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,dSec) {
   //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
   var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
-  
+  var eColumnObj = aR.getSheet().getRange('1:1').getValues().reduce(to1D).reduce(function(p,v,i){p[v]=i+1; return p},{});
 //  var paragraphtextValidation = FormApp.createParagraphTextValidation()
 //  .setHelpText("Remove ~~ if the response is valid to you")
 //  .requireTextDoesNotContainPattern('^[\\s\\n\\r\\t]*~~\\s*').build();
@@ -64,6 +64,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   pForm.prefillItem('277511854',evidence.PMID);
   //ID:1965398313	Type:PARAGRAPH_TEXT	Title:Evidence ID
   pForm.prefillItem('1965398313',evidence.eID);
+  //if eID was absent save it
+  if (!(isNumeric(evidence.rawEvidenceObject.eID))) saveSingleColumnRange(aR,eColumnObj.eID,evidence.eID);
   dSec.split(/[\s,;]+/g).forEach(function(dataSec){
     switch (dataSec)  {
       case 'mPSP':
@@ -944,8 +946,8 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   var dID = getMaxOf('SD','Data ID')+1
   //ID:1630267501	Type:TEXT	Title:Data ID
   pForm.prefillItem('1630267501',dID);
-  var eColumnObj = aR.getSheet().getRange('1:1').getValues().reduce(to1D).reduce(function(p,v,i){p[v]=i+1; return p},{});
-  saveSingleColumnRange(aR,eColumnObj.dID,String(evidence.dID).split(/\s*[,;]+\s*/g).filter(Null).concat(String(dID)).filter(onlyUnique).join('; '));
+  evidence.dID = String(evidence.dID).split(/\s*[,;]+\s*/g).filter(Null).concat(String(dID)).filter(onlyUnique).join('; ');
+  saveSingleColumnRange(aR, eColumnObj.dID, evidence.dID);
   
   if (!(evidence.dSec === 'mPSP' || 
         evidence.dSec === 'mPSP' || 
@@ -960,7 +962,7 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
   
   
   //-------------------------------------
-  return pForm.getPrefilledUrl();
+  return [pForm.getPrefilledUrl(),evidence.dID];
 }
 
 function getEverythingWithinParentheses(txt) {

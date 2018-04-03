@@ -76,8 +76,8 @@ function addSynapticData() {
   [evidenceRange,rowIndex] = getCheckActiveRange(ss.getActiveRange(),"Evidence",synapticDataSheet);
   if (evidenceRange) {
     // get needed data from spread sheets
-    var output = HtmlService.createTemplate(include('showReferences')+include('SynapticData')); //HtmlService.createTemplateFromFile("SynapticData");
-    var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
+    var output = HtmlService.createTemplate(include('showReferences')+include('SynapticData'));
+    var evidence      = output.evidence       = getEvidenceValues(evidenceRange);
                         output.displayForm    = true;
     var dSec = evidence.dSec, dSecTypes = ['mPSP', 'mPSC', 'sPSP', 'sPSC', 'uPSP', 'uPSC', 'ePSP', 'ePSC'];
     while (dSec.split(/[\s,;]+/g).some(function(item){return (dSecTypes.indexOf(item) === -1)}))
@@ -98,7 +98,9 @@ function addSynapticData() {
     
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     if (covariates && oldSynData && synRefs && covRefs && myRefs && morphology && markers && cellEphys && firingPatterns && connectivity) {
-      output.url = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,dSec); //Logger.log(output.url);
+      [url, dID] = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,dSec); //Logger.log(output.url);
+      output.url=url;
+      output.evidence.dID = dID;
       output.imagesShown = [];
       output.allRefs = mergeObjs(synRefs,covRefs,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity);
       SpreadsheetApp.getUi().showModalDialog(
