@@ -127,12 +127,22 @@ function checkQuery(evidence,cellTypes) {
     var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
       evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/"/g,'%22'); //Logger.log(URL);.replace(/ /g,'%20')
     var response      = String(UrlFetchApp.fetch(URL));
-    var errorRegExp   = /<br>.*<br>/;
-    var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
-    var fetchedConns  = output.fetchedConns   = (response) ? JSON.parse(response.replace(errorRegExp,'')) : {};
-    if (fetchedConns) {
-      SpreadsheetApp.getUi().showModalDialog(output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Search Query Check Tool');
-      return true;
+    if (response) {
+      var errorRegExp   = /<br>.*<br>/;
+      var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
+      try {
+        var fetchedConns  = output.fetchedConns  = JSON.parse(response.replace(errorRegExp,''));
+        if (fetchedConns) {
+          SpreadsheetApp.getUi().showModalDialog(output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Search Query Check Tool');
+          return true;
+        } else {
+          ss.toast('server returned an empty string');
+        }
+      } catch(e) {
+        ss.toast('server returned an unparsable string\n'+
+                 'server response: '+response+'\n'+
+                 'error: '+e);
+      }
     } else {
       ss.toast('Error in UrlFetchApp');
       return null;
@@ -254,14 +264,13 @@ function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
   if (synapticDataSheet) {
     do {
       var templateDataID = ui.prompt(
-        'Do you let me proceed without data linking?',
+        'Do you want to proceed?\n',
+        '𝙊𝙋𝙏𝙄𝙊𝙉𝘼𝙇: 𝙚𝙣𝙩𝙚𝙧 𝙖 𝙥𝙧𝙚𝙫𝙞𝙤𝙪𝙨 𝙫𝙖𝙡𝙞𝙙 "𝙙𝙖𝙩𝙖 𝙄𝘿" 𝙛𝙤𝙧 𝙡𝙞𝙣𝙠𝙞𝙣𝙜\n\n'+
         
-        '🅽🅾🆃🅴: proper linking needs visiting the linked form menus\n'+
-        '        then pressing 🄽🄴🅇🅃 (not 🄱🄰🄲🄺) to avoid losing data\n\n'+
-        
-        '𝙄𝙛 𝙣𝙤, 𝙚𝙣𝙩𝙚𝙧 𝙖 𝙙𝙖𝙩𝙖 𝙄𝘿 𝙥𝙡𝙚𝙖𝙨𝙚',
-        ui.ButtonSet.YES_NO_CANCEL);
-      var rowIndex = ((response = templateDataID.getSelectedButton()) === ui.Button.NO) ? 
+        '🅽🅾🆃🅴: proper linking needs visiting the linked form submenus\n'+
+        '        then pressing 🄽🄴🅇🅃 (not 🄱🄰🄲🄺) to avoid losing data',
+        ui.ButtonSet.OK_CANCEL);
+      var rowIndex = ((response = templateDataID.getSelectedButton()) === ui.Button.OK && isNumeric(templateDataID.getResponseText())) ? 
         synapticDataSheet.getRange('D2:D').getValues().map(to1DFast).indexOf(Number(templateDataID.getResponseText()))+2 : 0;
     } while (rowIndex === -1);
   }else{

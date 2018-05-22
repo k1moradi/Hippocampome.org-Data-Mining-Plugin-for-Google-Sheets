@@ -1,24 +1,29 @@
 function getTheLastFormResponse(){
   //https://docs.google.com/spreadsheets/d/19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A/edit?usp=sharing
   var form  = FormApp.openById('1L42oPGtpodgmw48FMs1DVdpgmLB9ISEMFZ-DuOu4HIc');
-  var formResponses = form.getResponses();
-  var formResponse = formResponses[formResponses.length-1];//The last submitted form response
-  var aRNumInFormRes = formResponse.getItemResponses().length - 3; //item number 3 from the end of the form responses which has the A1Notation of the save location
-  
+  if (arguments.length === 0) {
+    var allResponses = form.getResponses();
+    var formResponse = allResponses[allResponses.length-1];//The last submitted form response
+  } else {
+    var formResponse = arguments[0].response;//the response sent directly by the form on submission
+  }
   var ss = SpreadsheetApp.openById('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A');
-  var dataSheet         = ss.getSheetByName('Da');
-  var morphologySheet   = ss.getSheetByName('Mo');
-  var markersSheet      = ss.getSheetByName('Ma');
-  var cellEphysSheet    = ss.getSheetByName('CE');
-  var FPSheet           = ss.getSheetByName('FP');
-  var connectivitySheet = ss.getSheetByName('Con');
-  var covSheet          = ss.getSheetByName('Cov');
-  var evidenceSheet     = ss.getSheetByName('Evidence');
-  var aR = ss.getRange(((arguments.length===0)?formResponse:arguments[0].response).getItemResponses()[aRNumInFormRes].getResponse());
+  var evidenceSheet = ss.getSheetByName('Evidence');
+  var formResponseItems = formResponse.getItemResponses();
+  try {
+    //item number 3 from the end of the form responses which has the A1Notation of the save location
+    var aR = evidenceSheet.getRange(formResponseItems[formResponseItems.length - 3].getResponse());
+  } catch(e) {
+    var aR = evidenceSheet.getRange(
+      SpreadsheetApp.getUi().prompt('Error: '+e+'\n'+
+                                    'Enter a correct A1Notation range to save').getResponseText()
+    );
+  }
   if (aR) {
+    var evidence = getEvidenceValues(aR);
+    //var evidence = {PMID: formResponseItems[formResponseItems.length-2].getResponse()};// item number 2 from the end of the form responses is PMID
     try {
       var eColumnObj = evidenceSheet.getRange('1:1').getValues()[0].reduce(function(p,v,i){p[v]=i+1; return p},{});
-      var evidence = getEvidenceValues(aR);
       var covariatesSheet   = ss.getSheetByName('Covariates');
       var covariatesColumnObj = covariatesSheet.getRange('1:1').getValues()[0].reduce(function(p,v,i){p[v]=i+1; return p},{});
       var PMIDs = covariatesSheet.getRange(1, covariatesColumnObj.PMID, covariatesSheet.getLastRow()).getValues().reduce(to1D).map(Number);

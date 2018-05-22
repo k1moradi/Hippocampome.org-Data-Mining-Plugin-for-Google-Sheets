@@ -1,6 +1,9 @@
 function test() { 
-  a = [];
-  Logger.log((0)?1:2)
+  //Logger.log(Utilities.base64Encode(DriveApp.getFilesByName("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg").next().getBlob().getDataAsString()));
+  //Logger.log(getFileIDs("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg"))
+  //while (fileIterator) output.push(fileIterator.next().getId())())
+  a = [1,2,3];
+  Logger.log(a[-1]);
 }
 
 function getMaxOf(sheetName,columnName) {
@@ -263,7 +266,9 @@ function getFileIDs(fileName) {
   var output = [];
   if (typeof fileName === 'string'){
     var fileIterator = DriveApp.getFilesByName(fileName);
-    while (fileIterator.hasNext()) output.push(fileIterator.next().getId());
+    //while (fileIterator.hasNext()) output.push(fileIterator.next().getId());
+    //while (fileIterator.hasNext()) output.push(Utilities.base64Encode(fileIterator.next().getAs('image/png').getBytes()));
+    while (fileIterator.hasNext()) output.push(Utilities.base64Encode(fileIterator.next().getBlob().getBytes()));
   } else {
     SpreadsheetApp.getUi().alert('File name: '+fileName+' is not an string')
   };

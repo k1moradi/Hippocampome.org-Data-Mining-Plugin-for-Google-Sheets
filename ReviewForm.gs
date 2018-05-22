@@ -57,16 +57,6 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   
   //ID:1693269062	Type:PARAGRAPH_TEXT	Title:Reference IDs
   pForm.prefillItem('1693269062',sortIDsAsSSV(Evidence.CovariatesIDs));
-  /*
-  //ID:1020355522	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('1020355522',(covariatesMaxRefID+1)+'@@@@');
-  //ID:756698613	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('756698613',(covariatesMaxRefID+2)+'@@@@');
-  //ID:62357583	    Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('62357583',(covariatesMaxRefID+3)+'@@@@');
-  //ID:1968268392	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('1968268392',(covariatesMaxRefID+4)+'@@@@');
-  */
   //ID:1093425014	Type:CHECKBOX	Title:GABA or Glutamate receptors (ant)agonists
   pForm.setChoices('1093425014', Covariates.DrugsGABAGlutamate.split(/\s*[,;]+\s*/));
   if (Evidence.Drugs.length != 0) pForm.prefillItem('1093425014',Evidence.Drugs);
@@ -139,23 +129,8 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
                                  (Number(Evidence.Kinetics     ) === 1)? 'Yes' : 'No',
                                  (Number(Evidence.ST_Plasticity) === 1)? 'Yes' : 'No',
                                  (Number(Evidence.LT_Plasticity) === 1)? 'Yes' : 'No']);
-  
   //ID:977930606	Type:PARAGRAPH_TEXT	Title:Data Location
   pForm.prefillItem('977930606',Evidence.DataLocation);
-  /*
-  //ID:1521510351	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('1521510351',(dataMaxRefID+1)+'@@@@');
-  //ID:969214020	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('969214020',(dataMaxRefID+2)+'@@@@');
-  //ID:2002575438	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('2002575438',(dataMaxRefID+3)+'@@@@');
-  //ID:1491649044	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('1491649044',(dataMaxRefID+4)+'@@@@');
-  //ID:298206074	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('298206074',(dataMaxRefID+5)+'@@@@');
-  //ID:1282244123	Type:PARAGRAPH_TEXT	Title:New
-  pForm.prefillItem('1282244123',(dataMaxRefID+6)+'@@@@');
-  */
   // submit the an action function on pressing the submit button
   //DeleteTriggers();
   // addTrigger(form)

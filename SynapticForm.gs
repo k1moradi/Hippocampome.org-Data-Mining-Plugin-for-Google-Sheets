@@ -83,16 +83,16 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         pForm.prefillEmptyItem('4275336',ErevCalculatedFast);
         //ID:1712702434	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1712702434',ErevCalculatedSlow);
-        if (String(evidence.RMPorVh).match('RMP')) {
+        if (String(evidence.RMPorVh).match('Vss')) {
+          //ID:1125701960	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
+          pForm.prefillEmptyItem('1125701960',evidence.RMPorVh);
+          //ID:1130520286	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
+          pForm.prefillEmptyItem('1130520286','NA');
+        } else {
           //ID:1170383288	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
           pForm.prefillEmptyItem('1170383288',evidence.RMPorVh);
           //ID:1130520286	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
           pForm.prefillEmptyItem('1130520286','0');
-        } else {
-          //ID:1125701960	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
-          pForm.prefillEmptyItem('1125701960',evidence.RMPorVh);
-          //ID:1130520286	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
-          pForm.prefillEmptyItem('1130520286',' ');
         }
         //ID:745026251	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('745026251',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
@@ -157,12 +157,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         //ID:1717332473	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1717332473',ErevCalculatedSlow);
         
-        if (String(evidence.RMPorVh).match('RMP')) {
-          //ID:433898023	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
-          pForm.prefillEmptyItem('433898023',evidence.RMPorVh);
-        } else {
+        if (String(evidence.RMPorVh).match('Vh')) {
           //ID:2122605218	Type:PARAGRAPH_TEXT	Title:Holding Potential (mV)
           pForm.prefillEmptyItem('2122605218',evidence.RMPorVh);
+        } else {
+          //ID:433898023	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
+          pForm.prefillEmptyItem('433898023',evidence.RMPorVh);
         }
         //ID:299044194	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('299044194',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
@@ -227,16 +227,16 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         pForm.prefillEmptyItem('1121608872',ErevCalculatedFast);
         //ID:1674601306	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1674601306', ErevCalculatedSlow);
-        if (String(evidence.RMPorVh).match('RMP')) {
+        if (String(evidence.RMPorVh).match('Vss')) {
+          //ID:836922770	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
+          pForm.prefillEmptyItem('836922770',evidence.RMPorVh);
+          //ID:1192989274	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
+          pForm.prefillEmptyItem('1192989274','NA');
+        } else {
           //ID:1972044961	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
           pForm.prefillEmptyItem('1972044961',evidence.RMPorVh);
           //ID:1192989274	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
           pForm.prefillEmptyItem('1192989274','0');
-        } else {
-          //ID:836922770	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
-          pForm.prefillEmptyItem('836922770',evidence.RMPorVh);
-          //ID:1192989274	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
-          pForm.prefillEmptyItem('1192989274',' ');
         }
         //ID:1078037906	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('1078037906',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
@@ -301,12 +301,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         pForm.prefillEmptyItem('255478031',ErevCalculatedFast);
         //ID:1546411811	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1546411811', ErevCalculatedSlow);
-        if (String(evidence.RMPorVh).match('RMP')) {
-          //ID:123299683	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
-          pForm.prefillEmptyItem('123299683',evidence.RMPorVh);
-        } else {
+        if (String(evidence.RMPorVh).match('Vh')) {
           //ID:541384130	Type:PARAGRAPH_TEXT	Title:Holding Potential (mV)
           pForm.prefillEmptyItem('541384130',evidence.RMPorVh);
+        } else {
+          //ID:123299683	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
+          pForm.prefillEmptyItem('123299683',evidence.RMPorVh);
         }
         //ID:1560970458	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('1560970458',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
@@ -371,16 +371,16 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         pForm.prefillEmptyItem('336517228',(ErevCalculatedFast));
         //ID:2013943367	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('2013943367', ErevCalculatedSlow);
-        if (String(evidence.RMPorVh).match('RMP')) {
+        if (String(evidence.RMPorVh).match('Vss')) {
+          //ID:1988223501	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
+          pForm.prefillEmptyItem('1988223501',evidence.RMPorVh);
+          //ID:362152624	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
+          pForm.prefillEmptyItem('362152624','NA');
+        } else {
           //ID:766847912	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
           pForm.prefillEmptyItem('766847912',evidence.RMPorVh);
           //ID:362152624	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
           pForm.prefillEmptyItem('362152624','0');
-        } else {
-          //ID:1988223501	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
-          pForm.prefillEmptyItem('1988223501',evidence.RMPorVh);
-          //ID:362152624	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
-          pForm.prefillEmptyItem('362152624',' ');
         }
         //ID:1795633290	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('1795633290',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
@@ -506,12 +506,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         pForm.prefillEmptyItem('1883690145',ErevCalculatedFast);
         //ID:1347925473	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1347925473', ErevCalculatedSlow);
-        if (String(evidence.RMPorVh).match('RMP')) {
-          //ID:1760358924	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
-          pForm.prefillEmptyItem('1760358924',evidence.RMPorVh);
-        } else {
+        if (String(evidence.RMPorVh).match('Vh')) {
           //ID:182979407	Type:PARAGRAPH_TEXT	Title:Holding Potential (mV)
           pForm.prefillEmptyItem('182979407',evidence.RMPorVh);
+        } else {
+          //ID:1760358924	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
+          pForm.prefillEmptyItem('1760358924',evidence.RMPorVh);
         }
         //ID:1286889803	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('1286889803',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
@@ -637,16 +637,16 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         pForm.prefillEmptyItem('1305317523',ErevCalculatedFast);
         //ID:1519191194	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('1519191194', ErevCalculatedSlow);
-        if (String(evidence.RMPorVh).match('RMP')) {
+        if (String(evidence.RMPorVh).match('Vss')) {
+          //ID:280076797	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
+          pForm.prefillEmptyItem('280076797',evidence.RMPorVh);
+          //ID:1322135857	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
+          pForm.prefillEmptyItem('1322135857','NA');
+        } else {
           //ID:725904432	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
           pForm.prefillEmptyItem('725904432',evidence.RMPorVh);
           //ID:1322135857	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
           pForm.prefillEmptyItem('1322135857','0');
-        } else {
-          //ID:280076797	Type:PARAGRAPH_TEXT	Title:Steady State Membrane Potential (mV)
-          pForm.prefillEmptyItem('280076797',evidence.RMPorVh);
-          //ID:1322135857	Type:PARAGRAPH_TEXT	Title:Clamped Current (nA)
-          pForm.prefillEmptyItem('1322135857',' ');
         }      
         //ID:997575196	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('997575196',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
@@ -775,12 +775,12 @@ function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSh
         pForm.prefillEmptyItem('808792303',ErevCalculatedFast);
         //ID:635382742	Type:PARAGRAPH_TEXT	Title:Slow Synaptic 𝐸ᵣₑᵥ (NMDA, GABA-B or Mixed)
         pForm.prefillEmptyItem('635382742', ErevCalculatedSlow);
-        if (String(evidence.RMPorVh).match('RMP')) {
-          //ID:320612606	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
-          pForm.prefillEmptyItem('320612606',evidence.RMPorVh);
-        } else {
+        if (String(evidence.RMPorVh).match('Vh')) {
           //ID:1994464049	Type:PARAGRAPH_TEXT	Title:Holding Potential (mV)
           pForm.prefillEmptyItem('1994464049',evidence.RMPorVh);
+        } else {
+          //ID:320612606	Type:PARAGRAPH_TEXT	Title:Resting Membrane Potential (mV)
+          pForm.prefillEmptyItem('320612606',evidence.RMPorVh);
         }      
         //ID:781218021	Type:PARAGRAPH_TEXT	Title:Temperature (°C)
         pForm.prefillEmptyItem('781218021',tagRefIDUniversal(covariates.Temperature,[covRefs,synRefs]));
