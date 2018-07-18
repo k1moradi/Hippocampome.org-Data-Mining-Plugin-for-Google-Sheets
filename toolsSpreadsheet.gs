@@ -2,8 +2,7 @@ function test() {
   //Logger.log(Utilities.base64Encode(DriveApp.getFilesByName("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg").next().getBlob().getDataAsString()));
   //Logger.log(getFileIDs("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg"))
   //while (fileIterator) output.push(fileIterator.next().getId())())
-  a = [1,2,3];
-  Logger.log(a[-1]);
+  Logger.log(UrlFetchApp.fetch("http://hippocampome.org/csv2db/search_engine_json.php?query_str=Connection:(Presynaptic:(Neurotransmitter:Excitatory AND Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:RASP.NASP NOT Markers:(D-:CB OR I-:CB OR D-:RLN OR I-:RLN)), Postsynaptic:(Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:ASP. NOT Markers:(D-:CB OR I-:CB)))").getResponseCode());
 }
 
 function getMaxOf(sheetName,columnName) {
@@ -28,6 +27,16 @@ function getEvidenceValues(activeRange) {
   var columnNumObj   = headers.reduce(function(p,v,i){p[v]=i        ; return p},{});
   var columnNotesObj = notes.reduce(function(p,v,i){p[headers[i]]=v ; return p},{});
   var Automation = rawEvidenceObj.Automation.split(/[)]\s*[,]\s*Postsynaptic:[(]/g);
+  
+  var eIDprevious = Number(activeRange.offset(-2, columnNumObj.eID, 1, 1).getValue());
+  var ID = rawEvidenceObj.eID;
+  if (isNumeric(eIDprevious) && isNumeric(ID)) {
+    if (ID === eIDprevious)
+      ID = getMaxOf('Evidence','eID')+1;
+  } else if (!isNumeric(ID)) {
+    ID = getMaxOf('Evidence','eID')+1;
+  }
+
   var obj = {                                 //offset(rowOffset, columnOffset     , numRows                 , numColumns)
     PConnections         : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().map(function(v){return v[1]+'▶'+v[3]}),
     PConnectionsUIDs     : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().reduce(
@@ -40,7 +49,7 @@ function getEvidenceValues(activeRange) {
     tUID                 : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
     PMID                 : String(rawEvidenceObj.PMID).split(/\s*[,;]+\s*/g).filter(Null),//convert string to array at , or ; -> filter empty array items)
     //(Math.max.apply(null,activeRange.getSheet().getRange(1,columnNumObj.eID+1,activeRange.getSheet().getLastRow()).getValues().filter(isNumeric))+1)
-    eID                  : (isNumeric(ID=rawEvidenceObj.eID) && ID>getMaxOf('SD','Evidence ID')) ? ID : getMaxOf('Evidence','eID')+1,
+    eID                  : ID,
     MicroscopyCType      : rawEvidenceObj.MicroscopyCType,
     ePhysCType           : rawEvidenceObj.ePhysCType,
     Description          : (typeof rawEvidenceObj.Description === 'string')? rawEvidenceObj.Description.replace(/<br>/g,'<br>\n') : rawEvidenceObj.Description,

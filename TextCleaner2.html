@@ -5,14 +5,14 @@
     <script>
 function highlightElem(elem){
   elem.innerHTML = elem.innerHTML
-    .replace(/(\d(?:[\– '&]| \.|.\ | \. )\d|\d Mm|\\| \w \w |\bp[Mm]\b|\bMsec\b|\b[µgmM]m,?\b|,,|[\x01\x02\x03\x04\x05\x06\x07\x08])/g, 
+    .replace(/(\d(?:[\– '&]| \.|.\ | \. )\d|\d Mm|\\| \w \w |\bp[Mm]\b|\bMsec\b|\b[µgmM]m,?\b|,[,1]|[\x01\x02\x03\x04\x05\x06\x07\x08]|(?<=[(;, \]\/])(?:[pP]\s0\.\d+|n\s[1-9]+)(?=[ ),;.]))/g, 
       "<mark class='hotPink'>$1</mark>")          // unautomatable mistakes
 }
 function formatText(elem) {
   elem = removeUnwantedNodes(elem);
   elem.innerHTML = elem.innerHTML
-    .replace('◦','°').replace('•','⬤').replace('○','⭘')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
-    .replace(/[¬-][\r\n]+|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=ZD) (?=7288)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st)|\u200B|(?<=\])\s+(?=<sub>)|[,\(] ?available at www.jneurosci. ?org ?as ?supplemental material ?/g
+    .replace(/◦|˚|&deg;|(?<=\d(?:&nbsp;|\s)?)<sup>o<\/sup>(?=C)/g,'°').replace('•','⬤').replace('○','⭘')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
+    .replace(/[¬-]\s?[\r\n]+|(?<=[A-Za-z])[¬-](?: |&nbsp;|&thinsp;)(?=[A-Za-z])|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=ZD) (?=7288)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st)|\u200B|(?<=\])\s+(?=<sub>)|[,\(] ?available at www.jneurosci. ?org ?as ?supplemental material ?/g
                                                                                                                  , '')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. -> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1')      // R M P -> RMP
@@ -21,25 +21,27 @@ function formatText(elem) {
     .replace(/(?<=(?:tables|table|figures|figure|figs\.|fig\.|figs|fig) \w) (?=(?:<(i)>)?\w(?:<\/\1>)?[\– ,)<])/ig, '')       // Fig. 1 A -> Fig. 1A
     .replace(/(?<=[(;, ])([Tt])ruce(s)?(?=[ ),;.])/g                                                             , '$1race$2')
     .replace(/([iI])n *t *e *r? *[mn] *e *u *r *o *n(s*)/g                                                       , '$1nterneuron$2')
-    .replace(/(?<=[(;, ])(Na|Cs|K|N)H *[2z,*] *P *[O0] *[4,](?=[ ),;.])/g                                        , '$1H₂PO₄')
+    .replace(/(?<=[(;, ])(Na|Cs|K|N)H *[2z,*] *P *[O0] *[4,„](?=[ ),;.])/g                                       , '$1H₂PO₄')
     .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *HP[O0] *4(?=[ ),;.])/g                                                , '$1₂HPO₄')
     .replace(/(?<=[(;, ])(Na|Cs|K)CH *3 *S *[O0] *4(?=[ ),;.])/g                                                 , '$1CH₃SO₄')
-    .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *[-—–] *[Pp]hosphocreatine(?=[ ),;.])/g                                , '$1₂-phosphocreatine')
+    .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *[-—–] *[Pp]hosphocreatine(?=[ ),;.])/g                                , '$1₂–phosphocreatine')
     .replace(/(?<=[(;, ])(Na|Cs|K)H *C *[O0] *[3,](?=[ ),;.])/g                                                  , '$1HCO₃')
     .replace(/(?<=[(;, ])(Na|Cs|K) *3 *GTP(?=[ ),;.])/g                                                          , '$1₃GTP')
     .replace(/(?<=[(;, ])(Na|Cs|K) *[2z,] *(G|A)TP(?=[ ),;.])/g                                                  , '$1₂$2TP')
-    .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co|Sr) *[CO][lI1] *[2z,](?=[ \/),;.])/g                                       , '$1Cl₂')  // O[1I] -> Cl
+    .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co|Sr) *[CO][lI1] *[2z,„](?=[ \/),;.](?!2))/g                                 , '$1Cl₂')  // O[1I] -> Cl
+    .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co|Sr) *[CO][lI1] *[2z,„]([ \/),;.])(?=2)/g                                   , '$1Cl₂,$2')
     .replace(/(?<=[(;, ])(H|Na|Cs|K) *[CO][I1](?=[ ),;.])/g                                                      , '$1Cl')   // O[1I] -> Cl
-    .replace(/(?<=[(;, ])M *gS[O0] *4(?=[ ),;.])/g                                                               , 'MgSO₄')
+    .replace(/(?<=[(;, ])M *gS[O0] *[4„](?=[ ),;.])/g                                                            , 'MgSO₄')
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')//Methylsulfonate = Methanesulfonate
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *4(?=[ ),;.])/g                                                        , '$1MeSO₄')//Methylsulfate
+    .replace(/(?<=[(;, ])ATP (Na|Cs|K)[,2](?=[ ),;.])/g                                                          , 'ATP–$1₂')
     .replace(/(?<=[(;, ]|\.|\.\d)H *[2z,] *[O0](?=[ ),;.])/g                                                     , 'H₂O')
     .replace(/(?<=[(;, ]|\.|\.\d)H₂O\s*2(?=[ ),;.])/g                                                            , 'H₂O₂')
     .replace(/(?<=[(;, \/])C *[O0] *[2z,?J](?=[ ),;.])/g                                                         , 'CO₂')
     .replace(/(?<=[(;, ])[O0] *[2z](?=[ +\/),;.–\-])/g                                                           , 'O₂')
     .replace(/(?<=[\[(\/;, –-])Cl\s*[-−"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ –),;.\]])/g                        , 'Cl⁻')
     .replace(/(?<=[\[(\/;, –-])(Na|K|Cs)\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g                , '$1⁺')
-    .replace(/(?<=[\[(\/;, –-])(Mg|Ca|Sr)\s*[2\*]\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g       , '$1²⁺')
+    .replace(/(?<=[\[(\/;, –-])(Mg|C[ad]|Sr)\s*[2\*]\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g    , '$1²⁺')
     .replace(/\[\s*(Cl⁻|Cs⁺|Na⁺|K⁺|Mg²⁺|Ca²⁺)\s*\]/g                                                             , '[$1]')    //[ Ca²⁺ ] -> [Ca²⁺]
     .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[iI1](?=[ ),;.])/g                                         , '[$1]ᵢ')
     .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[oO0](?=[ ),;.])/g                                         , '[$1]ₒ')
@@ -58,11 +60,11 @@ function formatText(elem) {
                                                                                                                  , 'mM')
     .replace(/(?<=[(;, ])m M(?=[ ),;.])/g                                                                        , 'mM')
     .replace(/(?<=\d)\s*(?:m ?[VY])(?=[ ),;.])/g                                                                 , ' mV')
-    .replace(/(\d+(?:\.\d+)?)([^<>)(\d]?)(?:F[Li]?|l|[Uut]|\/[uxnijt\/\^]|[mg]u|I[Lt]|J\.*L|JI|j[af<iu]|[\(]i|\)\.l|i[xj]|p[\.Rut]|[!tl]J\.|[-~]t|,u\.?|#£|\|x|[gì\x01\x02\x03\x04\x05\^])\s*([MmsA]|m2|rn|[Ss]ec)(?<!gm)(?=[ ),;.–]|.thick)/g,
+    .replace(/(\d+(?:\.\d+)?)([^<>)(\d]?)(?:F[Li]?|l|[Uut]|\/[uxnijtz\/\~^]|[mg]u|I[Lt]|J\.*L|JI|j[af<iu]|(?:[\(]|&gt;)i|\)\.l|i[xju]|p[\.Rut]|[!tl]J\.|[-~]t|,u\.?|#£|\|x|[gì\x01\x02\x03\x04\x05\^])\s*([MmsA]|m2|rn|[Ss]ec)(?<!gm)(?=[ ),;.–]|.thick)/g,
       function(fullMatch,p1,p2,p3){
         return p1+((p2)?p2:' ')+'µ'+((p3 === 'm2')?'m²':((p3==='rn')?'m':p3))})                                               //µM
     .replace(/(?<=[(\d])\s*(?:[pP]|\|x)(M)(?=[ ),;.])/g                                                          , ' µ$1')    //µM µV not PV+
-    .replace(/(?<=[(;, ])(\d+)\s*[\-–]?\s*(?:[pP]m)(?=–thick[ ),;.])/g                                           , '$1–µm')   //\d-pm-thick -> \d-µm-thick
+    .replace(/(?<=[(;, ])(\d+)(\s*[\-–]?)\s*(?:[pPm]m)(?=[– ]thick[ ),;.])/g                                     , '$1$2µm')  //\d-pm-thick -> \d-µm-thick
     .replace(/\|/g                                                                                               , 'I')
     .replace(/(?<=[(\d])\s*[\x01\x02\x03\x04\x05]\s*([tT])(?=[ ),;.])/g                                          , ' Δ$1')
     .replace(/(?<=\d)\sÒ/g                                                                                       , ' M')
@@ -85,21 +87,23 @@ function formatText(elem) {
     .replace(/(?<=[A-Za-z])\s*[-−‐](\s*)(?=[A-Za-z])/g                                                           , '-$1')     // negative as hiphen between two words
     .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\)])[–—−‐\-](?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\(])/g                                       , '–')       // normal hiphen as big hiphen or negative signs between two words
     .replace(/(?<=[(;, ])(?:<(i)>)?\s*t\s*(?:<\/\1>)?\s*test|(?<=paired)–t test/ig                               , ' t–test')  // t–test
+    .replace(/(?<=[(;, ])(?:<(i)>)?\s*z\s*(?:<\/\1>)?\s*test/ig                                                  , ' Z–test')  // Z–test
     .replace(/&minus;|(?<= [∼([{]|>\(?|\d+\/) *[–—−‐](?=\d)|(?<=[(;, ])[–—−‐](?=\d+[– ]m[Vs]|\d+\/\d+ )|(?<=[ =]) *[–—−‐](?=\d+(?:\.\d+)?(?:[–±\/]\d+(?:\.\d+)?)?[ \),])/g
                                                                                                                  , '-')       // negative
     .replace(/(?<=[\d])\s*(?:[–—−]|&ndash;)\s*(\d+)\s*(?=%)/g                                                    , '-$1')     // 20-80%
     .replace(/(?<=[(;, ])[I1]–0(?=[ ),;.])/g                                                                     , 'I-O')
-    .replace(/(?<=[(;, ])[n«]\s*(?:[¼\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.])/g                 , 'n=')
+    .replace(/(?<=[\[(;, ])[n«]\s*(?:[¼\x01\x02\x03\x04\x05\x06\x07\x08]*| -|=)\s*(?=\d+[ ),;.\]])/g             , 'n=')      // n = 3 -> n=2
     .replace(/(?<=[(;, ])([pP])\s*[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=0*\.0(5|1|01)[ ),;.])/g                , '$1<')
     .replace(/(?<=[(;, ])([pP])\s*[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?!0*\.0(5|1|01))(?=0*\.0\d+[ ),;.])/g    , '$1=')
     .replace(/(?<=\<\/sub>)\s*[\x01\x02\x03\x04\x05\x06\x07\x08](?=[ ),;.])/g                                    , '=')
-    .replace(/plusminus|&plusmn;/g                                                                               , '±')
+    .replace(/plusminus|&plusmn;|_\+|\+--/g                                                                      , '±')
     .replace(/(?<=[(;, >=])([\-−+]?\d+(?:\.\d+)?)(?<!55845|95531|314|222)\s*(.?Ω|[µμ].?|°C|m[MVs]|m[lL].?min|[pn][ASF]|Hz|%)*\s*(?:[±+\x01\x02\x03\x04\x05\x06\x07\xAD]|\+\/-)\s*(?=\d+(?:\.\d+)?[ )%,;°.<])/g
                                                                                                                  , '$1$2±')   //\d ± \d  -> \d±\d
     .replace(/(?<=[(;, >=])([\-−+]?\d+(?:\.\d+)?)(?<!55845|95531|314|222)\s*(.?Ω|[µμ].?|°C|m[MVs]|m[lL].?min|[pn][ASF]|Hz|%)*\s+(?:[64i]-?|:E)\s+(?=\d+(?:\.\d+)?[ )%,;°.<])/g
                                                                                                                  , '$1$2±')   //\d 64i \d  -> \d±\d
     .replace(/([(;, \][\/])([Mm]eans?|MEANS?)\s*(?:[±+6\x01\x02\x03\x04\x05\x06\x07\xAD]|\+\/-)\s*(?=[Ss][\.\/]?[EeDd]\.?[Mm]?)/g
                                                                                                                  , '$1$2±')   // Mean ± SEM --> Mean±SEM
+    .replace(/([\-\+]?\d+(?:\.\d+)?)\s?(\D\D|%)\s?(±)\s?(\d+(?:\.\d+)?)\s?\2/g                                   , '$1$3$4 $2')
     .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=[5-8][05][ ),;.])/g                   , '$1-')     // control character as negative sign for values <-50
     .replace(/(?<=[A-Za-z=,(])(\s*)[\x01\x02\x03\x04\x05\x06\x07\x08]\s*(?=\d+[±.]\d+[ ),;.±])/g                 , '$1-')     // control character as negative sign between a word and a number with decimals
     .replace(/(?<=[=><(≤≥~ ])(\s*)[–—−]\s*(?=(?:\d+[.]\d+|\d+)[ ),;.±])/g                                        , '$1-')     // hiphen as negative sign
@@ -119,7 +123,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])V *(amp|hold(?:ing)?|thresh*)(?=[ =),;.])/ig                                            , '𝑉<sub>$1</sub>')
     .replace(/(?<=[(;, ])(?:[trτ]|tau) *(D|d|R|decay|rise)(?=[ =),;.])/g                                         , 'τ<sub>$1</sub>')
     .replace(/(?<=[(;, –])([EI]) *(K|Na|C[lsa]|rev|GABA)(?=[ =),;.])/g                                           ,'$1<sub>$2</sub>')
-    .replace(/(?<=[(\d])\s*([GM])\s*(?:[ÙQ\x01\x02\x03\x04\x05\x06\x07O~]|[Oo]mega|[St1I]2|IL|il|f[lit~]|tl)(?=[ ),;.])/g
+    .replace(/(?<=[(\d])\s*([GM])\s*(?:[ÙQ\x01\x02\x03\x04\x05\x06\x07O~]|[Oo]mega|[St1I]2|IL|il|f[lit~]|tl|SI)(?=[ ),;.])/g
                                                                                                                  ,' $1Ω')
     .replace(/(?<=[(;, ]R)(?:m|,,|[,l] ?n)(?=,? \d+(?:\.\d+)?(?:±\d+\.?\d*)? MΩ)|(?<=input resistance\s*[(;, ]R)(?:m|,,|[,l] ?n)/g
                                                                                                            ,  '<sub>in</sub>')// R,, -> Rin
@@ -128,7 +132,7 @@ function formatText(elem) {
     .replace(/(?<=(?:[A-Za-z]{3}|[)])\s*\d+(?:,\d+)*)\s*'\s*(?=\d+(?:\s\(|[.,]\s|\.$|\.<br>))/g            , ',')             // numerical references miss spelling \d'\d -> \d,\d
     .replace(/(?<=[A-Za-z]{3}|[)])(?<![Ff]ig(?:ure|s?\.)?s?|[Tt]ables?|<br>)(?![,\d\s]*(?:and|\(\d{4}\)))\s*(\d{1,2}(?:,\s*\d{1,2})+)(?=\s\(|[.,]\s|\.$|\.<br>)/g
                                                                                                             ,'<sup>$1</sup>') // numerical references during 1, 5, 10, and 20 Hz
-    .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*(?!–))|(?<!alexa|prox|and|was|[Tt]ables?|[Ff]ig(?:ure|\.)?s?|paradigm|cell|neuron|actinin|GAD)(?<=[a-z]{3}|[)])\s*([\d–]{1,3})(?=\.(?:\s|<br>)|\.$))/g, 
+    .replace(/(?:((?<=[(;, ])(?:ms|min|sec|µm|χ)|\^)([-–−]*\s*\d+(?:\.\d+)*[-+]?(?!–))|(?<![Ff]luor|alexa|prox|and|was|[Tt]ables?|[Ff]ig(?:ure|\.)?s?|paradigm|cell|neuron|actinin|GAD|layer)(?<=[a-z]{3}|[)])\s*([\d–]{1,3})(?=\.(?:\s|<br>)|\.$))/g, 
       function(fullMatch,p1,p2,p3){
         var prefix = ((p1 === '^' || !p1) ? '' : p1)
         var num = Array.from((p2)?p2:p3).reduce(
@@ -147,6 +151,7 @@ function formatText(elem) {
               case "-": return num+'⁻'; break;
               case "–": return num+'⁻'; break;
               case "−": return num+'⁻'; break;
+              case "+": return num+'⁺'; break;
               case ".": return num+'⋅'; break;
               default : return num; break;
           }
@@ -202,9 +207,9 @@ function formatText(elem) {
     .replace(/<b><br(?: \/)?>\s*|<br(?: \/)?>\s*<b>\s*(?!<br(?: \/)?>)\s*/g                                      , '<br><b>')
     .replace(/<\/b>\s*<b>/g                                                                                      , ' ')
     .replace(/ *> +< */g                                                                                         , '><')
-    //.replace(/<p>/g                                                                                              , '&lt;p&gt;')
-    .replace(/(\d)\s*\/\s*(\d)(?<!\d\/\d)/g                                                                      ,'$1/$2')      //remove spaces between numbers and /
-    .replace(/^(?:[ .?!)}\]\xAD]+|<br>)+(?=\w|<b>)/g                                                             , '');         //remove spaces from the begining of quote
+    .replace(/(?<=[(;, ]\d+(?:–\d+)?)\s?x(?=[ ),;.])/g                                                           , ' ×')        // 10–20×
+    .replace(/(\d)\s*\/\s*(\d)(?<!\d\/\d)/g                                                                      ,'$1/$2')      // remove spaces between numbers and /
+    .replace(/^(?:[ .?!)}\]\xAD]+|<br>)+(?=\w|<b>)/g                                                             , '');         // remove spaces from the begining of quote
     highlightElem(elem);
     if (typeof elem.forceSpellCheck === 'function') elem.forceSpellCheck();
 };
@@ -440,18 +445,13 @@ function formatText(elem) {
         <input type='button' class='button' value='△'  onmousedown="document.execCommand('insertText', false, '△')" title='up triangle'>
         <input type='button' class='button' value='▽'  onmousedown="document.execCommand('insertText', false, '▽')" title='down triangle'>
         <input type='button' class='button' value='▷'  onmousedown="document.execCommand('insertText', false, '▷')" title='Forward triangle'>
-        <br>
-        <input type='button' class='button' value='⬅'  onmousedown="document.execCommand('insertText', false, '⬅')">
-        <input type='button' class='button' value='⬌'  onmousedown="document.execCommand('insertText', false, '⬌')">
-        <input type='button' class='button' value='➡'  onmousedown="document.execCommand('insertText', false, '➡')">
-        <input type='button' class='button' value='⬆'  onmousedown="document.execCommand('insertText', false, '⬆')">
-        <input type='button' class='button' value='⬍'  onmousedown="document.execCommand('insertText', false, '⬍')">
-        <input type='button' class='button' value='⬇'  onmousedown="document.execCommand('insertText', false, '⬇')">
-        <input type='button' class='button' value='⬈'  onmousedown="document.execCommand('insertText', false, '⬈')">
-        <input type='button' class='button' value='⬉'  onmousedown="document.execCommand('insertText', false, '⬉')">
-        <input type='button' class='button' value='⬊'  onmousedown="document.execCommand('insertText', false, '⬊')">
-        <input type='button' class='button' value='⬋'  onmousedown="document.execCommand('insertText', false, '⬋')"> 
-        <input type='button' class='button' value='⟲'  onmousedown="document.execCommand('insertText', false, '⟲')">
+        <input type='button' class='button' value='◆'  onmousedown="document.execCommand('insertText', false, '◆')" title='BLACK DIAMOND'>
+        <input type='button' class='button' value='◇'  onmousedown="document.execCommand('insertText', false, '◇')" title='WHITE DIAMOND'>
+        <input type='button' class='button' value='⬢'  onmousedown="document.execCommand('insertText', false, '⬢')" title='BLACK HEXAGON'>
+        <input type='button' class='button' value='⬡'  onmousedown="document.execCommand('insertText', false, '⬡')" title='WHITE HEXAGON'>
+        <input type='button' class='button' value='⬤'  onmousedown="document.execCommand('insertText', false, '⬤')" title='BLACK CIRCLE'>
+        <input type='button' class='button' value='⭘'  onmousedown="document.execCommand('insertText', false, '⭘')" title='WHITE CIRCLE'>
+        <input type='button' class='button' value='◍'  onmousedown="document.execCommand('insertText', false, '◍')">
         <br>
         <input type='button' class='button' value='◻'  onmousedown="document.execCommand('insertText', false, '◻')" title='BLACK SQUARE'>
         <input type='button' class='button' value='◼'  onmousedown="document.execCommand('insertText', false, '◼')" title='WHITE SQUARE'>
@@ -464,13 +464,22 @@ function formatText(elem) {
         <input type='button' class='button' value='▨'  onmousedown="document.execCommand('insertText', false, '▨')">
         <input type='button' class='button' value='▩'  onmousedown="document.execCommand('insertText', false, '▩')">
         <br>
-        <input type='button' class='button' value='◆'  onmousedown="document.execCommand('insertText', false, '◆')"   title='BLACK DIAMOND'>
-        <input type='button' class='button' value='◇'  onmousedown="document.execCommand('insertText', false, '◇')"   title='WHITE DIAMOND'>
-        <input type='button' class='button' value='⬤'  onmousedown="document.execCommand('insertText', false, '⬤')" title='BLACK CIRCLE'>
-        <input type='button' class='button' value='⭘'  onmousedown="document.execCommand('insertText', false, '⭘')"  title='WHITE CIRCLE'>
-        <input type='button' class='button' value='◍'  onmousedown="document.execCommand('insertText', false, '◍')">
+        <input type='button' class='button' value='⬅'  onmousedown="document.execCommand('insertText', false, '⬅')">
+        <input type='button' class='button' value='⬌'  onmousedown="document.execCommand('insertText', false, '⬌')">
+        <input type='button' class='button' value='➡'  onmousedown="document.execCommand('insertText', false, '➡')">
+        <input type='button' class='button' value='⬆'  onmousedown="document.execCommand('insertText', false, '⬆')">
+        <input type='button' class='button' value='⬍'  onmousedown="document.execCommand('insertText', false, '⬍')">
+        <input type='button' class='button' value='⬇'  onmousedown="document.execCommand('insertText', false, '⬇')">
+        <input type='button' class='button' value='⬈'  onmousedown="document.execCommand('insertText', false, '⬈')">
+        <input type='button' class='button' value='⬉'  onmousedown="document.execCommand('insertText', false, '⬉')">
+        <input type='button' class='button' value='⬊'  onmousedown="document.execCommand('insertText', false, '⬊')">
+        <input type='button' class='button' value='⬋'  onmousedown="document.execCommand('insertText', false, '⬋')">
+        <input type='button' class='button' value='⟲'  onmousedown="document.execCommand('insertText', false, '⟲')">
+        <input type='button' class='button' value='⇏'  onmousedown="document.execCommand('insertText', false, '⇏')">
+        <input type='button' class='button' value='⇍'  onmousedown="document.execCommand('insertText', false, '⇍')">
+        <input type='button' class='button' value='⤄'  onmousedown="document.execCommand('insertText', false, '⇍')">
         &nbsp;
-        <input type='button' class='button' value='⋮' onmousedown="document.execCommand('insertText', false, '⋮')"   title='Vertical Ellipses'>
+        <input type='button' class='button' value='⋮'  onmousedown="document.execCommand('insertText', false, '⋮')"   title='Vertical Ellipses'>
         <input type='button' class='button' value='†'  onmousedown="document.execCommand('insertText', false, '†')"   title='Dagger'>
       </div>
     </div>
@@ -553,6 +562,9 @@ function formatText(elem) {
               // a temporary element
               var divElem = document.createElement('div');
               divElem.innerHTML = html;
+              
+              // convert small caps to capital letter
+              //divElem.getElementsByClassName("smallCaps").forEach(elem=>{elem.outerHTML = elem.innerText.toUpperCase()})
               Array.from(divElem.getElementsByTagName('span')).forEach(elem=>{
                 if (elem.style.fontFeatureSettings==='smcp' || elem.style.fontVariantCaps==='small-caps' || elem.style.fontVariant==='small-caps')
                   elem.outerHTML = elem.innerText.toUpperCase();

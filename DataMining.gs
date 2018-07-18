@@ -125,8 +125,8 @@ function checkQuery(evidence,cellTypes) {
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
-      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/"/g,'%22'); //Logger.log(URL);.replace(/ /g,'%20')
-    var response      = String(UrlFetchApp.fetch(URL));
+      evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/"/g,'%22'); //Logger.log(URL);
+    var response      = String(UrlFetchApp.fetch(URL));//Logger.log(response);
     if (response) {
       var errorRegExp   = /<br>.*<br>/;
       var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;

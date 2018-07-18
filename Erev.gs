@@ -5,14 +5,208 @@
 //PMID 26582498 has pyruvate and ascorbate ions that I do not know their mobility, find a way to calculate mobility based on molecular weight and charge
 function eRev(){
 //---------------whole-cell
-  new solution(celsius=33,
-               eSolution='130 NaCl, 3.5 KCl, 1.25 NaH2PO4, 1 MgSO4, 1.5 CaCl2, 24 NaHCO3',
-               pSolution='125 K-methylsulfate, 4 NaCl, 4 MgATP, 0.3 NaGTP, 16 KHCO3',
+  //Beed 2013 Inhibitory gradient along the dorsoventral axis in the medial entorhinal cortex.
+  new solution(celsius=35,
+               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
+               pSolution='145 KCl, 2 Na2ATP, 10 HEPES, 0.1 EGTA, 2 MgCl2',
                recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-67},
+               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
                Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:8.5,correctedAlready:false}},
-               pH={e:7.4,i:7.3,CO2:true}).log();
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.4,i:7.2,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
+//               pSolution='150 K-gluconate, 0.5 MgCl2, 1.1 EGTA, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
+  //Couey 2013 Recurrent inhibitory circuitry as a mechanism for grid formation.
+//  new solution(celsius=34,
+//               eSolution='127 NaCl, 25 NaHCO3, 2.5 KCl, 1.6 CaCl2, 1.25 NaH2PO4, 1.5 MgSO4',
+//               pSolution='120 K-gluconate, 10 KCl, 10 HEPES, 10 K2-Phosphocreatine, 4 MgATP, 0.4 K2GTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-56,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+  //Beed 2010 Analysis of excitatory microcircuitry in the medial entorhinal cortex reveals cell-type-specific differences.
+//  new solution(celsius=33,
+//               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
+//               pSolution='150 K-gluconate, 0.5 MgCl2, 1.1 EGTA, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+  //Bendels 2008 A novel control software that improves the experimental workflow of scanning photostimulation experiments.
+//  new solution(celsius=33,
+//               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
+//               pSolution='150 K-gluconate, 0.5 MgCl2, 1.1 EGTA, 10 Na2-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+  //Kumar 2006 Hyperexcitability, interneurons, and loss of GABAergic synapses in entorhinal cortex in a model of temporal lobe epilepsy.
+//  new solution(celsius=33,
+//               eSolution='126 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2',
+//               pSolution='120 Cs-methanesulfonate, 10 HEPES, 8 NaCl, 2 MgATP, 0.3 Na-GTP, 5 QX314-Br, 0.1 BAPTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-58,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Varga 2010 Target-selective GABAergic control of entorhinal cortex output.
+//  new solution(celsius=33,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               pSolution='40 CsCl, 90 K-gluconate, 1.8 NaCl, 1.7 MgCl2, 3.5 KCl, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-55.63,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.2,CO2:true}).log();
+  //Woodhall 2005 Fundamental differences in spontaneous synaptic inhibition between deep and superficial layers of the rat entorhinal cortex.
+//  new solution(celsius=31,
+//               eSolution='126 NaCl, 4.0 KCl, 2.0 CaCl2, 2.0 MgSO4, 1.25 NaH2PO4, 24.0 NaHCO3',
+//               pSolution='120 CsCl, 10 HEPES, 5 QX314-Cl, 10 EGTA, 0.34 CaCl2, 1 MgCl2, 4 Na2ATP, 0.4 Na2GTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Sürmeli 2015 Molecularly Defined Circuitry Reveals Input-Output Segregation in Deep Layers of the Medial Entorhinal Cortex.
+//  new solution(celsius=32,
+//               eSolution='124 NaCl, 1.2 NaH2PO4, 2.5 KCl, 25 NaHCO3, 25 Glucose, 2 CaCl2, 1 MgCl2',
+//               pSolution='130 K-gluconate, 10 KCl, 10 HEPES, 2 MgCl2, 0.1 EGTA, 2 Na2ATP, 0.3 Na2GTP, 10 Na2phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-64,Vh:NaN,Vss:-50},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:12.5,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log(); 
+  //Tahvildari 2012 Selective functional interactions between excitatory and inhibitory cortical neurons and differential contribution to persistent activity of the slow oscillation.
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 3 KCl, 25 NaHCO3, 1.25 NaH2PO4, 1 MgSO4, 1.2 CaCl2, 3 myo-inositol, 3 Na-pyruvate, 0.5 L-ascorbate',
+//               pSolution='130 K-gluconate, 7 KCl, 10 HEPES, 4 MgATP, 0.3 NaGTP, 10 Na-Phosphocreatine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:true}},
+//               pH={e:7.4,i:7.4,CO2:true}).log(); 
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 3 KCl, 25 NaHCO3, 1.25 NaH2PO4, 1 MgSO4, 1.2 CaCl2, 3 myo-inositol, 3 Na-pyruvate, 0.5 L-ascorbate',
+//               pSolution='130 Cs-gluconate, 3.5 CsCl, 10 HEPES, 4 MgATP, 0.3 NaGTP, 10 Na-Phosphocreatine, 3.5 QX314-Cl, 1 EGTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:0,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:true}},
+//               pH={e:7.4,i:7.4,CO2:true}).log(); 
+  //Salkoff 2015 Synaptic Mechanisms of Tight Spike Synchrony at Gamma Frequency in Cerebral Cortex.
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 3 KCl, 25 NaHCO3, 1.25 NaH2PO4, 1.0 MgSO4, 1.3 CaCl2, 3 myo-inositol, 3 Na-pyruvate, 0.5 ascorbate',
+//               pSolution='130 Cs–methanesulfonate, 8.0 NaCl, 10 HEPES, 4 Mg–ATP, 0.3 Na–GTP, 6.0 QX314–Cl, 0.5 EGTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:true}},
+//               pH={e:7.4,i:7.4,CO2:true}).log(); 
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 3 KCl, 25 NaHCO3, 1.25 NaH2PO4, 1.0 MgSO4, 1.3 CaCl2, 3 myo-inositol, 3 Na-pyruvate, 0.5 ascorbate',
+//               pSolution='130 K–gluconate, 10 Na-gluconate, 10 HEPES, 10 Na2-phosphocreatine, 4 NaCl, 4 Mg–ATP, 0.3 Na2GTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:true}},
+//               pH={e:7.4,i:7.4,CO2:true}).log(); 
+  //Fuchs 2016 Local and Distant Input Controlling Excitation in Layer II of the Medial Entorhinal Cortex.
+//  new solution(celsius=34,
+//               eSolution='12.5 NaCl, 2.5 NaHCO3, 0.125 NaH2PO4, 0.25 KCl, 2 CaCl2, 1 MgCl2',
+//               pSolution='130 K–gluconate, 10 Na-gluconate, 10 HEPES, 10 Na2-phosphocreatine, 4 NaCl, 4 Mg–ATP, 0.3 Na2GTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:true}).log(); 
+  //Böhm 2015 Functional Diversity of Subicular Principal Cells during Hippocampal Ripples.
+//  new solution(celsius=31.5,
+//               eSolution='119 NaCl, 2.5 KCl, 1.3 MgCl2, 2.5 CaCl2, 1.0 NaH2PO4, 26 NaHCO3',
+//               pSolution='120 Cs-gluconate, 10 HEPES, 5 EGTA, 10 KCl, 2 MgSO4, 1 Na2-GTP, 3 MgATP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-53,Vss:NaN},
+//               Erev:{IPSC:-65,EPSC:6,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.4,CO2:true}).log(); 
+//  new solution(celsius=34,
+//               eSolution='119 NaCl, 2.5 KCl, 1.3 MgCl2, 2.5 CaCl2, 1.0 NaH2PO4, 26 NaHCO3',
+//               pSolution='135 K-gluconate, 6 KCl, 2 MgCl2, 0.2 EGTA, 5 Na2-phosphocreatine, 2 Na2-ATP, 0.5 Na2-GTP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-62.7,Vh:NaN,Vss:-60},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:true}).log(); 
+  //Kogo 2004 Depression of GABAergic input to identified hippocampal neurons by group III metabotropic glutamate receptors in the rat.
+//  new solution(celsius=31,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 3 CaCl2, 1.5 MgSO4',
+//               pSolution='130 KCl, 4 MgATP, 0.3 NaGTP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log(); 
+//  new solution(celsius=31,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 3 CaCl2, 1.5 MgSO4',
+//               pSolution='125 CsCl, 4 MgATP, 0.3 NaGTP, 5 Na2-Phosphocreatine, 10 QX314-Cl, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log(); 
+  //Bullis 2007 Reversed somatodendritic I(h) gradient in a class of rat hippocampal neurons with pyramidal morphology.
+//  new solution(celsius=31,
+//               eSolution='119 NaCl, 2.5 KCl, 1.3 MgCl2, 2.5 CaCl2, 25 NaHCO3, 1 NaH2PO4',
+//               pSolution='120 K-methylsulfate, 20 KCl, 10 HEPES, 4 Na2ATP, 2 MgCl2, 0.3 TrisGTP, 1 EGTA',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-67,Vh:NaN,Vss:-55},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Lamsa 2007 Anti-Hebbian long-term potentiation in the hippocampal feedback inhibitory circuit.
+//  new solution(celsius=31.5,
+//               eSolution='119 NaCl, 2.5 KCl, 1.3 MgCl2, 2.5 CaCl2, 25 NaHCO3, 1 NaH2PO4',
+//               pSolution='117.5 Cs-gluconate, 17.5 CsCl, 10 KOH-HEPES, 10 BAPTA, 8 NaCl, 2 MgATP, 0.3 Na2GTP, 0.1 HCl4-spermine, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-65.2,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:6.176,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:true}},//for Vh I assumed false
+//               pH={e:7.4,i:7.2,CO2:true}).log();
+  //McBain 1994 Activation of metabotropic glutamate receptors differentially affects two classes of hippocampal interneurons and potentiates excitatory synaptic transmission.
+//  new solution(celsius=23.5,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 1.5 CaCl2, 1.5 MgSO4',
+//               pSolution='140 Cs-methanesulfonate, 10 HEPES, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-55.4,Vh:-70,Vss:-60},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:3,correctedAlready:true}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
+  //Maccaferri 1996 Long-term potentiation in distinct subtypes of hippocampal nonpyramidal neurons.
+//  new solution(celsius=24,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 CaCl2, 1.2 MgSO4',
+//               pSolution='100 K-gluconate, 0.2 EGTA, 3.25 MgCl2, 3.75 NaCl, 2.0 Na2ATP, 0.3 Na2GTP, 40 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-49.8,Vh:NaN,Vss:-75},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+  //Zsiros 2005 Electrical coupling between interneurons with different excitable properties in the stratum lacunosum-moleculare of the juvenile CA1 rat hippocampus.
+//  new solution(celsius=33,
+//               eSolution='130 NaCl, 3.5 KCl, 1.25 NaH2PO4, 1 MgSO4, 1.5 CaCl2, 24 NaHCO3',
+//               pSolution='125 K-methylsulfate, 4 NaCl, 4 MgATP, 0.3 NaGTP, 16 KHCO3',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-67},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:8.5,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
   //Marchionni 2010 Distinctive properties of CXC chemokine receptor 4-expressing Cajal-Retzius cells versus GABAergic interneurons of the postnatal hippocampus.
 //  new solution(celsius=33.5,
 //               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
@@ -992,6 +1186,42 @@ function eRev(){
   //--> it is necessary to make Vj corrections
   
   
+  //Dhillon 2000 Laminar differences in recurrent excitatory transmission in the rat entorhinal cortex in vitro.
+  new solution(celsius=33,
+               eSolution='126 NaCl, 3 KCl, 2 CaCl2, 2 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
+               pSolution='3000 K-acetate',
+               recordingMethod='sharp electrode',
+               voltages={Vm:{RMP:-74,Vh:NaN,Vss:-65},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.4,i:NaN,CO2:true}).log();
+  //Empson 1995 Electrophysiology and morphology of a new type of cell within layer II of the rat lateral entorhinal cortex in vitro.
+//  new solution(celsius=34,
+//               eSolution='124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4',
+//               pSolution='2500 K-acetate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-50,Vh:NaN,Vss:-70},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:NaN,CO2:true}).log();
+  //Middleton 2008 NMDA receptor-dependent switching between different gamma rhythm-generating microcircuits in entorhinal cortex.
+//  new solution(celsius=34,
+//               eSolution='126 NaCl, 3 KCl, 1.25 NaH2PO4, 24 NaHCO3, 1.2 MgSO4, 1.6 CaCl2',
+//               pSolution='2000 K-methylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-30},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
+  //Knopp 2005 Cellular and network properties of the subiculum in the pilocarpine model of temporal lobe epilepsy.
+//  new solution(celsius=32,
+//               eSolution='129 NaCl, 1.25 NaH2PO4, 21 NaHCO3, 3 KCl, 4 CaCl2, 4 MgSO4',
+//               pSolution='2500 K-acetate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-50,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:NaN,CO2:true}).log();
   //Ali 1999 IPSPs elicited in CA1 pyramidal cells by putative basket cells in slices of adult rat hippocampus.
 //  new solution(celsius=35,
 //               eSolution='124 NaCl, 25.5 NaHCO3, 3.3 KCl, 1.2 KH2PO4, 1.0 MgSO4, 2.5 CaCl2',
@@ -1076,7 +1306,7 @@ function eRev(){
   //Lacaille 1987 Local circuit interactions between oriens/alveus interneurons and CA1 pyramidal cells in hippocampal slices: electrophysiology and morphology.
 //  new solution(celsius=34.5,
 //               eSolution='124 NaCl, 5 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2, 26 NaHCO3',
-//               pSolution='4000 K-Acetate, 10 KCl',
+//               pSolution='4000 K-acetate, 10 KCl',
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:-40,Vh:NaN,Vss:NaN},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -1094,7 +1324,7 @@ function eRev(){
   //Lacaille 1988 Stratum lacunosum-moleculare interneurons of hippocampal CA1 region. I. Intrasomatic and intradendritic recordings of local circuit synaptic interactions
 //  new solution(celsius=35.5,
 //               eSolution='124 NaCl, 5 KCl, 1.25 NaH2PO4, 2 MgSO4, 2 CaCl2, 26 NaHCO3',
-//               pSolution='4000 K-Acetate, 10 KCl',
+//               pSolution='4000 K-acetate, 10 KCl',
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:-60,Vh:NaN,Vss:NaN},
 //               Erev:{IPSC:-75,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -1112,7 +1342,7 @@ function eRev(){
   //Gulyás 1993 Hippocampal pyramidal cells excite inhibitory neurons through a single release site.
 //  new solution(celsius=24,
 //               eSolution='128 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 4 CaCl2, 4 MgCl2',
-//               pSolution='500 K-Acetate',
+//               pSolution='500 K-acetate',
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:-60,Vh:NaN,Vss:NaN},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -1139,7 +1369,7 @@ function eRev(){
   //Miles 1990 Synaptic excitation of inhibitory cells by single CA3 hippocampal pyramidal cells of the guinea-pig in vitro.
 //  new solution(celsius=37,
 //               eSolution='124 NaCl, 4 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3',
-//               pSolution='3000 K-Acetate',
+//               pSolution='3000 K-acetate',
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:-7},
@@ -1192,7 +1422,7 @@ function eRev(){
 //               pH={e:NaN,i:NaN,CO2:true}).log();
 //  new solution(celsius=35,
 //               eSolution='128 NaCl, 5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2',
-//               pSolution='2000 K-Acetate',
+//               pSolution='2000 K-acetate',
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, 
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-68,EPSP:NaN}, 
@@ -1201,7 +1431,7 @@ function eRev(){
   //Buckmaster 1993 A comparison of rat hippocampal mossy cells and CA3c pyramidal cells.
 //  new solution(celsius=35,
 //               eSolution='124 NaCl, 5 KCl,1.25 NaH2PO4, 1.2 MgSO4, 26 NaHCO3, 2 CaCl2',
-//               pSolution='4000 K-Acetate',
+//               pSolution='4000 K-acetate',
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:-74,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:NaN,CO2:true}).log();
@@ -1322,7 +1552,7 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
  // Calculate the concentrations of ions in the extracellular solution and in recording pipette
  // HEPES has little or no effect on Ionic Strength and activity -> PMID: 18022379
  this.Ions = 
-   ["Acetate","ATP","Ba","Br","Ca","Cl","Cs","Cl","F","gluconate","glucuronate",
+   ["acetate","ATP","Ba","Br","Ca","Cl","Cs","Cl","F","gluconate","glucuronate",
     "GTP","H2PO4","HCO3","HPO4","K","methylsulfate","methanesulfonate","Mg",
     "Na","OH","SO4","TEA","Tris","QX314","Zn","CeSO4","pyruvate"
    ].filter(function(ionName){
@@ -1647,13 +1877,13 @@ var Ion = function(name) {
   this.eAc= 0.0;     // extracellular ionic activity coefficient
   this.iAc= 0.0;     // intracellular ionic activity coefficient
   switch (name) {
-    case "Acetate":
+    case "acetate":
       this.charge = -1;
       this.mu = 2.65098576E11;
       break;
     case "pyruvate":
       this.charge = -1;
-      this.mu = 2.65098576E11; //assuming Acetate's mu
+      this.mu = 2.65098576E11; //assuming acetate's mu
       break;
     case "ATP":
       this.charge = -2; // -2,-3 or -4 The relative proportions of each valency species depends on pH and the ionic composition of the solution.
