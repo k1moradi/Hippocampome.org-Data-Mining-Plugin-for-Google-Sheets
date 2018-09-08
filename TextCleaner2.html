@@ -12,7 +12,7 @@ function formatText(elem) {
   elem = removeUnwantedNodes(elem);
   elem.innerHTML = elem.innerHTML
     .replace(/◦|˚|&deg;|(?<=\d(?:&nbsp;|\s)?)<sup>o<\/sup>(?=C)/g,'°').replace('•','⬤').replace('○','⭘')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
-    .replace(/[¬-]\s?[\r\n]+|(?<=[A-Za-z])[¬-](?: |&nbsp;|&thinsp;)(?=[A-Za-z])|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=ZD) (?=7288)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st)|\u200B|(?<=\])\s+(?=<sub>)|[,\(] ?available at www.jneurosci. ?org ?as ?supplemental material ?/g
+    .replace(/[¬-]\s?[\r\n]+|(?<=[A-Za-z])(?:[\-¬\u00AD]|&shy;)(?:[ \n]|&nbsp;|&thinsp;)(?=[A-Za-z])|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=ZD) (?=7288)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st )|\u200B|(?<=\])\s+(?=<sub>)|[,\(] ?available at www.jneurosci. ?org ?as ?supplemental material ?/g
                                                                                                                  , '')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. -> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1')      // R M P -> RMP
@@ -31,14 +31,14 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co|Sr) *[CO][lI1] *[2z,„](?=[ \/),;.](?!2))/g                                 , '$1Cl₂')  // O[1I] -> Cl
     .replace(/(?<=[(;, ])(Ca|Mg|Ni|Co|Sr) *[CO][lI1] *[2z,„]([ \/),;.])(?=2)/g                                   , '$1Cl₂,$2')
     .replace(/(?<=[(;, ])(H|Na|Cs|K) *[CO][I1](?=[ ),;.])/g                                                      , '$1Cl')   // O[1I] -> Cl
-    .replace(/(?<=[(;, ])M *gS[O0] *[4„](?=[ ),;.])/g                                                            , 'MgSO₄')
+    .replace(/(?<=[(;, ])M *gS[O0] *(?:[4„](?=[ ),;.])|,(?=,))/g                                                 , 'MgSO₄')
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *3(?=[ ),;.])/g                                                        , '$1MeSO₃')//Methylsulfonate = Methanesulfonate
     .replace(/(?<=[(;, ])(Na|Cs|K)MeS[O0] *4(?=[ ),;.])/g                                                        , '$1MeSO₄')//Methylsulfate
     .replace(/(?<=[(;, ])ATP (Na|Cs|K)[,2](?=[ ),;.])/g                                                          , 'ATP–$1₂')
     .replace(/(?<=[(;, ]|\.|\.\d)H *[2z,] *[O0](?=[ ),;.])/g                                                     , 'H₂O')
     .replace(/(?<=[(;, ]|\.|\.\d)H₂O\s*2(?=[ ),;.])/g                                                            , 'H₂O₂')
     .replace(/(?<=[(;, \/])C *[O0] *[2z,?J](?=[ ),;.])/g                                                         , 'CO₂')
-    .replace(/(?<=[(;, ])[O0] *[2z](?=[ +\/),;.–\-])/g                                                           , 'O₂')
+    .replace(/(?<=[(;, ])[O0] *[2z](?=[ +\/),;.–\-])|(?<=95% )0,(?=\/5% CO)/g                                    , 'O₂')
     .replace(/(?<=[\[(\/;, –-])Cl\s*[-−"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ –),;.\]])/g                        , 'Cl⁻')
     .replace(/(?<=[\[(\/;, –-])(Na|K|Cs)\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g                , '$1⁺')
     .replace(/(?<=[\[(\/;, –-])(Mg|C[ad]|Sr)\s*[2\*]\s*[+'"\x01\x02\x03\x04\x05\x06\x07\x08](?=[ -–),;.\]])/g    , '$1²⁺')
@@ -47,7 +47,7 @@ function formatText(elem) {
     .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[oO0](?=[ ),;.])/g                                         , '[$1]ₒ')
     .replace(/(?<=[(;, ])\[(Cl⁻|Na⁺|K⁺|Mg²⁺|Ca²⁺)\]\s*[E](?=[ ),;.])/g                                           , '[$1]<sub>E</sub>')
     .replace(/(?<=[(;, ])et\s*a[1!]\.(?=[ ),;.])/g                                                               , 'et al.')
-    .replace(/(?<=[\-–(;, ]|<br?>)C *A\s*[lI](?=[ ),;.])/g                                                       , 'CA1')     // lI as 1
+    .replace(/(?<=[\-\/–(;, ]|<br?>)C *A\s*[lI](?=[ ),;.])/g                                                     , 'CA1')     // lI as 1
     .replace(/(?<=[(;, ])C *A *([1-4])(?=[ ),;.])/g                                                              , 'CA$1')    // C A 1 -> CA1
     .replace(/(?<=[(;, ])([Ff]igs*|FIGS*)(\.*) *[lI]([A-Za-z]{0,2})(?=[ ),;.])/g                                 , '$1$2 1$3')// lI as 1
     .replace(/(?<=[(;,=><~≤≥ ])(\d*)\s*[lI]\s*(\d+[.]\d+|\d+)(?<![(;,=><~≤≥ ]I\d)(?=[ ),;.])/g                   , '$11$2')   // lI as 1
@@ -64,7 +64,7 @@ function formatText(elem) {
       function(fullMatch,p1,p2,p3){
         return p1+((p2)?p2:' ')+'µ'+((p3 === 'm2')?'m²':((p3==='rn')?'m':p3))})                                               //µM
     .replace(/(?<=[(\d])\s*(?:[pP]|\|x)(M)(?=[ ),;.])/g                                                          , ' µ$1')    //µM µV not PV+
-    .replace(/(?<=[(;, ])(\d+)(\s*[\-–]?)\s*(?:[pPm]m)(?=[– ]thick[ ),;.])/g                                     , '$1$2µm')  //\d-pm-thick -> \d-µm-thick
+    .replace(/(?<=[–(;, ])(\d+)(\s*[\-–]?)\s*(?:[pPmr]m)(?=[– ](?:thick|slices|diameter)[ ),;.])/g               , '$1$2µm')  //\d-pm-thick -> \d-µm-thick
     .replace(/\|/g                                                                                               , 'I')
     .replace(/(?<=[(\d])\s*[\x01\x02\x03\x04\x05]\s*([tT])(?=[ ),;.])/g                                          , ' Δ$1')
     .replace(/(?<=\d)\sÒ/g                                                                                       , ' M')
@@ -283,7 +283,7 @@ function formatText(elem) {
         <input type='button' class='button' value='⌂'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().replace(/ /g, ''))" title='remove all spaces of selected text'>
         <input type='button' class='button' value='🆄'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().toUpperCase());" title='UpperCase selected text'>
         <input type='button' class='button' value='🅻'  onmousedown="document.execCommand('insertText', false, document.getSelection().toString().toLowerCase());" title='LowerCase selected text'>
-
+        
         <input type='button' class='button' value='°'  onmousedown="document.execCommand('insertText', false, '°')"   title='degree'>
         <input type='button' class='button' value='±'  onmousedown="document.execCommand('insertText', false, '±')"   title='plus minus'>
         <input type='button' class='button' value='×'  onmousedown="document.execCommand('insertText', false, '×')"   title='multiply'>
@@ -485,10 +485,11 @@ function formatText(elem) {
     </div>
     <input   type='button' class='button' value='✍' onmousedown='formatText(CleanTextElem)'                           title='Format: Shortcut=F2'>
     <input type='button' class='button' value='𝗕'  onmousedown="document.execCommand('bold', false, null)"            title='Ctrl+B' style="padding-top:2px;">
-    <input type='button' class='button' value='𝑰'  onmousedown="document.execCommand('italic', false, null)"           title='Ctrl+I' style="padding-top:2px;">
+    <input type='button' class='button' value='𝑰'  onmousedown="document.execCommand('italic', false, null)"          title='Ctrl+I' style="padding-top:2px;">
     <input type='button' class='button' value='𝐒'  onmousedown="document.execCommand('strikeThrough', false, null)"                  style='text-decoration: line-through;padding-top:2px;'>
     <input type='button' class='button' value='𝑿₂' onmousedown="document.execCommand('subscript', false, null)"                      style="padding-top:2px;">
     <input type='button' class='button' value='𝑿²' onmousedown="document.execCommand('superscript', false, null)"                    style="padding-top:2px;">
+    <input type='button' class='button' value='𝑿&#773;'  onmousedown="document.execCommand('insertText', false,'&#773;')" title='Overline' style="padding-top:2px;">
     <input type='button' class='button' value='𝟭.' onmousedown="document.execCommand('insertOrderedList', false, null)"              style="padding-top:2px;">
     <input type='button' class='button' value='≔' onmousedown="document.execCommand('insertUnorderedList', false, null)"             style="padding-top:2px;">
     <input type='button' class='button' value='❌' onmousedown="document.execCommand('removeFormat', false, null)"      title='Remove Format'>
@@ -623,7 +624,11 @@ function formatText(elem) {
               
               document.execCommand("insertHTML", false, atToHtml(divElem.innerText));
             } else {
-              document.execCommand("insertHTML", false, e.clipboardData.getData('text/plain').replace(/^[\s\n\r]+|[\s\n\r]+$/g,''));
+              document.execCommand("insertHTML", false, e.clipboardData.getData('text/plain')
+                .replace(/^[\s\n\r]+|[\s\n\r]+$/g,'')
+                .replace(/>/g,'&gt;')
+                .replace(/</g,'&lt;')
+              );
             }
           }catch(error){
             alert(error)

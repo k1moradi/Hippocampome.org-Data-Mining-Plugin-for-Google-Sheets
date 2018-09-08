@@ -215,7 +215,7 @@ function tagRefIDUniversal(datastr, refObject) {
   }
 }
 function dataStringParser(str){
-  return str.split(/\s*[,]+\s*/g).map(stringParser)
+  return str.split(/\s*[,]+\s*(?!\s*Δt:|\s*Post)/g).map(stringParser)
 }
 // This function converts my data strings to objects
 // given a properly formatted returns an array of objetcs
@@ -228,6 +228,16 @@ function stringParser(str){
     if (atSigns.length === 1) {//a normal syntax
       var tmp = str.split(/@/g);
       var results = refIDSecToObj(tmp[1]);
+      results.values=tmp[0].split(/\s*[;]\s*/g).filter(Null).map(dataSecToObj);
+      return results;
+    } else {
+      //stimulation syntax
+      return str;
+    }
+  } else if (atSigns = str.match(/@\s*\{/g)) {
+    if (atSigns.length === 1) {//a normal syntax
+      var tmp = str.split(/@/g);
+      var results = {RefIDs:"", note:/\{(.*?)\}/g.exec(tmp[1])[1]};
       results.values=tmp[0].split(/\s*[;]\s*/g).filter(Null).map(dataSecToObj);
       return results;
     } else {
@@ -251,7 +261,7 @@ function stringParser(str){
 }
 function dataSecToObj(str) {//Logger.log(str)
   try {
-    var numericalDataRegExp = /(?:(^\s*[\-+]{0,1}\d+(?:\.\d+){0,1})(?:±(\d+(?:\.{0,1}\d+){0,1})){0,1}){0,1}\s*(?:\[\s*(?:([\-+]{0,1}\d+(?:\.\d+){0,1})\s*to\s*([\-+]{0,1}\d+(?:\.\d+){0,1})|\>([\-+]{0,1}\d+(?:\.\d+){0,1})|\<([\-+]{0,1}\d+(?:\.\d+){0,1}))\s*\]){0,1}\s*(?:\(n=(\d+)\)){0,1}\s*(?:\{(.*)\}){0,1}/i
+    var numericalDataRegExp = /(?:(^\s*[\-+]?\d+(?:\.\d+)?(?:[Ee]\-?\d+)?)(?:±(\d+(?:\.?\d+)?(?:[Ee]\-?\d+)?))?)?\s*(?:\[\s*(?:([\-+]?\d+(?:\.\d+)?(?:[Ee]\-?\d+)?)\s*to\s*([\-+]?\d+(?:\.\d+)?(?:[Ee]\-?\d+)?)|\>([\-+]?\d+(?:\.\d+)?(?:[Ee]\-?\d+)?)|\<([\-+]?\d+(?:\.\d+)?(?:[Ee]\-?\d+)?))\s*\])?\s*(?:\(n=(\d+)\))?\s*(?:\{(.*)\})?/i
     if (numericalDataRegExp.exec(str)[0] !== '') {
       var tmp = JSON.parse(str.replace(numericalDataRegExp,"{\"v\":\"$1\",\"s\":\"$2\",\"ll\":\"$3$5\",\"ul\":\"$4$6\",\"n\":\"$7\",\"note\":\"$8\"}"));
       ['v','s','ll','ul','n'].forEach(function(key){if (tmp[key]) tmp[key]=Number(tmp[key])})
@@ -272,7 +282,7 @@ function dataSecToObj(str) {//Logger.log(str)
 }
 function refIDSecToObj(str) {
   try {
-    var tmp = JSON.parse(str.replace(/([\d&]*)\s*(?:\{(.*)\}){0,1}/,"{\"refIDs\":\"$1\",\"note\":\"$2\"}"))
+    var tmp = JSON.parse(str.replace(/([\d&]*)\s*(?:\{(.*)\})?/,"{\"refIDs\":\"$1\",\"note\":\"$2\"}"))
     return {RefIDs:tmp.refIDs.split(/\&/g).filter(Null),note:tmp.note}
   } catch(error) {
     SpreadsheetApp.getUi().alert('Error in refIDSecToObj function when processing input:\n\n'+str+'\n\n'+error.message)

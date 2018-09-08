@@ -6,14 +6,14 @@
 function eRev(){
 //---------------whole-cell
   //Beed 2013 Inhibitory gradient along the dorsoventral axis in the medial entorhinal cortex.
-  new solution(celsius=35,
-               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
-               pSolution='145 KCl, 2 Na2ATP, 10 HEPES, 0.1 EGTA, 2 MgCl2',
-               recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.4,i:7.2,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
+//               pSolution='145 KCl, 2 Na2ATP, 10 HEPES, 0.1 EGTA, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
 //  new solution(celsius=35,
 //               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
 //               pSolution='150 K-gluconate, 0.5 MgCl2, 1.1 EGTA, 10 Na2-Phosphocreatine',
@@ -1097,7 +1097,9 @@ function eRev(){
 //               eSolution='125 NaCl, 25 NaHCO3, 1.25 NaH2PO4, 2.5 KCl, 2 CaCl2, 1 MgCl2',
 //               pSolution='15 K-gluconate, 140 KCl, 0.1 EGTA, 2 MgCl2, 4 Na2ATP, 10 HEPES',
 //               recordingMethod='whole-cell',
-//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN}, 
+//                 Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//                 Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.3,CO2:true}).log();
 //  new solution(celsius=32,
 //               eSolution='125 NaCl, 25 NaHCO3, 1.25 NaH2PO4, 2.5 KCl, 2 CaCl2, 1 MgCl2',
@@ -1106,11 +1108,21 @@ function eRev(){
 //               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.3,CO2:true}).log();
   //Price 2005 Neurogliaform neurons form a novel inhibitory network in the hippocampal CA1 area.
-//  solution(celsius=32,
-//           eSolution='130 NaCl, 3.5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3, 3 KYNA',
+//  new solution(celsius=32,
+//           eSolution='130 NaCl, 3.5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
 //           pSolution='126 K-gluconate, 10 HEPES, 10 Na2-Phosphocreatine, 4 KCl, 4 MgATP, 0.3 NaGTP',
 //           recordingMethod='whole-cell',
-//           voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, Erev:{IPSC:-70,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
+//           voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, 
+//           Erev:{IPSC:-70,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//           Vj:{exp:NaN,correctedAlready:false}},
+//           pH={e:NaN,i:7.3,CO2:true}).log();
+//    new solution(celsius=32,
+//           eSolution='130 NaCl, 3.5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
+//           pSolution='126 K-gluconate, 10 HEPES, 10 Na2-Phosphocreatine, 4 KCl, 4 MgATP, 0.3 NaGTP',
+//           recordingMethod='whole-cell',
+//           voltages={Vm:{RMP:-63.1,Vh:-50,Vss:NaN}, 
+//           Erev:{IPSC:-70,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//           Vj:{exp:NaN,correctedAlready:false}},
 //           pH={e:NaN,i:7.3,CO2:true}).log();
   //Yu 2015 Dentate total molecular layer interneurons mediate cannabinoid-sensitive inhibition.
 //  new solution(celsius=22,
@@ -1180,21 +1192,30 @@ function eRev(){
 //                      recordingMethod='whole-cell',
 //                      voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:-73.7 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //                      pH={e:7.4,i:7.3,CO2:true}).log();
+
   
   
   //---------------sharp electrode  
   //--> it is necessary to make Vj corrections
   
-  
+  //Sayer 1990 The time course and amplitude of EPSPs evoked at synapses between pairs of CA3/CA1 neurons in the hippocampal slice.
+//  new solution(celsius=32.5,
+//               eSolution='124 NaCl, 2 KCl, 2 MgSO4, 2 CaCl2, 1.25 KH2PO4, 26 NaHCO3',
+//               pSolution='2000 K-methylsulfate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-60},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:NaN,CO2:true}).log();
   //Dhillon 2000 Laminar differences in recurrent excitatory transmission in the rat entorhinal cortex in vitro.
-  new solution(celsius=33,
-               eSolution='126 NaCl, 3 KCl, 2 CaCl2, 2 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
-               pSolution='3000 K-acetate',
-               recordingMethod='sharp electrode',
-               voltages={Vm:{RMP:-74,Vh:NaN,Vss:-65},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.4,i:NaN,CO2:true}).log();
+//  new solution(celsius=33,
+//               eSolution='126 NaCl, 3 KCl, 2 CaCl2, 2 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
+//               pSolution='3000 K-acetate',
+//               recordingMethod='sharp electrode',
+//               voltages={Vm:{RMP:-74,Vh:NaN,Vss:-65},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:NaN,CO2:true}).log();
   //Empson 1995 Electrophysiology and morphology of a new type of cell within layer II of the rat lateral entorhinal cortex in vitro.
 //  new solution(celsius=34,
 //               eSolution='124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4',
@@ -1443,7 +1464,15 @@ function eRev(){
 //               recordingMethod='sharp electrode',
 //               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN}, Erev:{IPSC:NaN,EPSC:NaN,IPSP:-77,EPSP:NaN}, Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:NaN,CO2:true}).log();
-
+  //Empson 1995 The perforant path projection to hippocampal area CA1 in the rat hippocampal-entorhinal cortex combined slice.
+  new solution(celsius=34,
+               eSolution='124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4',
+               pSolution='2500 K-acetate',
+               recordingMethod='sharp electrode',
+               voltages={Vm:{RMP:-55,Vh:NaN,Vss:NaN}, 
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-85.9,EPSP:NaN}, 
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:NaN,CO2:true}).log();
 
   //---------------perforated patch
   //Nissen 2010 Cell type-specific long-term plasticity at glutamatergic synapses onto hippocampal interneurons expressing either parvalbumin or CB1 cannabinoid receptor.
@@ -1491,6 +1520,8 @@ function eRev(){
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:1.2,correctedAlready:true}},
 //               pH={e:7.4,i:NaN,CO2:true}).log();
+
+  
   //Dallwig 1999 On the mechanism of GABA-induced currents in cultured rat cortical neurons -> HCO3-Cl cotransport
   //exp10 = new experiment(22,'125 NaCl, 2.5 KCl, 26 NaHCO3, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','',Vm=-70,isSharpElectrode=false,O2_CO2_95_5=true,pHo=7.4,pHi=NaN).log();    //Perforated-patch:HCO3/CO2-buffered saline: Experimental Erev in Soma=–59, GHK at -70 mV RMP =-58.8
   //exp11 = new experiment(22,'125 NaCl, 2.5 KCl, 26 Na-gluconate, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2','',Vm=-65,isSharpElectrode=false,O2_CO2_95_5=false,pHo=7.4,pHi=NaN).log(); //Perforated-patch:Hepes-buffered saline: Experimental Erev in Soma=-73, GHK at -65 mV RMP=-64.86

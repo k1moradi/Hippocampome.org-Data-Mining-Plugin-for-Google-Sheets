@@ -130,18 +130,25 @@ function checkQuery(evidence,cellTypes) {
     if (response) {
       var errorRegExp   = /<br>.*<br>/;
       var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
+      var fetchedConns  = null;
       try {
         var fetchedConns  = output.fetchedConns  = JSON.parse(response.replace(errorRegExp,''));
-        if (fetchedConns) {
-          SpreadsheetApp.getUi().showModalDialog(output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Search Query Check Tool');
-          return true;
-        } else {
-          ss.toast('server returned an empty string');
-        }
       } catch(e) {
         ss.toast('server returned an unparsable string\n'+
                  'server response: '+response+'\n'+
                  'error: '+e);
+      }
+      if (fetchedConns) {
+        try {
+          SpreadsheetApp.getUi().showModalDialog(
+            output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Search Query Check Tool');
+          return true;
+        } catch(e) {
+          ss.toast('Error in HTML service\n'+
+                 'error: '+e);
+        }
+      } else {
+        ss.toast('server returned an empty string');
       }
     } else {
       ss.toast('Error in UrlFetchApp');

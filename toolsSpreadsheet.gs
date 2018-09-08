@@ -1,8 +1,9 @@
 function test() { 
+  Logger.log({}.items.push({a:1}))
   //Logger.log(Utilities.base64Encode(DriveApp.getFilesByName("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg").next().getBlob().getDataAsString()));
   //Logger.log(getFileIDs("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg"))
   //while (fileIterator) output.push(fileIterator.next().getId())())
-  Logger.log(UrlFetchApp.fetch("http://hippocampome.org/csv2db/search_engine_json.php?query_str=Connection:(Presynaptic:(Neurotransmitter:Excitatory AND Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:RASP.NASP NOT Markers:(D-:CB OR I-:CB OR D-:RLN OR I-:RLN)), Postsynaptic:(Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:ASP. NOT Markers:(D-:CB OR I-:CB)))").getResponseCode());
+  //Logger.log(UrlFetchApp.fetch("http://hippocampome.org/csv2db/search_engine_json.php?query_str=Connection:(Presynaptic:(Neurotransmitter:Excitatory AND Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:RASP.NASP NOT Markers:(D-:CB OR I-:CB OR D-:RLN OR I-:RLN)), Postsynaptic:(Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:ASP. NOT Markers:(D-:CB OR I-:CB)))").getResponseCode());
 }
 
 function getMaxOf(sheetName,columnName) {
@@ -28,7 +29,8 @@ function getEvidenceValues(activeRange) {
   var columnNotesObj = notes.reduce(function(p,v,i){p[headers[i]]=v ; return p},{});
   var Automation = rawEvidenceObj.Automation.split(/[)]\s*[,]\s*Postsynaptic:[(]/g);
   
-  var eIDprevious = Number(activeRange.offset(-2, columnNumObj.eID, 1, 1).getValue());
+  var eIDprevious = (activeRange.getRow() < 3)? 0 : Number(activeRange.offset(-2, columnNumObj.eID, 1, 1).getValue());
+
   var ID = rawEvidenceObj.eID;
   if (isNumeric(eIDprevious) && isNumeric(ID)) {
     if (ID === eIDprevious)
@@ -37,13 +39,15 @@ function getEvidenceValues(activeRange) {
     ID = getMaxOf('Evidence','eID')+1;
   }
 
-  var obj = {                                 //offset(rowOffset, columnOffset     , numRows                 , numColumns)
+  var obj = {                //offset(rowOffset, columnOffset     , numRows                 , numColumns)
     PConnections         : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().map(function(v){return v[1]+'▶'+v[3]}),
     PConnectionsUIDs     : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 4).getValues().reduce(
       function(p,v,i){
-        p[i]={source_id      : String(v[0]), 
-              destination_id : String(v[2])}
-        return p
+        if (isNumeric(Number(v[0])) && isNumeric(Number(v[2]))) {
+          p[i]={source_id      : String(v[0]), 
+                destination_id : String(v[2])}
+        }
+        return p;
       },{}),
     sUID                 : activeRange.offset(0, columnNumObj.sUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
     tUID                 : activeRange.offset(0, columnNumObj.tUID, activeRange.getNumRows(), 1).getValues().reduce(to1D).filter(onlyUnique),
