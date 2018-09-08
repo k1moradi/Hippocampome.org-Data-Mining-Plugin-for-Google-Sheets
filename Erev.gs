@@ -1470,7 +1470,7 @@ function eRev(){
                pSolution='2500 K-acetate',
                recordingMethod='sharp electrode',
                voltages={Vm:{RMP:-55,Vh:NaN,Vss:NaN}, 
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-85.9,EPSP:NaN}, 
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-85.9,EPSP:-40}, 
                Vj:{exp:NaN,correctedAlready:false}},
                pH={e:NaN,i:NaN,CO2:true}).log();
 

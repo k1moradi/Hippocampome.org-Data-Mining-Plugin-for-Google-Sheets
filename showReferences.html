@@ -329,8 +329,6 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
           .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
           .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|(\d+)\s*(±)\s*(\d+)|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1$2$3')
           .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
-//          .replace(/&lt;/g,'<')
-//          .replace(/&gt;/g,'>')
           .replace(/&ndash;/g,'—')
           .replace(/&amp;/g,'&');
         
@@ -543,13 +541,11 @@ body {
 .tooltip:hover {
   visibility: visible;
 }
-
 @keyframes glowing {
   0%   { background-color: #B20000; box-shadow: 0 0 3px  #B20000; }
   50%  { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
   100% { background-color: #B20000; box-shadow: 0 0 3px  #B20000; }
 }
-
 .glowingButton {
   animation: glowing 1500ms infinite;
 }

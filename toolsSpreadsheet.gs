@@ -45,7 +45,7 @@ function getEvidenceValues(activeRange) {
       function(p,v,i){
         if (isNumeric(Number(v[0])) && isNumeric(Number(v[2]))) {
           p[i]={source_id      : String(v[0]), 
-                destination_id : String(v[2])}
+                destination_id : String(v[2])};
         }
         return p;
       },{}),
