@@ -1,5 +1,5 @@
 function test() { 
-  Logger.log({}.items.push({a:1}))
+  Logger.log((0)?true:false)
   //Logger.log(Utilities.base64Encode(DriveApp.getFilesByName("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg").next().getBlob().getDataAsString()));
   //Logger.log(getFileIDs("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg"))
   //while (fileIterator) output.push(fileIterator.next().getId())())
@@ -88,7 +88,7 @@ function getEvidenceValues(activeRange) {
     RMPorVh              : rawEvidenceObj.RMPorVh,
     ErevAuthors          : rawEvidenceObj.ErevAuthors,
     ErevCalculated       : rawEvidenceObj.ErevCalculated,
-    Drugs                : rawEvidenceObj.Drugs.split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
+    Drugs                : rawEvidenceObj.Drugs.split(/(?:\s*[,;]\s*)+/g).filter(Null).filter(onlyUnique),
     ExtracellularSolution: rawEvidenceObj.ExtracellularSolution,
     IntracellularSolution: rawEvidenceObj.IntracellularSolution,
     rangeA1Notation      : activeRange.getSheet().getName()+'!'+activeRange.getA1Notation(),
