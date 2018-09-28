@@ -57,7 +57,7 @@ function reviewEvidence(displayForm) {
       output.allRefs = mergeObjs(myRefs,morphology,markers,cellEphys,firingPatterns,connectivity,covariatesRef,dataRefs);
       output.imagesShown = [];
       SpreadsheetApp.getUi().showModalDialog(
-        output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth), 
+        output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),//.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
         'Review Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
       );
       return true;
@@ -104,7 +104,7 @@ function addSynapticData() {
       output.imagesShown = [];
       output.allRefs = mergeObjs(synRefs,covRefs,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity);
       SpreadsheetApp.getUi().showModalDialog(
-        output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth), 
+        output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),
         'Synaptic Data Extraction Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
       );
       return true;

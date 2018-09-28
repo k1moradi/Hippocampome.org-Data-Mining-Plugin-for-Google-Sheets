@@ -1,7 +1,7 @@
 function test() { 
   Logger.log((0)?true:false)
   //Logger.log(Utilities.base64Encode(DriveApp.getFilesByName("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg").next().getBlob().getDataAsString()));
-  //Logger.log(getFileIDs("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg"))
+Logger.log(getFileURLs("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg"))
   //while (fileIterator) output.push(fileIterator.next().getId())())
   //Logger.log(UrlFetchApp.fetch("http://hippocampome.org/csv2db/search_engine_json.php?query_str=Connection:(Presynaptic:(Neurotransmitter:Excitatory AND Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:RASP.NASP NOT Markers:(D-:CB OR I-:CB OR D-:RLN OR I-:RLN)), Postsynaptic:(Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:ASP. NOT Markers:(D-:CB OR I-:CB)))").getResponseCode());
 }
@@ -276,12 +276,36 @@ function filterText(str) {
  * @customfunction
  */
 function getFileIDs(fileName) {
+  //drive.google.com/uc?export=view&id=<FILE_ID>
   var output = [];
   if (typeof fileName === 'string'){
     var fileIterator = DriveApp.getFilesByName(fileName);
-    //while (fileIterator.hasNext()) output.push(fileIterator.next().getId());
-    //while (fileIterator.hasNext()) output.push(Utilities.base64Encode(fileIterator.next().getAs('image/png').getBytes()));
-    while (fileIterator.hasNext()) output.push(Utilities.base64Encode(fileIterator.next().getBlob().getBytes()));
+    while (fileIterator.hasNext()) output.push(fileIterator.next().getId());  
+  } else {
+    SpreadsheetApp.getUi().alert('File name: '+fileName+' is not an string')
+  };
+  return output;
+};
+
+function getFileBase64s(fileName) {
+  //<img src="data:image/png;base64,<?=fileBase64?>" style='width:100%;'>
+  var output = [];
+  if (typeof fileName === 'string'){
+    var fileIterator = DriveApp.getFilesByName(fileName);
+    while (fileIterator.hasNext()) output.push(Utilities.base64Encode(fileIterator.next().getBlob().getBytes()));   
+  } else {
+    SpreadsheetApp.getUi().alert('File name: '+fileName+' is not an string')
+  };
+  return output;
+};
+
+function getFileURLs(fileName) {
+  //<img src="<?=fileURL?>" style='width:100%;'>
+  var output = [];
+  if (typeof fileName === 'string'){
+    var fileIterator = DriveApp.getFilesByName(fileName);
+//    while (fileIterator.hasNext()) output.push(fileIterator.next().getUrl());
+    while (fileIterator.hasNext()) output.push(fileIterator.next().getDownloadUrl().replace(/\?e=download&gd=true$/,''));   
   } else {
     SpreadsheetApp.getUi().alert('File name: '+fileName+' is not an string')
   };
