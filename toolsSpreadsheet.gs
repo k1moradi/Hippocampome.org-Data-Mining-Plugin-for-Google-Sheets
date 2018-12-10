@@ -1,7 +1,6 @@
-function test() { 
-  Logger.log((0)?true:false)
+function test() {
+  Logger.log(NaN * 2)
   //Logger.log(Utilities.base64Encode(DriveApp.getFilesByName("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg").next().getBlob().getDataAsString()));
-Logger.log(getFileURLs("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg"))
   //while (fileIterator) output.push(fileIterator.next().getId())())
   //Logger.log(UrlFetchApp.fetch("http://hippocampome.org/csv2db/search_engine_json.php?query_str=Connection:(Presynaptic:(Neurotransmitter:Excitatory AND Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:RASP.NASP NOT Markers:(D-:CB OR I-:CB OR D-:RLN OR I-:RLN)), Postsynaptic:(Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:ASP. NOT Markers:(D-:CB OR I-:CB)))").getResponseCode());
 }

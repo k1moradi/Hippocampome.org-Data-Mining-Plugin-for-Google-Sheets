@@ -6,10 +6,10 @@
     <?!= include('commonCSS'); ?>
     <style>
     .sticky {
-      top: 50px;
+      top:<?=(!displayForm)?"50px":"75px"?>;
     }
     .Quote th {
-      top: 94px;
+      top:<?=(!displayForm)?"94px":"119px"?>;
     }
     </style>
   </head>
@@ -21,7 +21,11 @@
       <div id='evidence' style='margin-top:25px;'>
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
         <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------
-          showObject(covariates,'covariates','25px',2,'SliceOrientation',['Order Added','PMID','Reference','Not Mined Not Vetted','DataExtracted'])
+          if (!displayForm) 
+            showObject(evidence.rawEvidenceObject,'evidence'  ,'25px',3,'DataLocation'   ,
+                    ['sUID','Source','tUID','Target','Layer','PMID','Confidence']            );
+          showObject(covariates                ,'covariates','50px',2,'EphysParamsReported',
+                    ['Order Added','PMID','Reference','Not Mined Not Vetted','DataExtracted']);
           var unlinkedRefIds = Object.keys(myRefs).filter(function(refID){return (evidence.allRefIDs.indexOf(refID) === -1)});
           showAllReferences(evidence.CovariatesIDs      ,evidence.CovariatesIDs       ,allRefs,covariatesRef ,'Covariates:'                  ,'#5C9292','white','');
           showAllReferences(evidence.MorphologyIDsPre   ,evidence.MorphologyIDsPost   ,allRefs,morphology    ,'Anatomy & Morphology:'        ,'#86685B','white','');
@@ -30,7 +34,7 @@
           showAllReferences(evidence.FiringPatternIDsPre,evidence.FiringPatternIDsPost,allRefs,firingPatterns,'Firing Patterns:'             ,'#F08C74','white','');
           showAllReferences(evidence.ConnectivityIDsPre ,evidence.ConnectivityIDsPost ,allRefs,connectivity  ,'Connectivity:'                ,'#36A692','white','');
           showAllReferences(evidence.DataIDs            ,evidence.DataIDs             ,allRefs,dataRefs      ,'Synaptic Data:'               ,'#E91E63','white','');
-          showReferences   (unlinkedRefIds                                            ,allRefs,myRefs      ,'❌My Mixed Unlinked References:','#00F0F0','black','200%','')?>
+          showReferences   (unlinkedRefIds                                            ,allRefs,myRefs      ,'❌My Mixed Unlinked References:','#00F0F0','black','200%','');?>
       </div>
     </div>
     <?!= include('snackBar')?>

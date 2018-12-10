@@ -962,7 +962,23 @@ function eRev(){
 //               pH={e:7.3,i:7.3,CO2:true}).log();
   //11069934 Toth 2000 Differential mechanisms of transmission at three types of mossy fiber synapse.
 //  new solution(celsius=24,
-//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 CaCl 2, 1.5 MgCl2',
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 CaCl2, 1.25 MgCl2',
+//               pSolution='100 Cs-gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+//  new solution(celsius=24,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 1 CaCl2, 3 MgCl2',
+//               pSolution='100 Cs-gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+//    new solution(celsius=24,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 3.8 CaCl2, 0.8 MgCl2',
 //               pSolution='100 Cs-gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314Br',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
@@ -1135,6 +1151,38 @@ function eRev(){
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.3,CO2:true}).log();
+//  new solution(celsius=31,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               pSolution='80 CsCl, 60 Cs-gluconate, 1 MgCl2, 2 MgATP, 10 HEPES, 3 NaCl, 5 QX314-Cl, 0.1 spermine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:3.90,IPSP:NaN,EPSP:NaN}, //BC CP-AMPA
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+//  new solution(celsius=31,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               pSolution='80 CsCl, 60 Cs-gluconate, 1 MgCl2, 2 MgATP, 10 HEPES, 3 NaCl, 5 QX314-Cl, 0.1 spermine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:-5.51956,IPSP:NaN,EPSP:NaN}, //BC CI-AMPA
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+//  new solution(celsius=31,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               pSolution='80 CsCl, 60 Cs-gluconate, 1 MgCl2, 2 MgATP, 10 HEPES, 3 NaCl, 5 QX314-Cl, 0.1 spermine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:-12.5452,IPSP:NaN,EPSP:NaN}, //AAC CP-AMPA
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+//  new solution(celsius=31,
+//               eSolution='126 NaCl, 2.5 KCl, 26 NaHCO3, 2 CaCl2, 2 MgCl2, 1.25 NaH2PO4',
+//               pSolution='80 CsCl, 60 Cs-gluconate, 1 MgCl2, 2 MgATP, 10 HEPES, 3 NaCl, 5 QX314-Cl, 0.1 spermine',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:-5.266,IPSP:NaN,EPSP:NaN}, //AAC CI-AMPA
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
   //19830814 Cosgrove 2010 Area CA3 interneurons receive two spatially segregated mossy fiber inputs.
 //  new solution(celsius=32,
 //               eSolution='125 NaCl, 3 KCl, 1.25 Na2HPO4, 25 NaHCO3, 2 CaCl2, 1 MgCl2',
@@ -1220,7 +1268,7 @@ function eRev(){
 //               pSolution='90 K-gluconate, 1.8 NaCl, 1.7 MgCl2, 27.4 KCl, 0.05 EGTA, 10 HEPES, 2 MgATP, 0.4 Na2GTP, 10 Na2-phosphocreatine',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN}, 
-//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Erev:{IPSC:-73.65,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.25,CO2:true}).log();
   //21983681 Markwardt 2011 Ivy/neurogliaform interneurons coordinate activity in the neurogenic niche.
@@ -1551,11 +1599,11 @@ function eRev(){
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.3,CO2:true}).log();
   //9208867 Geiger 1997 Submillisecond AMPA receptor-mediated signaling at a principal neuron-interneuron synapse.
-//  new solution(celsius=34,
-//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//  new solution(celsius=22,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1.5 CaCl2, 3 MgCl2',
 //               pSolution='135 K-gluconate, 20 KCl, 0.1 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',
-//               recordingMethod='whole-cell',
-//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, 
+//               recordingMethod='outside–out',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
 //               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.2,i:7.3,CO2:true}).log();
@@ -1579,7 +1627,7 @@ function eRev(){
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
 //               pSolution='135 K-gluconate, 20 KCl, 0.1 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',
 //               recordingMethod='whole-cell',
-//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, 
+//               voltages={Vm:{RMP:-52,Vh:-70,Vss:-70}, 
 //               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.2,i:7.3,CO2:true}).log();
@@ -1595,7 +1643,7 @@ function eRev(){
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
 //               pSolution='145 KCl, 0.1 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',
 //               recordingMethod='whole-cell',
-//               voltages={Vm:{RMP:-70,Vh:NaN,Vss:NaN}, 
+//               voltages={Vm:{RMP:-62,Vh:-70,Vss:NaN}, 
 //               Erev:{IPSC:NaN ,EPSC:5.71,IPSP:NaN,EPSP:NaN}, //5.71 is according to Geiger 1995
 //               Vj:{exp:9.8,correctedAlready:false}},        //9.8 is according to Geiger 1995
 //               pH={e:7.2,i:7.3,CO2:true}).log();
@@ -1618,12 +1666,101 @@ function eRev(){
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.2,CO2:true}).log();
   //1357584 Otis 1992 Modulation of decay kinetics and frequency of GABAA receptor-mediated spontaneous inhibitory postsynaptic currents in hippocampal neurons.
-//  new solution(celsius=34,
+//  new solution(celsius=35,
 //               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
 //               pSolution='140 CsCl, 10 HEPES, 2 MgCl2',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:-70,Vh:-70,Vss:NaN}, 
-//               Erev:{IPSC:-2.7 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Erev:{IPSC:-0.63 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, //Fig. 1C-sIPSC 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();-2.7
+//  new solution(celsius=35,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='140 CsCl, 10 HEPES, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-55,Vh:-70,Vss:NaN}, 
+//               Erev:{IPSC:-1.77 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, //Fig. 1C-eIPSC 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='140 CsCl, 10 HEPES, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:NaN}, 
+//               Erev:{IPSC:-2.7 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, //Both eIPSC and sIPSC -2.7±0.4 (n=5)
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//  new solution(celsius=22,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='140 CsCl, 10 HEPES, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-70,Vh:-50,Vss:NaN}, 
+//               Erev:{IPSC:-2.7 ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, //Both eIPSC and sIPSC -2.7±0.4 (n=5)
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//         //PMID 1707966
+//         new solution(celsius=22,
+//               eSolution='125 NaCl, 2.5 KCl, 2 CaCl2, 1 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='140 NMDG, 125 HCl, 2 CaCl2, 10 EGTA, 2 ATP, 1 MgCl2, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-70,Vh:-50,Vss:NaN}, 
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN}, //Both eIPSC and sIPSC -2.7±0.4 (n=5)
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.3,CO2:true}).log();
+//  new solution(celsius=22,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='140 CsCl, 10 HEPES, 2 MgCl2, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-70,Vh:-70,Vss:-55},
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='140 CsCl, 10 HEPES, 2 MgCl2, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-70,Vh:-65,Vss:-55},
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='135 Cs-gluconate, 10 HEPES, 5 CsCl, 2 MgCl2, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:6,Vss:NaN},
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='135 Cs-gluconate, 10 HEPES, 5 CsCl, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:20,Vss:NaN},
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//  new solution(celsius=34,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='110 Cs–gluconate, 5 CsCl, 1 BAPTA, 1.1 CaCl2, 10 HEPES, 2 MgCl2, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//    new solution(celsius=34,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='140 CsCl, 10 HEPES, 2 MgCl2, 11 BAPTA, 1.1 CaCl2, 5 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-75,Vss:NaN},
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.35,i:7.2,CO2:true}).log();
+//  new solution(celsius=34,
+//               eSolution='126 NaCl, 2.5 KCl, 2 CaCl2, 2 MgCl2, 26 NaHCO3, 1.25 NaH2PO4',
+//               pSolution='130 Cs–gluconate, 5 CsCl, 10 HEPES, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:NaN},
+//               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.35,i:7.2,CO2:true}).log();
   //10200201 Okazaki 1999 Recurrent mossy fiber pathway in rat dentate gyrus: synaptic currents evoked in presence and absence of seizure-induced growth.	Okazaki 1999 Recurrent mossy fiber pathway in rat dentate gyrus: synaptic currents evoked in presence and absence of seizure-induced growth.
@@ -1992,7 +2129,7 @@ function eRev(){
 //               eSolution='126 NaCl, 5 KCl, 2 CaCl2, 2 MgSO4, 26 NaHCO3, 1.25 NaH2PO4',
 //               pSolution='1000 K-acetate',
 //               recordingMethod='sharp electrode',
-//               voltages={Vm:{RMP:-72,Vh:NaN,Vss:NaN}, 
+//               voltages={Vm:{RMP:-72,Vh:NaN,Vss:-75}, 
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.4,i:NaN,CO2:true}).log();
@@ -2181,7 +2318,7 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
  // HEPES has little or no effect on Ionic Strength and activity -> PMID: 18022379
  this.Ions = 
    ["acetate","ATP","Ba","Br","Ca","Cl","Cs","Cl","EGTA","F","gluconate","glucuronate",
-    "GTP","H2PO4","HCO3","HEPES","HPO4","K","methylsulfate","methanesulfonate","Mg",
+    "GTP","H2PO4","HCO3","HEPES","HPO4","K","NMDG","methylsulfate","methanesulfonate","Mg",
     "Na","OH","SO4","TEA","Tris","QX314","Zn","CeSO4","phosphocreatine","pyruvate"
    ].filter(function(ionName){
      return (pSolution.match(ionName) || eSolution.match(ionName))
@@ -2651,7 +2788,7 @@ var Ion = function(name) {
       break;      
     case "gluconate":
       this.charge = -1;
-      this.mu = 1.5734268E11;
+      this.mu = 0.33 * Ion.rel2mu; // 1.5734268E11;
       break;
     case "GTP":
       this.charge = -1;
@@ -2672,6 +2809,10 @@ var Ion = function(name) {
     case "OH":
       this.charge = -1;
       this.mu = 1.28478E12;
+      break;
+    case "NMDG":
+      this.charge = 1;
+      this.mu = 0.33 * Ion.rel2mu;
       break;
     case "methylsulfate": // methylsulfate MeSO4
       this.charge = -1;

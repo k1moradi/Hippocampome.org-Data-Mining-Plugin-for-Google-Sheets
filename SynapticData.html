@@ -22,7 +22,7 @@
       <div id='evidence' style='margin-top:25px'>
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
         <?showObject(evidence.rawEvidenceObject,'evidence'  ,'25px',3,'DataLocation'   ,
-                    ['sUID','Source','tUID','Target','Layer','PMID','Confidence']                       );
+                    ['sUID','Source','tUID','Target','Layer','PMID','Confidence']            );
           showObject(covariates                ,'covariates','50px',2,'EphysParamsReported',
                     ['Order Added','PMID','Reference','Not Mined Not Vetted','DataExtracted']);
           //----- References---------------------------------------------------------------------------------------------------

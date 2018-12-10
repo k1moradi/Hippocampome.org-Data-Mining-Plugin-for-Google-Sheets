@@ -22,7 +22,8 @@ function onOpen() {//add sub-toolbar to the toolbar
     .addItem('Get Max', 'getMaxOfColumn')
     .addItem('Count Unique', 'countUnique')
     .addItem('Import Evidence', 'getTheLastFormResponse')
-    .addItem('Insert Rows After', 'insertRow'))
+    .addItem('Insert Rows After', 'insertRow')
+    .addItem('End Of Line To Semicolon', 'endOfLineToSemicolon'))
   .addSeparator()
   .addItem('Jump to Row', 'jumpToRow')
   .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
@@ -263,6 +264,10 @@ function countUnique() {
 function typeForwardArrow() {
   var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
   cell.setValue(cell.getValue()+'▶');
+}
+function endOfLineToSemicolon() {
+  var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
+  cell.setValue(cell.getValue().split(/\s*\n+\s*/).join('; '));
 }
 //-------Common function ---------------------------------------------------------------------------
 function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
