@@ -6,10 +6,10 @@
     <?!= include('commonCSS'); ?>
     <style>
     .sticky {
-      top:<?=(!displayForm)?"50px":"75px"?>;
+      top:<?=(displayForm)?"50":"75"?>px;
     }
     .Quote th {
-      top:<?=(!displayForm)?"94px":"119px"?>;
+      top:<?=(displayForm)?"94":"119"?>px;
     }
     </style>
   </head>
@@ -22,10 +22,8 @@
         <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
         <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------
           if (!displayForm) 
-            showObject(evidence.rawEvidenceObject,'evidence'  ,'25px',3,'DataLocation'   ,
-                    ['sUID','Source','tUID','Target','Layer','PMID','Confidence']            );
-          showObject(covariates                ,'covariates','50px',2,'EphysParamsReported',
-                    ['Order Added','PMID','Reference','Not Mined Not Vetted','DataExtracted']);
+          showObject(evidence.rawEvidenceObject,'evidence'  ,'25px',3,'DataLocation'       ,['sUID','Source','tUID','Target','Layer','PMID','Confidence']);
+          showObject(covariates,'covariates',(displayForm)?'25px':'50px',2,'EphysParamsReported',['Order Added','PMID','Reference','Not Mined Not Vetted','DataExtracted']);
           var unlinkedRefIds = Object.keys(myRefs).filter(function(refID){return (evidence.allRefIDs.indexOf(refID) === -1)});
           showAllReferences(evidence.CovariatesIDs      ,evidence.CovariatesIDs       ,allRefs,covariatesRef ,'Covariates:'                  ,'#5C9292','white','');
           showAllReferences(evidence.MorphologyIDsPre   ,evidence.MorphologyIDsPost   ,allRefs,morphology    ,'Anatomy & Morphology:'        ,'#86685B','white','');
