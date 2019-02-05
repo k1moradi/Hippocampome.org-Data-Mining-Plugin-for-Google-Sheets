@@ -196,7 +196,7 @@ function eRev(){
 //               pSolution='117.5 Cs-gluconate, 17.5 CsCl, 10 KOH-HEPES, 10 BAPTA, 8 NaCl, 2 MgATP, 0.3 Na2GTP, 0.1 HCl4-spermine, 5 QX314-Br',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:-65.2,Vh:NaN,Vss:NaN},
-//               Erev:{IPSC:NaN,EPSC:-4.18,IPSP:NaN,EPSP:NaN},//
+//               Erev:{IPSC:NaN,EPSC:-4.18,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:NaN,correctedAlready:true}},
 //               pH={e:7.4,i:7.2,CO2:true}).log();
   //7517996 McBain 1994 Activation of metabotropic glutamate receptors differentially affects two classes of hippocampal interneurons and potentiates excitatory synaptic transmission.
@@ -269,13 +269,37 @@ function eRev(){
 //               Erev:{IPSC:NaN,EPSC:-2.79741,IPSP:NaN,EPSP:NaN}, //AMPA PC n=6
 //               Vj:{exp:4,correctedAlready:false}},
 //               pH={e:7.3,i:7.3,CO2:false}).log();
-      //data not extracted for Mg free part of this study
-//    new solution(celsius=22.5,
-//               eSolution='125 NaCl, 2.5 KCl, 26.7 NaHCO3, 2.5 CaCl2, 13 HEPES',
-//               pSolution='120 K-gluconate, 1 EGTA, 10 HEPES, 2 MgCl2, 4 NaCl,1 CaCl2',
+  //voltage clamp
+//  new solution(celsius=22.5,
+//               eSolution='125 NaCl, 2.5 KCl, 26.7 NaHCO3, 2.5 CaCl2, 13 HEPES, 1 MgCl2',
+//               pSolution='110 CsF, 20 TEA-Cl, 10 BAPTA, 10 HEPES, 2 MgCl2, 4 NaCl',
 //               recordingMethod='whole-cell',
-//               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:NaN},
-//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:-3.52,IPSP:NaN,EPSP:NaN},//AMPA RGC n=9
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.3,CO2:true}).log();
+//  new solution(celsius=22.5,
+//               eSolution='125 NaCl, 2.5 KCl, 26.7 NaHCO3, 2.5 CaCl2, 13 HEPES, 1 MgCl2',
+//               pSolution='110 CsF, 20 TEA-Cl, 10 BAPTA, 10 HEPES, 2 MgCl2, 4 NaCl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:-2.80,IPSP:NaN,EPSP:NaN},//AMPA PC n=6
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.3,CO2:true}).log();
+//  new solution(celsius=22.5,
+//               eSolution='125 NaCl, 2.5 KCl, 26.7 NaHCO3, 2.5 CaCl2, 13 HEPES',//Mg free
+//               pSolution='110 CsF, 20 TEA-Cl, 10 BAPTA, 10 HEPES, 2 MgCl2, 4 NaCl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:-3.52,IPSP:NaN,EPSP:NaN},//AMPA RGC n=9
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.3,i:7.3,CO2:true}).log();
+//    new solution(celsius=22.5,
+//               eSolution='125 NaCl, 2.5 KCl, 26.7 NaHCO3, 2.5 CaCl2, 13 HEPES',//Mg free
+//               pSolution='110 CsF, 20 TEA-Cl, 10 BAPTA, 10 HEPES, 2 MgCl2, 4 NaCl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:-2.80,IPSP:NaN,EPSP:NaN},//AMPA PC n=6
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.3,i:7.3,CO2:true}).log();
   //11306657 Bertrand 2001 Unitary synaptic currents between lacunosum-moleculare interneurones and pyramidal cells in rat hippocampus.
@@ -581,7 +605,7 @@ function eRev(){
   //18596171 Price 2008 GABA(B) receptor modulation of feedforward inhibition through hippocampal neurogliaform cells.
 //  new solution(celsius=33,
 //               eSolution='130 NaCl, 3.5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
-//               pSolution='126 Cs-methanesulfonate, 4 CsCl,10 HEPES, 10 Na2-phosphocreatine, 4 MgATP, 0.3 NaGTP',
+//               pSolution='126 Cs-methanesulfonate, 4 CsCl,10 HEPES, 10 Na2-phosphocreatine, 4 MgATP, 0.3 Na2GTP',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -589,15 +613,23 @@ function eRev(){
 //               pH={e:NaN,i:7.3,CO2:true}).log();
 //  new solution(celsius=33,
 //               eSolution='130 NaCl, 3.5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
-//               pSolution='126 K-gluconate, 10 HEPES, 10 Na2-phosphocreatine, 4 KCl, 4 MgATP, 0.3 NaGTP',
+//               pSolution='126 K-gluconate, 10 HEPES, 10 Na2-phosphocreatine, 4 KCl, 4 MgATP, 0.3 Na2GTP',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:12,correctedAlready:true}},
 //               pH={e:NaN,i:7.3,CO2:true}).log();
 //  new solution(celsius=33,
-//               eSolution='130 NaCl, 3.5 KCl, 2.5 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
-//               pSolution='126 Cs-methanesulfonate, 4 CsCl,10 HEPES, 10 Na2-phosphocreatine, 4 MgATP, 0.3 NaGTP',
+//               eSolution='130 NaCl, 3.5 KCl, 3.5 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
+//               pSolution='126 K-gluconate, 10 HEPES, 10 Na2-phosphocreatine, 4 KCl, 4 MgATP, 0.3 Na2GTP',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:12,correctedAlready:true}},
+//               pH={e:NaN,i:7.3,CO2:true}).log();
+//  new solution(celsius=33,
+//               eSolution='130 NaCl, 3.5 KCl, 1 CaCl2, 1.5 MgSO4, 1.25 NaH2PO4, 24 NaHCO3',
+//               pSolution='126 K-gluconate, 10 HEPES, 10 Na2-phosphocreatine, 4 KCl, 4 MgATP, 0.3 Na2GTP',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-50,Vss:NaN},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -650,7 +682,7 @@ function eRev(){
   //24671999 Tyan 2014 Dendritic inhibition provided by interneuron-specific cells controls the firing rate and timing of the hippocampal feedback inhibitory circuitry.
 //  new solution(celsius=32,
 //               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 2 CaCl2',
-//               pSolution='130 K-methylsulfate, 2 MgCl2, 10 Na2-phosphocreatine, 10 HEPES, 2 TrisATP, 0.2 TrisGTP',
+//               pSolution='130 K-methylsulfate, 2 MgCl2, 10 Na2-phosphocreatine, 10 HEPES, 2 Tris2ATP, 0.2 Tris2GTP',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:NaN,Vss:-40},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -658,7 +690,7 @@ function eRev(){
 //               pH={e:7.4,i:7.25,CO2:true}).log();
 //  new solution(celsius=32,
 //               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 2 CaCl2',
-//               pSolution='80 Cs-methylsulfate, 50 CsCl, 10 Na2-phosphocreatine, 10 HEPES, 2 TrisATP, 0.2 TrisGTP, 2 QX314-Cl',
+//               pSolution='80 Cs-methylsulfate, 50 CsCl, 10 Na2-phosphocreatine, 10 HEPES, 2 Tris2ATP, 0.2 Tris2GTP, 2 QX314-Cl',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-40},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -666,7 +698,23 @@ function eRev(){
 //               pH={e:7.4,i:7.25,CO2:true}).log();
 //  new solution(celsius=32,
 //               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 2 CaCl2',
-//               pSolution='130 Cs-methylsulfate, 2 CsCl, 10 Na2-phosphocreatine, 10 HEPES, 2 TrisATP, 0.2 TrisGTP, 2 QX314-Cl',
+//               pSolution='130 Cs-methylsulfate, 2 CsCl, 10 Na2-phosphocreatine, 10 HEPES, 2 Tris2ATP, 0.2 Tris2GTP, 2 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:0,Vss:-45},
+//               Erev:{IPSC:-71.9,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+//    new solution(celsius=32,
+//               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 1 CaCl2',//1 Ca
+//               pSolution='130 Cs-methylsulfate, 2 CsCl, 10 Na2-phosphocreatine, 10 HEPES, 2 Tris2ATP, 0.2 Tris2GTP, 2 QX314-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:0,Vss:-45},
+//               Erev:{IPSC:-71.9,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:true}).log();
+//    new solution(celsius=32,
+//               eSolution='124 NaCl, 2.5 KCl, 1.25 NaH2PO4, 26 NaHCO3, 2 MgSO4, 3.8 CaCl2',//3.8 Ca
+//               pSolution='130 Cs-methylsulfate, 2 CsCl, 10 Na2-phosphocreatine, 10 HEPES, 2 Tris2ATP, 0.2 Tris2GTP, 2 QX314-Cl',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:0,Vss:-45},
 //               Erev:{IPSC:-71.9,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -1012,6 +1060,14 @@ function eRev(){
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.28,CO2:true}).log();
+//  new solution(celsius=22,//22,34
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 1 CaCl2, 1 MgCl2',
+//               pSolution='135 K-gluconate, 20 KCl, 0.1 EGTA, 2 MgCl2, 4 Na2ATP, 0.3 Na2GTP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-68.2,Vh:-70,Vss:-60}, 
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.28,CO2:true}).log();
 //  new solution(celsius=34,//22,34
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
 //               pSolution='135 K-gluconate, 20 KCl, 0.1 EGTA, 2 MgCl2, 4 Na2ATP, 0.3 Na2GTP, 10 HEPES',
@@ -1077,15 +1133,23 @@ function eRev(){
 //               pSolution='100 Cs-gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314-Br',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
-//               Erev:{IPSC:NaN,EPSC:0.21,IPSP:NaN,EPSP:NaN}, //Ca Permeable
+//               Erev:{IPSC:NaN,EPSC:0.21,IPSP:NaN,EPSP:NaN}, //Ca Permeable - High density
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.4,i:7.25,CO2:NaN}).log();
-//    new solution(celsius=24,
+//  new solution(celsius=24,
 //               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 Ca2Cl, 1.2 MgSO4',
 //               pSolution='100 Cs-gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314-Br',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
-//               Erev:{IPSC:NaN,EPSC:0.87,IPSP:NaN,EPSP:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:-2.38,IPSP:NaN,EPSP:NaN}, //Ca Permeable - Low density
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.25,CO2:NaN}).log();
+//  new solution(celsius=24,
+//               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 Ca2Cl, 1.2 MgSO4',
+//               pSolution='100 Cs-gluconate, 0.6 EGTA, 5 MgCl2, 8 NaCl, 2 Na2ATP, 0.3 NaGTP, 40 HEPES, 0.1 spermine, 1 QX314-Br',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:NaN}, 
+//               Erev:{IPSC:NaN,EPSC:0.78,IPSP:NaN,EPSP:NaN}, //CI
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.4,i:7.25,CO2:NaN}).log();
   //14734812 Losonczy 2004 Persistently active cannabinoid receptors mute a subpopulation of hippocampal interneurons.
@@ -1230,7 +1294,15 @@ function eRev(){
   //11306622 Bartos 2001 Rapid signaling at inhibitory synapses in a dentate gyrus interneuron network.
 //  new solution(celsius=32,
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
-//               pSolution='110 K-gluconate, 70 KCl, 0.1 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',
+//               pSolution='110 K-gluconate, 40 KCl, 0.1 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:-55,Vh:-70,Vss:-65},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
+//  new solution(celsius=32,
+//               eSolution='87 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 0.5 CaCl2, 7 MgCl2',
+//               pSolution='70 K-gluconate, 70 KCl, 0.1 EGTA, 2 MgCl2, 2 Na2ATP, 10 HEPES',
 //               recordingMethod='whole-cell',
 //               voltages={Vm:{RMP:-55,Vh:-70,Vss:-65},
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
@@ -1366,7 +1438,7 @@ function eRev(){
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.2,CO2:true}).log();
   //20810902 Sambandan 2010 Associative plasticity at excitatory synapses facilitates recruitment of fast-spiking interneurons in the dentate gyrus.
-//  new solution(celsius=30,
+//  new solution(celsius=32,
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
 //               pSolution='120 K-gluconate, 20 KCl, 0.1 EGTA, 2 MgCl2, 4 Na2ATP, 0.5 Na2GTP, 10 HEPES, 7 Na2-phosphocreatine',
 //               recordingMethod='whole-cell',
@@ -1374,15 +1446,7 @@ function eRev(){
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.2,CO2:true}).log();
-//  new solution(celsius=30,
-//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
-//               pSolution='110 Cs-gluconate, 20 CsCl, 10 EGTA, 2 MgCl2 , 2 Na2ATP, 0.5 Na2GTP, 1 QX314-Br, 10 HEPES, 8 TEA-Cl',
-//               recordingMethod='whole-cell',
-//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-70}, 
-//               Erev:{IPSC:NaN,EPSC:17.02,IPSP:NaN,EPSP:NaN}, 
-//               Vj:{exp:NaN,correctedAlready:false}},
-//               pH={e:NaN,i:7.2,CO2:true}).log();
-//  new solution(celsius=30,
+//  new solution(celsius=32,
 //               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
 //               pSolution='110 Cs-gluconate, 20 CsCl, 10 EGTA, 2 MgCl2 , 2 Na2ATP, 0.5 Na2GTP, 1 QX314-Br, 10 HEPES, 8 TEA-Cl',
 //               recordingMethod='whole-cell',
@@ -1390,8 +1454,32 @@ function eRev(){
 //               Erev:{IPSC:NaN,EPSC:15.19,IPSP:NaN,EPSP:NaN}, 
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:7.2,CO2:true}).log();
+//  new solution(celsius=21,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='110 Cs-gluconate, 20 CsCl, 10 EGTA, 2 MgCl2 , 2 Na2ATP, 0.5 Na2GTP, 1 QX314-Br, 10 HEPES, 8 TEA-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:-70}, 
+//               Erev:{IPSC:NaN,EPSC:15.19,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.2,CO2:true}).log();
+//  new solution(celsius=32,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='110 Cs-gluconate, 20 CsCl, 10 EGTA, 2 MgCl2 , 2 Na2ATP, 0.5 Na2GTP, 1 QX314-Br, 10 HEPES, 8 TEA-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-70,Vss:-70}, 
+//               Erev:{IPSC:NaN,EPSC:17.02,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.2,CO2:true}).log();
+//  new solution(celsius=21,
+//               eSolution='125 NaCl, 25 NaHCO3, 2.5 KCl, 1.25 NaH2PO4, 2 CaCl2, 1 MgCl2',
+//               pSolution='110 Cs-gluconate, 20 CsCl, 10 EGTA, 2 MgCl2 , 2 Na2ATP, 0.5 Na2GTP, 1 QX314-Br, 10 HEPES, 8 TEA-Cl',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-60,Vss:-70}, 
+//               Erev:{IPSC:NaN,EPSC:17.02,IPSP:NaN,EPSP:NaN}, 
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:NaN,i:7.2,CO2:true}).log();
   //18077687 Williams 2007 Semilunar granule cells: glutamatergic neurons in the rat dentate gyrus with axon collaterals in the inner molecular layer.
-//  new solution(celsius=30,
+//  new solution(celsius=32,
 //               eSolution='124 NaCl, 3 KCl, 1.23 NaH2PO4, 1.2 MgSO4, 26 NaHCO3, 2.5 CaCl2',
 //               pSolution='140 K-methylsulfate, 4 NaCl, 10 HEPES, 0.2 EGTA, 4 MgATP, 0.3 Na3GTP, 10 Na2-phosphocreatine',
 //               recordingMethod='whole-cell',
@@ -1399,7 +1487,7 @@ function eRev(){
 //               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN}, 
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:NaN,CO2:true}).log();
-//  new solution(celsius=30,
+//  new solution(celsius=32,
 //               eSolution='124 NaCl, 3 KCl, 1.23 NaH2PO4, 1.2 MgSO4, 26 NaHCO3, 2.5 CaCl2',
 //               pSolution='140 K-methylsulfate, 4 NaCl, 10 HEPES, 0.2 EGTA, 4 MgATP, 0.3 Na3GTP, 10 Na2-phosphocreatine',
 //               recordingMethod='whole-cell',
@@ -1763,7 +1851,7 @@ function eRev(){
 //               Erev:{IPSC:NaN ,EPSC:NaN,IPSP:NaN,EPSP:NaN},
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:7.35,i:7.2,CO2:true}).log();
-  //10200201 Okazaki 1999 Recurrent mossy fiber pathway in rat dentate gyrus: synaptic currents evoked in presence and absence of seizure-induced growth.	Okazaki 1999 Recurrent mossy fiber pathway in rat dentate gyrus: synaptic currents evoked in presence and absence of seizure-induced growth.
+  //10200201 Okazaki 1999 Recurrent mossy fiber pathway in rat dentate gyrus: synaptic currents evoked in presence and absence of seizure-induced growth.
 //  new solution(celsius=22,
 //               eSolution='122 NaCl, 25 NaHCO3, 3.1 KCl, 1.8 CaCl2, 1.2 MgSO4, 0.4 KH2PO4',
 //               pSolution='120 Cs-gluconate, 10 HEPES, 2 MgATP, 10 QX314-Cl',
@@ -2172,7 +2260,16 @@ function eRev(){
  
 
   //---------------perforated patch
-  
+
+  //17332410 Lamsa 2007 Anti-Hebbian long-term potentiation in the hippocampal feedback inhibitory circuit.
+//  new solution(celsius=31.5,
+//               eSolution='119 NaCl, 2.5 KCl, 1.3 MgCl2, 2.5 CaCl2, 25 NaHCO3, 1 NaH2PO4',
+//               pSolution='145 K-gluconate, 8 NaCl, 22.5 KOH-HEPES, 0.2 EGTA, 5 QX314-Br',
+//               recordingMethod='perforated patch',
+//               voltages={Vm:{RMP:-65.2,Vh:NaN,Vss:NaN},
+//               Erev:{IPSC:NaN,EPSC:-4.73,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:true}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();  
   //8757246 Maccaferri 1996 Long-term potentiation in distinct subtypes of hippocampal nonpyramidal neurons.
 //  new solution(celsius=24,
 //               eSolution='130 NaCl, 24 NaHCO3, 3.5 KCl, 1.25 NaH2PO4, 2.5 CaCl2, 1.2 MgSO4',
@@ -2317,7 +2414,7 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
  // Calculate the concentrations of ions in the extracellular solution and in recording pipette
  // HEPES has little or no effect on Ionic Strength and activity -> PMID: 18022379
  this.Ions = 
-   ["acetate","ATP","Ba","Br","Ca","Cl","Cs","Cl","EGTA","F","gluconate","glucuronate",
+   ["acetate","ATP","Ba","Br","Ca","Cl","Cs","EGTA","F","gluconate","glucuronate",
     "GTP","H2PO4","HCO3","HEPES","HPO4","K","NMDG","methylsulfate","methanesulfonate","Mg",
     "Na","OH","SO4","TEA","Tris","QX314","Zn","CeSO4","phosphocreatine","pyruvate"
    ].filter(function(ionName){
@@ -2401,8 +2498,9 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
    case 'cell-attached':
      Object.keys(normal).forEach(function(ionName){
        if (self.Ions[ionName])
-         self.Ions[ionName].iC = normal[ionName] + ((self.Ions[ionName].charge === 1)? 0.01 * (self.Ions[ionName].pC - normal[ionName]) : 0);
+         self.Ions[ionName].iC = normal[ionName];
      })
+     break;
    case 'perforated patch':
      //Ma 2012 Bicarbonate efflux via GABA(A) receptors depolarizes membrane potential and inhibits two-pore domain potassium channels of astrocytes in rat hippocampal slices
      // in perforated patch clamp setting the intracellular concentrations are unknown
@@ -2412,7 +2510,7 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
      // this.Ions.K.iC = Math.exp(-1 * voltages.Vm.RMP /1000 * F_RT) * this.Ions.K.eC; 
      Object.keys(normal).forEach(function(ionName){
        if (self.Ions[ionName])
-         self.Ions[ionName].iC = normal[ionName];
+         self.Ions[ionName].iC = normal[ionName] + ((self.Ions[ionName].charge === 1)? 0.01 * (self.Ions[ionName].pC - normal[ionName]) : 0);
      })
      // In cell attached mode pH.i is assumed a fixed value
      // if (self.Ions.HCO3)  self.Ions.HCO3.iC  = Math.exp(((pH.e)?pH.e:7.35) - (pH.i=7.3)) * self.Ions.HCO3.eC;// 10e-3;
@@ -2849,6 +2947,7 @@ var Ion = function(name) {
     default:
       this.charge = 1;
       this.mu = 2e11;
+      Logger.log("unexpected ion name");
       break;
   }
 };

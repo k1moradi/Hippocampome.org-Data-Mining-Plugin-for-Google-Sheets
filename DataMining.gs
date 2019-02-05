@@ -59,7 +59,7 @@ function reviewEvidence(displayForm) {
       output.imagesShown = [];
       SpreadsheetApp.getUi().showModalDialog(
         output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),//.setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)
-        'Review Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
+        'Review, Mean±SD|SEM[lb to ub|>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}'
       );
       return true;
     } else {
@@ -106,7 +106,7 @@ function addSynapticData() {
       output.allRefs = mergeObjs(synRefs,covRefs,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity);
       SpreadsheetApp.getUi().showModalDialog(
         output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),
-        'Synaptic Data Extraction Tool, DATA Format:Mean±SD|SEM [lb to ub][>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}, ..., Stimulation Protocol;@\d&\d{Note:Note}'
+        'Data Extraction, Mean±SD|SEM[lb to ub|>lb|<ub](n=){Note:Note};...@RefID&RefID{Note:Note}'
       );
       return true;
     } else {
@@ -116,7 +116,7 @@ function addSynapticData() {
       ss.toast('Please goto evidence tab and select all rows that describe a single piece of evidence and try again');
       return null;
     }};
-//-------Check Search Query--------------------------------------------------------------------------
+//-------Check Query--------------------------------------------------------------------------
 function checkQuery(evidence,cellTypes) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var output = HtmlService.createTemplateFromFile("checkQuery");
@@ -142,7 +142,7 @@ function checkQuery(evidence,cellTypes) {
       if (fetchedConns) {
         try {
           SpreadsheetApp.getUi().showModalDialog(
-            output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Search Query Check Tool');
+            output.evaluate().setHeight(modalDialogHeight).setWidth(modalDialogWidth),'Check Query Tool');
           return true;
         } catch(e) {
           ss.toast('Error in HTML service\n'+

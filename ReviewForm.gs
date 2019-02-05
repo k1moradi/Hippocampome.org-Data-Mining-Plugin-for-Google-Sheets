@@ -62,16 +62,18 @@ function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CelleP
   if (Evidence.Drugs.length != 0) pForm.prefillItem('1093425014',Evidence.Drugs);
   //ID:2058479121	Type:MULTIPLE_CHOICE	Title:Extracellular Solution
   pForm.setChoices('2058479121',Covariates.ExtracellularBathSolution
-                   .split(/\s*;\s*/).filter(Null)
+                   .split(/\s*;\s*/).filter(onlyUniqueNonNull)
                    .map(function(solution){return 'Bath@'+solution})
-                   .concat(Covariates.ExtracellularPipetteSolution.split(/\s*;\s*/).filter(Null).map(function(solution){return 'Pipette@'+solution}))
+                   .concat(Covariates.ExtracellularPipetteSolution.split(/\s*;\s*/)
+                           .filter(onlyUniqueNonNull)
+                           .map(function(solution){return 'Pipette@'+solution}))
                    .sort());
-  pForm.prefillItem('2058479121',Evidence.ExtracellularSolution.split(/\s*;+\s*/g));
+  pForm.prefillItem('2058479121',Evidence.ExtracellularSolution.split(/\s*;+\s*/g).filter(onlyUniqueNonNull).sort());
   //var checkBoxValidation = FormApp.createCheckboxValidation().setHelpText("Select two condiments.").requireSelectExactly(2).build();
   
   //ID:1364258333   Type:MULTIPLE_CHOICE    Title:Intracellular Solution
-  pForm.setChoices('1364258333',Covariates.IntracellularPipetteSolution.split(/\s*;\s*/).filter(Null).sort());
-  pForm.prefillItem('1364258333',Evidence.IntracellularSolution.split(/\s*;+\s*/g));
+  pForm.setChoices('1364258333',Covariates.IntracellularPipetteSolution.split(/\s*;\s*/).filter(onlyUniqueNonNull).sort());
+  pForm.prefillItem('1364258333',Evidence.IntracellularSolution.split(/\s*;+\s*/g).filter(onlyUniqueNonNull));
   
   //ID:701084432	Type:CHECKBOX	Title:Recorded Signal Type
   pForm.prefillItem('701084432',Evidence.dSec.split(/\s*[,;]+\s*/g));

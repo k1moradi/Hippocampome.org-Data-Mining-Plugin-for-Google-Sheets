@@ -1,5 +1,5 @@
 function test() {
-  Logger.log(NaN * 2)
+  Logger.log([1,'',1,2,2,,null].filter(onlyUniqueNonNull))
   //Logger.log(Utilities.base64Encode(DriveApp.getFilesByName("Canto-Witter-2011-1277-Hippocampus_MEC-Fig11A_No3.jpeg").next().getBlob().getDataAsString()));
   //while (fileIterator) output.push(fileIterator.next().getId())())
   //Logger.log(UrlFetchApp.fetch("http://hippocampome.org/csv2db/search_engine_json.php?query_str=Connection:(Presynaptic:(Neurotransmitter:Excitatory AND Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:RASP.NASP NOT Markers:(D-:CB OR I-:CB OR D-:RLN OR I-:RLN)), Postsynaptic:(Morphology:(Dendrites:EC:22??00 AND Soma:EC:?1???? AND Axons:EC:??1???) AND FiringPattern:D+:ASP. NOT Markers:(D-:CB OR I-:CB)))").getResponseCode());
@@ -27,6 +27,7 @@ function getEvidenceValues(activeRange) {
   var columnNumObj   = headers.reduce(function(p,v,i){p[v]=i        ; return p},{});
   var columnNotesObj = notes.reduce(function(p,v,i){p[headers[i]]=v ; return p},{});
   var Automation = rawEvidenceObj.Automation.split(/[)]\s*[,]\s*Postsynaptic:[(]/g);
+  var refIDsplitterRegex = /(?:<\/?br>)*[,; ]+(?:<\/?br>)*/g;
   
   var eIDprevious = (activeRange.getRow() < 3)? 0 : Number(activeRange.offset(-2, columnNumObj.eID, 1, 1).getValue());
 
@@ -69,18 +70,18 @@ function getEvidenceValues(activeRange) {
     DataLocation         : rawEvidenceObj.DataLocation,
     dID                  : rawEvidenceObj.dID,
     dSec                 : rawEvidenceObj.dSec,
-    DataIDs              : String(rawEvidenceObj.Data).split(/\s*[,;]+\s*/g).filter(Null),
-    CovariatesIDs        : String(rawEvidenceObj.Covariates).split(/\s*[,;]+\s*/g).filter(Null),
-    MorphologyIDsPre     : String(rawEvidenceObj.Morphology).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/\s*[,;]+\s*/g).filter(Null).filter(onlyUnique),
-    MorphologyIDsPost    : String(rawEvidenceObj.Morphology).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    MarkersIDsPre        : String(rawEvidenceObj.Markers).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    MarkersIDsPost       : String(rawEvidenceObj.Markers).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    CellePhysIDsPre      : String(rawEvidenceObj.CellEphys).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    CellePhysIDsPost     : String(rawEvidenceObj.CellEphys).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    FiringPatternIDsPre  : String(rawEvidenceObj.FiringPatterns).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    FiringPatternIDsPost : String(rawEvidenceObj.FiringPatterns).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null),
-    ConnectivityIDsPre   : String(rawEvidenceObj.Connectivity).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
-    ConnectivityIDsPost  : String(rawEvidenceObj.Connectivity).split('Postsynaptic:').pop().split(/[,; ]+/g).filter(Null).filter(onlyUnique),
+    DataIDs              : String(rawEvidenceObj.Data).split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    CovariatesIDs        : String(rawEvidenceObj.Covariates).split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    MorphologyIDsPre     : String(rawEvidenceObj.Morphology).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    MorphologyIDsPost    : String(rawEvidenceObj.Morphology).split('Postsynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    MarkersIDsPre        : String(rawEvidenceObj.Markers).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    MarkersIDsPost       : String(rawEvidenceObj.Markers).split('Postsynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    CellePhysIDsPre      : String(rawEvidenceObj.CellEphys).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    CellePhysIDsPost     : String(rawEvidenceObj.CellEphys).split('Postsynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    FiringPatternIDsPre  : String(rawEvidenceObj.FiringPatterns).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    FiringPatternIDsPost : String(rawEvidenceObj.FiringPatterns).split('Postsynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    ConnectivityIDsPre   : String(rawEvidenceObj.Connectivity).split(' Postsynaptic:')[0].split('Presynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
+    ConnectivityIDsPost  : String(rawEvidenceObj.Connectivity).split('Postsynaptic:').pop().split(refIDsplitterRegex).filter(onlyUniqueNonNull),
     Notes                : rawEvidenceObj.Notes,
     ConRatios            : rawEvidenceObj.ConRatios,
     CellRatios           : rawEvidenceObj.CellRatios,

@@ -1,6 +1,7 @@
 function Null(e){return e};                                                 //use with filter iterator
 function dash2null(value){return (/^\s*-+\s*$/g.test(value))?'':value}
 function onlyUnique(value, index, self){return self.indexOf(value)===index} //use with filter iterator
+function onlyUniqueNonNull(value, index, self){return (self.indexOf(value)===index && value)} //use with filter iterator
 function to1D(previous, value){return previous.concat(value)}               //use with reduce iterator
 function to1DFast(v){return v[0]}                                           //use with map    iterator
 function isNumeric(n){return !isNaN(parseFloat(n)) && isFinite(n)}
