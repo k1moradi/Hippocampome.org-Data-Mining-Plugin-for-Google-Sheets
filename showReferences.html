@@ -113,8 +113,8 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
     </details>
     <?} else {
         var UID = theReference.UID;?>
-    <div class="Quote" contenteditable="true" oninput="makeGlowing(this)" data-before-save="<?= theReference.Quote ?>">
-      <?!= theReference.Quote ?>
+    <div class="Excerpt" contenteditable="true" oninput="makeGlowing(this)" data-before-save="<?= theReference.Excerpt ?>">
+      <?!= theReference.Excerpt ?>
     </div>
     <?if (theReference.Figure) {
         String(theReference.Figure)
@@ -142,7 +142,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
       </summary>
       <img src="data:image/png;base64,<?=fileBase64?>" style='width:100%;'>
       <?      if (theFigRef && (fileName.replace(/\.[^.]*$/g,'') !== refID)) {?>
-      <p><?!=   (theFigRef.Location !== theReference.Location) ? theFigRef.Quote : ''; ?>
+      <p><?!=   (theFigRef.Location !== theReference.Location) ? theFigRef.Excerpt : ''; ?>
         <?      theFigRef=null};?>
       </p>
     </details>
@@ -165,10 +165,10 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
      var refIDsCommonToBoth = presynapticRefIDs.filter(function(refID){return (refIDsUniqueToPre.indexOf(refID) === -1)});
      var linkedRefIds = mergeArrays(presynapticRefIDs,postsynapticRefIDs);
      var unlinkedRefIds = Object.keys(groupReferences).filter(function(refID){return (linkedRefIds.indexOf(refID) === -1)});
-     showReferences(refIDsCommonToBoth,allReferences  ,allReferences,'✅Both Sides'       ,'#3F51B5','white','150%',stringToAppendToRefIDs);
-     showReferences(refIDsUniqueToPre ,allReferences  ,allReferences,'✅Presynaptic Only' ,'#3F51B5','white','150%',stringToAppendToRefIDs);
-     showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only','#3F51B5','white','150%',stringToAppendToRefIDs);
-     showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'         ,'#3F51B5','white','150%',stringToAppendToRefIDs); ?>
+     showReferences(refIDsCommonToBoth,allReferences  ,allReferences,'✅Pre and Postsynaptic','#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(refIDsUniqueToPre ,allReferences  ,allReferences,'✅Presynaptic Only'    ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(refIDsUniqueToPost,allReferences  ,allReferences,'✅Postsynaptic Only'   ,'#3F51B5','white','150%',stringToAppendToRefIDs);
+     showReferences(unlinkedRefIds    ,allReferences,groupReferences,'❌Unlinked'            ,'#3F51B5','white','150%',stringToAppendToRefIDs); ?>
 </details>
 <?}; ?>
 <?!=include('shortcuts');?>    
@@ -220,7 +220,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
           });
       });
       
-      Array.from(document.getElementsByClassName('Quote')).forEach(e=>{e.innerHTML = refHighlights(e.innerHTML)});
+      Array.from(document.getElementsByClassName('Excerpt')).forEach(e=>{e.innerHTML = refHighlights(e.innerHTML)});
       
       //Array.from(document.getElementsByClassName("script-app-contents")).forEach(e=>e.style.width="93vw")
       //google.script.host.setWidth(screen.width);
@@ -316,21 +316,21 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
           .replace(/\s*(?:\*|❌)\s*/g,'❌')
           .replace(/\s+/g,' ');
           
-        var Quote = detailsSummaryElem.querySelector('.Quote');
+        var Excerpt = detailsSummaryElem.querySelector('.Excerpt');
         //remove highlights
-        while (mark = Quote.querySelector('mark')) 
+        while (mark = Excerpt.querySelector('mark')) 
           mark.outerHTML = mark.innerHTML;
         //remove case-sensitive search tool highlights
-        while (span = Quote.querySelector('span')) 
+        while (span = Excerpt.querySelector('span')) 
           span.outerHTML = span.innerHTML;
         //convert <div> to <br>
-        while (div = Quote.querySelector('div')) 
+        while (div = Excerpt.querySelector('div')) 
           div.outerHTML = div.innerHTML+'<br>';
         //convert <p> to <br>
-        while (p = Quote.querySelector('p')) 
+        while (p = Excerpt.querySelector('p')) 
           p.outerHTML = p.innerHTML+'<br>';
     
-        var quoteValue = Quote.innerHTML
+        var excerptValue = Excerpt.innerHTML
           .replace(/(?:&nbsp;|[\s\r\n\x0A])+/g,' ')
           .replace(/^(?:<br>|&nbsp;|[\s\r\n\x0A])+|(?:<b>(?:&nbsp;|[\s\r\n\x0A])*<\/b>)+|(\d+)\s*(±)\s*(\d+)|(?:<br>|&nbsp;|[\s\r\n\x0A])+$/g,'$1$2$3')
           .replace(/(?:(?:\s|<[bi]>)*<br>(?:\s|<[bi]>)*){2,}/g,'<br>')
@@ -338,15 +338,15 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
           .replace(/(?<=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\)])(?:[–—−‐\-]|&ndash;|&mdash;|&minus;|&#8208;)(?=[\w¹²³₂₃₄⁺⁻αßµτΔΩγ\(])/g, '–')
           .replace(/&amp;/g,'&');
         
-        Quote.dataset.beforeSave = Quote.innerText;
+        Excerpt.dataset.beforeSave = Excerpt.innerText;
         
-        var quoteValueHighlighted = refHighlights(quoteValue);
+        var excerptValueHighlighted = refHighlights(excerptValue);
         Error = Array.from(document.querySelectorAll('.Refs')).filter(
           function(element) {
             //alert(element.id+' : '+A1Notation)
             if (element.id === A1Notation) {
               element.querySelector('.UID').innerText = UIDelemValue;
-              element.querySelector('.Quote').innerHTML = quoteValueHighlighted;
+              element.querySelector('.Excerpt').innerHTML = excerptValueHighlighted;
               return true; //means no error
             } else {
               return false;
@@ -363,7 +363,7 @@ function showObject(obj,title,top,zIndex,defaultSelection,filterKey) {
       google.script.run
         .withFailureHandler(showSnackbar("<b style='color:lightsalmon'>failed to save</b>"))
         .withSuccessHandler(showSnackbar('saved successfully'))
-        .saveReferenceToSheet(A1Notation,UIDelemValue.replace(/^[\s,;]*|[\s,;]*$/g,''),detailsSummaryElem.querySelector('.location').innerText,quoteValue);
+        .saveReferenceToSheet(A1Notation,UIDelemValue.replace(/^[\s,;]*|[\s,;]*$/g,''),detailsSummaryElem.querySelector('.location').innerText,excerptValue);
       caseSensitiveSearch(document.getElementById('csSearch').value,'Refs');
     } else {
       showSnackbar("<b style='color:lightgoldenrodyellow'>failed to save</b>");
@@ -458,33 +458,33 @@ body {
   vertical-align: middle;
   word-break:break-word;
 }
-.Quote {
+.Excerpt {
   display:inline-block;/* contenteditable elem will not generate div, p and span automatically in Chrome.*/
   width:100%;
 }
-.Quote br {
+.Excerpt br {
   line-height:200%; 
 }
-.Quote table {
+.Excerpt table {
   font-size:1.2vw;
   word-break:break-word;
   border-collapse: collapse;
 }
-.Quote th, .Quote td {
+.Excerpt th, .Excerpt td {
   border: 1px solid #ddd;
 }
-.Quote th, .Quote thead {
+.Excerpt th, .Excerpt thead {
   position: sticky;
   background-color:#2b2727de;
   color:white;
 }
-.Quote tr:nth-child(even){
+.Excerpt tr:nth-child(even){
   background-color: #f2f2f2;
 }
-.Quote tr:hover {
+.Excerpt tr:hover {
   background-color: #ddd;
 }
-.Quote li {
+.Excerpt li {
   padding: 0.5vw;
 }
 .Refs sup {

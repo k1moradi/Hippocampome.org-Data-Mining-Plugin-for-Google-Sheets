@@ -1,13 +1,12 @@
 function getTheLastFormResponse(){
-  //https://docs.google.com/spreadsheets/d/19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A/edit?usp=sharing
-  var form  = FormApp.openById('1L42oPGtpodgmw48FMs1DVdpgmLB9ISEMFZ-DuOu4HIc');
+  var form  = FormApp.openById(reviewFormID);
   if (arguments.length === 0) {
     var allResponses = form.getResponses();
     var formResponse = allResponses[allResponses.length-1];//The last submitted form response
   } else {
     var formResponse = arguments[0].response;//the response sent directly by the form on submission
   }
-  var ss = SpreadsheetApp.openById('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A');
+  var ss = SpreadsheetApp.openById(synapseSpreadsheetID);
   var evidenceSheet = ss.getSheetByName('Evidence');
   var formResponseItems = formResponse.getItemResponses();
   try {

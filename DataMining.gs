@@ -1,4 +1,15 @@
-/* Goals
+/* Initial setup */
+var reviewFormID         = "1L42oPGtpodgmw48FMs1DVdpgmLB9ISEMFZ-DuOu4HIc";
+var dataExtractionFormID = "1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8";
+var synapseSpreadsheetID = "19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A";
+var EZProxyLink          = "https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=";
+var EZProxyName          = "GMU access"; 
+function setup(){
+  deletePreviousTriggers();
+  addTrigger(FormApp.openById(reviewFormID));
+}
+/*
+Goals
 This addon will integrate google forms with google spreadsheets
 to assist organizing the data extracted from the papers.
 
@@ -11,9 +22,9 @@ Then from the custon "Data Entry" menu select enter "Eneter Data".
 function onOpen() {//add sub-toolbar to the toolbar 
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Data Mining')
-  .addItem('1. Review References', 'reviewEvidenceWithoutForm')
-  .addItem('2. Review Evidence', 'reviewEvidenceWithForm')
-  .addItem('3. Check  Query', 'checkQuery')
+  .addItem('1. Check  Query', 'checkQuery')
+  .addItem('2. Review References', 'reviewEvidenceWithoutForm')
+  .addItem('3. Review Evidence', 'reviewEvidenceWithForm')
   .addItem('4. Extract Data', 'addSynapticData')
   .addSeparator()
   .addSubMenu(
@@ -52,7 +63,7 @@ function reviewEvidence(displayForm) {
     var connectivity  = output.connectivity   = sheetSamplingTool(ss.getSheetByName("Con").getRange('A:A'),evidence.PMID,'RefID');
     var covariatesRef = output.covariatesRef  = sheetSamplingTool(ss.getSheetByName("Cov").getRange('A:A'),evidence.PMID,'RefID');
     var dataRefs      = output.dataRefs       = sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),evidence.PMID,'RefID');
-    var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
+    var cellTypes     = output.cellTypes      = getSheetByIdAsJSON(synapseSpreadsheetID,'CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     if (myRefs && covariates && morphology && markers && cellEphys && firingPatterns && connectivity) {
       output.url = (displayForm)? updateReviewForm(evidence,covariates,myRefs,morphology,markers,cellEphys,firingPatterns,connectivity):''; //Logger.log(output.url);
       output.allRefs = mergeObjs(myRefs,morphology,markers,cellEphys,firingPatterns,connectivity,covariatesRef,dataRefs);
@@ -85,7 +96,7 @@ function addSynapticData() {
       dSec = ui.prompt('Enter Data Type', 'Options: mPSP, mPSC, sPSP, sPSC, uPSP, uPSC, ePSP, or ePSC', ui.ButtonSet.OK).getResponseText();
     
     var covariates    = output.covariates     = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
-    var oldSynData    = output.oldSynData     = sheetSamplingTool(ss.getSheetByName("SynData"   ).getRange('A:A'),evidence.PMID,'Row');
+    //var oldSynData    = output.oldSynData     = sheetSamplingTool(ss.getSheetByName("SynData"   ).getRange('A:A'),evidence.PMID,'Row');
     
     var synRefs       = output.synRefs        = sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),evidence.PMID,'RefID');
     var covRefs       = output.covRefs        = sheetSamplingTool(ss.getSheetByName("Cov").getRange('A:A'),evidence.PMID,'RefID');
@@ -97,8 +108,8 @@ function addSynapticData() {
     var firingPatterns= output.firingPatterns = sheetSamplingTool(ss.getSheetByName("FP" ).getRange('A:A'),evidence.PMID,'RefID');
     var connectivity  = output.connectivity   = sheetSamplingTool(ss.getSheetByName("Con").getRange('A:A'),evidence.PMID,'RefID');
     
-    var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
-    if (covariates && oldSynData && synRefs && covRefs && myRefs && morphology && markers && cellEphys && firingPatterns && connectivity) {
+    var cellTypes     = output.cellTypes      = getSheetByIdAsJSON(synapseSpreadsheetID,'CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
+    if (covariates && synRefs && covRefs && myRefs && morphology && markers && cellEphys && firingPatterns && connectivity) {
       [url, dID] = updateSynDataForm(evidence,evidenceRange,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,dSec); //Logger.log(output.url);
       output.url=url;
       output.evidence.dID = dID;
@@ -124,7 +135,7 @@ function checkQuery(evidence,cellTypes) {
   if (evidenceRange) {
     // get needed data from spreadsheets
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
-    var cellTypes     = output.cellTypes      = getSheetByIdAsJSON('19zgGwpUQiCHsxozzMEry1EsI1_6AS_Q14CEF3JStW4A','CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
+    var cellTypes     = output.cellTypes      = getSheetByIdAsJSON(synapseSpreadsheetID,'CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
       evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/"/g,'%22'); //Logger.log(URL);
     var response      = String(UrlFetchApp.fetch(URL));//Logger.log(response);

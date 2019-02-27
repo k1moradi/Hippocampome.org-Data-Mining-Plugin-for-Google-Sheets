@@ -1,6 +1,6 @@
 function updateSynDataForm(evidence,aR,covariates,covRefs,synRefs,synapticDataSheet,rowIndex,dSec) {
-  //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8').getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
-  var pForm = new prefillForm(FormApp.openById('1Z9nFRtX6Ex1f8DLMplp9gAIRAsHuP8sHaH7TiGa9tu8'));
+  //DocumentApp.create('IDs').getBody().appendParagraph(FormApp.openById(dataExtractionFormID).getItems().reduce(function(p,item){return p+'//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n'},''));
+  var pForm = new prefillForm(FormApp.openById(dataExtractionFormID));
   var eColumnObj = aR.getSheet().getRange('1:1').getValues().reduce(to1D).reduce(function(p,v,i){p[v]=i+1; return p},{});
 //  var paragraphtextValidation = FormApp.createParagraphTextValidation()
 //  .setHelpText("Remove ~~ if the response is valid to you")

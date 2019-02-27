@@ -1,6 +1,6 @@
 function updateReviewForm(Evidence,Covariates,MyRefIds,Morphology,Markers,CellePhys,FiringPatterns,Connectivity) 
 {
-  var form  = FormApp.openById('1L42oPGtpodgmw48FMs1DVdpgmLB9ISEMFZ-DuOu4HIc');//form.getItems().forEach(function(item){Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')});
+  var form  = FormApp.openById(reviewFormID);//form.getItems().forEach(function(item){Logger.log('\n//ID:'+item.getId()+'\tType:'+item.getType()+'\tTitle:'+item.getTitle()+'\n')});
   var pForm = new prefillForm(form);
   
 //  var myRefIDsMaxRefID     = getMaxOf('My' ,'RefID');
@@ -148,7 +148,7 @@ function formSubmitAction(e) {
 //  var email   = Responses[2].getResponse();
   getTheLastFormResponse(e);
 };
-function DeleteTriggers() {
+function deletePreviousTriggers() {
   var allTriggers = ScriptApp.getProjectTriggers();
   allTriggers.filter (function(triger){return triger.getHandlerFunction() === 'formSubmitAction'})
              .forEach(function(triger){return ScriptApp.deleteTrigger(triger)});

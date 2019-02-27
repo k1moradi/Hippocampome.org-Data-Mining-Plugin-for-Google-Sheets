@@ -321,11 +321,11 @@ function setActiveCellValue(uniCellObj,value) {
   var cellObj = JSON.parse(uniCellObj);
  return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(cellObj.sheetName).getRange(cellObj.cellRange).setValue(value);
 };
-function saveReferenceToSheet(A1Notation,UID,location,Quote){
+function saveReferenceToSheet(A1Notation,UID,location,Excerpt){
   var referenceRange = SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation);
   referenceRange.getCell(1, 3).setValue(UID);
   referenceRange.getCell(1, 4).setValue(location);
-  referenceRange.getCell(1, 6).setValue(Quote);
+  referenceRange.getCell(1, 6).setValue(Excerpt);
 }
 function saveToSheetGeneral(A1Notation,columnNum,value){
   var destinationRange = SpreadsheetApp.getActiveSpreadsheet().getRange(A1Notation);

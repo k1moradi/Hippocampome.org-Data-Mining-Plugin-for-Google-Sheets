@@ -158,13 +158,13 @@ function findRefIDs(Input,RefObjects){
       function(p,InRefObject){
         return p.concat(Object.keys(InRefObject).filter(
           function(key){
-            return InRefObject[key].Quote.match(Input)
+            return InRefObject[key].Excerpt.match(Input)
           }))
       },[])
   } else {
     return Object.keys(RefObjects).filter(
       function(key){
-        return RefObjects[key].Quote.match(Input)
+        return RefObjects[key].Excerpt.match(Input)
       })
   }
 }

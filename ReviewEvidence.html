@@ -8,7 +8,7 @@
     .sticky {
       top:<?=(displayForm)?"50":"75"?>px;
     }
-    .Quote th {
+    .Excerpt th {
       top:<?=(displayForm)?"94":"119"?>px;
     }
     </style>
@@ -19,7 +19,8 @@
     <div id='main' class='referencePanel'>
       <?!= include('toolbar')?>
       <div id='evidence' style='margin-top:25px;'>
-        <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
+        <a href='https://www.ncbi.nlm.nih.gov/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a>
+        <a href="<?=EZProxyLink + evidence.PMID?>" target='_blank' style='color:green' ><?=EZProxyName?></a><br>
         <?//-----Covariates Extracted so far---------------------------------------------------------------------------------------------
           if (!displayForm) 
           showObject(evidence.rawEvidenceObject,'evidence'  ,'25px',3,'DataLocation'       ,['sUID','Source','tUID','Target','Layer','PMID','Confidence']);

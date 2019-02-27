@@ -209,7 +209,7 @@ function formatText(elem) {
     .replace(/ *> +< */g                                                                                         , '><')
     .replace(/(?<=[(;, ]\d+(?:–\d+)?)\s?x(?=[ ),;.])/g                                                           , ' ×')        // 10–20×
     .replace(/(\d)\s*\/\s*(\d)(?<!\d\/\d)/g                                                                      ,'$1/$2')      // remove spaces between numbers and /
-    .replace(/^(?:[ .?!)}\]\xAD]+|<br>)+(?=\w|<b>)/g                                                             , '');         // remove spaces from the begining of quote
+    .replace(/^(?:[ .?!)}\]\xAD]+|<br>)+(?=\w|<b>)/g                                                             , '');         // remove spaces from the begining of excerpt
     highlightElem(elem);
     if (typeof elem.forceSpellCheck === 'function') elem.forceSpellCheck();
 };

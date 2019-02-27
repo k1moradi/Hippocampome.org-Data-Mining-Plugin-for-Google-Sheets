@@ -8,7 +8,7 @@
     .sticky {
       top: 75px;
     }
-    .Quote th {
+    .Excerpt th {
       top: 119px;
     }
     </style>
@@ -20,7 +20,8 @@
       <!-------We have access to these objects: evidence cellTypes covariates oldSynData synRefs covRefs myRefs--------------------------->
       <?!= include('toolbar')?>
       <div id='evidence' style='margin-top:25px'>
-        <a href='https://www-ncbi-nlm-nih-gov.mutex.gmu.edu/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a><br>
+        <a href='https://www.ncbi.nlm.nih.gov/pubmed/?term=<?=evidence.PMID?>' target='_blank'><?=covariates.Reference?></a>
+        <a href="<?=EZProxyLink + evidence.PMID?>" target='_blank' style='color:green' ><?=EZProxyName?></a><br>
         <?showObject(evidence.rawEvidenceObject,'evidence'  ,'25px',3,'DataLocation'   ,
                     ['sUID','Source','tUID','Target','Layer','PMID','Confidence']            );
           showObject(covariates                ,'covariates','50px',2,'EphysParamsReported',

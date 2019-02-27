@@ -17,14 +17,14 @@
 function eRev(){
 //---------------whole-cell
   //24050405 Beed 2013 Inhibitory gradient along the dorsoventral axis in the medial entorhinal cortex.
-//  new solution(celsius=35,
-//               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
-//               pSolution='145 KCl, 2 Na2ATP, 10 HEPES, 0.1 EGTA, 2 MgCl2',
-//               recordingMethod='whole-cell',
-//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
-//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-//               Vj:{exp:NaN,correctedAlready:false}},
-//               pH={e:7.4,i:7.2,CO2:true}).log();
+  new solution(celsius=35,
+               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
+               pSolution='145 KCl, 2 Na2ATP, 10 HEPES, 0.1 EGTA, 2 MgCl2',
+               recordingMethod='whole-cell',
+               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:7.4,i:7.2,CO2:true}).log();
 //  new solution(celsius=35,
 //               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
 //               pSolution='150 K-gluconate, 0.5 MgCl2, 1.1 EGTA, 10 Na2-phosphocreatine',
