@@ -2409,6 +2409,10 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
           p = p + Number(concentration) * ionAtomsPerMolecule;
           return p;
         },0);
+    } else {
+      Logger.log("Error in ionConcentration function:\n"+
+                 "  solution = "+solution+"\n"+
+                 "  name     = "+name)
     }
   }
  // Calculate the concentrations of ions in the extracellular solution and in recording pipette

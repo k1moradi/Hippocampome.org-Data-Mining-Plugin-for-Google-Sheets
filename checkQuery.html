@@ -62,7 +62,7 @@
    <div contenteditable='true' id='editor' class=text><?!= evidence.Query ?></div>
    <input type="button" value="search" onclick="reCheckQuery()">
    <input id="saveQueryButton" type="button" value="save"   onclick="saveQuery()">
-   <span  id="error"><?= (error)? ('<b>Error:</b>'+ error) : ''?></span>
+   <span  id="error"><?!= (error)? ("<b style='color:red'>Error:</b>"+ error) : ''?></span>
    
    <? function showConnectionTable(cKeys,connectionsObj,title,bgColor,fontColor,ID,saveFunction) {
         var style = "style=background-color:"+ ((bgColor)? bgColor:'')+";color:"+((fontColor)? fontColor:'')+";" ?>
@@ -134,7 +134,7 @@
       
      function queryHighlighter(string){
        function highlighter(txt) {
-         var findGroup1 = /(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern|Exclude|Include|Name)\b)/ig;
+         var findGroup1 = /(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern(?:Parameter)?|Exclude|Include|Name)\b)/ig;
          var findGroup2 = /(\b(?:Axons|Dendrites|Soma|[di][+\-])|(?:Excita|Inhibi)tory|both\b)/ig;
          var findGroup3 = /(\b(?:CA[1-3]|DG|EC|SUB)\b)/g;
          var findGroup4 = /(\b(?:AND|OR|NOT)\b)/ig;
@@ -283,8 +283,10 @@
        google.script.run
          .withFailureHandler(function(){errorElem.innerHTML = "<b style='color:red;'>Error:</b> unsupported query syntax"})
          .withSuccessHandler(function(response){
-           var errorRegExp   = /<br>.*<br>/;
+           var errorRegExp   = /^[^{]+?(?=\{)/;
            var error         = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
+             if (/\s*<pre>\s*?<\/pre>/.test(error)) 
+               error = false;
            errorElem.innerHTML = ((error)? "<b style='color:red;'>Error:</b> "+ error : ' No Error' );
          
            var fetchedConns  = JSON.parse(response.replace(errorRegExp,''));

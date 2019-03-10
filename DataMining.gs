@@ -135,13 +135,17 @@ function checkQuery(evidence,cellTypes) {
   if (evidenceRange) {
     // get needed data from spreadsheets
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
+    if (!evidence.Query) evidence.Query = output.evidence.Query = "Connection:(Presynaptic:(), Postsynaptic:())";
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON(synapseSpreadsheetID,'CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
     var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
       evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/"/g,'%22'); //Logger.log(URL);
     var response      = String(UrlFetchApp.fetch(URL));//Logger.log(response);
     if (response) {
-      var errorRegExp   = /<br>.*<br>/;
+      var errorRegExp   = /^[^{]+?(?=\{)/;
       var error         = output.error = (errorRegExp.test(response))? errorRegExp.exec(response)[0] : false;
+        Logger.log(error)
+        if (/\s*<pre>\s*?<\/pre>/.test(error)) 
+          output.error = false;
       var fetchedConns  = null;
       try {
         var fetchedConns  = output.fetchedConns  = JSON.parse(response.replace(errorRegExp,''));
@@ -159,6 +163,8 @@ function checkQuery(evidence,cellTypes) {
           ss.toast('Error in HTML service\n'+
                  'error: '+e);
         }
+      } else if (response) {
+        ss.toast('server returned \n'+response);
       } else {
         ss.toast('server returned an empty string');
       }

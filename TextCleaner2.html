@@ -12,7 +12,7 @@ function formatText(elem) {
   elem = removeUnwantedNodes(elem);
   elem.innerHTML = elem.innerHTML
     .replace(/◦|˚|&deg;|(?<=\d(?:&nbsp;|\s)?)<sup>o<\/sup>(?=C)/g,'°').replace('•','⬤').replace('○','⭘')//.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&ndash;/g, '—')
-    .replace(/[¬-]\s?[\r\n]+|(?<=[A-Za-z])(?:[\-¬\u00AD]|&shy;)(?:[ \n]|&nbsp;|&thinsp;)(?=[A-Za-z])|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=ZD) (?=7288)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st )|\u200B|(?<=\])\s+(?=<sub>)|[,\(] ?available at www.jneurosci. ?org ?as ?supplemental material ?/g
+    .replace(/[¬-]\s?[\r\n]+|(?<=[A-Za-z])(?:[\-¬\u00AD]|&shy;)(?:\s|&nbsp;|&thinsp;)?(?:\n|<br>)(?=[A-Za-z])|^\s+|(?<=~)\s(?=\d)|(?<=\d[ –-]m)\s+(?=s[ );,.])|(?<=\d)\s+(?=%)|(?<= o) (?=f[ –])|(?<=SR) (?=95531)|(?<=CGP) (?=55845[ Aa]|52432)|(?<=ZD) (?=7288)|(?<=µ) (?=M)|(?<=Δ) (?=F)|(?<=[ (]1) (?=st )|\u200B|(?<=\])\s+(?=<sub>)|[,\(] ?available at www.jneurosci. ?org ?as ?supplemental material ?/g
                                                                                                                  , '')
     .replace(/(?<=[(;, ])([Ff]) *i *g *(s)? *\.(?=[ ),;.])/g                                                     , '$1ig$2.') // Fi g. -> Fig.
     .replace(/(?<=[(;, ]R) *(M) *(?=P[ ),;.])/gi                                                                 , '$1')      // R M P -> RMP
