@@ -1,7 +1,3 @@
-//Change Log
-// since PMID -> 21060720 TrisGTP and TrisGDP should be Tris2GTP and Tris2GDP, respectively
-
-
 //var reports = SpreadsheetApp.openById('1xTfv5-ZP5C7XQdHNJnGd0c_j8L7j1uWON8n92lVTA5s').getSheetByName('Erev');
 //reports.clear();
 //reports.appendRow(
@@ -17,14 +13,14 @@
 function eRev(){
 //---------------whole-cell
   //24050405 Beed 2013 Inhibitory gradient along the dorsoventral axis in the medial entorhinal cortex.
-  new solution(celsius=35,
-               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
-               pSolution='145 KCl, 2 Na2ATP, 10 HEPES, 0.1 EGTA, 2 MgCl2',
-               recordingMethod='whole-cell',
-               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
-               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
-               Vj:{exp:NaN,correctedAlready:false}},
-               pH={e:7.4,i:7.2,CO2:true}).log();
+//  new solution(celsius=35,
+//               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
+//               pSolution='145 KCl, 2 Na2ATP, 10 HEPES, 0.1 EGTA, 2 MgCl2',
+//               recordingMethod='whole-cell',
+//               voltages={Vm:{RMP:NaN,Vh:-80,Vss:-80},
+//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:NaN,EPSP:NaN},
+//               Vj:{exp:NaN,correctedAlready:false}},
+//               pH={e:7.4,i:7.2,CO2:true}).log();
 //  new solution(celsius=35,
 //               eSolution='119 NaCl, 26 NaHCO3, 2.5 KCl, 2.5 CaCl2, 1.3 MgSO4, 1.25 NaH2PO4',
 //               pSolution='150 K-gluconate, 0.5 MgCl2, 1.1 EGTA, 10 Na2-phosphocreatine',
@@ -2249,14 +2245,14 @@ function eRev(){
 //               Vj:{exp:NaN,correctedAlready:false}},
 //               pH={e:NaN,i:NaN,CO2:true}).log();
   //7623286 Empson 1995 The perforant path projection to hippocampal area CA1 in the rat hippocampal-entorhinal cortex combined slice.
-//  new solution(celsius=34,
-//               eSolution='124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4',
-//               pSolution='2500 K-acetate',
-//               recordingMethod='sharp electrode',
-//               voltages={Vm:{RMP:-63.9,Vh:NaN,Vss:-55}, 
-//               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-66.9,EPSP:-40}, 
-//               Vj:{exp:NaN,correctedAlready:false}},
-//               pH={e:NaN,i:NaN,CO2:true}).log();
+  new solution(celsius=34,
+               eSolution='124 NaCl, 26 NaHCO3, 3 KCl, 1.25 NaH2PO4, 1.6 CaCl2, 1.8 MgSO4',
+               pSolution='2500 K-acetate',
+               recordingMethod='sharp electrode',
+               voltages={Vm:{RMP:-63.9,Vh:NaN,Vss:-55}, 
+               Erev:{IPSC:NaN,EPSC:NaN,IPSP:-66.9,EPSP:-40}, 
+               Vj:{exp:NaN,correctedAlready:false}},
+               pH={e:NaN,i:NaN,CO2:true}).log();
  
 
   //---------------perforated patch
@@ -2472,7 +2468,7 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
     }
   }
  //calculate the intracellular concentrations knowing the pipette solution concentrations
-  var normal = {Cl:4e-3, Na:10e-3, Ca:1e-7, K:140e-3, Mg:0.8e-3, HCO3:12e-3, H2PO4:60e-3}
+  var normal = {Cl:4e-3, Na:10e-3, Ca:1e-7, K:140e-3, Mg:0.8e-3, HCO3:12e-3}//, HPO4:60e-3
  switch (recordingMethod) {
    case 'whole-cell':
    case 'outside–out':
@@ -2599,7 +2595,10 @@ var solution = function(celsius,eSolution,pSolution,recordingMethod,voltages,pH)
    channel.addIon(self.Ions.Cs,1.00);    //PCs/PCs-AMPA GluA1       ('Cs',4  ,150 ,1.00,1);
    var P = [{CaPerCs : 0.60, V:-60},{CaPerCs : 0.92, V:-20}];//PCa/PCs-AMPA GluA1 or 2 at -60 and -20 mV {PCa/PCs=PCa/PNa * PNa/Pcs}  ('Ca',2.5,1e-4,0.60,2)
    var PCaPerCs = P[0].CaPerCs;
-   if (isNumeric(Vh)) {if (Vh > P[0].V) PCaPerCs = P[0].CaPerCs + (P[1].CaPerCs - P[0].CaPerCs)/(P[1].V - P[0].V)*(Vh - P[0].V)};
+   if (isNumeric(Vh)) {
+     if (Vh > P[0].V) 
+       PCaPerCs = P[0].CaPerCs + (P[1].CaPerCs - P[0].CaPerCs)/(P[1].V - P[0].V)*(Vh - P[0].V)
+   };
    channel.addIon(self.Ions.Ca,PCaPerCs);
    return channel.Erev();
  }())

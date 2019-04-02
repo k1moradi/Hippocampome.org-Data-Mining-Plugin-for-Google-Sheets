@@ -135,13 +135,14 @@
      function queryHighlighter(string){
        function highlighter(txt) {
          var findGroup1 = /(\b(?:Connection|Presynaptic|Postsynaptic|Neurotransmitter|Morphology|Markers|Electrophysiology|FiringPattern(?:Parameter)?|Exclude|Include|Name)\b)/ig;
-         var findGroup2 = /(\b(?:Axons|Dendrites|Soma|[di][+\-])|(?:Excita|Inhibi)tory|both\b)/ig;
+         var findGroup2 = /(\b(?:Axons|Dendrites|Soma|[di][\-+±])|(?:Excita|Inhibi)tory|both\b)/ig;
          var findGroup3 = /(\b(?:CA[1-3]|DG|EC|SUB)\b)/g;
          var findGroup4 = /(\b(?:AND|OR|NOT)\b)/ig;
          var findGroup5 = /((?<=:(?:<b[^>]*?>)?(?:DG|CA[12])(?:<\/b>)?:)[0-2\?]{4}|(?<=:(?:<b[^>]*?>)?SUB(?:<\/b>)?:)[0-2\?]{3}|(?<=:(?:<b[^>]*?>)?EC(?:<\/b>)?:)[0-2\?]{6}|(?<=:(?:<b[^>]*?>)?CA3(?:<\/b>)?:)[0-2\?]{5})(?![0-2\?])/ig;
          var wordAroundCursor = /([a-z]*)(?:<span.*id=.*selectionBoundary.*>\uFEFF<\/span>)([a-z]*)/ig;
          var morphologyAroundCursor = /(:[ECASUBDG1-3]{0,3}:?[0-2\?]{0,6})(?:<span.*id=.*selectionBoundary.*>\uFEFF<\/span>)([ECASUBDG1-3]{0,3}:?[0-2\?]{0,6})/g;
-         //console.log(txt)
+         //+- to ±
+         txt = txt.replace(/(?<=[DI])(?:\+(<span.*id=.*selectionBoundary.*>\uFEFF<\/span>)?\-|\-(<span.*id=.*selectionBoundary.*>\uFEFF<\/span>)?\+)/ig, "±$1")
          if ((results = wordAroundCursor.exec(txt)) && (results[1]+results[2] !== '')) {
            [wf,w] = [results[0],results[1]+results[2]];
            if      (findGroup1.test(w)) txt = txt.replace(wf,"<b>"+wf+"</b>")
@@ -276,7 +277,8 @@
      function reCheckQuery() {try{
        var value = savedSelActiveElement.innerText.replace(/\s*(AND|OR|NOT)\s*/g,' $1 ')
                                                   .replace(/,postsynaptic:\s*/ig,', Postsynaptic:')
-                                                  .replace(/\(\s+/g,'(').replace(/\s+\)/g,')');
+                                                  .replace(/\(\s+/g,'(').replace(/\s+\)/g,')')
+                                                  .replace(/(?<=[DI])\+(<\/b>)?\-|\-(<\/b>)?\+/ig, "±$1");
        savedSelActiveElement.innerHTML = queryHighlighter(value);
        var url = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
          value.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/\s+/g,' ');
