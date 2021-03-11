@@ -96,4 +96,4 @@ Moradi, K., & Ascoli, G. A. (2018). *Systematic Data Mining of Hippocampal Synap
 
 Moradi, K., Ascoli, G. A. (2019). *A comprehensive knowledge base of synaptic electrophysiology in the rodent hippocampal formation. bioRxiv*, [doi: 10.1101/632760](https://www.biorxiv.org/content/10.1101/632760v2.full)
 
-Moradi, K., Ascoli, G. A. (2020). *A comprehensive knowledge base of synaptic electrophysiology in the rodent hippocampal formation. Hippocampus*, [doi: 10.1002/hipo.23148] https://doi.org/10.1002/hipo.23148
+Moradi, K., Ascoli, G. A. (2020). *A comprehensive knowledge base of synaptic electrophysiology in the rodent hippocampal formation. Hippocampus*, [doi: 10.1002/hipo.23148](https://doi.org/10.1002/hipo.23148)
