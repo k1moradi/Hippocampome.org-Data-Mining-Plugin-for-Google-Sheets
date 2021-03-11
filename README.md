@@ -90,7 +90,7 @@ Na:
 ## Text Cleaner Tool as a sidebar
 ![Text Cleaner Tool](https://github.com/k1moradi/Hippocampome.Org-Data-Miner-s-Plugin-for-Google-Sheet-/blob/master/TextCleaner.png "Text Cleaner Tool")
 
-Rees, C. L., Moradi, K., & Ascoli, G. A. (2017). *Weighing the Evidence in Peters’ Rule: Does Neuronal Morphology Predict Connectivity? Trends in Neurosciences*, 40(2), 63–71. [doi:10.1016/j.tins.2016.11.007](https://doi.org/10.1016/j.tins.2016.11.007)
+Rees, C. L., Moradi, K., & Ascoli, G. A. (2017). *Weighing the Evidence in Peters’ Rule: Does Neuronal Morphology Predict Connectivity?* Trends in Neurosciences, 40(2), 63–71. [doi:10.1016/j.tins.2016.11.007](https://doi.org/10.1016/j.tins.2016.11.007)
 
 Moradi, K., & Ascoli, G. A. (2018). *Systematic Data Mining of Hippocampal Synaptic Properties.* Hippocampal Microcircuits: A Computational Modeler's Resource Book (2nd ed., pp. 441-471). Springer, Cham., [doi: 10.1007/978-3-319-99103-0_11](https://link.springer.com/chapter/10.1007/978-3-319-99103-0_11)
 
