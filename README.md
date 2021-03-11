@@ -95,3 +95,5 @@ Rees, C. L., Moradi, K., & Ascoli, G. A. (2017). *Weighing the Evidence in Peter
 Moradi, K., & Ascoli, G. A. (2018). *Systematic Data Mining of Hippocampal Synaptic Properties. In Hippocampal Microcircuits* (pp. 441-471). Springer, Cham., [doi: 10.1007/978-3-319-99103-0_11](https://link.springer.com/chapter/10.1007/978-3-319-99103-0_11)
 
 Moradi, K., Ascoli, G. A. (2019). *A comprehensive knowledge base of synaptic electrophysiology in the rodent hippocampal formation. bioRxiv*, [doi: 10.1101/632760](https://www.biorxiv.org/content/10.1101/632760v2.full)
+
+Moradi, K., Ascoli, G. A. (2020). *A comprehensive knowledge base of synaptic electrophysiology in the rodent hippocampal formation. Hippocampus*, [doi: 10.1002/hipo.23148] https://doi.org/10.1002/hipo.23148
