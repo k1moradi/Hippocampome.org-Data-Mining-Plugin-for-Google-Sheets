@@ -34,10 +34,15 @@ function onOpen() {//add sub-toolbar to the toolbar
     .addItem('Count Unique', 'countUnique')
     .addItem('Import Evidence', 'getTheLastFormResponse')
     .addItem('Insert Rows After', 'insertRow')
-    .addItem('End Of Line To Semicolon', 'endOfLineToSemicolon'))
+    .addItem('Semicolon to Note', 'semicolonToNote')
+    )
   .addSeparator()
+  .addItem('Resolve PMID', 'pubmedToCitation')
   .addItem('Jump to Row', 'jumpToRow')
   .addItem('𝙏𝙚𝙭𝙩 𝘾𝙡𝙚𝙖𝙣𝙚𝙧', 'showTextCleaner')
+  .addItem('normalize','normalizeConductance')
+  .addItem('End Of Line To Semicolon', 'endOfLineToSemicolon')
+  .addItem('Display Value', 'displayValue')
   .addToUi();
 };
 //-------Evidence Review Section-------------------------------------------------------------------
@@ -48,13 +53,21 @@ var modalDialogHeight = 2160;
 var modalDialogWidth  = 3840;
 function reviewEvidence(displayForm) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var evidenceRange = getCheckActiveRange(ss.getActiveRange(),"Evidence");
+  var evidenceRange = getCheckActiveRange(ss.getActiveRange(),'Evidence');
   var output = HtmlService.createTemplate(include('showReferences')+include('ReviewEvidence'));
   if (evidenceRange) {
     // get needed data from spread sheets
     output.displayForm = displayForm;
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
-    var covariates    = output.covariates     = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
+    
+    var covariatesSheet = ss.getSheetByName('Covariates');
+    var firstColCovariatesValues = covariatesSheet.getRange('A:A').getValues();
+    if (firstColCovariatesValues.reduce(to1D).indexOf(Number(evidence.PMID)) === -1) {
+      var rowNum = getFirstEmptyRowByColumnArray(firstColCovariatesValues);
+      covariatesSheet.getRange('A'+rowNum+':B'+rowNum).setValues([[evidence.PMID, pubmed(evidence.PMID)]]);
+    }
+      
+    var covariates    = output.covariates     = sheetSamplingTool(covariatesSheet.getRange('A:A'), evidence.PMID);
     var myRefs        = output.myRefs         = sheetSamplingTool(ss.getSheetByName("My" ).getRange('A:A'),evidence.PMID,'RefID');
     var morphology    = output.morphology     = sheetSamplingTool(ss.getSheetByName("Mo" ).getRange('A:A'),evidence.PMID,'RefID');
     var markers       = output.markers        = sheetSamplingTool(ss.getSheetByName("Ma" ).getRange('A:A'),evidence.PMID,'RefID');
@@ -96,7 +109,6 @@ function addSynapticData() {
       dSec = ui.prompt('Enter Data Type', 'Options: mPSP, mPSC, sPSP, sPSC, uPSP, uPSC, ePSP, or ePSC', ui.ButtonSet.OK).getResponseText();
     
     var covariates    = output.covariates     = sheetSamplingTool(ss.getSheetByName("Covariates").getRange('A:A'),evidence.PMID);
-    //var oldSynData    = output.oldSynData     = sheetSamplingTool(ss.getSheetByName("SynData"   ).getRange('A:A'),evidence.PMID,'Row');
     
     var synRefs       = output.synRefs        = sheetSamplingTool(ss.getSheetByName("Da" ).getRange('A:A'),evidence.PMID,'RefID');
     var covRefs       = output.covRefs        = sheetSamplingTool(ss.getSheetByName("Cov").getRange('A:A'),evidence.PMID,'RefID');
@@ -137,7 +149,7 @@ function checkQuery(evidence,cellTypes) {
     var evidence      = output.evidence       = getEvidenceValues(evidenceRange);  //Object.keys(evidence).forEach(function(key) {Logger.log(key+" : "+evidence[key])});
     if (!evidence.Query) evidence.Query = output.evidence.Query = "Connection:(Presynaptic:(), Postsynaptic:())";
     var cellTypes     = output.cellTypes      = getSheetByIdAsJSON(synapseSpreadsheetID,'CellTypes').reduce(function(p,v){p[v.UID]=v; return p},{});
-    var URL           = "http://hippocampome.org/csv2db/search_engine_json.php?query_str="+
+    var URL           = "http://hippocampome.org/php/search_engine_json.php?query_str="+
       evidence.Query.replace(/>/g,'%3E').replace(/</g,'%3C').replace(/\+/g,'%2B').replace(/"/g,'%22'); //Logger.log(URL);
     var response      = String(UrlFetchApp.fetch(URL));//Logger.log(response);
     if (response) {
@@ -220,46 +232,21 @@ function getMaxOfColumn(){
     // an if statement that displays an error message if you choose more than one column.
   } else if (ColumnNumber === 1.0) {
     // runs only if you choose one column.
-    var lastrow = sheet.getLastRow();
-    var column = range.getLastColumn();
-    var cell = sheet.getRange(lastrow +1, column);
-    var cellValue = cell.getValue();
-    var columnName = range.getValue();
-    var sheetName = sheet.getSheetName();
-    var newMax = getMaxOf(sheetName,columnName)+1;
-    //maximum value allowed per sheet
-    switch (sheetName) {
-      case "Mo": 
-        var maxAllowed = 2800000; 
-        break;
-      case "Ma": 
-        var maxAllowed = 2900000;  
-        break;
-      case "CE": 
-        var maxAllowed = 3000000;
-        break;
-      case "FP": 
-        var maxAllowed = 3100000;
-        break;
-      case "Con": 
-        var maxAllowed = 3200000;
-        break;
-      case "Da": 
-        var maxAllowed = 3300000;
-        break;
-      default:
-        var maxAllowed = NaN;
-        break;
-    }
-    if (newMax > maxAllowed) {
-      //if exceeding maximum value displays an error message 
-      SpreadsheetApp.getUi().alert('Error! Exceeds Maximim Value');
-    } else {
-      //Display the new max value 
-      cell.setValue (newMax);
-      //add 1 to the active max value
-      //if everything runs in the previous if statements, the new max displays in the cell   
-    }
+//    var lastrow = sheet.getLastRow();
+//    var column = range.getLastColumn();
+//    var cell = sheet.getRange(lastrow +1, column);
+//    var cellValue = cell.getValue();
+//    var columnName = range.getValue();
+//    var sheetName = sheet.getSheetName();
+//    var newMax = getMaxOf(sheetName,columnName)+1;
+    
+    var columnValues = range.getValues().map(to1DFast).map(function(v){
+      return (typeof v === 'string' ? parseInt(v) : v)
+    }).filter(onlyUniqueNumeric)
+    var max  = Math.max.apply(null, columnValues)
+    var dropedValues = rangeArray(1, max).filter(function(value){return (columnValues.indexOf(value) === -1)})
+    SpreadsheetApp.getUi().alert('Max = '+max+
+                                 (dropedValues.length > 0 ? '\nDroped values starting from 1 = '+dropedValues : ''))
   }  
 }
 //--------------------------------------------------------------------------------------------------
@@ -284,7 +271,40 @@ function typeForwardArrow() {
 }
 function endOfLineToSemicolon() {
   var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
-  cell.setValue(cell.getValue().split(/\s*\n+\s*/).join('; '));
+  cell.setValue(String(cell.getValue()).split(/\s*\n+\s*/).join('; '));
+}
+function semicolonToNote() {
+  var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
+  cell.setValue('{' + String(cell.getValue()).replace(/\s*[;,]+\s*/g,':') + '}');
+}
+function pubmedToCitation(){
+  var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
+  SpreadsheetApp.getUi().alert(pubmed(String(cell.getValue()).replace(';','')))
+}
+function displayValue(){
+  var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
+  SpreadsheetApp.getUi().alert(cell.getValue())
+}
+function normalizeConductance(){
+  var cell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getActiveCell();
+  cellStr = String(cell.getValue());
+  cellObj = dataStringParser(cellStr);
+  var ui = SpreadsheetApp.getUi();
+  var targetValue = ui.prompt('Enter Target Value', ui.ButtonSet.OK).getResponseText();
+  var currentValue = ui.prompt('Enter Current Value', ui.ButtonSet.OK).getResponseText();
+  var norm = "*"+targetValue+"\/"+currentValue+",3)&\"";
+  var output = 
+      "=ROUND("+round(cellObj[0].values[0].v,3)+norm+
+        "±\"&ROUND("+round(cellObj[0].values[0].s,3)+norm+
+          " [\"&ROUND("+round(cellObj[0].values[0].ll,3)+norm+
+            " to \"&ROUND("+round(cellObj[0].values[0].ul,3)+norm+
+              "\] (n="+round(cellObj[0].values[0].n,0)+")"+
+                "{"+(cellObj[0].values[0].note? cellObj[0].values[0].note+":" : '') +"Normalized}; "+
+                  cellStr.replace(/{(.+?)}\s*(@|;)|\s*@/,function(fullMatch,p1,p2){
+                    return "{" + (p1? p1+":" : "") + "Original}" + (p2?p2:'@')
+                  })+"\""
+                    
+  cell.setValue(output);
 }
 //-------Common function ---------------------------------------------------------------------------
 function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
@@ -319,4 +339,15 @@ function getCheckActiveRange(activeRange,ActiveTabName,synapticDataSheet) {
 };
 function include(filename) {
   return HtmlService.createTemplateFromFile(filename).getRawContent();
+}
+
+function getFirstEmptyRowByColumnArray(values) {
+  //var spr = SpreadsheetApp.getActiveSpreadsheet();
+  //var column = spr.getRange(rangeA1Notation);
+  //var values = column.getValues(); // get all data in one call
+  var ct = 0;
+  while ( values[ct] && values[ct][0] != "" ) {
+    ct++;
+  }
+  return (ct+1);
 }
